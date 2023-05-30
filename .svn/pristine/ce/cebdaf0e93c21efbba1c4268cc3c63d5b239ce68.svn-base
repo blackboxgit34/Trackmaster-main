@@ -1,0 +1,413 @@
+﻿@{
+    ViewBag.Title = "Fuel Graph";
+}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script src="~/Scripts/googlegraphjs.js"></script>
+<script type="text/javascript">
+
+
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+
+</script>
+<style>
+
+    .button {
+   
+    border: none;
+    color: white;
+    padding: 0px 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    width: 100px !important;
+}
+
+.button1 {
+     background-color:#a6a6a6; /* Green */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2 {
+     background-color: #8e9d13; /* Green */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.button1:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+    .blockPage {
+        border:none !important;
+    }
+
+    .google-visualization-tooltip { 
+        
+            width: 190px !important;
+            border: none !important;
+            border-radius: 21px !important;
+         background: rgba(192,192,192,0.7);
+            position: absolute !important;
+            box-shadow: 7px 7px 5px 0px rgba(192,192,192,0.7) !important;
+            background: -moz-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+            background: -webkit-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+            background: -o-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+            background: -ms-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+            background: linear-gradient(120deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+            font-size:  10px !important;
+            font-weight: normal !important;
+          }
+
+
+    google-visualization-tooltip-item span:nth-child(2) { display:inline-block; width:150px
+!important; text-align:right !important; }
+
+    .checkbox-wrapper {
+  position: relative;
+  top: -1px;
+}
+    
+</style>
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+     <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+ 
+                @Html.Action("_reportFilterWithFuelList","Fuel", new { reportTitle = "Fuel Report" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    
+                                <div id="DivVehcleCounter" style="align-items:center;">
+
+                                    
+                                    <a style="margin-left:500px; margin-top:5px;" href="@Url.Action("fueltheftreport","customreport")" title="Fuel Drainage" class="button button1"><img src="~/Trackmaster_files/Fuel/Theft.png" style="width:20px;margin-top:6px;" /><span style="font-size:10px">Fuel Drainage</span> </a> &nbsp; <a title="Fuel Filling" href="@Url.Action("fuelfillingreport","customreport")" class="button button1" style="margin-top:5px;"><img src="~/Trackmaster_files/Fuel/gasstation.png" style="width:20px;margin-top:6px;" /> <span style="font-size:10px">Fuel Filling</span></a>&nbsp;&nbsp;<a style="margin-top:5px;" title="Fuel Mileage" href="@Url.Action("FuelMilageReport","customreport")" class="button button1">   <img src="~/Trackmaster_files/Fuel/Mileages.png" style="width:20px;margin-top:6px;" /><span style="font-size:10px"> Fuel Mileage</span></a>
+
+
+
+
+              <div class="col-md-12" style="text-align: center;">
+                       
+                         <div id="chartdiv" style="width: 100px; height: 400px;">
+                    </div>
+               
+
+                </div>
+
+
+        <div class="col-md-12" style="text-align: center;">
+         
+            <div class="col-md-1 col-md-offset-3" style="text-align: center;">
+              <div class="checkbox checkbox-primary">
+                        <input id="checkbox2" type="checkbox" checked="">
+                        <label for="checkbox2">
+                            Fuel
+                        </label>
+                    </div>
+
+                </div>
+              <div class="col-md-1 col-md-offset-right-3" style="text-align: center;">
+             <div class="checkbox checkbox-warning">
+                        <input id="checkbox5" type="checkbox" checked="">
+                        <label for="checkbox5">
+                            Distance
+                        </label>
+                    </div>
+                  </div>
+             <div class="col-md-offset-3-right col-md-1" style="text-align: center;">
+              <div class="checkbox checkbox-danger">
+                        <input id="checkbox6" type="checkbox" checked="">
+                        <label for="checkbox6">
+                            Speed
+                        </label>
+                    </div>
+                 </div>
+        
+                </div>
+
+          </div>
+       
+
+             <div class="col-md-12" style="text-align: center;">
+                        <div style="width:50%; float: left;">
+                         
+
+                              <div class="col-md-12" style="text-align: center;">
+                        <div style="width: 50%; float: left;">
+                            <div id="chart-container">
+                            </div>
+                            </div>
+                                     <div style="width: 50%; float: left;">
+                             <div class="box_a">
+                                        <div class="box_a_content cnt_a">
+                                            Total Tank Capacity: <span class="CTotal"></span>
+                                            <br />
+                                            Current Fuel Level is: <span class="CCurrent"></span>
+                                            <br />
+                                            Empty Tank level is: <span class="CRemaining"></span><br />
+                                            DateTime: <span class="CDate"></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                         </div>
+                                  </div>
+                        </div>
+                        <div style="width:50%; float: right">
+
+                                 <div class="col-md-12" style="text-align: center;">
+                        <div style="width: 50%; float: left;">
+                          
+                             <div id="chart-container1">
+                            </div>
+                            </div>
+                                     <div style="width: 50%; float: left;">
+                             <div class="box_a">
+                                        <div class="box_a_content cnt_a">
+                                            Total Tank Capacity: <span class="HTotal"></span>
+                                            <br />
+                                            Current Fuel Level is: <span class="HCurrent"></span>
+                                            <br />
+                                            Empty Tank level is: <span class="HRemaining"></span><br />
+                                            DateTime: <span class="HDate"></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                         </div>
+                                  </div>
+
+
+
+                 
+
+                    </div>
+     
+      </div>
+
+
+           
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+     <div class="row-fluid" id="alertMessage" style="margin-bottom: 12px; margin-top: 5px;">
+        <div class="widget-body" style="border: 0">
+            <div class="row-fluid">
+                <div class="widget span12">
+                    <div class="widget-body clearfix" style="overflow-x: auto">
+                        <div id="ReportTotal">
+                            <div class="box">
+                                <div class="box-content padded" style="background: white;">
+                                    <form class="row-fluid">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <h4 style="color: orangered">DISCLAIMER</h4>
+                                            </div>
+                                            <div class="col-md-9">Fuel Level can vary.</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+@section css{
+    <style>
+.checkbox {
+  padding-left: 20px; }
+  .checkbox label {
+    display: inline-block;
+    position: relative;
+    padding-left: 5px; }
+    .checkbox label::before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      width: 17px;
+      height: 17px;
+      left: 0;
+      margin-left: -20px;
+      border: 1px solid #cccccc;
+      border-radius: 3px;
+      background-color: #fff;
+      -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+      -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+      transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }
+    .checkbox label::after {
+      display: inline-block;
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 0;
+      top: 0;
+      margin-left: -20px;
+      padding-left: 3px;
+      padding-top: 1px;
+      font-size: 11px;
+      color: #555555; }
+  .checkbox input[type="checkbox"] {
+    opacity: 0; }
+    .checkbox input[type="checkbox"]:focus + label::before {
+      outline: thin dotted;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px; }
+    .checkbox input[type="checkbox"]:checked + label::after {
+      font-family: 'FontAwesome';
+      content: "\f00c"; }
+    .checkbox input[type="checkbox"]:disabled + label {
+      opacity: 0.65; }
+      .checkbox input[type="checkbox"]:disabled + label::before {
+        background-color: #eeeeee;
+        cursor: not-allowed; }
+  .checkbox.checkbox-circle label::before {
+    border-radius: 50%; }
+  .checkbox.checkbox-inline {
+    margin-top: 0; }
+
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+  background-color: #428bca;
+  border-color: #428bca; }
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+.checkbox-danger input[type="checkbox"]:checked + label::before {
+  background-color: #d9534f;
+  border-color: #d9534f; }
+.checkbox-danger input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+.checkbox-info input[type="checkbox"]:checked + label::before {
+  background-color: #5bc0de;
+  border-color: #5bc0de; }
+.checkbox-info input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+.checkbox-warning input[type="checkbox"]:checked + label::before {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e; }
+.checkbox-warning input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+.checkbox-success input[type="checkbox"]:checked + label::before {
+  background-color: #5cb85c;
+  border-color: #5cb85c; }
+.checkbox-success input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+        .flip-container {
+        perspective: 1000px;
+        float:left;
+        margin: 20px;
+      }
+      .flip-containerhover .flipper, .flip-container.hover .flipper {
+        transform: rotateY(180deg);
+      }
+      .flip-container, .front, .back {
+        width: 100%;
+        height:700px;
+      }
+      .flipper {
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+      }
+      .front, .back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .front {
+        z-index: 2;
+        transform: rotateY(0deg);
+      }
+      .back {
+        transform: rotateY(180deg);
+      }
+
+
+
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+
+
+
+
+        /* ---- boxes ---- */
+    .box_a {border:1px solid #ddd;background:#fff;position:relative;margin-top:97px;}
+   
+    .box_a_content.cnt_a {padding:35px}
+   
+
+
+    </style>
+}
+
+@section scripts{
+    <script>
+
+        $('.flip-container').click(function () {
+            this.classList.toggle('hover');
+        });
+
+
+        $('#chkboxSale').change(function () {
+            alert("TeT");
+            if ($(this).prop('checked')) {
+                liveStatusAuto = true;
+                LiveStatus();
+            } else {
+                liveStatusAuto = false;
+            }
+        })
+
+
+        $(".select2").select2();
+
+    </script> 
+<script src="~/Scripts/app/common.js"></script> 
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script>
+<script src="~/Scripts/app/Fueldata.js?v="@DateTime.Now.Ticks></script>
+}
+
+
+

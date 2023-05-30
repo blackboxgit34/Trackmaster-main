@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = "Custom Fuel Graph";
+}
+
+  <script src="~/Scripts/googlegraphjs.js"></script>
+<script type="text/javascript">
+  
+
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+
+</script>
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+ 
+                @Html.Action("_reportFilterWithFuelList","Fuel", new { reportTitle = "Fuel Custom Report", report="Fuel Custom Report" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    
+                                <div id="DivVehcleCounter" style="align-items:center;">
+                                    <a style="margin-left:500px; margin-top:5px;" href="@Url.Action("fueltheftreport","customreport")" title="Fuel Drainage" class="btn btn-default"><img src="~/Trackmaster_files/Fuel/Theft.png" style="width:20px;" /> Fuel Drainage</a> &nbsp; <a title="Fuel Filling" href="@Url.Action("fuelfillingreport","customreport")" class="btn btn-default" style="margin-top:5px;"><img src="~/Trackmaster_files/Fuel/Filling.jpg" style="width:20px;" /> Fuel Filling</a>&nbsp;&nbsp;<a style="margin-top:5px;" title="Fuel Mileage" href="@Url.Action("FuelMilageReport","customreport")" class="btn btn-default">   <img src="~/Trackmaster_files/Fuel/Mileage.jpg" style="width:20px;" /> Fuel Mileage</a>
+
+                                    @*<a href="@Url.Action("fueltheftreport","customreport")" class=""><img src="~/Trackmaster_files/Fuel/Theft.png" style="margin-top: -3px;width:48px;margin-left:500px"  onmouseover="Fuel Theft"/></a> &nbsp; <a href="@Url.Action("fuelfillingreport","customreport")" class="">   <img src="~/Trackmaster_files/Fuel/Filling.jpg" style="margin-top: -3px;width:48px;" onmouseover="Fuel Filling" /></a>&nbsp;<a href="@Url.Action("FuelMilageReport","customreport")" class="" onmouseover="Fuel Mileage">   <img src="~/Trackmaster_files/Fuel/Mileage.jpg" style="margin-top: -3px;width:48px;" /></a>*@
+                                    <div class="box-content padded">
+
+                                        
+
+
+
+                                      
+
+       
+           
+              <div class="col-md-12" style="text-align: center;">
+                       
+                         <div id="chartdiv" style="width: 100px; height: 550px;">
+                    </div>
+                </div>
+     
+       
+             
+             <div class="col-md-12" style="text-align: center;">
+                        <div style="width:50%; float: left;">
+                         
+
+                              <div class="col-md-12" style="text-align: center;">
+                        <div style="width: 50%; float: left;">
+                            <div id="chart-container">
+                            </div>
+                            </div>
+                                     <div style="width: 50%; float: left;">
+                             <div class="box_a">
+                                        <div class="box_a_content cnt_a">
+                                            Total Tank Capacity: <span class="CTotal"></span>
+                                            <br />
+                                            Current Fuel Level is: <span class="CCurrent"></span>
+                                            <br />
+                                            Empty Tank level is: <span class="CRemaining"></span><br />
+                                            DateTime: <span class="CDate"></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                         </div>
+                                  </div>
+                        </div>
+                        <div style="width:50%; float: right">
+
+                                 <div class="col-md-12" style="text-align: center;">
+                        <div style="width: 50%; float: left;">
+                          
+                             <div id="chart-container1">
+                            </div>
+                            </div>
+                                     <div style="width: 50%; float: left;">
+                             <div class="box_a">
+                                        <div class="box_a_content cnt_a">
+                                            Total Tank Capacity: <span class="HTotal"></span>
+                                            <br />
+                                            Current Fuel Level is: <span class="HCurrent"></span>
+                                            <br />
+                                            Empty Tank level is: <span class="HRemaining"></span><br />
+                                            DateTime: <span class="HDate"></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                         </div>
+                                  </div>
+
+
+
+                        </div>
+                    </div>
+       
+  
+
+
+
+                                 @*      <div class="box-content" >
+                    <div class="col-md-12" style="text-align: center;">
+                        <div style="width: 50%; float: left;">
+                         
+                            <div id="chart-container">
+                            </div>
+                        </div>
+                        <div style="width: 50%; float: right">
+
+                             <div id="chart-container1">
+                            </div>
+                        </div>
+                    </div>
+
+                                             <div class="col-md-12" style="text-align: center;">
+                       
+                         <div id="chartdiv" style="width: 100px; height: 550px;">
+                    </div>
+                </div>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body--> 
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+
+
+       
+
+
+        .flip-container {
+        perspective: 1000px;
+        float:left;
+        margin: 20px;
+      }
+      .flip-containerhover .flipper, .flip-container.hover .flipper {
+        transform: rotateY(180deg);
+      }
+      .flip-container, .front, .back {
+        width: 100%;
+        height:700px;
+      }
+      .flipper {
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+      }
+      .front, .back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .front {
+        z-index: 2;
+        transform: rotateY(0deg);
+      }
+      .back {
+        transform: rotateY(180deg);
+      }
+
+
+
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+
+
+
+
+        /* ---- boxes ---- */
+    .box_a {border:1px solid #ddd;background:#fff;position:relative;margin-top:97px;}
+   
+    .box_a_content.cnt_a {padding:35px}
+   
+
+
+    </style>
+}
+
+@section scripts{
+    <script>
+
+        $('.flip-container').click(function () {
+            this.classList.toggle('hover');
+        });
+    </script> 
+<script src="~/Scripts/app/common.js"></script> 
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script>
+  
+    
+<script src="~/Scripts/app/CustomFueldata.js?v="@DateTime.Now.Ticks</script>
+     
+
+    
+}
+
+
+

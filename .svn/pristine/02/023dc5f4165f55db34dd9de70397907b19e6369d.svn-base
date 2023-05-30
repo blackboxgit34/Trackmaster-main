@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "RefTemp";
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+
+                   <marquee direction="left" scrollamount="2">Distance On liveStatus  report is Daily Distance which can be compared with Daily report Only . The distance travelled reported here may not be absolutely correct as the website takes the distance based upon the GPS fixes it has received from the tracking device installed in your vehicle. &nbsp;  &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;"> # </span>  Last location captured when GPS signal was available.</marquee>
+        <div class="main_container" id="tables_page">
+            @Html.Action("_RefReportFilter", new { reportTitle = "Refrigerator Temperature Report" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <div class="col-md-2">
+                                         Set Interval: <select id="setTimeInterval">
+                                          <option value="0">0</option>
+                                          <option value="5">5</option>
+                                          <option value="10">10</option>
+                                          <option value="15">15</option>
+                                          <option value="20">20</option>
+                                          <option value="25">25</option>
+                                          <option value="30">30</option>
+                                          <option value="60">60</option>
+                                          <option value="90">90</option>
+                                     </select>
+                                            </div>
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="hidden" >BBID</th>
+                                                    <th>Vehicle No</th>
+                                                    <th>Current Temperature</th>
+                                                    <th>Highest Temperature</th>
+                                                    <th>Lowest Temperature</th>
+                                                    <th>Details</th>
+                                                    @*<th>Graph</th>*@
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    
+    <script src="~/Scripts/app/RefTemperature.js"></script>
+}

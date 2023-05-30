@@ -1,0 +1,160 @@
+﻿<div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget widget-padding span6">
+                            <div class="widget-header">
+                                <i class="icon-cogs"></i>
+                                <h5>FMS</h5>
+                                <div class="widget-buttons">
+                                    <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body" style="min-height:auto;">
+                                <div class="box" style="padding-bottom: 0px;">
+                                    <div class="box-~/content padded" style="margin: 0 -11px 0 9px;">
+                                        <div class="row" style="margin-top: -14px;">
+
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px;">
+
+                                                <div style="text-align: center;">
+                                                    <span id="Main/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+                                                    <!--<img src="~/content/img/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                    <img src='~/content/Trackmaster_files/1.png' onmouseover="this.src='/content/img/icc21.jpg';" onmouseout="this.src='/content/Trackmaster_files/1.png';" style="margin-left: -17px;">
+                                                </div>
+
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Vehicles</span><br />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px;">
+
+                                                <div style="text-align: center;">
+                                                    <span id="Main/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+                                                    <img src='~/content/Trackmaster_files/2.png' onmouseover="this.src='/content/Trackmaster_files/a12.png';" onmouseout="this.src='/content/Trackmaster_files/2.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Service Reminders</span>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px;">
+
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+                                                    <img src='~/content/Trackmaster_files/3.png' onmouseover="this.src='/content/Trackmaster_files/a1.png';" onmouseout="this.src='/content/Trackmaster_files/3.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Renewal Reminders</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px 4px;">
+
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+
+                                                    <img src='~/content/Trackmaster_files/4.png' onmouseover="this.src='/content/Trackmaster_files/a3.png';" onmouseout="this.src='/content/Trackmaster_files/4.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Repair and Maintenance</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end -->
+
+                                        <div class="row" style="margin-top: 6px;">
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px;">
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+
+                                                    <img src='~/content/Trackmaster_files/10.png' onmouseover="this.src='/content/Trackmaster_files/a13.png';" onmouseout="this.src='/content/Trackmaster_files/10.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Tyre Management</span><br />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px;">
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+                                                    <img src='~/content/Trackmaster_files/7.png' onmouseover="this.src='/content/Trackmaster_files/a5.png';" onmouseout="this.src='/content/Trackmaster_files/7.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Fuel Management</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px 0px;">
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+                                                    <img src='~/content/Trackmaster_files/8.png' onmouseover="this.src='/content/Trackmaster_files/a6.png';" onmouseout="this.src='/content/Trackmaster_files/8.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Parts Purchase Info</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px 0px;">
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+                                                    <img src='~/content/Trackmaster_files/6.png' onmouseover="this.src='/content/Trackmaster_files/a4.png';" onmouseout="this.src='/content/Trackmaster_files/6.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Employees</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end -->
+
+                                        <div class="row" style="margin-top: 6px;">
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px;">
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+
+                                                    <img src='~/content/Trackmaster_files/9.png' onmouseover="this.src='/content/Trackmaster_files/a7.png';" onmouseout="this.src='/content/Trackmaster_files/9.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Customer</span><br />
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px 0px;">
+                                                <div style="text-align: center;">
+                                                    <span id="Main~/content_cvehicles" class="badge badge-important" style="position: relative; left: -6px;">9</span>
+
+                                                    <img src='~/content/Trackmaster_files/11.png' onmouseover="this.src='/content/Trackmaster_files/a11.png';" onmouseout="this.src='/content/Trackmaster_files/11.png';" style="margin-left: -17px;">
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Manage Booking Order</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end -->
+                                    </div>
+                                </div>
+                                <!-- /row-fluid -->
+                            </div>
+                            <!-- /widget-body -->
+                        </div>
+
+                        <div id="alertss" class="widget span6">
+                            <div class="widget-header">
+                                <i class="icon-map-marker"></i>
+                                <h5>Location On Map</h5>
+                                <div class="widget-buttons">
+                                    <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="widget-body" style="min-height: 333px;">
+
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d109750.91902756316!2d76.69637378276995!3d30.72637729725028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fed0be66ec96b%3A0xa5ff67f9527319fe!2sChandigarh!5e0!3m2!1sen!2sin!4v1475746744402" width="100%" height="333px" frameborder="0" style="border: 0" allowfullscreen></iframe>
+                                <!-- /row-fluid -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

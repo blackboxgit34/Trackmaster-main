@@ -1,0 +1,97 @@
+﻿@model Hitec.BB.TrackMaster.Models.PlaybackModel
+
+<style>
+    .button {
+   
+    border: none;
+    color: white;
+    padding: 7px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    width: 100px !important;
+}
+
+.button1 {
+     background-color: #8e9d13; /* Green */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2 {
+   
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.button1:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+</style>
+<div class="row-fluid" style="margin-bottom: 25px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-header">
+                    <i class="fa fa-map-marker"></i>
+                    <h5>@ViewBag.ReportTitle  @ViewBag.Report</h5>
+                </div>
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div class="box" style="background: #fdfdfd;">
+                        <div class="box-content padded">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form class="form-inline">
+                                        <div class="col-md-6">
+                                            <div class="form-group padded">
+                                                <div id="reportrangeRoutePlayback" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%; margin-top: -5%;">
+                                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                    &nbsp;<span></span><b class="caret"></b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="vehicleslist"></select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input type="button" value="search" id="BtnSearch" onclick="GetRouteData();" class="button button1">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                      <span> <p>Distance Covered: <b id="txtDistanceCovered">calculating....</b> </p>  </span>  
+                                    </div>
+                                   
+                                    <div class="col-md-3">
+                                         <span> <p>Stoppage Time: <b id="txtStoppageTime">calculating....</b> </p>  </span>  
+                                        </div>
+                                @*    <div class="col-md-1">
+                                        <span class="badge badge-default " id=""></span>
+                                    </div>*@
+                                    
+                                    <div class="col-md-3">
+                                        <span> <p>Driving time: <b id="txtDrivingTime">calculating....</b> </p>  </span>  
+                                     
+                                    </div>
+                                      
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>

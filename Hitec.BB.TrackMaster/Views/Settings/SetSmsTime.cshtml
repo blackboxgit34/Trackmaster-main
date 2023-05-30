@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Set Location Sms Time";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/css/smart_wizard.css")" rel="stylesheet" />
+
+@{if (TempData["Sucess"] != null)
+  {
+    <div class="alert alert-success" id="adminPass" style="display: block">
+        <a class="close" data-dismiss="alert">×</a> <strong>@TempData["Sucess"] </strong>
+    </div>
+  } }
+@{ if (TempData["Fail"] != null)
+   {
+    <div class="alert alert-warning" id="adminPass1" style="display: block">
+        <a class="close" data-dismiss="alert">×</a> <strong>@TempData["Fail"] </strong>
+    </div>
+   } }
+<div class="row-fluid">
+    <form onclick="fg();"> 
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>@ViewBag.Title</h5>
+            </div>
+        </div>
+        <div class="box_a_content">
+        
+            <div class="box_a_content">
+                <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Available SMS Time</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableContent">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+        </form>
+</div>
+<div id="PasswordDialog" title="Basic dialog">
+</div>
+ @section scripts{
+     <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+     <script type="text/javascript" src="@Url.Content("~/scripts/app/Security.js?")"@DateTime.Now.Ticks></script>
+<script>
+    var table;
+    $(function () { 
+    //var baseUrl = apiBase.apiurl;
+        $('#document').ready(function () {
+         
+            //$(":checkbox").attr('disabled', 'disabled');
+
+            //$("button").attr('disabled', 'disabled');
+        GetSmsTimings();
+    });
+    });
+    $('#tableContent').on('change', 'input[type=checkbox]', function () {
+        var check = $(this).prop('checked');
+        var SmsTimeId = $(this).attr('data-SmsTimeId');
+        var SmsHour = $(this).attr('data-SmsHour');
+        var custid = $(this).attr('data-custid');
+        var url = baseUrl + 'AdminAPI/UpdateSmsTime';
+        $.post(url, { CustId: $custid, SmsTimeId: SmsTimeId, SmsHour: SmsHour, IsActive: check }, function (data) {
+        })
+            .fail(function () {
+                alert("error");
+                location.reload();
+            })
+       
+       
+    });
+
+    
+
+    function GetSmsTimings() {
+     
+        var url = baseUrl + 'AdminAPI/GetSmsTime';
+        $.get(url, { custid: $custid }, function (data) {
+            var tr;
+            for (var i = 0; i < data.length; i++) {
+                tr = $('<tr/>');
+                tr.append("<td>" + data[i].SmsHour + "</td>");
+                if (data[i].IsActive)
+                    tr.append("<td><input type='checkbox' class='toggle-two'  data-SmsHour=" + data[i].SmsHour + " data-SmsTimeId=" + data[i].SmsTimeId + " data-custid=" + data[i].CustId + " checked></td>");
+                else
+                    tr.append("<td><input type='checkbox' class='toggle-two'  data-SmsHour=" + data[i].SmsHour + " data-SmsTimeId=" + data[i].SmsTimeId + " data-custid=" + data[i].CustId + "></td>");
+                $('#tableContent').append(tr);
+                $(":checkbox").attr('disabled', 'disabled');
+            }
+        });
+
+        
+        
+    };
+
+</script>
+ }
+

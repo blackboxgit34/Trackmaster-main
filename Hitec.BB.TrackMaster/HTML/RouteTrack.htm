@@ -1,0 +1,812 @@
+﻿<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- <meta http-equiv="”Content-Type”" content="”text/html;" charset="utf-8?" />-->
+    <meta charset="UTF-8">
+    <title>Route Navigation</title>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+
+    <link rel="icon" type="image/ico" href="../images/favicon.ico" />
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+          media="screen" />
+    <link href="../Content/css/CssCustom.css" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+
+    <style type="text/css">
+        #floating {
+            position: absolute;
+            top: 75px;
+            left: 29%;
+            z-index: 5;
+            background-color: whitesmoke;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #total {
+            font-size: large;
+            text-decoration: blink;
+            text-align: center;
+            font-family: Georgia, “Times New Roman”, Times, serif;
+            color: #990000;
+            padding: 10px 0;
+        }
+
+        .btn-success {
+            border: none;
+            font-weight: 100 !important;
+            font-size: 11px;
+        }
+
+        .btn-default {
+            border: none;
+            font-weight: 100 !important;
+            font-size: 11px;
+        }
+
+        .select2-dropdown {
+            z-index: 999999 !important;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in&libraries=places" language="javascript" type="text/javascript"></script>
+
+    <script type="text/javascript" src="../js/Map/LocationOnMap/label.js"></script>
+    <script type="text/javascript" src="../js/Map/LocationOnMap/Fluster2.packed.js"></script>
+    <!--for select2-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <!-- end of select2-->
+    <!-- for URL and CustId -->
+    <script src="../Content/js/APIURL.js"></script>
+    <script src="../Scripts/app/GeoFenceCustID.js" type="text/javascript"> </script>
+
+    <!-- end of URL and CustId -->
+    <!-- Initialize map here -->
+
+    <script type="text/javascript">
+        //<![CDATA[
+        var map = null;
+        var directionDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        var j = 0;
+
+        function initialize() {
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            var mapOptions = {
+                litemode: true,
+                zoom: 14, //zoom level highest is 21 if m not wrong,
+                //mapTypeId: google.maps.MapTypeId.ROADMAP, //view type of the google map, ie either satellite, or road maps
+                center: new google.maps.LatLng(30.850033, 76.6500523),
+                styles: [
+             {
+                 "featureType": "poi",
+                 "stylers": [
+                   { "visibility": "on" }
+                 ]
+             },
+             {
+                 "elementType": "geometry",
+                 "stylers": [
+                   {
+                       "color": "#242f3e"
+                   }
+                 ]
+             },
+     {
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#746855"
+           }
+         ]
+     },
+     {
+         "elementType": "labels.text.stroke",
+         "stylers": [
+           {
+               "color": "#242f3e"
+           }
+         ]
+     },
+     {
+         "featureType": "administrative.locality",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#d59563"
+           }
+         ]
+     },
+     {
+         "featureType": "poi",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#d59563",
+
+           }
+         ]
+     },
+     {
+         "featureType": "poi.park",
+         "elementType": "geometry",
+         "stylers": [
+           {
+               "color": "#263c3f",
+               "visibility": "on"
+           }
+         ]
+     },
+     {
+         "featureType": "poi.park",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#6b9a76"
+           }
+         ]
+     },
+     {
+         "featureType": "road",
+         "elementType": "geometry",
+         "stylers": [
+           {
+               "color": "#38414e"
+           }
+         ]
+     },
+     {
+         "featureType": "road",
+         "elementType": "geometry.stroke",
+         "stylers": [
+           {
+               "color": "#212a37"
+           }
+         ]
+     },
+     {
+         "featureType": "road",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#9ca5b3"
+           }
+         ]
+     },
+     {
+         "featureType": "road.highway",
+         "elementType": "geometry",
+         "stylers": [
+           {
+               "color": "#746855"
+           }
+         ]
+     },
+     {
+         "featureType": "road.highway",
+         "elementType": "geometry.stroke",
+         "stylers": [
+           {
+               "color": "#1f2835"
+           }
+         ]
+     },
+     {
+         "featureType": "road.highway",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#f3d19c"
+           }
+         ]
+     },
+     {
+         "featureType": "transit",
+         "elementType": "geometry",
+         "stylers": [
+           {
+               "color": "#2f3948"
+           }
+         ]
+     },
+     {
+         "featureType": "transit.station",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#d59563"
+           }
+         ]
+     },
+     {
+         "featureType": "water",
+         "elementType": "geometry",
+         "stylers": [
+           {
+               "color": "#17263c"
+           }
+         ]
+     },
+     {
+         "featureType": "water",
+         "elementType": "labels.text.fill",
+         "stylers": [
+           {
+               "color": "#515c6d"
+           }
+         ]
+     },
+     {
+         "featureType": "water",
+         "elementType": "labels.text.stroke",
+         "stylers": [
+           {
+               "color": "#17263c"
+           }
+         ]
+     }
+                ]
+                //the longitute and latitude of the place which you want to put center in the map
+            };
+            map = new google.maps.Map(document.getElementById('map_canvas'), // defining div id to get the map
+    mapOptions);
+            directionsDisplay.setMap(map);
+            // directionsDisplay.setPanel(document.getElementById('directions-panel')); //defining div id to get the routes or directions from location one to another
+
+            //  var control = document.getElementById('control');
+            //   control.style.display = 'block';
+            //  map.controls[google.maps.ControlPosition.TOP].push(control);
+        }
+
+        //function calcRoute() {
+
+        //    var start = document.getElementById("start").value; // defining input for location one or DESTINATION FROM
+        //    var end = document.getElementById("end").value; // defining input for location one or DESTINATION TO
+        //    var request = {
+        //        origin: start,
+        //        destination: end,
+        //        travelMode: google.maps.TravelMode.DRIVING
+        //        //travelMode: google.maps.DirectionsTravelMode.DRIVING //defining the travel mode, so that you can have an estimation of time and best route
+        //    };
+
+        //    directionsService.route(request, function (response, status) {
+        //        if (status == google.maps.DirectionsStatus.OK) {
+        //            directionsDisplay.setDirections(response);
+        //            computeTotalDistance(response);
+        //        }
+        //    });
+        //}
+        //function computeTotalDistance(result) {
+        //    var total = 0;
+        //    var myroute = result.routes[0];
+        //    for (i = 0; i < myroute.legs.length; i++) {
+        //        total += myroute.legs[i].distance.value;
+        //    }
+        //    total = total / 1000 // the distance outpuet is convertered to KiloMeter
+        //    document.getElementById("total").innerHTML = total + " km"; // defining div id to show the output for distance from location 1 to location 2
+        //}
+
+        google.maps.event.addDomListener(window, "load", initialize);
+        j = 1;
+    </script>
+    <!-- for right Panel -->
+    <script type="text/javascript">
+        //for MyClick function
+        var openedInfoWindow = null;
+        $(document).ready(function () {
+            $("#ddlRouteName").select2();
+
+            // $(".select2-dropdown").css('z-index', 99999);
+
+            $(".trigger").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+
+            getRoutes();
+
+            //DropDown CHange Event
+            $("#ddlRouteName").change(function () {
+
+                var i = 0;
+                var lat;
+                var lng;
+                var name;
+                var drname;
+                var DriMob;
+                var speed;
+                var lstdate;
+                var icon_type;
+                var loc;
+                var LastDateIgnOnOff;
+                var Duration;
+                // clear side bar list
+                side_bar_html = "";
+
+                var poiIds;
+                var routeId = this.value;
+
+
+
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "MapAPI/GetVehiclesWithRouteOnMap",
+                    data: { custId: $custid, routeId: routeId },
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        deleteMarkers();
+
+                        for (i = 0; i < data.length; i++) {
+
+                            debugger;
+
+                            if (i == 0) {
+
+                                var start = data[0].SRouteLat + ',' + data[0].SRouteLng;
+                                var end = data[0].ERouteLat + ',' + data[0].ERouteLng;
+                                poiIds = data[0].POIIDs;
+
+                                var startid = data[0].SID;
+                                var destinationId = data[0].EID;
+
+                                poiIds = startid + ',' + poiIds + ',' + destinationId;
+
+
+
+                            }
+
+
+                            //     var Routedata = data[0].getlistofbbid;
+                            lat = data[i].lat;
+                            lng = data[i].lng;
+                            name = data[i].name;
+                            drname = data[i].drname;
+                            speed = data[i].speed;
+                            lstdate = data[i].lstdate;
+                            icon_type = parseFloat(data[i].type);
+                            loc = data[i].loc;
+                            Duration = data[i].Duration;
+                            DriMob = data[i].DriMobNo;
+                            LastDateIgnOnOff = data[i].LastDateIgnOnOff;
+                            var html = "<span>" + name + " <br/>Speed - " + speed + "<br/>Driver Name - " + drname + "<br/>Driver Mobile No - " + DriMob + "<br/>DateTime - " + lstdate + "<br/>Location - " + loc + "<br/></span>";
+                            // define lat-long for positioning Marker
+                            var myLatlng = new google.maps.LatLng(lat, lng);
+                            // call function to create Marker
+                            var marker = createMarker(myLatlng, name, html, icon_type);
+
+                            var label = new Label(
+                              {
+                                  draggable: false,
+                                  map: map
+                              });
+                            var hh = name;
+                            var htmlXX = '<span class="Newla" >' + hh + '</span>';
+
+                            label.bindTo('position', marker, 'position');
+                            label.set('text', htmlXX);
+                            gmarkers.push(marker);
+                            glabels.push(label);
+
+                        }
+                        var bound = new google.maps.LatLngBounds();
+                        for (var i in gmarkers) {
+                            bound.extend(gmarkers[i].getPosition());
+                            if (i == 0) {
+                                map.setCenter(gmarkers[i].getPosition());
+                            }
+                        }
+                        map.fitBounds(bound);
+                        morePointsFun(poiIds);
+                    },
+                    error: function () {
+                        alert('Please try again');
+                    }
+                })
+
+
+
+
+
+
+
+
+
+            });
+            function morePointsFun(poiIds) {
+
+                var service = new google.maps.DirectionsService;
+                var map = new google.maps.Map(document.getElementById('map_canvas'));
+                var stations = [];
+
+                //var poiarrya = [];
+                //poiarrya.push(poiIds.replace(/['"]+/g, ''));
+
+                //for (i = 0; i < poiarrya.length; i++) {
+                //    var text = poiarrya[i];
+                //}
+
+
+                var myarray = poiIds.split(',');
+
+                for (var x = 0; x < myarray.length; x++) {
+                    var text = myarray[x];
+
+                    var location;
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "MapAPI/GetPoiLatLongForAddTrip",
+                        data: { poiId: text },
+                        async: false,
+                        success: function (data) {
+
+                            for (i = 0; i < data.length; i++) {
+                                location = data[i].lat + ',' + data[i].lng;
+                                stations.push({
+                                    lat: parseFloat(data[i].lat),
+                                    lng: parseFloat(data[i].lng),
+                                    name: data[i].Name
+
+                                });
+                            }
+
+                        }
+                    })
+                }
+
+
+
+                // Zoom and center map automatically by stations (each station will be in visible map area)
+                var lngs = stations.map(function (station) { return station.lng; });
+                var lats = stations.map(function (station) { return station.lat; });
+                map.fitBounds({
+                    west: Math.min.apply(null, lngs),
+                    east: Math.max.apply(null, lngs),
+                    north: Math.min.apply(null, lats),
+                    south: Math.max.apply(null, lats),
+                });
+
+                // Show stations on the map as markers
+                for (var i = 0; i < stations.length; i++) {
+                    if (!stations[i].name)
+                        continue;
+                    if (i == 0) {
+                        new google.maps.Marker({
+                            position: stations[i],
+                            map: map,
+                            title: stations[i].name,
+                            icon: '../Trackmaster_files/Fuel/green.png'
+                        });
+
+                    }
+                    else if (i == stations.length - 1) {
+                        new google.maps.Marker({
+                            position: stations[i],
+                            map: map,
+                            title: stations[i].name,
+                            icon: '../Trackmaster_files/Fuel/red.png'
+                        });
+                    }
+                    else {
+                        new google.maps.Marker({
+                            position: stations[i],
+                            map: map,
+                            title: stations[i].name,
+                            icon: '../Trackmaster_files/Fuel/sky.png'
+                        });
+                    }
+
+
+                }
+
+                // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
+                for (var i = 0, parts = [], max = 8 - 1; i < stations.length; i = i + max)
+                    parts.push(stations.slice(i, i + max + 1));
+
+                // Callback function to process service results
+                var service_callback = function (response, status) {
+                    if (status != 'OK') {
+                        console.log('Directions request failed due to ' + status);
+                        return;
+                    }
+                    var renderer = new google.maps.DirectionsRenderer;
+                    renderer.setMap(map);
+                    renderer.setOptions({ suppressMarkers: true, preserveViewport: true });
+                    renderer.setDirections(response);
+
+
+
+
+                    //var route = response.routes[0];
+                    //var summaryPanel = document.getElementById('directions-panel');
+                    //var distanceValue = document.getElementById('txtManualDistance');
+                    //var ettValue = document.getElementById('txtETT');
+
+                    //var totalDistance = 0;
+                    //var totalTime = 0;
+
+                    //summaryPanel.innerHTML = '';
+                    //// For each route, display summary information.
+                    //for (var i = 0; i < route.legs.length; i++) {
+
+                    //    var routeSegment = i + 1;
+                    //    summaryPanel.style.display = "block";
+                    //    summaryPanel.innerHTML += '<b>' + routeSegment +
+                    //        '</b><br>';
+                    //    summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                    //    summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                    //    summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+
+                    //    //getting total distance
+                    //    totalDistance = totalDistance + parseFloat((route.legs[i].distance.value / 1000).toFixed(0));
+                    //    //getting total estimated time
+                    //    totalTime = totalTime + parseFloat((route.legs[0].duration.value / parseInt(60 * 60)).toFixed(0));
+
+
+                    //}
+                    //distanceValue.value = totalDistance;
+                    //$("#test1").html(totalTime + "minutes");
+                    //ettValue.value = totalTime;
+                };
+
+                // Send requests to service to get route (for stations count <= 25 only one request will be sent)
+                for (var i = 0; i < parts.length; i++) {
+                    // Waypoints does not include first station (origin) and last station (destination)
+                    var waypoints = [];
+                    for (var j = 1; j < parts[i].length - 1; j++)
+                        waypoints.push({ location: parts[i][j], stopover: false });
+                    // Service options
+                    var service_options = {
+                        origin: parts[i][0],
+                        destination: parts[i][parts[i].length - 1],
+                        waypoints: waypoints,
+                        travelMode: window.google.maps.TravelMode.DRIVING
+                    };
+                    // Send request
+                    service.route(service_options, service_callback);
+                }
+
+
+            }
+        });
+        //end of dropdown change event
+
+        // ================ create marker ================
+        var side_bar_html = "";
+        var gmarkers = [];
+        var vehmarkers = [];
+        var vmarkers = [];
+        var htmls = [];
+        var glabels = [];
+        var i = 0;
+        var icons = [];
+        icons[1] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+        icons[2] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+        icons[3] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png"); //GreenIcon;   // Moving
+        icons[4] = new google.maps.MarkerImage("../Content/map/legends/ignion.png"); //ErrorIcon;   // Unknown (Moving without Ignition On)
+        icons[5] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+        // icons[5] = new google.maps.MarkerImage("  ../../VehType/testingImages/vehicleIcons/car-green.png");
+
+
+        icons[6] = new google.maps.MarkerImage("../Content/map/legends/towed.png");
+        icons[7] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+        icons[8] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png");
+        icons[9] = new google.maps.MarkerImage("../Content/map/legends/unreach.png");
+        icons[10] = new google.maps.MarkerImage("../Content/map/legends/fenced.png");
+
+        // ================ This function creates marker and associates info-window with it ================
+        function createMarker(myLatlng, name, html, icon_type) {
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+                icon: icons[icon_type]
+
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+            vmarkers[i] = marker;
+            htmls[i] = html;
+            side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+            if (j == 1) {
+                document.getElementById('side_bar').innerHTML = side_bar_html;
+            }
+            i++;
+            return marker;
+        }
+
+        // ================ This function picks up the click and opens the corresponding info window ================
+        var marker = new Array();
+        function myclick(i) {
+
+            var infowindow = new google.maps.InfoWindow({
+                content: htmls[i]
+            });
+            if (openedInfoWindow != null) openedInfoWindow.close();
+            infowindow.open(map, vmarkers[i]);
+            openedInfoWindow = infowindow;
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            clearMarkers();
+            gmarkers = [];
+            glabels = [];
+
+        }
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+            for (var i = 0; i < gmarkers.length; i++) {
+                gmarkers[i].setMap(map);
+                glabels[i].setMap(map);
+            }
+
+        }
+
+        //getting Routes
+        function getRoutes() {
+            var routeNames = $('#ddlRouteName');
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "AdminAPI/GetRoutes",
+                data: { custId: $custid },
+                async: false,
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        routeNames.append($('<option/>').text(data[i].Text).attr('value', data[i].Value));
+                    }
+
+                },
+                error: function () {
+                    alert('Please try again');
+                }
+            })
+
+        };
+        //end of getting routes
+
+
+        window.btnAddTrip = function () {
+
+            parent.location.href = "../settings/UpdateTripSettings";
+        };
+        window.btnManageTrip = function () {
+            parent.location.href = "../settings/ManageRoute";
+        };
+
+    </script>
+
+    <style>
+        input[type=text], select {
+            width: 100%;
+            padding: 7px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+<body onload="initialize()">
+
+    <!--    <div id="total">
+    </div>
+    <div id="control">
+    <font face="verdana" size="3" color="black">Start:</font>
+
+        <input type="text" id="start">
+        <font face="verdana" size="3" color="black">End:</font>
+
+        <input type="text" id="end">
+        <input type="button" value="GO" class="btn btn-info" onclick="calcRoute();">
+    </div>
+    -->
+
+    <div class="panel" style="width: 250px; z-index: 99999 !important; padding: 10px; opacity: 1.5;">
+
+        <form>
+            <div>
+                <!--  <button onclick="btnAddTrip();" class="btn btn-Success">Add Trip</button>
+                  <button onclick="btnManageTrip();" class="btn btn-default">Manage Trip</button>-->
+
+                <select id="ddlRouteName" name="VariantName" style="z-index:999999 !important;" class="form-control">
+                    <option selected disabled>Select Route</option>
+                </select>
+                <br />
+                <b>Selected Trip's vehicles</b>
+                <hr />
+                <div id="side_bar" style="width: 100%; overflow: auto; height: 0%!important">
+                </div>
+            </div>
+        </form>
+
+        <br />
+
+    </div>
+
+    <!--<div id="floating">
+        <table class="table">
+            <tr>
+                <td>
+                    Start Location
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    End Lcation
+                </td>
+                <td></td>
+            </tr>
+
+
+
+        </table>
+
+    </div>-->
+    <a class="trigger" href="#" style="width: 202px; z-index: 99999 !important;">View-Assigned Route/Trip</a><div style="clear: both;"></div>
+
+    <!--  <table border="1?" style="height: 100%; width: 100%;">
+        <tr>
+            <td style="width: 100%; height: 100%;">-->
+    <div id="map_canvas" style="width: 100%; height: 100%;">
+    </div>
+
+    <!-- </td>
+           <td style="width: 30%; height: 100%;">
+                <div id="directions-panel" style="width: 100%; height: 100%;">
+                </div>
+            </td
+        </tr>
+    </table>-->
+</body>
+</html>

@@ -1,0 +1,231 @@
+﻿@{
+    ViewBag.Title = "AdminSettings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .span2 {
+        background-color: white;
+    }
+</style>
+
+
+   <div class="row-fluid">
+                                <div class="widget widget-padding span12">
+                                    <div class="widget-header">
+                                        <i class="icon-cogs"></i>
+                                        <h5>Admin Settings</h5>
+                                        <div class="widget-buttons">
+                                            <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div id="ReportTotal">
+                        <div class="box">
+                            <div class="box-content ">
+                                <form class="row-fluid">
+                                                                        
+                                 @*  <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/settings/setemailtime")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Set-Emails-Time.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Set Emails Time</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                          <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/FMS/NTMManageVehicles")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Assign-Driver.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Assign Driver</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                     <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/settings/UpdateTripSettings")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <spanclass="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Routing-&-Trip-Settings.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Routing & Trip Settings</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                     <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/admin/UpdateOverSpeedStopSettings")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/OverIdlling-Settings.png"  style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">OverSpeed,Overstoppage and OverIdlling Settings</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                     <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/settings/SetNotificationAlert")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/SMS-&-Notifications.png"  style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">SMS & Notifications</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                        <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/settings/Setsmstime")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Set-Emails-Time.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Set Location SMS Time</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>    <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a  target="_blank" href="@Url.Content("~/fms/SetNotificationAlert")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/FMS-SMS.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">FMS SMS & Notifications</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>    <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" href="@Url.Content("~/Admin/MaxMileageTimeSlots")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Time-Slots-Settings.png"  style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Time Slots Settings </span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div> *@  
+                                     <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" id="profile" href="@Url.Action("Profile", "Settings")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Profile.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Profile</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                   <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a  id="userPassword" onclick="btnChangePassword(this.id);" href="#">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Change-userPassword.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Change User Password</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                    <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a  id="adminPassword" onclick="btnChangePassword(this.id);" href="#">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/Change-Admin-Password.png" style="margin-left: -17px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Change Admin Password </span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+
+                                           <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" id="AddSubUser" href="@Url.Action("AddSubUser", "misc")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/AddUser.jpg" style="margin-left: -17px;height:58px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Add User</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+
+                           <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" id="AssignVehicle" href="@Url.Action("CustDeviceMapping", "User")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                                <!--<img src="/Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+                                                                <img src="~/Content/img/menu/adminStngsIcons/assignvehicle.png" style="margin-left: -17px;height:58px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Assign Vehcile</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                         <div class="col-md-4" style="box-shadow: 0px 1px 19px #dddddd; padding: 14px; background-color:white">
+                                                        <a target="_blank" id="shiftVehicle" href="@Url.Action("ShiftVehicleMapping", "User")">
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span  class="badge badge-important" style="position: relative; left: -6px;"></span>
+                                                            
+                                                                <img src="~/Content/img/menu/adminStngsIcons/trash.png" style="margin-left: -17px;height:58px;" />
+                                                            </div>
+
+                                                            <div style="text-align: center; cursor: pointer">
+                                                                <span style="font-size: 11px; font-weight: bold; margin-left: 9px; position: relative; top: 5px;">Shift Vehcile</span><br />
+                                                            </div>
+                                                        </a>
+                                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--/widget-body-->
+</div>
+                                    <!-- /widget-body -->
+                                </div>
+       </div>
+
+
+

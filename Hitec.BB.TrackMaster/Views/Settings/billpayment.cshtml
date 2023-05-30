@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+}
+
+
+
+
+    <!DOCTYPE html>
+
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Blackbox - Payment Reminder</title>
+        <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/assets/css/animate.css">
+        <link rel="stylesheet" href="~/assets/css/main.css">
+        <link rel="stylesheet" href="~/assets/css/responsive.css">
+
+    </head>
+    <body onload="myFunction()">
+        <!-- Header Area wrapper Starts -->
+        <header id="header-wrap">
+            <!-- Hero Area Start -->
+            <div id="hero-area" class="hero-area-bg" style="overflow: auto !important;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="contents text-center">
+
+
+                                <h4 class="wow fadeInUp" id="message">Bill Reminder</h4><br />
+                                <h5 id="messageid" style="color:black;"></h5>
+                                <table class="table" id="veh"><tbody></tbody></table>
+                                <br />
+                                <h5 style="color:black;" id="contact">For more details, Contact your collection executive.</h5>
+                                <table class="table" id="details"><tbody></tbody></table>
+                                <h1 class="head-title wow fadeInUp nonais">To View bill/pay your bill online.</h1>
+                                <input type="button" id="paynow" value="Pay now" class="btn btn-sm nonais" />
+                                <br />
+                                <br />
+                                <p id="hard" style="display:none" onclick="load()"><button class="btn btn-warning" style="padding:5px">Click Here</button> to continue services</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Hero Area End -->
+            <!-- Preloader -->
+            <div id="preloader">
+                <div class="loader" id="loader-1"></div>
+            </div>
+            <!-- End Preloader -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="~/assets/js/jquery-min.js"></script>
+            <script src="~/assets/js/bootstrap.min.js"></script>
+            <script src="~/assets/js/jquery.mixitup.js"></script>
+            <script src="~/assets/js/wow.js"></script>
+            <script src="~/assets/js/jquery.nav.js"></script>
+            <script src="~/assets/js/scrolling-nav.js"></script>
+            <script src="~/assets/js/jquery.slicknav.js"></script>
+            <script src="~/assets/js/main.js"></script>
+            <script>
+
+
+                function myFunction() {
+                    debugger;
+                    var custid = localStorage.getItem("custid");
+                    if (custid == null) {
+                        window.location.href = "/";
+                    }
+
+                $.ajax({
+                    type: "Get",
+                    url: 'http://localhost:3970/api/invoiceAPI/GetAppBanner',
+                    data: {
+                        custid: parseInt(custid), type: "Blackbox"
+                    },
+                    contentType: "application/x-www-form-urlencoded",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data.Message.length > 0) {
+                            $("#messageid").text(data.Message);
+                            $("#labl1").text(data.Name1);
+                            $("#labl2").text(data.Contact1);
+                            $('#contact').text();
+                            for (var i = 0; i < 1; i += 1) {
+                                $("#details").append("<tr><td>" + data.Name1 + "</td><td>" + data.Contact1 + "</td></tr>");
+                            }
+                            if (data.Status == 'false') {
+                                $('#hard').show();
+                            }
+                            if (data.veh.length > 0) {
+                                $('#hard').show(); $("#veh").append("<tr><th>Vehicle name</th><th>Box ID</th></tr>");
+                                for (var i = 0; i < data.veh.length; i += 1) {
+                                    $("#veh").append("<tr><td>" + data.veh[i].name + "</td><td>" + data.veh[i].bbid + "</td></tr>");
+                                }
+                            }
+                        }
+
+                    }
+                });
+            }
+
+            function load()
+            {
+                window.location.href = "/dashboard/dashboard";
+            }
+
+
+
+            $("#paynow").click(function () {
+
+                    window.location.href = "/billing/account-summary";
+
+            });
+            </script>
+    </body>
+</html>
+

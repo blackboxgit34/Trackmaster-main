@@ -1,0 +1,191 @@
+﻿@{
+    ViewBag.Title = "Add Repair & Maintenance";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="main_container" id="tables_page">
+        <div class="row-fluid" style="margin-bottom: 25px;">
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div id="alerts" class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-file-archive-o"></i>
+                            <h5 id="statusText">@ViewBag.Title</h5>
+                            <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                            </div>
+                        </div>
+                        <div class="widget-body clearfix" style="overflow-x: auto">
+                            <div class="box" style="background: #fdfdfd;">
+                                <div class="box-content padded">
+                                    <form id="repairForm" method="post" style="margin: 35px;">
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <br />
+                                                <div class="col-md-6 pull-left">
+                                                    <input type="text" class="hidden" id="serviceCategory" name="serviceCategory" />
+                                                    <div class="form-group padded col-md-4">
+                                                        Vehicle Name 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        @Html.DropDownList("VehicleId", Enumerable.Empty<SelectListItem>(), "-- Select Vehicle Name--", new { @class = "js-example-single", @style = "width:100%;" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6  pull-right">
+                                                    <div class="form-group padded col-md-4">
+                                                        Date 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="ServiceDate" name="ServiceDate" placeholder="Select Service Date" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                @*<div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Estimated Expenses 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="Amount" name="Amount">
+                                                    </div>
+                                                </div>*@
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Service Station 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="ServiceStation" name="ServiceStation" maxlength="10">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Actual Expenses 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="ActualExpenses" name="ActualExpenses">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Services Performed
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <select id="ServiceItemID" name="ServiceItemID" class="js-example-basic-multiple form" multiple="multiple"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Accidental  
+                                                    </div>
+                                                    <div class="form-group padded col-md-2">
+                                                        <input type="radio" name="Accidental" value="true">Yes
+                                                    </div>
+                                                    <div class="form-group padded col-md-2">
+                                                        <input type="radio" name="Accidental" value="false" checked>No
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Remarks 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <textarea rows="4" cols="50" id="Remarks" name="Remarks"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Upload Bill 
+                                                    </div>
+                                                    @*<div class="form-group padded col-md-8">
+                                                        <input type="file" id="fileAttachmentsPath" name="fileAttachmentsPath" />
+                                                        <div id="AttachmentDiv" style="position: relative">
+                                                            @Html.Hidden("DocPath")
+                                                            <label readonly="readonly" id="fileName" name="fileName"></label>
+                                                            <a id="DocumentPath" name="DocumentPath" href="#" class="btn btn-default" download>Download</a>
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="form-group padded col-md-8">
+                                                        @Html.Hidden("ImageFileName")
+                                                        @Html.Hidden("ImagePath")
+                                                        <input type="button" value="Choose File" onclick="document.getElementById('files').click();" /><br />
+                                                        <input type="file" id="files" name="files[]" style="display: none;" />
+                                                        <br />
+                                                        <div id="BundleDetails">
+                                                        </div>
+                                                        <span class="label label-info">supported file types:.bmp,.jpg,.gif,.png</span>
+                                                        <span class="label label-info">Only 1 file can be uploaded and of size upto 100 Kb only</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6"></div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-12">
+                                                        <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green pull-right">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    input[type="file"] {
+        display: block;
+    }
+
+    .imageThumb {
+        max-height: 75px;
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .pip {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+    }
+
+    .remove {
+        display: block;
+        background: #444;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
+</style>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FmsAddUpdateRepairMaintenance.js?")"@DateTime.Now.Ticks></script>
+}

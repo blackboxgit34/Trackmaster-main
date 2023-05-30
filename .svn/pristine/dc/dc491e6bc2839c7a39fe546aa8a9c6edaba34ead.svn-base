@@ -1,0 +1,246 @@
+﻿<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<style>
+    .bold {
+        font-weight: bold !important;
+    }
+</style>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded" id="outerDiv">
+                                                        <div class="col-sm-12">
+                                                            <input type="hidden" id="renewalID" name="renewalID">
+                                                            <div class="form-group col-sm-4">
+                                                                <label class="control-label col-sm-6">Vehicle : </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="hidden" id="vehicleIdFromMain" value ="@ViewBag.VehicleId"/>
+                                                                    @Html.DropDownList("vehicleID", Enumerable.Empty<SelectListItem>(), "Select Vehicle Name", new { @class = "js-example-basic" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <br />
+                                                        <br />
+                                                        <div class="col-sm-10 ">
+                                                            <div class="form-group col-sm-3 bold">
+                                                                Renewal Type
+                                                            </div>
+                                                            <div class="form-group col-sm-2 bold">
+                                                                Due Date
+                                                            </div>
+                                                            <div class="form-group col-sm-2 bold">
+                                                                Reminder Before
+                                                            </div>
+                                                            <div class="form-group col-sm-3 bold">
+                                                                Remarks
+                                                            </div>
+                                                            <div class="form-group col-sm-3 bold">
+                                                            </div>
+                                                        </div>
+                                                     @*   <div class="col-sm-10">
+                                                            <form id="Div2" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" value="Fitness Certificate" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="9" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate2" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div3" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" value="Insurance" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="1" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+
+                                                                    <input type="text" id="DueDate3" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div5" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" value="National Permit 5 years" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="7" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate5" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div6" method="post">
+                                                                <div class="form-group col-sm-3">
+
+                                                                    <input type="text" value="National Permit" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="2" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate6" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div7" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" value="Pollution" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="6" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate7" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div8" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" value="Registration" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="3" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate8" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div9" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" value="State Permit" id="RenewalType" name="RenewalType" class="form-control" disabled>
+                                                                    <input type="hidden" value="8" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate9" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <form id="Div9" method="post">
+                                                                <div class="form-group col-sm-3">
+                                                                    <input type="text" placeholder="Other reminders" id="RenewalType" name="RenewalType" class="form-control">
+                                                                    <input type="hidden" value="10" id="RenewalTypeId" name="RenewalTypeId">
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="DueDate10" name="DueDate" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-2">
+                                                                    <input type="text" id="remBefore2" name="remBefore" placeholder="Days" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <textarea id="Remarks" name="Remarks" class="form-control" required></textarea>
+                                                                </div>
+                                                                <div class="col-sm-1 form-group">
+                                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                                </div>
+                                                            </form>
+                                                        </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/FMSAddRenewalReminder.js"></script>
+
+}

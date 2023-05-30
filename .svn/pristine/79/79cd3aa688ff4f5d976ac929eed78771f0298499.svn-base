@@ -1,0 +1,151 @@
+﻿var baseUrl = apiBase.apiurl;
+var custId
+
+
+$(function () {
+custId = $custid;
+
+
+var VehicleUrl = baseUrl + 'UserAPI/GetSubUser';
+$.get(VehicleUrl, { custid: custId }, function (data) {
+
+    debugger;
+  
+    $.each(data, function (key, value) {
+        $("#SubUserName").append($("<option></option>").val(value.custid).html(value.CustName));
+    });
+});
+
+debugger;
+GetVehicleDetails();
+
+
+
+
+});
+
+function AddServicePostApiCall() {
+
+    var UserStatus = $('input[name="candy"]:checked').val();
+
+    var SubuserId = $("#SubUserName").val().toString();
+
+
+    if (UserStatus == "2") {
+
+        if( SubuserId.length== 0)
+        {
+            $('#ErrorMessage').text("Please Select Subuser,If you want to add user under Sub User Master");
+        
+            return;
+        }
+        if (SubuserId.indexOf(',') != -1) 
+        {
+            debugger;
+            //var strs = SubuserId.split(',');
+            //alert(strs);
+            $('#ErrorMessage').text("Please Select One  Subuser and try again");
+            return;
+           
+        }
+    }
+    var VehicleName = $("#SubUserName option:selected").text();
+    var Commentss = "test";
+    var SubUsername = $("#SubUserName option:selected").text();
+   
+    var email = $("#txtMail").val();
+    var Name = $("#txtName").val();
+    var Password = $("#txtpassword").val();
+    var ConfirmPassword = $("#txtconfirmpassword").val();
+    if (Password != ConfirmPassword) {
+        $('#ErrorMessage').text("Kindly Re-enter  your password & make sure it will match confirm password");
+        return;
+    }
+    var Status = "Open";
+    if (Commentss == null) {
+        Commentss = 'N/A';
+    }
+    //if (Description1 == null) {
+    //    Description1 = "Other";
+    //}
+    var selectedAnswer = [];
+    $('#divChkbox input:checked').each(function () {
+        selectedAnswer.push($(this).attr('name'));
+    });
+
+
+    $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+    var AddComplaintUrl = baseUrl + "AdminAPI/AddSubuser";
+    $.ajax({
+        type: "GET",
+        data: { Custid: custId, SubUserId: SubuserId, SubUserName: SubUsername, Status: Status, Description: selectedAnswer.toString(), Comments: Commentss, email: email, CreateName: Name, Password: Password },
+        url: AddComplaintUrl,
+        success: function (data) {
+            if (data) {
+                $.unblockUI();
+                if (data == 1) {
+                    //$('#ErrorMessage').text("Your User has been registered Successfully with Login " + Name + "");
+                    swal("Success", "Your User has been registered Successfully with Login " + Name + "", "success")
+
+                    
+                }
+                else {
+
+
+                    swal("Success", "Please try again ,You are entering wrong Details", "success")
+                    //$('#ErrorMessage').text("Please try again ,Your User has not been registered ");
+                }
+                GetVehicleDetails();
+            }
+            else {
+                $.unblockUI();
+                $('#ErrorMessage').text("Record Not Saved.");
+            }
+        }
+    });
+      
+    
+  
+
+   
+}
+
+function GetVehicleDetails() {
+   
+    debugger;
+    var url = baseUrl + "UserAPI/GetSubUserDetails";
+    var table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "searching": false,
+        "bPaginate": false,
+        "sAjaxSource": url,
+        "fnServerParams": function (param) {
+            param.push({ "name": "custid", "value": $custid });
+        },
+        "columns": [
+                {
+                    "data": "custid",
+                    "bSortable": false
+                },
+                {
+                    "data": "CustName",
+                    "bSortable": false
+                },
+                {
+                    "data": "mastername",
+                    "bSortable": false
+                },
+                {
+                    "data": "CreatedBy",
+                    "bSortable": false
+                },
+                {
+                    "data": "CreatedOn",
+                    "bSortable": false
+                }
+        ]
+    });
+}

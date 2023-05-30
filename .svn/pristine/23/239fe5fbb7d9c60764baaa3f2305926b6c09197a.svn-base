@@ -1,0 +1,169 @@
+﻿
+$('document').ready(function () {
+    GetBillDetails();
+
+    $('#BtnSearch').on('click', function () {
+        GetBillDetails();
+    });
+});
+
+$("form").on("submit", function (event) {
+    $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Uploading records...</h3>' });
+    UploadImageDocuments($(this));
+});
+
+function UploadImageDocuments(form) {
+    debugger;
+    var imagesPath = '';
+    var imagesFileName = '';
+    var files = $("#files").get(0).files;
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        data.append(files[i].name, files[i]);
+    }
+    if (files.length > 0) {
+        $.ajax({
+            url: "/Test/UploadMyFiles",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (result) {
+                var ImagePathList = "";
+                var ImageNames = "";
+                $("#ExcelPath").val(result[0].fullPath);
+                $("#ExcelFileName").val(result[0].Name);
+                return true;
+            },
+            error: function (er) {
+                toastr.error("Unable to upload excel!!!")
+                console.log(er);
+                saveData(form);
+            }
+        }).done(function () {
+            saveData(form);
+        });
+    }
+}
+
+function saveData(form) {
+    var vehicleid = getUrlParameter("vehicleId");
+
+    var formn_id = $(form).closest("form").attr('id');
+
+    var disabled = $(form).closest("form").find(':input:disabled').removeAttr('disabled');
+    var dataObject = $(form).serializeArray();
+    disabled.attr('disabled', 'disabled');
+
+
+    var VehUrl = apiBase.apiurl + 'Test/ProcessExcel';
+    $.post(VehUrl, $.param(dataObject), function (result) {
+        $.unblockUI();
+        debugger;
+        if (result > 0) {
+            toastr.success("Records added successfully!");
+            GetBillDetails();
+        }
+        else {
+            toastr.error("File Failed to upload!");
+        }
+        console.log(result);
+    });
+}
+
+function GetBillDetails() {
+    deleteTable();
+    var CityFrom = $('#from').val();
+    var CityTo = $('#to').val();
+    var TruckNo = $('#truck').val();
+    var grno = $('#grno').val();
+    var url = apiBase.apiurl + "AddOnapi/GetBillDetails";
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        //language: {
+        //    searchPlaceholder: "Search Employee Id",
+        //    sSearch: ""
+        //},
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "CityFrom", "value": CityFrom }, { "name": "CityTo", "value": CityTo }, { "name": "TruckNo", "value": TruckNo }, { "name": "grno", "value": grno });
+        },
+        "columns": [
+            {
+                "data": "id",
+                "bSortable": false
+            },
+            {
+                "data": "DespatchFromLocation",
+                "bSortable": false
+            },
+            {
+                "data": "SoldToParty",
+                "bSortable": false
+            },
+            {
+                "data": "ShipToPartyCity",
+                "bSortable": false
+            },
+            {
+                "data": "ShipToPartyRegionDesc",
+                "bSortable": false
+            },
+            {
+                "data": "BillDoc",
+                "bSortable": false
+            },
+            {
+                "data": "ExciseInvoiceNo",
+                "bSortable": false
+            },
+            {
+                "data": "ShipmentNo",
+                "bSortable": false
+            },
+            {
+                "data": "BillingDate",
+                "bSortable": false
+            },
+            {
+                "data": "TruckNo",
+                "bSortable": false
+            },
+            {
+                "data": "Transporter",
+                "bSortable": false
+            },
+            {
+                "data": "GRNO",
+                "bSortable": false
+            },
+            {
+                "data": "Plant",
+                "bSortable": false
+            },
+            {
+                "data": "Division",
+                "bSortable": false
+            },
+        ],
+        "rowCallback": function (row, data, index) {
+            var target = $(row).find(".details-control");
+            var index = (target).index();
+            //$(row).find('td:eq(' + index + ')').removeClass('details-control')
+        },
+        "initComplete": function (settings, json) {
+            $('th').removeClass('sorting_asc');
+        }
+    });
+}
+
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+};

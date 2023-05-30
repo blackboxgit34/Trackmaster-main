@@ -1,0 +1,302 @@
+﻿@{
+    ViewBag.Title = "SMS and Notifications";
+}
+<link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+<form onclick="fg();">
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>@ViewBag.Title</h5>
+                <div class="pull-right">
+                    <input type="button" id="btnUpdateSettings" value="Manage OverSpeed and OverStoppage Settings" class="btn btn-primary btn-mini sixEyeMapHeaderButton" />
+                    <input type="button" id="btnMultipleUpdate" data-toggle="modal" data-target="#myModal" href="#" value="Multiple select" class="btn btn-primary btn-mini sixEyeMapHeaderButton" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div class="widget span12">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div class="row-fluid">
+
+
+
+
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#1" data-toggle="tab">SMS Alert</a>
+                            </li>
+                            <li><a href="#2" data-toggle="tab">Notification Alert</a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content ">
+                            <div class="tab-pane active" id="1">
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <div class="col-md-12">
+                                                <p style="color:blueviolet"><b>Note:</b> Each SMS alert 30 paisa only.</p>
+                                                <table id="dt_basic_Master1" class="table table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Vehicle Name</th>
+                                                               <th>Alert On M-No</th>
+                                                            <th class="hidden">BBID</th>
+                                                            <th class="hidden">VehicleId</th>
+                                                            <th class="hidden">AuxIP</th>
+                                                            <th>OverStoppage Min</th>
+                                                            <th>OverSpeed limit</th>
+                                                            @*<th>Daily Sms</th>*@
+                                                            <th>Ignition</th>
+                                                            @*<th>Location</th>*@
+                                                            <th>Battery</th>
+                                                            <th>OverSpeed</th>
+                                                            <th>OverStoppage</th>
+                                                            <th>Fuel Lid</th>
+                                                            <th>Milk Lid</th>
+                                                           @* <th>Geofence</th>*@
+                                                            @*<th>Action</th>*@
+                                                            @*<th>Panic</th>
+                                        <th>Voice Status</th>
+                                        <th>MWH Active</th>*@
+                                                        </tr>
+                                                    </thead>
+
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="2">
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div class="box-content padded">
+                                        <div class="col-md-12">
+                                            <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Vehicle No</th>
+                                                        
+                                                        <th class="hidden">BBID</th>
+                                                        <th class="hidden">VehicleId</th>
+                                                        <th class="hidden">AuxIP</th>
+                                                        <th>OverStoppage Min</th>
+                                                        <th>OverSpeed limit</th>
+                                                        @*<th>Daily Sms</th>*@
+                                                        <th>Ignition</th>
+                                                        @*<th>Location</th>*@
+                                                        <th>Battery</th>
+                                                        <th>OverSpeed</th>
+                                                       <th>OverStoppage</th>
+                                                        <th>Fuel Lid</th>
+                                                        <th>Milk Lid</th>
+                                                      @*  <th>Geofence</th>*@
+                                                        @*<th>Action</th>*@
+                                                        @*<th>Panic</th>
+                                        <th>Voice Status</th>
+                                        <th>MWH Active</th>*@
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal  fade" id="myModal" role="dialog" style="background: transparent; overflow-y: hidden; margin-left: -50%; width: 100%;">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Multiple Alerts</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="box-content padded">
+                        <form data-toggle="validator" role="form">
+                            <div class="col-md-12" id="divVehicleslist">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Select Vehicles</label>
+                                        <span style="color: indianred" class="hidden" id="valvehicleslist"><i class=" fa fa-exclamation-triangle"></i>Please Select Vehicles.</span>
+
+                                        <select class="form-control" id="vehicleslist" multiple>
+                                        </select>
+                                        <input type="text" class="hidden" id="bbid" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Event Type</label>
+                                        <select class="form-control" id="eventType" required>
+                                            <option selected disabled>Select Event Type </option>
+                                            <option value="1">Ignition</option>
+                                            <option value="7">Battery</option>
+                                            <option value="2">OverSpeed</option>
+                                            <option value="3">OverStoppage</option>
+                                            <option value="6">Fuel Lid</option>
+                                            <option value="5">Milk Lid</option>
+                                            @*<option value="4">Geofence</option>*@
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Alert Type</label>
+                                        <select class="form-control" id="alertType" required>
+                                            <option selected disabled>Select Alert Type </option>
+                                            <option value="1">SMS</option>
+                                            <option value="2">Notification</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                 <div class="col-md-12">
+                                     <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Action</label>
+                                        <select class="form-control" id="actionType" required>
+                                            <option selected disabled>Action Type </option>
+                                            <option value="1">Activation</option>
+                                            <option value="0">DeActivation</option>
+                                        </select>
+                                    </div>
+                                         </div>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="submitUpdateSettings();" class="btn btn-green">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    </form>
+
+<div id="PasswordDialog" title="Basic dialog">
+</div>
+
+
+@section scripts{
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+    <script src="~/Scripts/app/_layoutCustId.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/Security.js?")"@DateTime.Now.Ticks></script>
+    @*<script src="~/Scripts/app/common.js"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/app/SetNotificationAlert.js?1.0")"v1.0></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/app/SetSMSAlert.js?1.0")"v1.0></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $(":button").attr('disabled', 'disabled');
+         
+            $(".form-control").select2({
+                //  placeholder: "select Vehicles.",
+            });
+        });
+        $("#btnUpdateSettings").on('click', function () {
+            window.location.href = "@Url.Action("UpdateOverSpeedStopSettings", "admin")";
+        });
+
+
+
+            //for specific vehicle
+
+        $("#btnMultipleUpdate").on('click', function () {
+            var baseurl = apiBase.apiurl;
+          //  var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+            var url = baseurl + 'adminapi/GetVehiclesComboBBIDVehId?custid=' + $custid;
+            $.getJSON(url, function (data) {
+                
+                $('#vehicleslist').append($('<option></option>').val(0).html("All Vehicles"));
+                $.each(data, function (i, item) {
+                    $('#vehicleslist').append($('<option></option>').val(item.Value).html(item.Text));
+                });
+            });
+        });
+
+
+        function submitUpdateSettings() {
+        
+         var custId = $custid;
+         var bbidList = $("#vehicleslist").val().toString();
+         var eventType = $("#eventType").val();
+         var alertType = $("#alertType").val();
+         var actionType = $("#actionType").val();
+
+         
+
+         if (!bbidList || !eventType || !alertType || !actionType) {
+             toastr.warning("please select every field");
+             return false;
+         }
+
+         $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+         $('#myModal').modal('toggle');
+
+         var url = apiBase.apiurl + "Alert/SetMultipleSMSNotiDetails";
+         $.ajax({
+             url: url,
+             dataType: "json",
+             type: "GET",
+             contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+             data: { bbid: bbidList, custid: custId, eventType: eventType, alertType: alertType, auxIP: 0, statusFlag: actionType, VehicleId: 0 }, //no need for aux //vehicle id regarding process done at server end in multiselect  settings
+             // async: false,
+             success: function (data) {
+                 $.unblockUI();
+                 
+                 toastr.success('successfully Done!');
+                 setTimeout(
+                 window.location.reload(true), 2000);
+             },
+             error: function (err) {
+                 $.unblockUI();
+                 
+                 toastr.warning('something went wrong!');
+             }
+
+         });
+
+         return false;
+
+     }
+
+
+    </script>
+}

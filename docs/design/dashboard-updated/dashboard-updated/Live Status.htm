@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html class="k-ff k-ff30 ng-scope" ng-app="blackbox" lang="en">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>Live Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://claas.trackmaster.in/content/res/images/favicon.ico">
+    <link href="css/bootstrap-timepicker.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/stylesad15.css" rel="stylesheet">
+    <link href="css/angucomplete-alt.css" rel="stylesheet">
+    <link href="css/toastr.css" rel="stylesheet">
+    <link href="css/jquery.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables_002.css" rel="stylesheet">
+    <link href="css/jquery_002.css" rel="stylesheet">
+    <link href="css/jquery_003.css" rel="stylesheet">
+    <link href="css/bootstrap_002.css" rel="stylesheet">
+    <link href="css/dataTables.css" rel="stylesheet">
+    <link href="css/buttons.css" rel="stylesheet">
+    <link href="css/select.css" rel="stylesheet">
+    <link href="css/CustomCSS.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="css/Site.css" rel="stylesheet">
+    
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+
+		@media only screen and (max-width: 667px) {
+			.col-md-2 
+			{
+			width: 30.0% !important;
+			/* margin-right: 0px; */
+			margin-left: 6px;
+			background: #fff;
+			text-align: left;
+			}
+		}
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <script src="js/jquery-3.js"></script>
+    <script src="js/jquery-migrate-3.js"></script>
+</head>
+<body class="ng-scope" onload="display_ct();" ng-controller="rootCtrl">
+    <nav class="navbar navbar-top navbar-inverse navbar-static-top" role="navigation" style="height: 70px; margin-top: -20px; padding-top: 8px; padding-bottom: 5px;">
+    <div class="navbar-header" style="height: 40px; position: relative;">
+        <div>
+            <img src="image/bb.png" style="position: relative; top: 16px; left: 24px;">
+            <!--<a class="navbar-brand" href="#">
+                <span style="color: #fff; font-size: 120%; font-family:Arial"></span>
+            </a>-->
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle Top Navigation</span>
+            <i class="icon-list"></i>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" style="height: 40px;" id="navbar-collapse">
+        <ul class="nav pull-right navbar-nav">
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="http://116.193.163.237:61/Report/LiveStatus" title="Live Status">
+                    <i class="fa fa-wifi" aria-hidden="true"></i>
+                    <br>
+                    <div>Live Status</div>
+                </a>
+            </li>
+            <li id="dropdown_Maps" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Maps" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Map">
+                    <i class="fa fa-map" style="font-size: 15px"></i>
+                    <br>
+                    Map <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/showmap"><img src="image/menu/map.png"/> <span style="padding-left:8px">Map </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/replay"><img src="image/menu/route.png"/><span style="padding-left:8px">Route Playback </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/sixeyemap"><img src="image/menu/street.png"/><span style="padding-left:8px">Six Eye Map </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/search"><img src="image/menu/search.png"/><span style="padding-left:8px">Search Vehicles </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    <i class="fa fa-file-archive-o"></i>
+                    <br>
+                    Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/distance"><img src="image/menu/Speed-Analysis.png"/><span style="padding-left:8px">Distance</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/SpeedAnalysisReport"><img src="image/menu/distance.png"/><span style="padding-left:8px">Speed Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/StoppageAnalysisReport"><img src="image/menu/stop.png"/><span style="padding-left:8px">Stoppage Analysis</span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/ignition"><img src="image/menu/Ignition Analysis.png"/><span style="padding-left:8px">Ignition Analysis </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/Idling"><img src="image/menu/Idling Analysis.png"/><span style="padding-left:8px">Idling Analysis </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/summary"><img src="image/menu/Summary.png"/><span style="padding-left:8px">Summary </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/trip"><img src="image/menu/trip.png"/><span style="padding-left:8px">Trip </span></a>
+                    </li>
+                      <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/trip"><img src="image/menu/report.png"/><span style="padding-left:8px">Monthly Report</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/fence-violations"><img src="image/menu/geo.png"/><span style="padding-left:8px">Geofence Violations </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    <i class="fa fa-file-text" aria-hidden="true"></i>
+                    <br>
+                    Add-On Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/fuel"><img src="image/menu/fuel.png"/><span style="padding-left:8px">Fuel Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/temperature"><img src="image/menu/temp.png"/><span style="padding-left:8px">Temperature Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/ac"><img src="image/menu/ac.png"/><span style="padding-left:8px">AC Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/work-hours"><img src="image/menu/workh.jpg"/><span style="padding-left:8px">Engine Working Hours </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/door"><img src="image/menu/report.png"/><span style="padding-left:8px">Door Report </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/lid"><img src="image/menu/lid.png"/><span style="padding-left:8px">Lid Report </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/dumper"><img src="image/menu/dumper.png"/><span style="padding-left:8px">Dumper Report </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_Training" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Training" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Training">
+                    <i class="fa fa-map-marker"></i>
+                    <br>
+                    Geo Fencing <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><img src="image/menu/set.png"/><span style="padding-left:8px">Set </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a href="#"><img src="image/menu/manage.png"/><span style="padding-left:8px">Manage </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a href="#"><img src="image/menu/view.png"/><span style="padding-left:8px">View </span></a>
+                    </li>
+                </ul>
+            </li>
+              <li id="dropdown_Misc" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Misc" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Misc">
+                    <i class="fa fa-indent" aria-hidden="true"></i>
+                    <br>
+                   Misc <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                  <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/misc/AddServiceRequest"><img src="image/menu/add.png"/><span style="padding-left:8px">Add Service Request </span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/misc/ViewAllComplaint"><img src="image/menu/service.png"/><span style="padding-left:8px">View Service Request </span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/misc/DownloadManual"><img src="image/menu/download.png"/><span style="padding-left:8px">Download Manual </span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/settings/SetSmsTime"><img src="image/menu/smstime.png"/><span style="padding-left:8px">Set Sms Time </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="#" title="Alert">
+                    <i class="icon-bell-alt"></i>
+                    <br>
+                    <div>Alerts</div>
+                </a>
+            </li>
+            <li id="dropdown_Profile" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Profile" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Profile">
+                    <i class="fa fa-sliders" style="font-size: 15px"></i>
+                    <br>
+                    Customization <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <!--Will come from Database-->
+
+                    
+                </ul>
+            </li>
+            <li id="dropdown_MyBill" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_MyBill" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="My Bill">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    <br>
+                    My Bills <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/billing/account-summary"><img src="image/menu/report.png"/><span style="padding-left:8px">Account Summary </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/billing/payment-options"><img src="image/menu/payment.png"/><span style="padding-left:8px">Payment Options </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="icon-signout" style="font-size: 15px"></i>
+                    <br>
+                    <div>Log Out</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="container-fluid" style="background: #fff; padding: 0px 10px;">
+        <div class="row" style="padding: 11px 0px 0px 26px;">
+            <div class="col-md-6">
+                <!-- <img src="/content/Trackmaster_files/logo-2x.png" style="width:150px;" class="TopStrip">-->
+            </div>
+            <div class="col-md-6 pull-right">
+                <div class="col-md-6 pull-right " style="text-align: right" id="CurrDate">Wed Nov 30 2016</div>
+            </div>
+        </div>
+    </div>
+    <div class="main_container" id="tables_page">
+        <div id="wait" style="display: none; width: 69px; height: 89px; border: 1px solid black; position: absolute; top: 50%; left: 50%; padding: 2px;">
+            <img src="image/radio.gif" height="64" width="64"><br>
+            Loading..
+        </div>
+        
+        <div class="container-fluid">
+            
+<style>
+    .ui-tooltip-content {
+        font-size: 10pt;
+        font-family: Calibri;
+    }
+</style>
+<div class="row-fluid" style="margin-bottom: 25px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-header">
+                    <i class="fa fa-wifi"></i>
+                    <h5>Live Status</h5>
+                    <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                        <img src="image/cc1.png" onmouseover="this.src='image/z33.png';" onmouseout="this.src='image/cc1.png';" style="margin-left: 0px; WIDTH: 33PX;">
+                        <img src="image/cc2.png" onmouseover="this.src='image/z22.png';" onmouseout="this.src='image/cc2.png';" style="margin-left: 0px; WIDTH: 33PX;">
+                        <img src="image/cc3.png" onmouseover="this.src='image/z31.png';" onmouseout="this.src='image/cc3.png';" style="margin-left: 0px; WIDTH: 33PX;">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alerts" class="widget span12">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div id="DivVehcleCounter" class="table-responsive" style="padding: 15px;">
+                        <div class="dataTables_wrapper no-footer" id="dt_basic_Master_wrapper"><div id="dt_basic_Master_length" class="dataTables_length"><label>Show <select class="" aria-controls="dt_basic_Master" name="dt_basic_Master_length"><option value="5">5</option><option value="10">10</option><option selected="selected" value="20">20</option><option value="25">25</option><option value="50">50</option></select> entries</label></div><div class="dataTables_filter" id="dt_basic_Master_filter"><label>Search:<input aria-controls="dt_basic_Master" placeholder="" class="" type="search"></label></div><div style="display: none;" class="dataTables_processing" id="dt_basic_Master_processing">Processing...</div>
+						<table style="width: 100%;" aria-describedby="dt_basic_Master_info" role="grid" id="dt_basic_Master" class="table table-bordered dataTable no-footer" cellspacing="0" width="100%">
+                            <thead>
+                                <tr role="row"><th aria-label="BBID: activate to sort column ascending" style="width: 0px;" colspan="1" rowspan="1" aria-controls="dt_basic_Master" tabindex="0" class="hidden sorting">BBID</th><th aria-label="#" style="width: 8px;" colspan="1" rowspan="1" class="sorting_disabled">#</th><th aria-label="Type                                                    
+                                    " style="width: 30px;" colspan="1" rowspan="1" class="sorting_disabled">Type                                                    
+                                    </th><th aria-label="Vehicle Name
+                                    : activate to sort column ascending" aria-sort="descending" style="width: 96px;" colspan="1" rowspan="1" aria-controls="dt_basic_Master" tabindex="0" class="sorting_desc">Vehicle Name
+                                    </th><th aria-label="Status
+                                    " style="width: 39px;" colspan="1" rowspan="1" class="sorting_disabled">Status
+                                    </th><th aria-label="Last Updated
+                                    " style="width: 94px;" colspan="1" rowspan="1" class="sorting_disabled">Last Updated
+                                    </th><th aria-label="Location
+                                    " style="width: 355px;" colspan="1" rowspan="1" class="sorting_disabled">Location
+                                    </th><th aria-label="Speed
+                                    " style="width: 41px;" colspan="1" rowspan="1" class="sorting_disabled">Speed
+                                    </th><th aria-label="Distance
+                                    " style="width: 54px;" colspan="1" rowspan="1" class="sorting_disabled">Distance
+                                    </th><th aria-label="GSM
+                                    " style="width: 30px;" colspan="1" rowspan="1" class="sorting_disabled">GSM
+                                    </th><th aria-label="GPS
+                                    " style="width: 28px;" colspan="1" rowspan="1" class="sorting_disabled">GPS
+                                    </th><th aria-label="Battery
+                                    " style="width: 45px;" colspan="1" rowspan="1" class="sorting_disabled">Battery
+                                    </th><th aria-label="Report" style="width: 42px;" colspan="1" rowspan="1" class="sorting_disabled">Report</th><th aria-label="More Info" style="width: 45px;" colspan="1" rowspan="1" class="details-control sorting_disabled">More Info</th><th aria-label="Details" style="width: 43px;" colspan="1" rowspan="1" class="sorting_disabled">Details</th></tr>
+                            </thead>
+                        <tbody>
+							<tr class="odd" role="row">
+							<td class=" hidden"><span class="hidden">BA524</span></td><td>1</td><td><img src="image/Truck.png"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=BA524">MH46AF9736 (Prathamesh)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/unreach_002.png"></span></td><td>05-Oct-2016 03:04:59 AM</td><td><a href="javascript:" onclick="showMapWindowWithData('BA524','MH46AF9736 (Prathamesh)','19.3946','72.8903','1.94 Km  S  E  of sat vasai (Gujrat)','','','62','05-Oct-2016 03:04:59 AM');">1.94 Km  S  E  of sat vasai (Gujrat)</a></td><td>62</td><td>0</td><td><img src="image/signal1.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=BA524">Details</a></td>
+							</tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">BB069</span></td><td>2</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=BB069">MH06AC2258 (Aryan) (empty)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/unreach_002.png"></span></td><td>26-Oct-2016 09:46:24 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('BB069','MH06AC2258 (Aryan) (empty)','18.9125','72.982','0.25 Km  N  W  of JNPT Rd, Navi Mumbai (Maharashtra)','','','0','26-Oct-2016 09:46:24 PM');">0.25 Km  N  W  of JNPT Rd, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>0</td><td><img src="image/signal3.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_blue_L5.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=BB069">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">BB105</span></td><td>3</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=BB105">MH06AC5850 (Aryan) (empty)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:54:38 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('BB105','MH06AC5850 (Aryan) (empty)','18.9244','72.9704','0.54 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)','','','0','30-Nov-2016 04:54:38 PM');">0.54 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>0</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=BB105">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">BB108</span></td><td>4</td><td><img src="image/tanker.png"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=BB108">MH06AC9028 (Aryan) (empty)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:54:56 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('BB108','MH06AC9028 (Aryan) (empty)','18.9645','73.0605','0.55 Km  N  W  of SWASTIK YARD (Maharashtra)','','','0','30-Nov-2016 04:54:56 PM');">0.55 Km  N  W  of SWASTIK YARD (Maharashtra)</a></td><td>0</td><td>0</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/red_blue_L6.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=BB108">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">F983</span></td><td>5</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=F983">MH16AE7232 (Aryan)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/unreach_002.png"></span></td><td>28-Nov-2016 03:53:15 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('F983','MH16AE7232 (Aryan)','18.9531','72.9517','0.69 Km  N  W  of NSICT Gate Entry, Navi Mumbai (Maharashtra)','DINESH LALMAN ADIVASI /8898109923','','0','28-Nov-2016 03:53:15 PM');">0.69 Km  N  W  of NSICT Gate Entry, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>0</td><td><img src="image/signal1.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=F983">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">G015</span></td><td>6</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=G015">MH06AC8493 (Aryan) (EMPTY)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:53:51 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('G015','MH06AC8493 (Aryan) (EMPTY)','18.9243','72.9704','0.53 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)','RAMMILAN /8286404795','','0','30-Nov-2016 04:53:51 PM');">0.53 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>3</td><td><img src="image/signal4.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=G015">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">H866</span></td><td>7</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=H866">MH46AF9122 (Aryan)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:30:40 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('H866','MH46AF9122 (Aryan)','18.9472','73.1491','0.06 Km  N  W  of MAIN CFS EXIT (Maharashtra)','NEPAL PRADIP GHOSH /8976723092','','0','30-Nov-2016 04:30:40 PM');">0.06 Km  N  W  of MAIN CFS EXIT (Maharashtra)</a></td><td>0</td><td>30</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=H866">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">H969</span></td><td>8</td><td><img src="image/MilkTanker.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=H969">MH06AQ6972 (RTP)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:52:23 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('H969','MH06AQ6972 (RTP)','18.9548','73.1648','0.04 Km  S  W  of PREETI  (Maharashtra)','AKHILESH GANGA PRASAD  8652431204','','0','30-Nov-2016 04:52:23 PM');">0.04 Km  S  W  of PREETI  (Maharashtra)</a></td><td>0</td><td>5</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=H969">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">I177</span></td><td>9</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=I177">MH46H2669 (Aryan)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/ignion.png"></span></td><td>30-Nov-2016 04:56:00 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('I177','MH46H2669 (Aryan)','18.9532','73.1664','0.18 Km  N  W  of NAVKAR-2, Navi Mumbai (Maharashtra)','DHIRENDRA BHARATLAL PATEL /8692098401','','0','30-Nov-2016 04:56:00 PM');">0.18 Km  N  W  of NAVKAR-2, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>0</td><td><img src="image/signal1.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=I177">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">I398</span></td><td>10</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=I398">MH46H2693 (RTN)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/moving.png"></span></td><td>30-Nov-2016 04:55:28 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('I398','MH46H2693 (RTN)','18.9524','72.9636','0.24 Km  S  E  of JNPT EXIT, Navi Mumbai (Maharashtra)','RAMESH KRISHNA SASTE 9730584610','','17','30-Nov-2016 04:55:28 PM');">0.24 Km  S  E  of JNPT EXIT, Navi Mumbai (Maharashtra)</a></td><td>17</td><td>105</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=I398">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">I774</span></td><td>11</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=I774">MH06AC5845 (Prathamesh)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/moving.png"></span></td><td>30-Nov-2016 04:56:25 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('I774','MH06AC5845 (Prathamesh)','19.43','72.8722','0.77 Km  S  E  of  Ankam Corporation 35A B, Phase 4, Parmar Industrial Estate, Near Vasai Phata,Vasai east, Thane, ( Maharashtra)','RAGHUVEER JAI PRAKASH  SAHU  9967890831','','27','30-Nov-2016 04:56:25 PM');">0.77 Km  S  E  of  Ankam Corporation 35A B, Phase 4, Parmar Industrial Estate, Near Vasai Phata,Vasai east, Thane, ( Maharashtra)</a></td><td>27</td><td>86</td><td><img src="image/signal4.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=I774">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">I783</span></td><td>12</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=I783">MH06AQ2180 (Aryan) (EMPTY)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:36:50 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('I783','MH06AQ2180 (Aryan) (EMPTY)','18.9241','72.9711','0.49 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)','SAVIR ALI /8652170198','','0','30-Nov-2016 04:36:50 PM');">0.49 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>3</td><td><img src="image/signal4.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=I783">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">I965</span></td><td>13</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=I965">MH16AE7189 (R) (Prathamesh)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:36:55 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('I965','MH16AE7189 (R) (Prathamesh)','20.2175','72.855','2.83 Km  N  W  of Achad (Gujarat)','','','0','30-Nov-2016 04:36:55 PM');">2.83 Km  N  W  of Achad (Gujarat)</a></td><td>0</td><td>178</td><td><img src="image/signal4.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=I965">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">J095</span></td><td>14</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=J095">MH46H548 (Aryan)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:09:58 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('J095','MH46H548 (Aryan)','18.9472','73.1492','0.05 Km  N  W  of MAIN CFS EXIT (Maharashtra)','AKASH MEWALAL AGRAHARI /9892676596','','0','30-Nov-2016 04:09:58 PM');">0.05 Km  N  W  of MAIN CFS EXIT (Maharashtra)</a></td><td>0</td><td>30</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=J095">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">J097</span></td><td>15</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=J097">MH46AF2335(R) (RTN)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 12:20:38 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('J097','MH46AF2335(R) (RTN)','18.9451','73.1481','0.04 Km  N  E  of MAIN CFS ENTRY (Maharashtra)','RAM VAMAN RANKHANBE','','0','30-Nov-2016 12:20:38 PM');">0.04 Km  N  E  of MAIN CFS ENTRY (Maharashtra)</a></td><td>0</td><td>40</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=J097">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">J150</span></td><td>16</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=J150">MH06AC5897 (Prathamesh)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:52:12 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('J150','MH06AC5897 (Prathamesh)','20.2368','72.8841','2.01 Km  N  E  of Achad (Gujarat)','','','0','30-Nov-2016 04:52:12 PM');">2.01 Km  N  E  of Achad (Gujarat)</a></td><td>0</td><td>149</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=J150">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">J172</span></td><td>17</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=J172">MH46H7089 (Aryan)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/moving.png"></span></td><td>30-Nov-2016 04:56:26 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('J172','MH46H7089 (Aryan)','18.9243','72.9689','0.59 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)','KRISHNANAND PAL /9768265106','','12','30-Nov-2016 04:56:26 PM');">0.59 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)</a></td><td>12</td><td>4</td><td><img src="image/signal4.png"></td><td><img src="image/satellite_F.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=J172">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">J576</span></td><td>18</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=J576">MH46H5343 (Prathamesh)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:26:55 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('J576','MH46H5343 (Prathamesh)','18.9247','72.9675','0.7 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)','','','0','30-Nov-2016 04:26:55 PM');">0.7 Km  N  W  of Reliance Oil Terminal, Sheva, Navi Mumbai (Maharashtra)</a></td><td>0</td><td>7</td><td><img src="image/signal3.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=J576">Details</a></td></tr>
+							<tr class="odd" role="row"><td class=" hidden"><span class="hidden">K330</span></td><td>19</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=K330">MH16AE7231 (Aryan)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:44:30 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('K330','MH16AE7231 (Aryan)','18.9472','73.1488','0.07 Km  N  W  of MAIN CFS EXIT (Maharashtra)','ANILKUMAR CHANDRABHAN PATEL /9167658839','','0','30-Nov-2016 04:44:30 PM');">0.07 Km  N  W  of MAIN CFS EXIT (Maharashtra)</a></td><td>0</td><td>30</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=K330">Details</a></td></tr>
+							<tr class="even" role="row"><td class=" hidden"><span class="hidden">L335</span></td><td>20</td><td><img src="image/Truck.PNG"></td><td class="sorting_1"><a href="http://116.193.163.237:61/Report/Details?bbid=L335">MH46H7064 (Prathamesh)</a></td><td><span data-toggle="tooltip" title="this is test"><img src="image/stop.png"></span></td><td>30-Nov-2016 04:49:07 PM</td><td><a href="javascript:" onclick="showMapWindowWithData('L335','MH46H7064 (Prathamesh)','18.9472','73.1486','0.09 Km  N  W  of MAIN CFS EXIT (Maharashtra)','','','0','30-Nov-2016 04:49:07 PM');">0.09 Km  N  W  of MAIN CFS EXIT (Maharashtra)</a></td><td>0</td><td>33</td><td><img src="image/signal2.png"></td><td><img src="image/satellite_L.png"></td><td><img src="image/green_L1.png"></td><td><div class="mouseon-examples"><a href="#">Reports</a></div></td><td class=" details-control"></td><td><a href="http://116.193.163.237:61/Report/Details?bbid=L335">Details</a></td></tr>
+						</tbody>
+				</table>
+<div aria-live="polite" role="status" id="dt_basic_Master_info" class="dataTables_info">Showing 1 to 20 of 532 entries</div>
+	<div id="dt_basic_Master_paginate" class="dataTables_paginate paging_simple_numbers">
+		<a id="dt_basic_Master_previous" tabindex="0" data-dt-idx="0" aria-controls="dt_basic_Master" class="paginate_button previous disabled">Previous</a>
+		<span><a tabindex="0" data-dt-idx="1" aria-controls="dt_basic_Master" class="paginate_button current">1</a><a tabindex="0" data-dt-idx="2" aria-controls="dt_basic_Master" class="paginate_button ">2</a><a tabindex="0" data-dt-idx="3" aria-controls="dt_basic_Master" class="paginate_button ">3</a><a tabindex="0" data-dt-idx="4" aria-controls="dt_basic_Master" class="paginate_button ">4</a><a tabindex="0" data-dt-idx="5" aria-controls="dt_basic_Master" class="paginate_button ">5</a><span class="ellipsis">…</span><a tabindex="0" data-dt-idx="6" aria-controls="dt_basic_Master" class="paginate_button ">27</a></span><a id="dt_basic_Master_next" tabindex="0" data-dt-idx="7" aria-controls="dt_basic_Master" class="paginate_button next">Next</a>
+	</div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div id="ReportTotal">
+                        <div class="box">
+                            <div class="box-content padded" style="background: white;">
+                                <form class="row-fluid ng-pristine ng-valid">
+                                     <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <b>High Speed</b>
+                                        <img src="image/hispeed.png">
+                                    </div>
+
+                                     <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <b>Ignition On</b>
+                                        <img src="image/ignion_002.png">
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <b>Moving</b>
+                                        <img src="image/moving_002.png">
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <b>Parked</b>
+                                        <img src="image/stop_002.png">
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <b>Towed</b>
+                                        <img src="image/towed.png">
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <b>Unreachable</b>
+                                        <img src="image/unreach.png">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--/widget-body-->
+</div>
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+
+
+        </div>
+    </div>
+
+    <!-- /row-fluid -->
+    <div class="footer">
+        <div class="row-fluid">
+    <div class="widget widget-padding span12" style="background: #333333;">
+        <div class="widget-body" style="background: #333333;">
+            <div class="box" style="background: #333333; padding: 0px 115px; border-top: 4px solid orange; margin-bottom: 0px;">
+                <div class="box-~/content padded" style="padding: 8px 0px 0px 0px;">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-left: 0px;">
+                            <ul style="list-style: none; color: white;">
+                                <li style="line-height: 29px; font-size: 17px;"><b>DISCLAIMERS </b></li>
+                                <li>
+                                    <span style="color: #999;">The 
+distance travelled reported here may not be absolutely correct as the 
+website takes the distance based upon the GPS fixes it has received from
+ the tracking device installed in your vehicle.</span>
+ <p style="color: #fff;float:right;">© Hitec Point Technologies 2016</p></li>
+                            </ul>
+                        </div>
+						<!--<div class ="col-md-3" style="width:25%">
+							<p style="color: #fff; position: relative; top: 26px;">
+								© Hitec Point Technologies 2016
+							</p>
+						</div>-->
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /widget -->
+</div>
+<!-- /row-fluid -->
+
+
+<!-- /row-fluid -->
+
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-cookies.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/angular-base64.js"></script>
+    <script src="js/ng-file-upload-all.js"></script>
+    <script src="js/angular-validator.js"></script>
+    <script src="js/angucomplete-alt.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/common_003.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/rootCtrl.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/notificationService.js"></script>
+    <script src="js/membershipService.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery_002.js"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+    <!--<script type="text/javascript">
+        var apiBase = {
+           apiurl: 'http://112.196.27.102:89/api/',
+         //   apiurl: 'http://localhost:3970/api/',
+        };
+        function setDate() {
+            var d = new Date();
+            //var d = new Date(),
+            minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+            hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+            ampm = d.getHours() >= 12 ? 'pm' : 'am',
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+            document.getElementById("CurrDate").innerHTML = s;
+        }
+
+        function display_ct() {
+            var strcount
+            setDate()
+            tt = display_c();
+        }
+
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+    </script>-->
+    
+
+    <script type="text/javascript" src="js/moment.js"></script>
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="js/daterangepicker.js"></script>
+
+    
+    <script src="js/common_002.js" 636161217788356539=""></script>
+    <script type="text/javascript" src="js/Livestatus.js"></script>
+
+    <script src="js/jquery-ui.js"></script>
+
+
+<div id="powerTip"></div></body></html>

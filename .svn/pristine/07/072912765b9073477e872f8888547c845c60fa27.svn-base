@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "ShiftVehicleMapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Content/Alertify/sweetalert.min.js"></script>
+<link href="~/Content/Alertify/sweetalert.css" rel="stylesheet" />
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<style>
+.divclass {
+  background: #415665 ;
+  height: 50px;
+  width:200px;
+  border-radius: 15px !important;
+  padding:20px;
+  font-size:22px;
+  color:#fff;   
+}
+</style> 
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+     <div class="widget widget-padding span12">
+                                    <div class="widget-header">
+                                        <i class="icon-cogs"></i>
+                                        <h5>Shift Vehicles</h5>
+                                        <div class="widget-buttons">
+                                            <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div id="ReportTotal">
+                        <div class="box">
+                            <div class="box-content padded" style="background: white;">
+                                <form class="row-fluid">
+                                    <div class="col-md-4">
+                                        <label>From</label>
+                                        <select id="ddlGroupUserList" class="form-control select2"></select>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label>Shift To</label>
+                                        <select id="ddlGroupUserListN" class="form-control select2"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Select Vehicle No's To Shift</label>
+                                        <select class="form-control" id="vehicleslist" multiple="multiple"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                    
+                                        <button onclick="btnSubmit();" class="btn btn-success">Submit</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+                </div>
+</div>
+
+
+
+
+@section scripts{
+
+      <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+    <script src="~/Content/js/APIURL.js"></script>
+       <script src="~/js/jquery.multi-select.js"></script>
+  
+    <script>
+
+        $(document).ready(function () {
+            $(".select2").select2({
+                placeholder: "select Option.",
+            });
+            $.get(apiBase.apiurl + "UserAPI/GetSubUser?custid=" + $custid, asyn = false, function (data) {
+                if (data.length > 1) {
+                    $('#ddlGroupUserList').append($('<option disabled selected></option>').val("").html("Select Uers"));
+                    $('#ddlGroupUserListN').append($('<option disabled selected></option>').val("").html("Select Uers"));
+                    $.each(data, function (i, item) {
+                        $('#ddlGroupUserList').append($('<option></option>').val(item.custid).html(item.CustName));
+                        $('#ddlGroupUserListN').append($('<option></option>').val(item.custid).html(item.CustName));
+                    });
+                }
+            });
+       
+            loadVehicles("");
+            $("#ddlGroupUserList").change(function () {
+                var selectCustId = $(this).val();
+                $('#vehicleslist').empty();
+                loadVehicles(selectCustId);
+                alert("Are you sure ,you want to transfer vehicle into another account ? Note: Billing also belongs to that account where will be vehicle shifted!");
+
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "CustomAPI/GetbillingDetails",
+                    data: { custid: $custid },
+                    success: function (result) {
+                        if (result == 1) {                             
+                            $.ajax({
+                                dataType: "json",
+                                type: "GET",
+                                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                                url: apiBase.apiurl + "CustomAPI/GetbillingDetails",
+                                data: { custid: selectCustId },
+                                success: function (result) {
+                                    if (result == 1) {                                   
+                                        swal('Before tranfer the vehicles make sure billing for selected vehicles tranfer to shifted account');
+
+                                    }  //end of appending options into timing
+                                    else {
+                                 
+                                        swal('Oops...', 'You are not billed customer, kindly concern to master before tranfer the vehicles!', 'error');                                 
+                                    }
+
+                                },
+                                error: function () {
+                                    swal('Oops...', 'Something went wrong. try after sometime', 'error');
+                                 
+                                }
+                            });
+
+                        }  //end of appending options into timing
+                        else {
+                            $.ajax({
+                                dataType: "json",
+                                type: "GET",
+                                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                                url: apiBase.apiurl + "CustomAPI/GetbillingDetails",
+                                data: { custid: selectCustId },
+                                success: function (result) {
+
+                                    if (result == 1) {                             
+
+                                        swal({
+                                            position: 'top-right',
+                                            type: 'success',
+                                            title: 'Before tranfer the vehicles make sure billing for selected vehicles tranfer to shifted account',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        })
+
+
+                                    }  //end of appending options into timing
+                                    else {
+                                        swal(
+  'Warning!',
+  'You are not billed customer, kindly concern to master before tranfer the vehicles',
+  'error'
+)                   
+                                        }
+
+                                },
+                                error: function () {                                   
+                                    swal(
+'Error!',
+'Something went wrong. try after sometime',
+'error'
+)
+                                }
+                            });
+                        }
+
+                    },
+                    error: function () {
+                        swal(
+'Error!',
+'Something went wrong. try after sometime',
+'error'
+)
+
+
+                    }
+                });                           
+
+            });
+            $("#ddlGroupUserListN").change(function () {
+
+                debugger;
+                var selectCustId = $(this).val();
+                //$('#vehicleslist').empty();
+                var newcustid = $("#ddlGroupUserList").val();
+
+              
+                if (newcustid == selectCustId || newcustid == null) {
+
+                    alert("both user are same ,please select other");
+
+     
+                }
+
+                                  
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "CustomAPI/GetbillingDetails",
+                    data: { custid: $custid },
+                    success: function (result) {
+                     
+                        if (result == 1) {
+                         
+                            $.ajax({
+                                dataType: "json",
+                                type: "GET",
+                                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                                url: apiBase.apiurl + "CustomAPI/GetbillingDetails",
+                                data: { custid: selectCustId },
+                                success: function (result) {
+
+                                    if (result == 1) {
+                                
+
+                                        swal('Before tranfer the vehicles make sure billing for selected vehicles tranfer to shifted account');
+     
+
+                                    }  //end of appending options into timing
+                                    else {
+
+                                        swal(
+  'Careful...',
+  'Make sure this account is handle by master before transfer the vehicle.Because it is not a billing customer!',
+  'error'
+)
+                                                                          
+                                    }
+
+                                },
+                                error: function () {
+                                  
+                                    swal(
+'Careful...',
+'Something went wrong. try after sometime',
+'error'
+)
+                                }
+                            });
+
+                        }  //end of appending options into timing
+                        else {
+                            $.ajax({
+                                dataType: "json",
+                                type: "GET",
+                                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                                url: apiBase.apiurl + "CustomAPI/GetbillingDetails",
+                                data: { custid: selectCustId },
+                                success: function (result) {
+
+                                    if (result == 1) {
+                                        swal('Before tranfer the vehicles make sure billing for selected vehicles tranfer to shifted account');
+                                
+
+                                    }  //end of appending options into timing
+                                    else {
+                                        swal('Before tranfer the vehicles make sure billing for selected vehicles tranfer to shifted account');
+                                   
+                                    }
+
+                                },
+                                error: function () {
+                                    //toastr.error("Something went wrong. try after sometime");
+
+                                }
+                            });
+
+                            caution
+
+
+                            swal(
+'Careful...',
+'From now onwards billing will be active for shifted vehicles.',
+'success'
+)
+                        }
+                      
+                    },
+                    error: function () {
+                     
+                        swal(
+'Careful...',
+'Something went wrong. try after sometime',
+'error'
+)
+                    }
+                });
+
+
+
+
+            });
+            function loadVehicles(selectCustId) {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "CustomAPI/GetCustDevMapVehicles",
+                    data: { custid: $custid, selectedCustId: selectCustId },
+                    success: function (result) {
+                        //for appending vehicle list
+                        var list = result;
+                        count = 0;
+                        if (list.length > 0) {
+                            $.each(list, function (j, item) {
+                                count = count + 1;
+                                var selected = '<option></option>';
+                                if (item.Selected) {
+                                    selected = '<option selected="selected" ></option>';
+                                }
+                                $('#vehicleslist').append($(selected).val(item.Value).html(count + ': ' + item.Text));
+                            })
+
+                        }  //end of appending options into timing
+
+                        $('.body').unblock();
+                    },
+                    complete: function (data) {
+                        $('#vehicleslist').multiSelect();
+                    },
+                    error: function () {
+                        //toastr.error("Something went wrong. try after sometime");
+
+                    }
+                });
+            }
+        });
+        window.btnSubmit = function () {
+           
+            var userId = $("#ddlGroupUserList").val();
+            var ShiftuserId = $("#ddlGroupUserListN").val();
+            var vehicleList = $("#vehicleslist").val().toString();
+            alert(vehicleList);
+
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "CustomAPI/ShiftToCustDeviceMapping",
+                data: { userId: userId, vehicleList: vehicleList, Shift: ShiftuserId, mastercustid:$custid },
+                success: function (result) {
+                    //for appending vehicle list
+                    toastr.success("Successfully Updated");
+
+                    swal(
+'Shifted !',
+'Successfully Updated.',
+'success'
+)
+
+                },
+                error: function () {
+
+                    swal(
+'Shifted !',
+'Please try again.',
+'success'
+)
+                 
+
+                }
+            });
+
+        };
+
+    </script>
+}

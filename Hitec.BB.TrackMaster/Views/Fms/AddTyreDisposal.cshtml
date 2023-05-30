@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Add Tyre Disposal";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                        <form id="AddNewTyreDisposel" method="post">
+                                                            @Html.Hidden("FitId")
+                                                            @Html.Hidden("TyreId")
+                                                            <div class="col-md-6">
+                                                                Vehicle :  @Html.DropDownList("VehicleId", Enumerable.Empty<SelectListItem>(), "Select Vehicle", new { @class = "js-example-basic-single" })
+                                                            </div>
+                                                            <div class="col-md-6" id="tyrelist">
+                                                                Tyre :  @Html.DropDownList("InventryId", Enumerable.Empty<SelectListItem>(), "Select Tyre", new { @class = "js-example-basic-single" })
+                                                            </div>
+                                                            <table class="table table-striped ">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Tyre Serial :<input type="text" id="SerialNo" name="SerialNo" disabled></td>
+                                                                        <td>Vendor Name :<input type="text" id="VendorName" name="VendorName" disabled></td>
+                                                                        <td>Unit Price :<input type="text" id="UnitPrice" name="UnitPrice" disabled></td>
+                                                                        <td>PurchaseDate :<input type="text" id="PurchaseDate" name="PurchaseDate" disabled></td>
+                                                                        <td>Warranty :<input type="text" id="Warranty" name="Warranty" disabled></td>
+                                                                        <td>Manufacturer :<input type="text" id="Manufacturer" name="Manufacturer" disabled></td>
+                                                                        <td>Tyre Type :<input type="text" id="Tyre_TypeTyre" name="Tyre_TypeTyre" disabled></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="col-md-6">
+                                                                Reason :
+                                                                 <select id="Reason" name="Reason" class="js-example-basic-single" required>
+                                                                     <option value="0" selected>Select Reason</option>
+                                                                     <option value="1">Resold</option>
+                                                                     <option value="2">Condemned</option>
+                                                                     @*<option value="3">Reuse</option>*@
+                                                                 </select>
+                                                                 <div id="resoldAmt" hidden>
+                                                                    Resold Price :  <input type="text" id="ResoldPrize" name="ResoldPrize" placeholder="Resold Price">
+                                                                </div>
+                                                               @* <div id="assignvehicle" hidden>
+                                                                    Assign to Vehicle :  @Html.DropDownList("DisposeVehicle", Enumerable.Empty<SelectListItem>(), "Select Vehicle", new { @class = "js-example-basic-single form-control" })
+                                                                </div>*@
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                Odometer Reading :<input type="text" id="odometerReading" name="odometerReading" placeholder="Odometer Reading" required>
+                                                                <center>
+                                                                    <input type="submit" class="btn btn-submit btn btn-green" value="Submit" />
+                                                                </center>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FMSAddUpdateTyreDisposal.js?")"@DateTime.Now.Ticks></script>
+}
+
+

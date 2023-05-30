@@ -1,0 +1,504 @@
+﻿@{
+    ViewBag.Title = "Add Employee";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<style type="text/css">
+    input[type="file"] {
+        display: block;
+    }
+
+    .imageThumb {
+        max-height: 75px;
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .pip {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+    }
+
+    .remove {
+        display: block;
+        background: #444;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
+</style>
+<style>
+    .button {
+        border: none;
+        color: white;
+        padding: 0px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 500px !important;
+    }
+
+    .button1 {
+        background-color: #a6a6a6; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        background-color: #28a745; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+     .button3 {
+        background-color: #0d6efd; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+          width: 100px !important;
+    }
+
+    .a{
+        font-size:17px;
+    }
+</style>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                          
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                        <form id="AddNewEmployee" method="post" class="col-centered col-sm-12">
+                                                            <input type="hidden" id="EmployeeID" name="EmployeeID" value="0" />
+                                                            <input type="hidden" id="TechnicianCertifications" name="TechnicianCertifications" />
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5 ">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        @Html.Hidden("EmployeeID")
+                                                                        User Type
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.DropDownList("EmployeeTypeId", Enumerable.Empty<SelectListItem>(), "Select Designation", new { @class = "js-example-basic-single form-control a" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right" style="visibility:hidden;">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Employee Code
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="EmployeeCode" name="EmployeeCode" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12" style="display:none;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Employee Type
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <select  id="EmployeeType" class="js-example-basic-single form-control" name="EmployeeType" >
+                                                                            <option value="" selected>Select Employee Type</option>
+                                                                            <option value="Contract Based">Contract Based</option>
+                                                                            <option value="Regular">Regular</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Contract Duration (Months)
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="contractDuration" name="contractDuration" class="form-control" value="0" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        First Name
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="FirstName" name="FirstName" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Last Name
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="LastName" name="LastName" class="form-control" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Qualification
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="Qualification" class="form-control" name="Qualification" >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Experience
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="Experience" name="Experience" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>                                                            
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Permanent Address
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="PermanentAddress" name="PermanentAddress" >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Postal Code
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="PermanentPostalCode" name="PermanentPostalCode" class="form-control" >
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-sm-12" style="display:none;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        State
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.DropDownList("PermanentStateId", Enumerable.Empty<SelectListItem>(), "Select State", new { @class = "js-example-basic-single form-control a" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        City
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.DropDownList("PermanentCityId", Enumerable.Empty<SelectListItem>(), "Select City", new { @class = "js-example-basic-single form-control a" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                       Address
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="Address" name="Address" >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Postal Code
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="PostalCode" name="PostalCode" class="form-control" >
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        State
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.DropDownList("StateId", Enumerable.Empty<SelectListItem>(), "Select State", new { @class = "js-example-basic-single form-control a" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        City
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.DropDownList("CityId", Enumerable.Empty<SelectListItem>(), "Select City", new { @class = "js-example-basic-single form-control a" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Hire Date
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="HireDate" name="HireDate" placeholder="Select Date" >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        CTC
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="EmployeeCTC" name="EmployeeCTC" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12" style="display:none;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Role
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <textarea rows="4" cols="50" id="RoleResponisbility" name="RoleResponisbility" ></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Office Phone
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="OfficePhone" name="OfficePhone" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Mobile
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="Mobile" name="Mobile" >
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Emergency Contact
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="EmergencyContactInfo" name="EmergencyContactInfo" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12" style="display:none;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Id Proof Type
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <select id="IdProofType" name="IdProofType" class="js-example-basic-single form-control" >
+                                                                            <option value="" selected>Select Proof</option>
+                                                                            <option>Aadhar</option>
+                                                                            <option>Pancard</option>
+                                                                            <option>Voter Id</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Id Proof No.
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="IdProofNo" name="IdProofNo" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Blood Group
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                     
+
+                                                                        <select class="js-example-basic-single form-control a" id="BloodGroup" name="BloodGroup">
+                                                                            <option> Choose Blood Group</option>
+                                                                            <option>A+</option>
+                                                                            <option>A-</option>
+                                                                            <option>B+</option>
+                                                                            <option>B-</option>
+                                                                            <option>AB+</option>
+                                                                            <option>AB-</option>
+                                                                            <option>O+</option>
+                                                                            <option>O-</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5  pull-right">
+                                                                    <div class="form-group col-sm-4 a">
+                                                                        Remarks
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <textarea rows="4" cols="50" id="Remarks" name="Remarks" ></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div id="driverdetails" style="display: none;">
+                                                                <div class="col-sm-12">
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group col-sm-4 a">
+                                                                            Driving License No.
+                                                                        </div>
+                                                                        <div class="form-group col-sm-8">
+                                                                            <input type="text" id="DrivingLicenseNo" name="DrivingLicenseNo" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group col-sm-4 a">
+                                                                            License Expiry Date
+                                                                        </div>
+                                                                        <div class="form-group col-sm-8">
+                                                                            <input type="text" id="LicenseExpiryDate" name="LicenseExpiryDate" />                                                                       </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group col-sm-4 a">
+                                                                            Driver Certifications
+                                                                        </div>
+                                                                     
+                                                                        <select id="DriverCertifications" name="DriverCertifications" class="a">
+                                                                            <option value="0" selected>Select Certification</option>
+                                                                            <option value="LTV">LTV</option>
+                                                                            <option value="HTV">HTV</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="conductordetails" style="display: none;">
+                                                                <div class="col-sm-12">
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group col-sm-4">
+                                                                          ETM Number
+                                                                        </div>
+                                                                        <div class="form-group col-sm-8">
+                                                                            <input type="text" id="ETMNo" name="ETMNo" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group col-sm-4">
+                                                                          
+                                                                        </div>
+                                                                        <div class="form-group col-sm-8">
+                                                                           
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="form-group col-sm-4">
+                                                                         
+                                                                        </div>
+                                                                       
+                                                                        <div class="form-group col-sm-8">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12" style="display:none;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Upload Employee Photo
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.Hidden("ImageFileName")
+                                                                        @Html.Hidden("ImagePath")
+                                                                        <input type="button" value="Choose File" onclick="document.getElementById('files').click();" /><br />
+                                                                        <input type="file" id="files" name="files[]" multiple="multiple" style="display: none;" />
+                                                                        <br />
+                                                                        <div id="BundleDetails">
+                                                                        </div>
+                                                                        <span class="label label-info">supported filetypes:.bmp,.jpg,.gif,.png</span>
+                                                                        <br />
+                                                                        <span class="label label-info">Only 1 image can be uploaded and of size upto 100 Kb only.</span>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5">
+                                                   
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group col-sm-4">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-12  ">
+                                                                    <div class="form-group col-sm-4">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="submit" class="button button2" value="Submit" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/widget-body-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FMSAddUpdateEmployee.js?")"@DateTime.Now.Ticks></script>
+}
+<script>
+    function removeAttachment() {
+        alert("removeAttachment called");
+        
+        var attPath = $("#AttachmentPath").val();
+        var eid = $("#EmployeeID").val();
+        var url = apiBase.apiurl + "FmsApi/RemoveEmployeeAttachment?custid=" + $custid + "&empid=" + eid + "&type='Document'";
+        $.post(url, function (data) {
+            if (result) {
+                toastr.success("Document Updated.");
+                var url = "/Fms/RemoveDocument?DocumentPath=" + attPath;
+                $.post(url, function (result) {
+                    if (result)
+                        toastr.success("Document Removed.");
+                    else
+                        toastr.error("Document Not Found!!");
+                });
+            }
+            else
+                toastr.error("Failed!!");
+
+
+        });
+    }
+
+
+</script>

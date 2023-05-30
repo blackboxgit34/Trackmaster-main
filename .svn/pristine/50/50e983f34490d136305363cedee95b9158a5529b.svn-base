@@ -1,0 +1,500 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+@*<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet"/>*@
+<script src="@Url.Content("~/Content/DataTable/jquery.dataTables.min.js")"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>*@
+<script src="~/Content/js/APIURL.js"></script>
+<script src="~/Scripts/app/common.js"></script>
+<div id="Fade" class="w3-container city w3-animate-zoom">
+    <div class="row-fluid">
+
+        <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+                            <h5>Update Settings</h5>
+                            <div class="pull-right">
+                                <button class="pull-right btn btn-green btn-small" style="margin-top: 5.5%; margin-right: 10%;" data-toggle="modal" data-target="#myModal" href="#" id="popUP">Update Settings</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="hidden">BBID</th>
+                                                    <th>Vehicle Name</th>
+                                                    <th>Driver Name</th>
+                                                    <th>OverSpeed Limit</th>
+                                                    <th>Max. Continue Driving Time</th>
+                                                    <th>Average speed Range</th>
+                                                    <th>Time Slot 1</th>
+                                                    <th>Time Slot 2</th>
+                                                    <th>Time Slot 3</th>
+                                                    <th>Time Slot 4</th>
+                                                    <th >Harsh Breaking </th>
+                                                    <th>Acceleration Speed</th>
+
+
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#vehicleslist").select2({
+            //  placeholder: "select Vehicles.",
+        });
+        $("#avgSpeedRange").select2({
+            //placeholder: "Select Average Speed Range.",
+        });
+        $("#TimeSlot1").select2({
+            //placeholder: "Select Time slot1.",
+        });
+        $("#fade").trigger("click");
+    });
+    function openLink(evt, animName) {
+        debugger;
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+        }
+        document.getElementById(animName).style.display = "block";
+        evt.currentTarget.className += " w3-red";
+    }
+
+    $(function () {
+        function addScore(score, $domElement) {
+            $("<span class='stars-container'>")
+              .addClass("stars-" + score.toString())
+              .text("★★★★★")
+              .appendTo($domElement);
+        }
+
+        addScore(70, $("#fixture"));
+
+
+
+
+
+    });
+    //for all vehicles
+    $("#popUP").click(function () {
+        $("#divVehicleslist").removeClass("hidden");
+        ajaxForPopUp();
+
+    });
+
+    function ajaxForPopUp() {
+
+        var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + 'api/adminapi/getvehicles?custid=' + $custid;
+        $.getJSON(url, function (data) {
+            debugger;
+            $('#vehicleslist').append($('<option></option>').val(0).html("All Vehicles"));
+            $.each(data, function (i, item) {
+                $('#vehicleslist').append($('<option></option>').val(item.Value).html(item.Text));
+            });
+        });
+        //$.ajax({
+        //    url: url,
+        //    // context: document.body
+        //}).done(function (response) {
+
+
+
+
+        //    debugger;
+        //    if (response != null) {
+
+
+
+        //      //  var pageTitle = $(this).attr('pageTitle');
+        //      //  var pageName = $(this).attr('pageName');
+        //      //  $(".modal .modal-title").html(pageTitle);
+        //      ////  $(".modal .modal-body").html(response);
+        //      //  $(".modal").modal("show");
+        //      //  //$(".modal .modal-body").load(response);
+        //    }
+        //    else {
+        //        toastr.error("", "something went wrong");
+        //    }
+        //});
+    }
+
+
+    function myFunction() {
+        debugger;
+        var x = document.getElementById("TimeSlot1").value;
+
+        arr = x.split('-');
+        // year = arr[1];
+        var timeSlot2Start = parseInt(arr[1]);
+        var timeSlot2End = 6 + timeSlot2Start;
+        if (timeSlot2End > 24) {
+            timeSlot2End = timeSlot2End - 24;
+        }
+        $("#TimeSlot2").val(timeSlot2Start + "-" + timeSlot2End);//.text(numbeasdr + "-" + numbeasdr + 6);
+        var timeSlot3Start = timeSlot2End;
+        var timeSlot3End = 6 + timeSlot2End;
+        if (timeSlot3End > 24) {
+            timeSlot3End = timeSlot3End - 24;
+        }
+        $("#TimeSlot3").val(timeSlot3Start + "-" + timeSlot3End);
+        var timeSlot4Start = timeSlot3End;
+        var timeSlot4End = 6 + timeSlot4Start;
+        if (timeSlot4End > 24) {
+            timeSlot4End = timeSlot4End - 24;
+        }
+        $("#TimeSlot4").val(timeSlot4Start + "-" + timeSlot4End);
+        //  var test= 
+        // alert(arr[1]);
+        // document.getElementById("demo").innerHTML = "You selected: " + x;
+    }
+
+    $(document).ready(function () {
+        var url = apiBase.apiurl + "AdminAPI/UpdateDriverBehvSettings";
+
+        table = $('#dt_basic_Master').DataTable({
+            //"oLanguage": {
+            //    "sProcessing": "<img src='../Content/Trackmaster_files/loader.gif'/>"
+            //},
+            "processing": true,
+            "serverSide": true,
+            destroy: true,
+            retrieve: true,
+            "sAjaxSource": url,
+            "iDisplayLength": 20,
+            "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+            "fnServerParams": function (param) {
+                param.push({ "name": "custId", "value": $custid });
+            },
+
+            "columns": [
+                    {
+                        "class": "hidden",
+                        "render": function (data, type, full, meta) {
+
+                            return '<span class="hidden">' + full.BBID + '</span>';
+                        }
+                    },
+
+                    { "data": "VehicleName" },
+                    { "data": "DriverName" },
+
+                        { "data": "OverSpeedLimit" },
+                        { "data": "MaxContinueDriTime" },
+                        { "data": "AverageSpeedRange" },
+                        { "data": "TimeSlot1" },
+                      { "data": "TimeSlot2" },
+                      { "data": "TimeSlot3" },
+                       { "data": "TimeSlot4" },
+                       { "data": "HarshBreaking" },
+                       { "data": "AccelerationSpeed" },
+
+
+                    {
+
+                        "data": null,
+                        "render": function (data, type, full, meta) {
+                            debugger;
+                            return '<span><button class="btn btn-green btn-small" type="button" data-toggle="modal" data-target="#myModal" id="' + full.BBID + '" onClick="PopUpModal(this.id);"><i class="fa fa-pencil"></i></button></span>';
+                        }
+                    },
+            ],
+            "rowCallback": function (row, data, index) {
+                if (data.objRefTemperature == 0) {
+                    var target = $(row).find(".details-control");
+                    var index = (target).index();
+                    $(row).find('td:eq(' + index + ')').removeClass('details-control')
+                }
+            }
+        });
+
+    });
+
+    //for specific vehicle
+    window.PopUpModal = function (id) {
+        debugger;
+        //for hiding vehicle list 
+        $("#divVehicleslist").addClass("hidden");
+        $("#divVehicleName").removeClass("hidden");
+
+        var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + 'api/adminapi/GetVehcileDetail?bbid=' + id;
+        $.getJSON(url, function (data) {
+            $("#bbid").val(id);
+            $("#TimeSlot1").val(data.TimeSlot1);
+            $("#TimeSlot2").val(data.TimeSlot2);
+            $("#TimeSlot3").val(data.TimeSlot3);
+            $("#TimeSlot4").val(data.TimeSlot4);
+            $("#OverSpeedLimit").val(data.OverSpeedLimit);
+            $("#maxConDriTime").val(data.MaxContinueDriTime);
+            $("#avgSpeedRange").val(data.AverageSpeedRange);
+            $("#txtAcceleration").val(data.AccelerationSpeed);
+            $("#txtHarshBreaking").val(data.HarshBreaking);
+
+            document.getElementById("vehicleNameP").innerHTML = data.VehicleName;
+            //    $("#vehicleNameP").val(data.VehicleName);
+            //  $("#vehicleName").val(data.AverageSpeedRange);
+        })
+    };
+
+    function submitUpdateSettings() {
+
+
+        var bbid = $("#bbid").val();
+        var bbidList = $("#vehicleslist").val().toString();
+        var TimeSlot1 = $("#TimeSlot1").val();
+        var TimeSlot2 = $("#TimeSlot2").val();
+        var TimeSlot3 = $("#TimeSlot3").val();
+        var TimeSlot4 = $("#TimeSlot4").val();
+        var OverSpeedLimit = $("#OverSpeedLimit").val();
+        var maxConDriTime = $("#maxConDriTime").val();
+        var avgSpeedRange = $("#avgSpeedRange").val();
+        var harshBreaking = $("#txtHarshBreaking").val();
+        var accelerationLimit = $("#txtAcceleration").val();
+
+
+        if (!bbid && !bbidList) {
+            $("#valvehicleslist").removeClass("hidden");
+            return false;
+        }
+        if (!TimeSlot1 || !OverSpeedLimit || !avgSpeedRange || !maxConDriTime) {
+            $("#valOverSpeedLimit").removeClass("hidden");
+            $("#valmaxConDriTime").removeClass("hidden");
+            
+            $("#valAcceleration").removeClass("hidden");
+            $("#valHarshBreaking").removeClass("hidden");
+
+
+            return false;
+        }
+        else {
+            $("#valvehicleslist").addClass("hidden");
+            $("#valOverSpeedLimit").addClass("hidden");
+            $("#valmaxConDriTime").addClass("hidden");
+            $("#valavgSpeedRange").addClass("hidden");
+            $("#valAcceleration").addClass("hidden");
+            $("#valHarshBreaking").addClass("hidden");
+        }
+        $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+        $('#myModal').modal('toggle');
+        var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + "api/adminapi/UpdateVehicleDataAdminSection";
+        $.ajax({
+            url: url,
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: { bbid: bbid, TimeSlot1Range: TimeSlot1, TimeSlot2Range: TimeSlot2, TimeSlot3Range: TimeSlot3, TimeSlot4Range: TimeSlot4, OverSpeedLimit: OverSpeedLimit, AverageSpeedRange: avgSpeedRange, MaxContinueDriTime: maxConDriTime, bbidList: bbidList, custId: $custid, harshBreaking: harshBreaking, accelerationSpeed: accelerationLimit },
+            // async: false,
+            success: function (data) {
+                $.unblockUI();
+                debugger;
+                toastr.success('successfully Done!');
+                window.location.reload(true);
+            },
+            error: function (err) {
+                $.unblockUI();
+                debugger;
+                toastr.warning('something went wrong!');
+            }
+
+        });
+
+        return false;
+
+    }
+
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        document.location.reload();
+    });
+</script>
+
+
+<!-- Modal -->
+<div class="modal  fade" id="myModal" role="dialog" style="background: transparent; overflow-y: hidden; margin-left: -50%; width: 100%;">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Settings</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="box-content padded">
+                        <form data-toggle="validator" role="form">
+                            <div class="col-md-12 hidden" id="divVehicleName">
+                                <div class="form-group">
+                                    @*<label for="inputName" id="vehicleName" class="control-label"></label>*@
+                                    <h4>Vehicle Name:  <b id="vehicleNameP"></b></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="divVehicleslist">
+                                <div class="form-group ">
+                                    <label for="inputName" class="control-label">Select Vehicles</label>
+                                    <span style="color: indianred" class="hidden" id="valvehicleslist"><i class=" fa fa-exclamation-triangle"></i>Please Select Vehicles.</span>
+
+                                    <select class="form-control" id="vehicleslist" multiple></select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Over Speed Limit</label>
+                                        <span style="color: indianred" class="hidden" id="valOverSpeedLimit"><i class="fa fa-exclamation-triangle"></i>insert over speed limit.</span>
+
+                                        <input type="number" min="1" max="100" class="form-control" id="OverSpeedLimit" name="OverSpeedLimit" placeholder="Over Speed Limit" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Max Continue Driving Time</label>
+                                        <span style="color: indianred" class="hidden" id="valmaxConDriTime"><i class=" fa fa-exclamation-triangle"></i>Max Continue Driving Time.</span>
+
+                                        <input type="number" min="1" max="8" class="form-control" id="maxConDriTime" name="maxConDriTime" placeholder="Max Continue Driving Time" required data-rule-required="true" data-msg-required="Please enter Driver Name" title="Please enter Driver Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Average Speed Range</label>
+                                        <span style="color: indianred" class="hidden" id="valavgSpeedRange"><i class="fa fa-exclamation-triangle"></i>Average Speed Range.</span>
+
+                                        <select id="avgSpeedRange" style="width: 385px;">
+                                            <option value="0">Please Select Average Speed range</option>
+                                            <option value="20-35">20 - 35 </option>
+                                            <option value="35-50">35 - 50 </option>
+                                            <option value="50-65">50 - 65 </option>
+                                            <option value="65-80">65 - 80</option>
+                                        </select>
+
+                                        @*<input type="text" class="form-control" id="NewPassword" name="TimeSlot1" placeholder="Time Slot1">*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4" style="width: 25%;">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Time Slot1</label>
+                                        <select id="TimeSlot1" class="form-control" onchange="myFunction()">
+                                            <option value="0">Please Select Time Slot1</option>
+                                            <option value="24-6">24 - 6 </option>
+                                            <option value="1-7">1  - 7 </option>
+                                            <option value="2-8">2  - 8 </option>
+                                            <option value="3-9">3  - 9 </option>
+                                            <option value="4-10">4  - 10 </option>
+                                            <option value="5-11">5  - 11 </option>
+                                            <option value="6-12">6  - 12 </option>
+                                            <option value="7-13">7  - 13 </option>
+                                            <option value="8-14">8  - 14 </option>
+                                            <option value="9-15">9  - 15 </option>
+                                            <option value="10-16">10  - 16</option>
+                                            <option value="11-17">11  - 17 </option>
+                                            <option value="12-18">12  - 18 </option>
+                                            <option value="13-19">13 - 19</option>
+                                            <option value="14-20">14 - 20</option>
+                                            <option value="15-21">15 - 21 </option>
+                                            <option value="16-22">16 - 22 </option>
+                                            <option value="17-23">17 - 23 </option>
+                                            <option value="18-24">18 - 24</option>
+                                            <option value="19-1">19 - 1 </option>
+                                            <option value="20-2">20 - 2 </option>
+                                            <option value="21-3">21 - 3 </option>
+                                            <option value="22-4">22 - 4 </option>
+                                            <option value="23-5">23 - 5 </option>
+                                        </select>
+                                        <span style="color: indianred" class="hidden" id="valTimeSlot1"><i class="fa-exclamation-triangle"></i>*Please insert Time Slot1.</span>
+                                        @*<input type="text" class="form-control" id="NewPassword" name="TimeSlot1" placeholder="Time Slot1">*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="width: 25%;">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Time Slot2</label>
+                                        <input type="text" class="form-control" id="TimeSlot2" name="TimeSlot2" placeholder="Time Slot2" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="width: 25%;">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Time Slot3</label>
+                                        <input type="text" class="form-control" id="TimeSlot3" name="TimeSlot3" placeholder="Time Slot3" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="width: 25%;">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Time Slot4</label>
+                                        <input type="text" class="form-control" id="TimeSlot4" name="TimeSlot4" placeholder="Time Slot4" readonly>
+                                        <input type="hidden" id="custId" name="custId" />
+                                        <input type="hidden" id="bbid" name="bbid" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Harsh Breaking(Change of Speed in 10 seconds)</label>
+                                        <span style="color: indianred" class="hidden" id="varHarshBreaking"><i class="fa fa-exclamation-triangle"></i>Harsh Breaking limit.</span>
+
+                                        <input type="number" min="1" max="100" class="form-control" id="txtHarshBreaking" name="OverSpeedLimit" placeholder="Harsh Breaking Limit" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Acceleration(Change of Speed in 10 seconds)</label>
+                                        <span style="color: indianred" class="hidden" id="valAcceleration"><i class="fa fa-exclamation-triangle"></i>Acceleration Speed limit.</span>
+
+                                        <input type="number" min="1" max="100" class="form-control" id="txtAcceleration" name="OverSpeedLimit" placeholder="Acceleration Limit" required>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="submitUpdateSettings();" class="btn btn-green">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

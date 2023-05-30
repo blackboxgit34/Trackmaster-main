@@ -1,0 +1,253 @@
+﻿@charset "UTF-8";
+
+@font-face {
+  font-family: "claas";
+  src:url("fonts/claas647e.eot?_=5.9.0");
+  src:url("fonts/claasd41d.eot?#iefix&_=5.9.0") format("embedded-opentype"),
+    url("fonts/claas647e.woff?_=5.9.0") format("woff"),
+    url("fonts/claas647e.ttf?_=5.9.0") format("truetype"),
+    url("fonts/claas.svg#claas?_=5.9.0") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "claas" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="iconclaas-"]:before,
+[class*=" iconclaas-"]:before {
+  font-family: "claas" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconclaas-feed:before {
+  content: "a";
+}
+.iconclaas-zeit:before {
+  content: "b";
+}
+.iconclaas-verwaltung:before {
+  content: "c";
+}
+.iconclaas-traktor:before {
+  content: "d";
+}
+.iconclaas-geofencing:before {
+  content: "g";
+}
+.iconclaas-fuhrpark:before {
+  content: "h";
+}
+.iconclaas-service:before {
+  content: "i";
+}
+.iconclaas-flaechenleistung:before {
+  content: "j";
+}
+.iconclaas-karte:before {
+  content: "k";
+}
+.iconclaas-flaeche:before {
+  content: "l";
+}
+.iconclaas-feldhaecksler:before {
+  content: "n";
+}
+.iconclaas-plus:before {
+  content: "o";
+}
+.iconclaas-download:before {
+  content: "p";
+}
+.iconclaas-aktualisieren:before {
+  content: "q";
+}
+.iconclaas-filter:before {
+  content: "s";
+}
+.iconclaas-calculate:before {
+  content: "t";
+}
+.iconclaas-stopwatch:before {
+  content: "u";
+}
+.iconclaas-close:before {
+  content: "v";
+}
+.iconclaas-sort-down:before {
+  content: "w";
+}
+.iconclaas-spinner:before {
+  content: "x";
+}
+.iconclaas-remove:before {
+  content: "y";
+}
+.iconclaas-bell:before {
+  content: "z";
+}
+.iconclaas-alarm:before {
+  content: "A";
+}
+.iconclaas-search:before {
+  content: "B";
+}
+.iconclaas-sort:before {
+  content: "C";
+}
+.iconclaas-sort-up:before {
+  content: "D";
+}
+.iconclaas-circle:before {
+  content: "E";
+}
+.iconclaas-warnmeldung:before {
+  content: "F";
+}
+.iconclaas-notification:before {
+  content: "G";
+}
+.iconclaas-list-alt:before {
+  content: "H";
+}
+.iconclaas-lock:before {
+  content: "I";
+}
+.iconclaas-disk:before {
+  content: "J";
+}
+.iconclaas-exit:before {
+  content: "K";
+}
+.iconclaas-warning:before {
+  content: "L";
+}
+.iconclaas-ertrag:before {
+  content: "M";
+}
+.iconclaas-meldung-warnung:before {
+  content: "N";
+}
+.iconclaas-maehdrescher:before {
+  content: "O";
+}
+.iconclaas-einstellungen:before {
+  content: "P";
+}
+.iconclaas-arrow-down:before {
+  content: "Q";
+}
+.iconclaas-align-justify:before {
+  content: "R";
+}
+.iconclaas-kornfeuchte:before {
+  content: "T";
+}
+.iconclaas-nachrichten:before {
+  content: "U";
+}
+.iconclaas-info:before {
+  content: "V";
+}
+.iconclaas-durchsatz:before {
+  content: "W";
+}
+.iconclaas-dieselverbrauch:before {
+  content: "X";
+}
+.iconclaas-anbaugeraet:before {
+  content: "Y";
+}
+.iconclaas-analyse:before {
+  content: "Z";
+}
+.iconclaas-arrow-up:before {
+  content: "0";
+}
+.iconclaas-wrench:before {
+  content: "1";
+}
+.iconclaas-link:before {
+  content: "2";
+}
+.iconclaas-bubbles:before {
+  content: "3";
+}
+.iconclaas-list:before {
+  content: "4";
+}
+.iconclaas-clock:before {
+  content: "5";
+}
+.iconclaas-checkmark:before {
+  content: "6";
+}
+.iconclaas-checkmark-circle:before {
+  content: "7";
+}
+.iconclaas-bullhorn:before {
+  content: "8";
+}
+.iconclaas-arrow-right:before {
+  content: "9";
+}
+.iconclaas-star:before {
+  content: "!";
+}
+.iconclaas-double-arrow-right:before {
+  content: "\"";
+}
+.iconclaas-double-arrow-left:before {
+  content: "#";
+}
+.iconclaas-home:before {
+  content: "e";
+}
+.iconclaas-arbeitstagebuch:before {
+  content: "%";
+}
+.iconclaas-fontawesome-webfont:before {
+  content: "$";
+}
+.iconclaas-user:before {
+  content: "r";
+}
+.iconclaas-kraftstoff:before {
+  content: "m";
+}
+.iconclaas-motorauslastung:before {
+  content: "S";
+}
+.iconclaas-drueckung-1:before {
+  content: "&";
+}
+.iconclaas-kraftstoffverbrauch-zeit:before {
+  content: "'";
+}
+.iconclaas-claas:before {
+  content: "f";
+}
+.iconclaas-mortar-board:before {
+  content: "(";
+}
+.iconclaas-training:before {
+  content: ")";
+}

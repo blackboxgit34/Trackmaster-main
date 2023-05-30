@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Assign Vehicles to Plants";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bigdrop {
+        width: 600px !important;
+    }
+
+    .button {
+        border: none;
+        color: white;
+        /* padding: 10px 40px; */
+        /* text-align: center; */
+        text-decoration: none;
+        display: inline-block;
+        font-size: 8px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        width: 83px !important;
+    }
+
+    .button1 {
+        background-color: #8e9d13; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        height: 29px;
+    }
+
+
+    .button3 {
+        background-color: #008080; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        height: 29px;
+    }
+
+    .button2 {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        height: 29px;
+    }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .button1:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+</style>
+
+
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+    <div class="widget widget-padding span12">
+        <div class="widget-header">
+            <i class="icon-cogs"></i>
+            <h5>Assign Vehicles</h5>
+            <div class="widget-buttons">
+                <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div id="ReportTotal">
+                        <div class="box">
+                            <div class="box-content padded" style="background: white;">
+                                <form class="row-fluid">
+
+                                    <div class="col-md-4">
+                                        <label>Select Zone</label>
+                                        <select id="ddlzone" class="form-control select2"></select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Select Branch</label>
+                                        <select id="ddlbranch" class="form-control select2"></select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Select Plant</label>
+                                        <select class="form-control select2" id="Plants"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Select Vehicle</label>
+                                        <select id="ddlGroupUserList" class="form-control select2"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Select Vehicle Type</label>
+                                        <select class="form-control select2" id="vehicletype"></select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Select</label>
+                                        <select class="form-control select2" id="hireown">
+
+                                            <option value="ALL">ALL</option>
+                                            <option value="Own">Own</option>
+                                            <option value="Hire">Hire</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>&nbsp;</label>
+                                        <button onclick="btnSubmit();" class="btn btn-success">Submit</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div id="DivVehcleCounter">
+                        <div class="box-content padded">
+                            <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle name </th>
+                                        <th>Plant</th>
+                                        <th>Type</th>
+                                        <th>Hired/Own</th>
+
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>
+<!--/widget-body-->
+@section scripts{
+
+    <link href="~/Scripts/Select/select2.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Select/select2.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/GeoFenceCustID.js"></script>
+    <script src="~/Scripts/app/common.js"></script>
+
+
+<script src="~/Scripts/app/AssignPrismvehicleMaster.js"></script>
+}

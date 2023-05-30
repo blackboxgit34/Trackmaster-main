@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "SixEyeMap";
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+}
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js" type="text/javascript"></script>
+
+
+<div class="row-fluid">
+    <div class="span6" id="MoveDiv">
+        <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-map-marker"></i>
+                            <h5>Routes Map 1st</h5>
+                            <div class="pull-right">
+                                <input type="button" id="s1" value="Expand" class="btn btn-primary btn-mini right sixEyeMapHeaderButton"
+                                    style="margin-right: 4px" />
+                                <input type="button" id="s2" value="Collapse" class="btn btn-primary btn-mini sixEyeMapHeaderButton" />
+
+                                <span class="badge badge-success pull-right sixEyeMapHeaderButton" id="bdgeMoving"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End of Heading part-->
+
+            <!--body part-->
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -10%;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div class="box_a">
+
+                                    <div class="box_a_content cnt_a1">
+                                        <div class="gmap" id="gmove">
+                                            <iframe id="iframe1" frameborder="0" src="" 
+                                            style="width: 100%; height:80vh;" class="foo" scrolling="no" seamless="seamless" ></iframe>
+
+                                        </div>
+                                    </div>
+                                    <div id="VehichlelistDiv">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End of body part-->
+        </div>
+    </div>
+
+
+
+
+    <div class="span6" id="IgnitionDiv">
+
+        <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-map-marker"></i>
+                            <h5>Route Map 2nd</h5>
+
+                            <div class="pull-right">
+                                <input type="button" id="s3" value="Expand" class="btn btn-primary btn-mini sixEyeMapHeaderButton"  /><input
+                                    type="button" id="s4" value="Collapse" class="btn btn-primary btn-mini sixEyeMapHeaderButton " style="margin-right: 4px" />
+                              @*  <a href="@Url.Action("MyMap", "LocationOnMap", new { myParams = "Ignition" })" title="Edit" target="_blank"  style="margin-right: 4px">
+                                    <img alt="Opens in new window" title="Opens in new window" src="../../img/new_window_icon.gif">
+                                </a>*@
+                                @*  @Html.ActionLink("New Map", "MyMap", "LocationOnMap", new { myParams = "Ignition" }, new { target = "_blank" })*@
+                                 <span class="badge badge-success pull-right sixEyeMapHeaderButton" id="bdgeIgnition"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Heading part-->
+
+            <!--body part-->
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -10%;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div class="box_a">
+
+                                    <div class="box_a_content cnt_a1">
+                                        <div class="gmap" id="ging">
+                                            <iframe id="iframe2" frameborder="0" src="" 
+                style="width: 100%; height:80vh;" class="foo" scrolling="no" seamless="seamless" ></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End of body part-->
+        </div>
+
+    </div>
+
+
+    
+
+</div>
+
+
+
+
+
+
+
+
+<div style="clear: both;">
+</div>
+
+<script src="~/Content/js/APIURL.js"></script>
+<script src="~/Scripts/app/GeoFenceCustID.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+
+
+        $('#iframe1').attr('src', '../../HTML/multipleroutes.htm?custId=' + $custid);
+        $('#iframe2').attr('src', '../../HTML/multipleroutes2.htm?custId=' + $custid);
+    
+
+
+
+    
+
+    });
+  
+
+    $("#s1").click(function () {
+     
+        $('#IgnitionDiv').hide();
+      
+        $('#MoveDiv').switchClass("span6", "span12", 2000, "easeInOutQuad");
+        var height = $(window).height();
+        $('#iframe1').css('height', '80vh');
+    
+        var url = "../HTML/multipleroutes.htm?name=" + encodeURIComponent("1") + "&technology=" + encodeURIComponent("2") + "&custId=" + $custid;
+
+        document.getElementById("iframe1").src = url;
+
+
+    });
+
+    $("#s2").click(function () {
+
+     
+        $('#IgnitionDiv').show();
+   
+        $('#MoveDiv').switchClass("span12", "span6", 1000, "easeInOutQuad");
+        $('#iframe1').css('height', '80vh');
+        $('#gmove').css('height', '80vh');
+        var url = "../HTML/multipleroutes.htm?name=" + encodeURIComponent("1") + "&technology=" + encodeURIComponent("2") + "&custId=" + $custid;;
+
+        document.getElementById("iframe1").src = url;
+    });
+
+    $("#s3").click(function () {
+
+
+
+       
+        $('#MoveDiv').hide();
+       
+        $('#IgnitionDiv').switchClass("span6", "span12", 2000, "easeInOutQuad");
+        var height = $(window).height();
+      //  $('#iframe2').css('height', height * 0.75 | 0);
+
+        $('#iframe2').css('height', '80vh');
+
+        //$('#iframe2').css('height', '2000');
+      //  $('#ging').css('height', '2000');
+        var url = "../HTML/multipleroutes2.htm?name=" + encodeURIComponent("1") + "&technology=" + encodeURIComponent("2") + "&custId=" + $custid;
+
+        document.getElementById("iframe2").src = url;
+
+    });
+
+    $("#s4").click(function () {
+
+        $('#MoveDiv').show();
+     
+        $('#IgnitionDiv').switchClass("span12", "span6", 1000, "easeInOutQuad");
+        $('#ging').css('height', '80vh');
+        $('#iframe2').css('height', '80vh');
+        var url = "../HTML/multipleroutes2.htm?name=" + encodeURIComponent("1") + "&technology=" + encodeURIComponent("2") + "&custId=" + $custid;;
+
+        document.getElementById("iframe2").src = url;
+    });
+
+  
+
+    window.onload = function () {
+
+        
+
+    };
+
+
+</script>

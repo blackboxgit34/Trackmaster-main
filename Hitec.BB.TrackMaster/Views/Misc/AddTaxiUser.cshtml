@@ -1,0 +1,366 @@
+﻿@{
+    ViewBag.Title = "Add Taxi User";
+}
+<style>
+    .select2-container {
+        z-index: 100 !important;
+        width: 500px !important;
+    }
+
+    .dropdown value {
+        display: none;
+    }
+
+    .dept {
+        display: none;
+    }
+
+    .button {
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 100px !important;
+    }
+
+    .button1 {
+        background-color: #6c757d; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .button1:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+</style>
+<script src="~/Content/Alertify/sweetalert.min.js"></script>
+<link href="~/Content/Alertify/sweetalert.css" rel="stylesheet" />
+@{Html.RenderPartial("_MessageAlert");}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>@ViewBag.Title</h5>
+                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+
+                </div>
+            </div>
+            <div class="box_a_content">
+                <form id="AddSubUserRequestForm" name="AddSubUserRequestForm">
+                    <label id="ErrorMessage" style="color: red"></label>
+                    <table id="dt_table_tools1" class="table">
+                        <tbody>
+                            <tr id="">
+                                <td class="table_cell">
+                                    <p style="">Role</p>
+                                </td>
+                                <td id="source" class="table_cell">
+                                    <select id="role">
+                                        <option style="margin-left:20px; margin-bottom:0px;width: 400px;" value="0" href="" selected="selected">Select Role</option>
+                                        <option style="margin-left:20px; margin-bottom:0px;width: 400px;" value="17">TaxiHead</option>
+                                        <option style="margin-left:20px; margin-bottom:0px;width: 400px;" value="15">Admin</option>
+                                        <option style="margin-left:20px; margin-bottom:0px;width: 400px;" value="20">Vendor</option>
+                                    </select>
+                                </td>
+                                <td></td>
+                                <td id="source2a" class="dept table_cell">
+                                    <select id="department">
+                                        @*<option style="margin-left:20px;margin-bottom:0px;width: 400px;" value="Select">Select Department</option>*@
+                                        @*<option style="margin-left:20px;" value="dept1"> dept1 </option>
+                                            <option style="margin-left:20px;" value="dept2"> dept2 </option>
+                                            <option style="margin-left:20px;" value="dept3"> dept3 </option>*@
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table_cell">
+                                    User Name:
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtName", null, new { type = "text", style = "margin-bottom:0px;width: 400px;" })
+
+                                </td>
+                                <td class="table_cell">
+                                    Mobile No:
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtMob", null, new { type = "number", maxlength = "10", style = "margin -bottom:0px;width: 400px;" })
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="table_cell">
+                                    Password:
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtpassword", null, new { type = "password", style = "margin-bottom:0px;width: 400px;" })
+
+                                </td>
+                                <td class="table_cell">
+                                    Confirm Password:
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtconfirmpassword", null, new { type = "password", style = "margin-bottom:0px;width: 400px;" })
+
+                                </td>
+                            </tr>
+
+                            <tr style="display:none;">
+                                <td class="table_cell">
+                                    Please select User:
+                                </td>
+                                <td>
+                                    <input type="radio" value="1" name="candy" checked>Add User Under Master<p>
+                                </td>
+                                <td class="table_cell">&nbsp;</td>
+                                <td>
+                                    <input type="radio" value="2" name="candy">Add User Under SubUser's<p>
+                                </td>
+
+
+                            </tr>
+                            <tr style="display:none;">
+                                <td class="table_cell">
+                                    Select Sub User
+                                </td>
+                                <td>
+                                    <div style="width:70% !important;">
+                                        <select id="SubUserName" class="js-example-basic-single" multiple></select>
+
+                                    </div>
+                                </td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    Email
+                                </td>
+                                <td colspan="1">
+                                    @Html.TextBox("txtemail", null, new { type = "email", style = "margin-bottom:0px;width: 400px;" })
+
+
+                                </td>
+                                <td id="Addresslbl">
+                                    Address
+                                </td>
+                                <td colspan="3" id="Address">
+                                    @Html.TextArea("txtaddress", null, new { type = "email", style = "margin-bottom:0px;width: 400px;" })
+
+
+                                </td>
+                            </tr>
+                            <tr id="Pan">
+                                <td>
+                                    PAN no.
+                                </td>
+                                <td colspan="1">
+                                    @Html.TextBox("txtPanNo", null, new { type = "text", style = "margin-bottom:0px;width: 400px;" })
+
+
+                                </td>
+                                <td>
+                                    GST no.
+                                </td>
+                                <td colspan="3">
+                                    @Html.TextArea("txtGstNo", null, new { type = "text", style = "margin-bottom:0px;width: 400px;" })
+
+
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td class="table_cell"></td>
+                                <td class="table_cell">
+                                    <input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-green pull-right" />
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div id="DivVehcleCounter">
+                        <div class="box-content padded">
+                            <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>S No</th>
+                                        <th>User Name </th>
+                                        <th> Name</th>
+                                        <th>Address</th>
+                                        <th>E-mail</th>
+                                        <th>Mobile No</th>
+                                        <th>PanNo</th>
+                                        <th>GstNo.</th>
+                                        <th>Created By </th>
+                                        <th>Created On </th>
+                                        <th>Role/Dept</th>
+                                        <th>Status </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    var selectval;
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/GeoFenceCustID.js"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Scripts/app/AddTaxiUser.js?")@DateTime.Now.Ticks"></script>*@
+    <script src="~/Scripts/app/AddTaxiUser.js" type="text/javascript"></script>
+    <link href="~/Scripts/Select/select2.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Select/select2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+
+            $("#txtMob").focusout(function () {
+                debugger;
+                const length = $("#txtMob").val().length;
+
+                if (length > 11)
+                {
+                    toastr.error("Please Enter Correct Mobile no. Number not exceed more then 10");
+
+
+                }
+                else{
+                var name = $("#txtMob").val();
+                var baseurl = apiBase.apiurl;
+                var url = baseurl + 'TaxiAPI/GetTaxiDriver';
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: url,
+                    data: { name: name },
+                    success: function (data) {
+
+
+
+                        if (data != 0 || data == -1) {
+                            $("#txtMob").val('');
+                            // return;
+                            // location.reload();
+                            toastr.error("Please Select another Username!");
+
+                            $("#txtName").val('');
+
+
+                        }
+
+                    },
+                    error: function (error) {
+                        toastr.error("something went wrong!");
+                        return;
+                    }
+                });
+            }
+            });
+
+
+            $("#SubUserName").select2({
+            });
+            var name;
+            var mobile;
+            $('.b1').html("NA");
+            $('.a1').html("NA");
+        });
+
+
+
+
+        function getmodetext() {
+            $('.b1').html("NA");
+            $('.a1').html("NA");
+        }
+
+        $("#AddSubUserRequestForm").submit(function (event) {
+            debugger;
+
+            //var VehicleName = $("#SubUserName").val();
+            var name = $("#txtName").val();
+            var mob = $("#txtMob").val();
+            var email = $("#txtemail").val();
+            var add = $("#txtaddress").val();
+            var role = $("#role").val();
+        //    if (email && name && mob && add && role) {
+                if (email && name && mob  && role) {
+                var name = $("#txtMob").val();
+                var baseurl = apiBase.apiurl;
+                var url = baseurl + 'TaxiAPI/GetTaxiDriver';
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: url,
+                    data: { name: name },
+                    success: function (data) {
+                        if (data != 0 || data == -1) {
+                            $("#txtName").val('');
+
+                            toastr.error("Please Select another Username!");
+
+                            $("#txtName").val('');
+
+
+                        }
+                        else {
+                            debugger;
+                            AddServicePostApiCall();
+                            event.preventDefault();
+
+                        }
+
+                    },
+                    error: function (error) {
+                        toastr.error("something went wrong!");
+                        return;
+                    }
+                });
+
+
+            }
+            else {
+                toastr.warning("please enter all the regquired details!");
+                return;
+            }
+
+        });
+
+    </script>
+}

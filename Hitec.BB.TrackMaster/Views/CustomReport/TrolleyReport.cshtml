@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Trolley Report";
+}
+
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<div class="row-fluid">
+
+    <div class="widget-body ">
+
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>Trolley Report</h5>
+                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                    <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                   
+
+                </div>
+                <div class="checkbox pull-right">
+                </div>
+            </div>
+            @*@Html.Action("_ReportFilter", new { reportTitle = "" })*@
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        @*<select id="StoppageTime" name="StoppageTime">
+                                            <option value="0,0"> All Stoppages</option>
+                                            <option value="0,1"> 0 to 1 hour</option>
+                                            <option value="1,2"> 1 to 2 hours</option>
+                                            <option value="2,3"> 2 to 3 hours</option>
+                                            <option value="3,4"> 3 to 4 hours</option>
+                                            <option value="4,5"> 4 to 5 hours</option>
+                                            <option value="5,6"> 5 to 6 hours</option>
+                                            <option value="6,8"> 6 to 8 hours</option>
+                                            <option value="8,10"> 8 to 10 hours</option>
+                                            <option value="10,12"> 10 to 12 hours</option>
+                                            <option value="12,24"> 12 to 24 hours</option>
+                                            <option value="24,48"> 24 to 48 hours</option>
+                                            <option value="48,72"> 48 to 72 hours</option>
+                                            <option value="72,120"> 3 to 5 days</option>
+                                            <option value="120,600"> 5 to 10 days</option>
+                                            <option value="900,25000"> &gt; 15 days</option>
+
+                                        </select>*@
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Registration Trolley
+                                                    </th>
+                                                    <th>
+                                                        Trolley Size
+                                                    </th>
+                                                    <th>
+                                                        Trailer Attach
+                                                    </th>
+                                                    <th>
+                                                        Group
+                                                    </th>
+                                                    <th>
+                                                        Trolley Status
+                                                    </th>
+                                                    <th>
+                                                        Tyre Qty.
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+                                                    <th>
+                                                        Stop Since
+                                                    </th>
+                                                    <th>
+                                                        Distance KM
+                                                    </th>
+                                            
+                                                    <th>
+                                                        Status Time
+                                                    </th>
+                                                    <th>
+                                                        Location
+                                                    </th>
+                                                    <th>
+                                                        Remarks
+                                                    </th>
+
+
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+
+
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+
+    <!-- /row-fluid -->
+</div>
+
+<!-- /Main window -->
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/Trolley.js"></script>
+    <script>
+
+        function showtraiWindow(vehname, bbid) {
+
+    $("#ShowLocationOnMap").dialog({
+        autoOpen: true,
+        position: { my: "center", at: "200", of: window },
+        width: 750,
+        height: 500,
+        resizable: true,
+        title: 'Location On Map',
+        modal: true,
+        open: function () {
+
+            var url ="../CustomReport/GetLocationPartialView?vehname=" + (vehname) + "&bbid=" + bbid;
+            $(this).load(url);
+            $(".ui-dialog-titlebar-close").hide();
+        },
+        buttons: {
+            Close: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    return false;
+}</script>
+    @*    <script src="@Url.Content("~/Content/Scripts/Ignition.js?1.2")"></script>*@
+
+}

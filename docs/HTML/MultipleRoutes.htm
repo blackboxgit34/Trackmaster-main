@@ -1,0 +1,695 @@
+﻿
+
+
+<style>
+    html, body, #map_canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in&libraries=places" language="javascript" type="text/javascript"></script>
+<script src="../Content/js/APIURL.js"></script>
+
+<script>
+
+
+
+
+    var directionsService;
+    var stepDisplay;
+
+    var position;
+    var marker = [];
+    var polyline = [];
+    var poly2 = [];
+    var poly = null;
+    var startLocation = [];
+    var endLocation = [];
+    var timerHandle = [];
+    
+    var userId = JSON.parse(localStorage.getItem("custID"));
+    if (userId == null) {
+        userId = JSON.parse(localStorage.getItem("custId"));
+    }
+
+
+    
+   
+
+   
+    var stops_data = [
+
+     
+   
+        [{ "Geometry": { "Latitude": 13.0527, "Longitude": 77.7623 } },
+
+        { "Geometry": { "Latitude":  13.0320, "Longitude": 77.7586 } },
+        { "Geometry": { "Latitude":  13.0212, "Longitude": 77.7621 } },
+        { "Geometry": { "Latitude": 13.01695, "Longitude": 77.7611 } },
+        { "Geometry": { "Latitude": 12.99833, "Longitude": 77.7611 } },
+        { "Geometry": { "Latitude": 12.9946, "Longitude": 77.7578 } },
+        { "Geometry": { "Latitude": 12.9837, "Longitude": 77.7524 } },
+         { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+        ],
+
+        [
+        { "Geometry": { "Latitude": 12.9610, "Longitude": 77.6380 } },
+        { "Geometry": { "Latitude": 12.9594, "Longitude": 77.6662 } },
+        { "Geometry": { "Latitude": 12.9715, "Longitude": 77.6599 } },
+        { "Geometry": { "Latitude":  12.9752, "Longitude": 77.6660 } },
+        { "Geometry": { "Latitude":   12.9747, "Longitude":77.6705 } },
+
+         { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+        ],
+
+       [{ "Geometry": { "Latitude": 12.8256, "Longitude": 77.6829 } },
+        { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+       ],
+
+      [{ "Geometry": { "Latitude": 12.9245, "Longitude": 77.6000 } },
+       { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+      ],
+      [{ "Geometry": { "Latitude": 12.8894, "Longitude": 77.5633 } },
+       { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+      ],
+
+
+     [{ "Geometry": { "Latitude": 12.9359, "Longitude": 77.5182 } },
+      { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     ]
+     ,
+     [{ "Geometry": { "Latitude": 12.9232, "Longitude": 77.5603 } },
+      { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     ]
+     ,
+      [{ "Geometry": { "Latitude": 12.9269, "Longitude": 77.5834 } },
+       { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+      ],
+      [{ "Geometry": { "Latitude": 12.9252, "Longitude": 77.6195 } },
+       { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+      ],
+      [{ "Geometry": { "Latitude": 12.9674, "Longitude": 77.5362 } },
+       { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+      ]
+
+     //[{ "Geometry": { "Latitude": 12.9888, "Longitude": 77.5376 } },
+     //   { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     //],
+     //   [{ "Geometry": { "Latitude": 13.0390, "Longitude": 77.5203 } },
+     //    { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     //   ],
+     //   [{ "Geometry": { "Latitude": 13.0265, "Longitude": 77.5852 } },
+     //    { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     //   ]
+     //   ,
+     //    [{ "Geometry": { "Latitude": 13.0922, "Longitude": 77.5595 } },
+     //     { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     //    ]
+     //    ,
+     //    [{ "Geometry": { "Latitude": 12.8936, "Longitude": 77.5816 } },
+     //     { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     //    ],
+     //    [{ "Geometry": { "Latitude": 13.0131, "Longitude": 77.6627 } },
+     //   { "Geometry": { "Latitude": 12.9889, "Longitude": 77.7290 } }
+     //    ]
+
+
+
+
+    ];
+
+
+
+
+
+
+    var a, z, b;
+
+    var add;
+
+
+    var speed = 0.000005, wait = 1;
+    var infowindow = null;
+
+
+    infowindow = new google.maps.InfoWindow();
+
+
+    var myPano;
+    var panoClient;
+    var nextPanoId;
+
+
+
+
+
+
+
+
+    var directionsDisplay = [];
+
+    directionsDisplay[0] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: 'red'
+        },
+    });
+
+
+    directionsDisplay[1] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: 'green'
+        },
+    });
+
+    directionsDisplay[2] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: 'orange'
+        },
+    });
+
+
+    directionsDisplay[3] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: 'yellow'
+        },
+    });
+    directionsDisplay[4] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: 'black'
+        },
+    });
+    directionsDisplay[5] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: 'blue'
+        },
+    });
+    directionsDisplay[6] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#800000'
+        },
+    });
+    directionsDisplay[7] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#999999'
+        },
+    });
+    directionsDisplay[8] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#237AD8'
+        },
+    });
+    directionsDisplay[9] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#CD5C5C'
+        },
+    });
+    directionsDisplay[10] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#FA8072'
+        },
+    });
+    directionsDisplay[11] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#CD5C5C'
+        },
+    });
+    directionsDisplay[12] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#FF00FF'
+        },
+    });
+    directionsDisplay[13] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#008080'
+        },
+    });
+    directionsDisplay[14] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#808000'
+        },
+    });
+    directionsDisplay[15] = new window.google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        polylineOptions: {
+            strokeColor: '#C0C0C0'
+        },
+    });
+
+
+
+    var map;
+    var mapOptions = {
+        center: new google.maps.LatLng(42.5584308, -70.8597732), zoom: 3,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    function initialize() {
+        debugger;
+        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        directionsService = new google.maps.DirectionsService();
+
+        //var i;
+        //for (i = 0; i < stops_data.length; i++) {
+
+
+
+        //    Tour_startUp(stops_data[i], 'red');
+
+        //    window.tour.loadMap(map, directionsDisplay[i]);
+        //    window.tour.fitBounds(stops_data[i], map);
+
+
+
+        //    if (stops_data[i].length > 1)
+
+        //        window.tour.calcRoute(stops_data[i], directionsService, directionsDisplay[i], "route" + (i + 1));
+        //}
+
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "MapAPI/GetMultipleRoutes",
+            data: { custId: userId },
+            async: false,
+            success: function (data) {
+
+                debugger;
+                for (var i = 0; i < data.length; i++) {
+                    debugger;
+                    var stations = [];
+
+                    var poiIds = data[i].POIIDs;
+                    var name = data[i].RouteName;
+                    var startid = data[i].SID;
+                    var destinationId = data[i].EID;
+
+                    poiIds = startid + ',' + poiIds + ',' + destinationId;
+
+
+
+                    var myarray = poiIds.split(',');
+
+                    for (var x = 0; x < myarray.length; x++) {
+                        var text = myarray[x];
+
+                        var location;
+                        $.ajax({
+                            dataType: "json",
+                            type: "GET",
+                            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                            url: apiBase.apiurl + "MapAPI/GetPoiLatLongForAddTrip",
+                            data: { poiId: text },
+                            async: false,
+                            success: function (data) {
+
+                                for (var j = 0; j < data.length; j++) {
+
+                                    stations.push({
+                                        "Geometry": {
+                                            "Latitude": parseFloat(data[j].lat),
+                                            "Longitude": parseFloat(data[j].lng)
+                                        }
+
+                                    });
+                                }
+
+                            }
+                        })
+                    }
+
+
+                    Tour_startUp(stations, 'red');
+
+                        window.tour.loadMap(map, directionsDisplay[i]);
+                        window.tour.fitBounds(stations, map);
+
+
+
+                        if (stations.length > 1)
+
+                            window.tour.calcRoute(stations, directionsService, directionsDisplay[i], "route Name :" + name);
+
+                }
+
+            },
+            error: function () {
+                alert('Please try again');
+            }
+        })
+
+
+
+        
+
+
+    }
+
+
+
+
+    function Tour_startUp(stops, color) {
+
+        if (!window.tour) window.tour = {
+            updateStops: function (newStops) {
+                stops = newStops;
+            },
+
+
+            // map: google map object
+            // directionsDisplay: google directionsDisplay object (comes in empty)
+            loadMap: function (map, dirdis) {
+
+                var myOptions = {
+                    zoom: 15,
+                    center: new window.google.maps.LatLng(51.507937, -0.076188), // default to London
+                    mapTypeId: window.google.maps.MapTypeId.ROADMAP
+                };
+                map.setOptions(myOptions);
+                dirdis.setMap(map);
+            },
+            fitBounds: function (stops_data, map) {
+                var bounds = new window.google.maps.LatLngBounds();
+
+                // extend bounds for each record
+                for (var x in stops_data) {
+                    var myLatlng = new window.google.maps.LatLng(stops_data[x].Geometry.Latitude, stops_data[x].Geometry.Longitude);
+                    bounds.extend(myLatlng);
+                }
+                map.fitBounds(bounds);
+            },
+            calcRoute: function (stops_new, directionsService, dirdis, text) {
+
+
+                var batches = [];
+                var itemsPerBatch = 20; // google API max = 10 - 1 start, 1 stop, and 8 waypoints
+                var itemsCounter = 0;
+                var wayptsExist = stops_new.length > 0;
+                var time = [];
+                while (wayptsExist) {
+                    var subBatch = [];
+                    var subitemsCounter = 0;
+
+
+
+                    for (var j = itemsCounter; j < stops_new.length; j++) {
+                        subitemsCounter++;
+
+                        //alert(stops[j].Geometry.Time);
+
+
+
+                        subBatch.push({
+                            location: new window.google.maps.LatLng(stops_new[j].Geometry.Latitude, stops_new[j].Geometry.Longitude),
+                            stopover: true
+
+                        });
+
+                        //time.push(stops[j].Geometry.Time);
+
+                        if (subitemsCounter == itemsPerBatch)
+                            break;
+                    }
+
+                    itemsCounter += subitemsCounter;
+                    batches.push(subBatch);
+                    wayptsExist = itemsCounter < stops_new.length;
+                    // If it runs again there are still points. Minus 1 before continuing to
+                    // start up with end of previous tour leg
+                    itemsCounter--;
+                }
+
+                // now we should have a 2 dimensional array with a list of a list of waypoints
+                var combinedResults;
+                var unsortedResults = [{}]; // to hold the counter and the results themselves as they come back, to later sort
+                var directionsResultsReturned = 0;
+
+
+
+
+                for (var k = 0; k < batches.length; k++) {
+                    var lastIndex = batches[k].length - 1;
+                    var start = batches[k][0].location;
+                    var end = batches[k][lastIndex].location;
+
+                    // trim first and last entry from array
+                    var waypts = [];
+                    waypts = batches[k];
+                    waypts.splice(0, 1);
+                    waypts.splice(waypts.length - 1, 1);
+
+                    var request =
+                        {
+                            origin: start,
+                            destination: end,
+                            waypoints: waypts,
+                            travelMode: window.google.maps.TravelMode.DRIVING
+                        };
+
+
+
+
+                    (function (kk) {
+                        directionsService.route(request, function (result, status) {
+
+
+
+                            if (status == window.google.maps.DirectionsStatus.OK) {
+
+
+                                //fx(result.routes[0]);
+
+                                polyline[0] = new google.maps.Polyline({
+                                    path: [],
+                                    strokeColor: color,
+                                    strokeWeight: 3
+                                });
+
+
+
+
+                                var unsortedResult = { order: kk, result: result };
+                                unsortedResults.push(unsortedResult);
+
+                                directionsResultsReturned++;
+
+                                if (directionsResultsReturned == batches.length) // we've received all the results. put to map
+                                {
+                                    // sort the returned values into their correct order
+                                    unsortedResults.sort(function (a, b) { return parseFloat(a.order) - parseFloat(b.order); });
+                                    var count = 0;
+                                    for (var key in unsortedResults) {
+                                        if (unsortedResults[key].result != null) {
+                                            if (unsortedResults.hasOwnProperty(key)) {
+                                                if (count == 0) // first results. new up the combinedResults object
+                                                    combinedResults = unsortedResults[key].result;
+                                                else {
+                                                    // only building up legs, overview_path, and bounds in my consolidated object. This is not a complete
+                                                    // directionResults object, but enough to draw a path on the map, which is all I need
+                                                    combinedResults.routes[0].legs = combinedResults.routes[0].legs.concat(unsortedResults[key].result.routes[0].legs);
+                                                    combinedResults.routes[0].overview_path = combinedResults.routes[0].overview_path.concat(unsortedResults[key].result.routes[0].overview_path);
+
+                                                    combinedResults.routes[0].bounds = combinedResults.routes[0].bounds.extend(unsortedResults[key].result.routes[0].bounds.getNorthEast());
+                                                    combinedResults.routes[0].bounds = combinedResults.routes[0].bounds.extend(unsortedResults[key].result.routes[0].bounds.getSouthWest());
+                                                }
+                                                count++;
+                                            }
+                                        }
+                                    }
+                                    dirdis.setDirections(combinedResults);
+                                    var legs = combinedResults.routes[0].legs;
+                                    var path = combinedResults.routes[0].overview_path;
+
+                                    debugger;
+
+                                   // createMarker(dirdis.getMap(), legs[0].start_location, text, "Start Point<br>" + legs[0].start_address, 'A');
+
+
+                                   
+
+                                    // marker for End Point
+                                  //  createMarker(dirdis.getMap(), legs[legs.length - 1].end_location, text, "End Point <br>" + legs[legs.length - 1].end_address, 'B');
+
+
+                                    for (var i = 0; i < legs.length; i++) {
+                                        
+                                       
+                                      
+                                        if (i == 0) {
+                                            createMarker(dirdis.getMap(), legs[0].start_location, text, "Start Point<br>" + legs[0].start_address, 'A');
+                                            var j = legs.length;
+                                            var markerletter = "A".charCodeAt(0);
+                                            markerletter += j;
+                                            markerletter = String.fromCharCode(markerletter);
+                                        }
+                                        else if (i == legs.length - 1) {
+                                           
+                                            createMarker(dirdis.getMap(), legs[i].end_location, text, "End Point <br>" + legs[legs.length - 1].end_address, 'B');
+
+                                        }
+                                        else
+                                        {
+                                            createMarker(dirdis.getMap(), legs[i].end_location, text, "End Point <br>" + legs[legs.length - 1].end_address, 'C');
+                                        }
+                                
+                                            
+                                          
+
+                                    }
+                                    polyline[0].setMap(map);
+
+
+                                }
+                            }
+                        });
+                    })(k);
+                }
+            }
+        };
+    }
+
+
+    var icons = new Array();
+    icons["red"] = new google.maps.MarkerImage("../Trackmaster_files/Fuel/sky.png",
+          // This marker is 20 pixels wide by 34 pixels tall.
+          new google.maps.Size(15, 29),
+          // The origin for this image is 0,0.
+          new google.maps.Point(0, 0),
+          // The anchor for this image is at 9,34.
+          new google.maps.Point(9, 34));
+
+
+
+    function getMarkerImage(iconStr) {
+
+
+       
+        //alert(iconStr);
+
+        if ((typeof (iconStr) == "undefined") || (iconStr == null)) {
+            iconStr = "red";
+        }
+
+        if (iconStr == 'A') {
+            // for start point
+
+
+            if (!icons[iconStr]) {
+                icons[iconStr] = new google.maps.MarkerImage("../Trackmaster_files/Fuel/green.png"
+
+
+                    );
+            }
+
+        }
+        if (iconStr == 'B') {
+
+            // for end point
+
+
+            if (!icons[iconStr]) {
+                icons[iconStr] = new google.maps.MarkerImage("../Trackmaster_files/Fuel/red.png"
+
+
+                    );
+            }
+
+
+        }
+
+        if (iconStr == 'C') {
+
+            // for end point
+         
+
+            if (!icons[iconStr]) {
+                icons[iconStr] = new google.maps.MarkerImage("../Trackmaster_files/Fuel/sky.png"
+
+
+                    );
+            }
+
+
+        }
+        return icons[iconStr];
+    }
+
+
+    var iconImage = new google.maps.MarkerImage('mapIcons/marker_red.png',
+        // This marker is 20 pixels wide by 34 pixels tall.
+        new google.maps.Size(20, 34),
+        // The origin for this image is 0,0.
+        new google.maps.Point(0, 0),
+        // The anchor for this image is at 9,34.
+        new google.maps.Point(9, 34));
+
+
+
+    var iconShadow = new google.maps.MarkerImage('http://www.google.com/mapfiles/shadow50.png',
+        // The shadow image is larger in the horizontal dimension
+        // while the position and offset are the same as for the main image.
+        new google.maps.Size(37, 34),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(9, 34));
+
+    var iconShape = {
+        coord: [9, 0, 6, 1, 4, 2, 2, 4, 0, 8, 0, 12, 1, 14, 2, 16, 5, 19, 7, 23, 8, 26, 9, 30, 9, 34, 11, 34, 11, 30, 12, 26, 13, 24, 14, 21, 16, 18, 18, 16, 20, 12, 20, 8, 18, 4, 16, 2, 15, 1, 13, 0],
+        type: 'poly'
+    };
+
+
+    function createMarker(map, latlng, label, html, color) {
+
+
+
+        var contentString = '<b>' + label + '</b><br>' + html;
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            shadow: iconShadow,
+            icon: getMarkerImage(color),
+            shape: iconShape,
+            title: label,
+             zIndex: Math.round(latlng.lat() * -100000) << 15
+        });
+        marker.myname = label;
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        });
+
+
+        return marker;
+    }
+
+
+
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<div id="map_canvas"></div>
+
+

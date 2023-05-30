@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        .veh_label {
+            font: 12px/16px Verdana,sans-serif;
+            font-weight: bold;
+            padding: 2px 4px 2px 4px;
+            width: auto;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe src="#" width="720" height="370" frameborder="0" style="border:0" id="mapframe"></iframe>
+
+    <input type="hidden" id="vehname" value='@ViewBag.vehname' />
+    @*<input type="hidden" id="lat" value='@ViewBag.lat' />
+        <input type="hidden" id="longi" value='@ViewBag.longi' />
+        <input type="hidden" id="location" value='@ViewBag.location' />*@
+    <input type="hidden" id="bbid" value='@ViewBag.bbid' />
+    @*<input type="hidden" id="dateTime" value='@ViewBag.dateTime' />*@
+
+
+    <div style="position: absolute; height: auto; width: 200px; background: white; top: 10px; right: 10px; word-break: break-all; margin-right: 7px; padding:15px" id="d">
+
+    </div>
+
+    <script type="text/javascript">
+
+
+        //function initMap() {
+        //    debugger;
+
+
+
+        //    var vehname = $('#vehname').val();
+        //    var lat = $('#lat').val();
+
+        //    var longi = $('#longi').val();
+        //    var location = $('#location').val();
+
+
+
+        //    var dateTime = $('#dateTime').val();
+
+
+        //    status = status.substring(1, status.length);
+        //    if (dateTime == null || dateTime == "") {
+
+
+
+        //        if (dateTime == "") {
+        //            html = "<b>Vehicle no:</b>" + vehname + "<br/><b>Location:</b> " + location + "";
+        //        }
+        //        else {
+        //            html = "<b>Vehicle no:</b>" + vehname + "<br/><b>Date Time:</b> " + dateTime + "<br/><b>Location:</b> " + location + "";
+        //        }
+
+        //    }
+        //    else {
+        //        html = "<b>Vehicle no:</b>" + vehname + "<br/><b>Date Time:</b> " + dateTime + "<br/><b>Location:</b> " + location + "";
+        //    }
+        //    $("#d").html(html);
+
+        //    $("#mapframe").attr("src", "https://maps.google.com/maps?q=" + lat + "," + longi + "&z=15&output=embed");
+
+        //}
+
+        // ================ create marker ================
+        function refresh() {
+
+            $.getJSON(apiBase.apiurl + "Reportsapi/GetBoxTrail?bbid=" + $('#bbid').val(),
+                    function (data) {
+                       
+                        var i = 0;                     
+                        $.each(data, function (key, val) {
+                            Speed = val.Speed;
+                            Location = val.Location;
+                            angle = val.angle;
+                            DataDate = val.DataDate;
+                            Icontype = val.IconType;
+                            if (i == data.length - 1) {
+                                $("#mapframe").attr("src", "https://earth.google.com/web/search/" + val.Latitude + "," + val.Longitude + "/");
+                                var html2 = "<b>Vehicle no:</b>" + $('#vehname').val() + "<br/><b>Date Time:</b> " + val.DataDate + "<br/><b>Location:</b> " + val.Location + "<br/><b>Speed:</b> " + val.Speed + "";
+                                $("#d").html("");
+                                $("#d").html(html2);
+                            }
+                            i++;
+                        });
+
+                    })
+        }
+
+        $(document).ready(function () {
+
+            refresh();
+        });
+        setInterval(function () {
+            refresh() 
+        }, 20000);
+    </script>
+</body>
+</html>

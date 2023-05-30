@@ -1,0 +1,367 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Hitec.BB.TrackMaster.Helpers;
+using Newtonsoft.Json;
+
+namespace Hitec.BB.TrackMaster.Controllers
+{
+    public class ReportController : Controller
+    {
+        #region Action Methods
+        [ActionName("distance")]
+        public ActionResult DistanceReport()
+        {
+            return View("Distance");
+        }
+
+
+        
+        public ActionResult DisconnectionReport()
+        {
+            return View();
+        }
+        
+
+        [ActionName("LiveStatus")]
+        public ActionResult LiveStatus()
+        {
+            return View("LiveStatus");
+        }
+        [ActionName("LiveStatusexxon")]
+        public ActionResult LiveStatusexxon()
+        {
+            return View("LiveStatusexxon");
+        }
+
+        [ActionName("StoppageAnalysisReport")]
+        public ActionResult StoppageAnalysisReport()
+        {
+            return View("StoppageAnalysisReport");
+        }
+
+
+        [ActionName("SpeedAnalysisReport")]
+        public ActionResult SpeedAnalysisReport()
+        {
+            return View("SpeedAnalysisReport");
+        }
+        [ActionName("NormalSpeedAnalysisReport")]
+        public ActionResult NormalSpeedAnalysisReport()
+        {
+            return View("NormalSpeedAnalysisReport");
+        }
+
+           [ActionName("DetailedSummaryAnalysisReport")]
+        public ActionResult DetailedSummaryAnalysisReport()
+        {
+            return View("DetailedSummaryAnalysisReport");
+        }
+
+
+
+
+        
+        [ActionName("ignition")]
+        public ActionResult IgnitionReport()
+        {
+            return View("ignition");
+        }
+        [ActionName("Idling")]
+        public ActionResult IdlingReport()
+        {
+            return View("Idling");
+        }
+        [ActionName("summary")]
+        public ActionResult SummaryReport()
+        {
+            return View("summary");
+        }
+
+        [ActionName("trip")]
+        public ActionResult TripReport()
+        {
+            return View("trip");
+        }
+
+      
+
+        [ActionName("details")]
+        public ActionResult Details()
+        {
+            return View("details");
+        }
+        //Amit
+        public ActionResult DoorReport()
+        {
+            return View();
+        }
+       
+       
+
+        #region RefrigeratorTemperature :Amit(30-11-2016)
+        [ActionName("refTemp")]
+        public ActionResult RefTempReport()
+        {
+            return View("refTemp");
+        }
+        public ActionResult RefTempDetail(DateTime beginDate, DateTime endDate, string bbid, double offset)
+        {
+            return View();
+        }
+        #endregion
+
+        #region  dumperlid report :Amit (01-12-2016)
+        [ActionName("dumperlid")]
+        public ActionResult DumperLidReport()
+        {
+            return View("dumperlid");
+        }
+
+        public ActionResult DumperLidDetail(DateTime beginDate, DateTime endDate, string bbid)
+        {
+            return View();
+        }
+        #endregion
+
+        [ActionName("milkLid")]
+        public ActionResult milkLidReport()
+        {
+            return View("milkLidReport");
+        }
+
+        [ActionName("FuelLid")]
+        public ActionResult fuelLidReport()
+        {
+            return View("FuelLidReport");
+        }
+
+        [ActionName("LiveStatusMotherDairy")]
+        public ActionResult LiveStatusMotherDairy()
+        {
+            return View("LiveStatusMotherDairy");
+        }
+        #endregion
+
+
+        #region Non Action methods
+        public PartialViewResult _ReportFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_ReportFilter");
+        }
+        public PartialViewResult _DumperReportFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_DumperReportFilter");
+        }
+
+
+        
+        public PartialViewResult _RoutePlayBackFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_RoutePlayBackFilter");
+        }
+        public PartialViewResult _ReportFilterWithVehicleList(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_ReportFilterWithVehicleList");
+        }
+
+        public PartialViewResult GetLocationPartialView(string vehname, string lat, string longi, string location, string status)
+        {
+            EmptyViewBags();
+            ViewBag.vehname = vehname;
+            ViewBag.lat = lat;
+            ViewBag.longi = longi;
+            ViewBag.location = location;
+            if (status == "undefined")
+            {
+                status = "";
+            }
+            ViewBag.status = status;
+            return PartialView("_IndividualLocation");
+        }
+
+        public PartialViewResult GetLocationPartialViewWithData(string vehname, string lat, string longi, string location, string driverName, string driverNumber, string speed, string dateTime, string status)
+        {
+            EmptyViewBags();
+            ViewBag.vehname = vehname;
+            ViewBag.lat = lat;
+            ViewBag.longi = longi;
+            ViewBag.location = location;
+            ViewBag.driverName = driverName;
+            ViewBag.driverNumber = driverNumber;
+            ViewBag.speed = speed;
+            ViewBag.dateTime = dateTime;
+            if (status == "undefined")
+            {
+                status = "";
+            }
+            ViewBag.status = status;
+
+            return PartialView("_IndividualLocation");
+        }
+
+        private void EmptyViewBags()
+        {
+            ViewBag.vehname = null;
+            ViewBag.lat = null;
+            ViewBag.longi = null;
+            ViewBag.location = null;
+            ViewBag.driverName = null;
+            ViewBag.driverNumber = null;
+            ViewBag.speed = null;
+            ViewBag.dateTime = null;
+        }
+
+        public PartialViewResult GetComparisonData(string firstMonthCountIn, string firstMonthCountOut, string secondMonthCountIn, string secondMonthCountOut, string reportName, string firstMonthName, string secondMonthName)
+        {
+            //EmptyViewBags();
+            ViewBag.firstMonthCountIn = firstMonthCountIn;
+            ViewBag.firstMonthCountOut = firstMonthCountOut;
+            ViewBag.secondMonthCountIn = secondMonthCountIn;
+            ViewBag.secondMonthCountOut = secondMonthCountOut;
+            ViewBag.reportName = reportName;
+            ViewBag.firstMonthName = firstMonthName;
+            ViewBag.secondMonthName = secondMonthName;
+            return PartialView("_MonthlyGraph");
+        }
+
+        #endregion
+
+
+        public ActionResult GetUploadRetorts()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetUploadRetorts(string Remark, string MailAdd, string FilePath)
+        {
+            bool result = Sendmail.SendEmail(Remark, MailAdd, FilePath);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [ActionName("Stoppage")]
+        public ActionResult Stoppage()
+        {
+            return View("Stoppage");
+        }
+
+
+        public ActionResult ConsolidatedForAll()
+        {
+            return View();
+
+        }
+        [ActionName("SmsReports")]
+        public ActionResult SmsReports()
+        {
+            return View("SmsReports");
+        }
+
+        #region GetTimeSlotsReport  
+        [ActionName("GetTimeSlotsReport")]
+        public ActionResult GetTimeSlotsReport()
+        {
+            return View();
+        }
+        #endregion
+        #region GetTimeSlotsReportDriverBehavior
+        [ActionName("GetTimeSlotsReportDriverBehavior")]
+        public ActionResult GetTimeSlotsReportDriverBehavior()
+        {
+            return View();
+        }
+        #endregion
+        #region Over Idling (copy of Idling, just change in logic for over idling: amit sir) : 6-2-2017
+        public ActionResult OverIdling()
+        {
+            return View();
+        }
+        #endregion
+
+        #region reftempalert
+        public ActionResult RefTempAlert()
+        {
+            return View();
+        }
+        #endregion
+
+        #region _RefReportFilter : Bhanu Sir(6-15-2017)
+        public PartialViewResult _LidReportFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_LidReportFilter");
+        }
+        public PartialViewResult _RefReportFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_RefReportFilter");
+        }
+        public PartialViewResult _FixReportFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_FixReportFilter");
+        }
+        public PartialViewResult _MonthlyReportFilter(string reportTitle, string report)
+        {
+            ViewBag.ReportTitle = reportTitle;
+            ViewBag.Report = report;
+            return PartialView("_MonthlyReportFilter");
+        }
+        
+        #endregion
+
+        public ActionResult CombinedReport()
+        {
+            return View();
+        }
+        public ActionResult DailyReport()
+        {
+            ViewBag.ReportTitle = "DailyReport";
+            return View();
+        }
+
+
+        public ActionResult VardhmanReport()
+        {
+            ViewBag.ReportTitle = "vardhman Fleet Summary";
+            return View("DailyReport");
+        }
+
+
+       public ActionResult CustomizeTripDetailReport()
+        {
+            return View();
+        }
+
+       public ActionResult CustomizeTripDetailReportNFL()
+       {
+           return View();
+       }
+
+       public ActionResult CustomizeTripDetailReporting()
+       {
+           return View();
+       }
+
+       public ActionResult CustomizeTripDistrictDetail()
+       {
+           return View();
+       }
+        
+    }
+}

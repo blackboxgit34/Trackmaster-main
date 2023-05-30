@@ -1,0 +1,77 @@
+<html>
+<head>
+</head>
+<body>
+    <form method="post" name="customerData" action="ccavRequestHandler.aspx" style="display:none">
+        <input type="text" id="order_id" name="order_id" readonly />
+        <input type="text" id="amount" name="amount" readonly />
+        <input type="text" id="billing_name" name="billing_name" readonly />
+        <input type="text" id="billing_address" name="billing_address" readonly />
+        <input type="text" id="billing_city" name="billing_city" readonly />
+        <input type="text" id="billing_state" name="billing_state" readonly />
+        <input type="text" id="billing_zip" name="billing_zip" readonly />
+        <input type="text" id="billing_country" name="billing_country" readonly />
+        <input type="text" id="billing_tel" name="billing_tel" readonly />
+        <input type="text" id="billing_email" name="billing_email" readonly />
+        <input type="text" id="customer_identifier" name="customer_identifier" readonly />
+        <input type="submit" id="control-qid13228" value="Checkout" />
+    </form>
+    <center>
+        <img src="http://trackmaster.in/img/Loading_icon.gif" alt="Alternate Text" />
+        <h2>Redirecting to payment gateway..</h2>
+    </center>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+        $(document).ready(function () {
+            var param = { custid: getUrlParameter('custid'), amount: getUrlParameter('amount'), billno: getUrlParameter('billno') };
+            console.log(param);
+            $.ajax({
+                //url: 'http://192.168.0.173:44/Invoice/InitPay',
+                url: 'http://api1.trackmaster.in/api/InvoiceAPI/GetInitPayDetails',
+                dataType: "json",
+                type: "GET",             
+                cache: false,
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: param,
+                success: function (data) {
+                    if (data.success) {
+                        
+                        console.log(data);
+                        $('#order_id').val(data.BillNo);
+                        $('#amount').val(data.Amount);
+                        $('#billing_name').val(data.Billname);
+                        $('#billing_address').val(data.address);
+                        $('#billing_city').val(data.city);
+                        $('#billing_state').val(data.state);
+                        $('#billing_zip').val(data.PostalCode);
+                        $('#billing_country').val(data.Country);
+                        $('#billing_tel').val('7696160685');
+                        $('#billing_email').val('dushyant@blackboxgps.net');
+                        $('#customer_identifier').val(data.custid);
+                        setTimeout(function () { $("#control-qid13228").trigger("click"); }, 1000);
+                    }
+                },
+                error: function (xhr) {
+                    console.log('error');
+                }
+            });
+            //$('tr:nth-child(-n+7)').hide();
+            //$("#control-qid13228").trigger("click");
+        });
+    </script>
+</body>
+</html>

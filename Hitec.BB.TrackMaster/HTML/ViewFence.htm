@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>View Geo-fence</title>
+    <meta name="keywords" content="blackbox,google map,v3,geofence" />
+    <meta name="description" content="BlackBox Geofence Creator" />
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+          media="screen" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu4NyT_yiDqc-z09IviAzDSZDxPi2LTgg&libraries=drawing,places" language="javascript" type="text/javascript"></script>
+
+    <script type="text/javascript" src="../js/Map/GeoFence/jquery-1.4.2.min.js"></script>
+
+    <script src="../Content/js/APIURL.js" type="text/javascript"></script>
+    <script src="../Scripts/app/GeoFenceCustID.js" type="text/javascript"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var vertices;
+        var fenceId;
+        var theFence;
+        var polyOptions;
+        var drawingManager;
+        $(document).ready(function () {
+            $("#VariantName").select2({ width: '100%' });
+
+            $('#save').click(function () {
+                var bbid = $("#VariantName").val();
+                getPolygonCoords();
+                debugger;
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "GeofenceAPI/AddNewGeoFence",
+                    data: { fenceName: $('#fencename').val(), bbid: $("#VariantName").val(), latLongPairs: vertices, alertson: "", custid: $custid, FenceId: fenceId },
+                    success: function (data) {
+                        debugger;
+                        alert('Fence successfully saved');
+                        $('#txtFenceName').val("");
+                    },
+                    error: function (obj) {
+                        console.log(obj);
+                        alert('Error');
+                    }
+                });
+            });
+            $(".trigger").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+            var height = $(window).height();
+            $('#map_canvas').css('height', height);
+            $("#VariantName").change(function () {
+                var bbid = $("#VariantName").val();
+                if (bbid != "null");
+                GeoFence(bbid);
+            });
+        });
+
+        function initialize() {
+            $(function () {
+                var latx = document.getElementById('txtlat').value;
+                var lonx = document.getElementById('txtlon').value;
+                if (latx == '') latx = 30.6;
+                if (lonx == '') lonx = 76.6;
+                var myCenter = new google.maps.LatLng(latx, lonx);
+                var myOptions = {
+                    zoom: 14,
+                    center: myCenter,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    gestureHandling: "greedy",
+                }
+                map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+                bindFencedVehicles();
+                var bbid = getParameterByName('bbid');
+                $("#VariantName").val(bbid).trigger('change');
+
+            });
+        }
+        function overlayClickListener(overlay) {
+            google.maps.event.addListener(overlay, "mouseup", function (event) {
+                vertices = event.overlay.getPath().getArray();
+            });
+        }
+        function bindFencedVehicles() {
+            debugger;
+            var variantDropDown = $('#VariantName');
+            debugger;
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "GeofenceAPI/GetFencedVehicles",
+                data: { userId: $custid },
+                async: false,
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) variantDropDown.append($('<option/>').text(data[i].VehicleName).attr('value', data[i].BBID));
+                    var bbid = $("#VariantName").val();
+                    //GeoFence(bbid);
+                },
+                error: function () {
+                }
+            }).done(function (result) {
+                var bbid = $("#VariantName").val();
+                GeoFence(bbid);
+            });
+        }
+        function GeoFence(value) {
+            debugger;
+            var triangleCoords = new Array();
+            var bound = new google.maps.LatLngBounds();
+            $.ajax({
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "GeofenceAPI/GetGeoOutPut?bbid=" + value,
+                success: function (data) {
+                    xmlDoc = (new DOMParser()).parseFromString(data, "text/xml")
+                    var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+                    if (markers.length > 0)
+                    {
+                        console.log(markers[0]);
+                        var fenceName = markers[0].getAttribute("fenceName");
+                        $("#fenceName").html(fenceName);
+                        $('#fencename').val(fenceName);
+                        BoxID = markers[0].getAttribute("bbid");
+                    }
+
+                    var cords = [];
+                    var cc = [];
+                    var id = markers[0].getAttribute("FenceId");
+                    fenceId = id;
+                    for (var i = 0; i < markers.length; i++) {
+                        var lat = parseFloat(markers[i].getAttribute("lat"));
+                        var lng = parseFloat(markers[i].getAttribute("lng"));
+                        var FenceId = parseInt(markers[i].getAttribute("FenceId"));
+                        //..........................................................
+                        var c = new google.maps.LatLng(lat, lng);
+                        if (FenceId != id || i == markers.length - 1) {
+                            if (i == markers.length - 1)
+                                cc.push(c);
+                            cords.push(cc);
+                            cc = [];
+                            id = FenceId;
+                        }
+                        cc.push(c);
+                        triangleCoords[i] = new google.maps.LatLng(lat, lng);
+                        var reCenter = new google.maps.LatLng(lat, lng);
+                        bound.extend(reCenter);
+                    }
+                    map.fitBounds(bound);
+                    console.log(bound);
+                    if (theFence != undefined) {
+                        theFence.setMap(null);
+                    }
+                    theFence = new google.maps.Polygon({
+                        paths: cords[0],
+                        draggable: true, // turn off if it gets annoying
+                        editable: true,
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35
+                    });
+                    theFence.setMap(map);
+                }
+            });
+
+
+        }
+
+        function getPolygonCoords() {
+            vertices = '';
+            theFence.getPath().getArray().forEach(function (e, f) {
+                vertices += "(" + e.lat() + ", " + e.lng() + "),";
+            });
+        }
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    </script>
+</head>
+<body onload="initialize();" style="height: 99vh !important">
+
+    <div id="container">
+        <div id="map_canvas" style="width: 100%;">
+        </div>
+
+        <div class="panel" style="height:150px; background-color:lightgray;">
+            <!--     <div >
+                    <b>1. To complete polygon, connect the end point of polygon with the starting point.</b>
+                 </div>
+                 <div >
+                    <b>2. Previously created fence will be over-written.</b>
+                 </div>-->
+            <input type="text" id="txtlat" style="display: none" />
+            <input type="text" id="txtlon" style="display: none" />
+            <h2>FenceName:<span id="fenceName" style="color:black;"></span> </h2>
+            <div>
+
+                <b style="color:#092872"> Vehicle: </b> <select id="VariantName" name="VariantName" class="ddl">
+                </select><br /><br />
+                <input type="input" name="fencename" value="Save fence" id="fencename" />
+                <input type="button" name="save" value="Save fence" id="save" />
+            </div>
+            <br />
+            <div id="Mesasage" style="display: none; color: #f21a1a; padding-top: 5px;">
+            </div>
+            <div id="dataPanel" style="display: none;">
+            </div>
+
+        </div>
+        <a class="trigger" href="#">View-Geofence</a>
+    </div>
+</body>
+</html>

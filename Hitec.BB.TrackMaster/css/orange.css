@@ -1,0 +1,54 @@
+/* [ ---- Hagal Admin - orange theme ---- ] */
+
+    textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus,.ms-container .ms-list.ms-focus,.ui-spinner.ui-state-hover { border-color: #df8c07; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 2px rgba(190, 119, 6, 0.3); }
+
+    .img-polaroid {border-color:#df8c07 }
+
+/* side menu accordion*/
+    #side_menu .toggle_active .accordion-toggle,#side_menu li.current a:after {background: #ef9608}
+    
+/* jquery ui slider */
+    .ui-slider .ui-slider-range,.ui-progressbar .ui-progressbar-value { background: #ef9608;border-color: #9d6205}
+
+/* 2 col multiselect */
+    .ms-container li.ms-elem-selectable:not(.disabled).ms-hover,.ms-container .ms-selection li:not(.disabled).ms-hover {background:#ef9608;border-color:#df8c07}
+
+/* select 2 */
+    .select2-container-active .select2-choice,.select2-container-active .select2-choices,.select2-container-multi.select2-container-active .select2-choices {border-color: #df8c07;outline: none;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(190, 119, 6, 0.3);-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(190, 119, 6, 0.3);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(190, 119, 6, 0.3)}
+    .select2-results .select2-highlighted {background:#ef9608}
+
+/* switch toggles */
+    .has-switch.switch-theme span.switch-primary, .has-switch.switch-theme span.switch-left {background:#ef9608}
+
+/* fullcalendar */
+    
+    ul.gallery_layout .active_layout i {color:#ef9608}
+    
+    .dataTables_wrapper table.table thead th,.footable > thead > tr > th, .footable > thead > tr > td,.table thead th {background-color:#fef5e7 !important}
+    
+    .tmtimeline:before {background:#feeed6}
+    .tmtimeline > li:nth-child(odd) .tmlabel {background:#feeed6}
+    .tmtimeline > li .tmicon {border:4px solid #feeed6;background:#fac063}
+    
+/* datepicker */    
+    .datepicker table tr td.active:hover, .datepicker table tr td.active:hover:hover, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled:hover:hover, .datepicker table tr td.active:active, .datepicker table tr td.active:hover:active, .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover:active, .datepicker table tr td.active.active, .datepicker table tr td.active.active:hover, .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled.disabled, .datepicker table tr td.active.disabled.disabled:hover, .datepicker table tr td.active[disabled], .datepicker table tr td.active[disabled]:hover, .datepicker table tr td.active.disabled[disabled], .datepicker table tr td.active.disabled[disabled]:hover,.datepicker table tr td span.active:hover, .datepicker table tr td span.active:hover:hover, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active.disabled:hover:hover, .datepicker table tr td span.active:active, .datepicker table tr td span.active:hover:active, .datepicker table tr td span.active.disabled:active, .datepicker table tr td span.active.disabled:hover:active, .datepicker table tr td span.active.active, .datepicker table tr td span.active.active:hover, .datepicker table tr td span.active.disabled.active, .datepicker table tr td span.active.disabled.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover, .datepicker table tr td span.active.disabled.disabled, .datepicker table tr td span.active.disabled.disabled:hover, .datepicker table tr td span.active[disabled], .datepicker table tr td span.active[disabled]:hover, .datepicker table tr td span.active.disabled[disabled], .datepicker table tr td span.active.disabled[disabled]:hover {background:#ef9608}
+ 
+/* wizard */ 
+    .swMain ul.anchor li a.done {color:#ef9608}
+    .swMain ul.anchor li a.selected,.swMain ul.anchor li a.selected:before, .swMain ul.anchor li a.selected:after {background:#ef9608}
+ 
+/* nav-list */
+    .nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {background:#ef9608}
+    
+/* faq/help */
+    .faq_box i,.faq_help .faq_heading {color:#ef9608}
+
+/* pricing table */
+    .pricing_table .pricing_row strong {color:#ef9608}
+    .pricing_table .pricing_promoted {border-color:#f8a521}
+
+/* search page */
+    .search_filters h4 {color:#df8c07}
+
+/* user settings */
+    .user_profile i {color:#ef9608}

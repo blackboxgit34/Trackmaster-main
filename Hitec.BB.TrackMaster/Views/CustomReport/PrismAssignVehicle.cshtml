@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Assign Vehicles to Plants";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+    <div class="widget widget-padding span12">
+        <div class="widget-header">
+            <i class="icon-cogs"></i>
+            <h5>Assign Vehicles</h5>
+            <div class="widget-buttons">
+                <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div id="ReportTotal">
+                        <div class="box">
+                            <div class="box-content padded" style="background: white;">
+                                <form class="row-fluid">
+                                    <div class="col-md-4">
+                                        <label>Select Vehicle</label>
+                                        <select id="ddlGroupUserList" class="form-control select2"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Select Plant</label>
+                                        <select class="form-control select2" id="Plants" ></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Select Vehicle Type</label>
+                                        <select class="form-control select2" id="vehicletype"></select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>Select</label>
+                                        <select class="form-control select2" id="hireown">
+                                            <option value="Own">Own</option>
+                                            <option value="Hire">Hire</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>&nbsp;</label>
+                                        <button onclick="btnSubmit();" class="btn btn-success">Submit</button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div id="DivVehcleCounter">
+                        <div class="box-content padded">
+                            <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Vehicle name </th>
+                                        <th>Plant</th>
+                                        <th>Type</th>
+                                        <th>Hired/Own</th>
+
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>
+<!--/widget-body-->
+@section scripts{
+
+ 
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/GeoFenceCustID.js"></script>
+<script src="~/Scripts/app/common.js"></script>
+
+<script src="~/Scripts/app/AssignPrismvehicles.js"></script>
+
+  
+}

@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Complaint";
+}
+<style>
+    ul {
+  list-style-type: none;
+}
+</style>
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilter", new { reportTitle = "View Service Request" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box_a_content">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr.No.</th>
+                                                    <th>Service Request Id
+                                                    </th>
+                                                    <th>ComplaintDate
+                                                    </th>
+                                                    <th>Vehicle
+                                                    </th>
+                                                    <th>Comments
+                                                    </th>
+                                                    <th>Assign On</th>
+                                                    <th>Assign To/Mobile</th>
+                                                    <th>Closed On</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+    <script src="~/Scripts/app/ViewComplaint.js"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/scripts/app/ViewComplaint.min.js?")"@DateTime.Now.Ticks></script>*@
+}

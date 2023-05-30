@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+          <script src="../Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+       <script src="../Content/js/APIURL.js"></script>
+    
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["columnchart"] });
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            
+
+            var userId = getUrlParameter('custId');
+            var baseURL = apiBase.apiurl;
+            var MyUrl = baseURL + 'LiveStatus/FMSUsageGraph';
+
+          
+            $.ajax({
+                url: MyUrl, data: { custId: userId },
+                success: function (data) {
+                    
+                    //bhanu
+                 var   vehicleInfo = data[0].Percentile;
+                 var ServiceReminder = data[1].Percentile;
+                 var RenewalReminder = data[2].Percentile;
+                 var RepairMaint = data[3].Percentile;
+                 var Tyre = data[4].Percentile;
+                 var Parts = data[5].Percentile;
+                 var Fuel = data[6].Percentile;
+                 var orderBooking = data[7].Percentile;
+                 var Employee = data[8].Percentile;
+                 var Customer = data[9].Percentile;
+                 var Supplier = data[10].Percentile;
+                 var DriverDocs = data[11].Percentile;
+
+                 var total = parseInt(vehicleInfo) + parseInt(ServiceReminder) + parseInt(RenewalReminder) + parseInt(RepairMaint) + parseInt(Tyre) + parseInt(Fuel) + parseInt(orderBooking) + parseInt(Employee) + parseInt(Customer) + parseInt(Supplier) + parseInt(DriverDocs) + parseInt(Parts);
+                    var data = google.visualization.arrayToDataTable([
+                      ['FMS Reports', 'Current-Usage', 'Total-Usage'],
+                      ['vehicleInfo ', vehicleInfo * 100, 1000],
+                      ['ServiceReminder', ServiceReminder * 100, 1000],
+                      ['RenewalReminder', RenewalReminder * 100, 1000],
+                      ['RepairMaint', RepairMaint * 100, 1000],
+                      ['Tyre', Tyre * 100, 1000],
+                      ['Parts', Parts * 100, 1000],
+                      ['Fuel', Fuel * 100, 1000],
+                       ['orderBooking', orderBooking * 100, 1000],
+                      ['Employee', Employee * 100, 1000],
+                      ['Customer', Customer*100, 1000],
+                       ['Supplier', Supplier * 100, 1000],
+                       ['DriverDocs', DriverDocs * 100, 1000],
+                    ]);
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+                    var options = {
+                        width: 600,
+                        height: 400,
+
+                        title: 'FMS-Usage:' + total + '%',
+                        animation: {
+                            duration: 1000,
+                            easing: 'in',
+                            startup: true
+                        },
+                        is3D: true
+                    };
+
+                    chart.draw(data, options);
+
+                }
+            });
+
+       
+        }
+    </script>
+  </head>
+
+  <body     style="min-height: 2693px;">
+    <div id="chart_div"></div>
+  </body>
+</html>

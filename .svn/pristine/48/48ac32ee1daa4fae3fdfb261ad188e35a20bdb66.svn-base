@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Manage Repair/Maintenance";
+    ViewBag.Report = "manageRepairMaintenance";
+}
+
+<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.6/select2-bootstrap.css" />
+<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
+<script src="~/Content/select2/select2.min.js"></script>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title </h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                    <input type="button" style="margin-right: 10px;" value="Add" id="BtnAdd" class="btn btn-green" onclick="window.location.href = '../FMS/AddRepairMaintenance'">
+                                    <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                                    @*<img src='/content/img/cc2.png' onmouseover="this.src='/content/img/z22.png';" onmouseout="this.src='/content/img/cc2.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">
+                                    <img src='/content/img/cc1.png' onmouseover="this.src='/content/img/z31.png';" onmouseout="this.src='/content/img/cc3.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">*@
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div>Statistics (@System.DateTime.Today.ToString("MMMM"))</div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-3"></div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/totalRepairCount.png" />
+                                                        <strong>
+                                                            <span class="count" id="totalRepairCount" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Repairs</span>
+                                                </div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/totalRepairCost.png" />
+                                                        <strong>
+                                                            <span class="count" id="totalRepairCost" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Repair Cost (Rs)</span>
+                                                </div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/totalServiceCount.png" />
+                                                        <strong>
+                                                            <span class="count" id="totalServiceCount" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Services</span>
+                                                </div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/totalServiceCost.png" />
+                                                        <strong>
+                                                            <span class="count" id="totalServiceCost" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Service Cost (Rs)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form class="form-inline">
+                                                    <div class="form-group padded">
+                                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                            <i class=" fa fa-calendar"></i>
+                                                            &nbsp;<span></span><b class="caret"></b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="padding-left: 5px;">
+                                                        <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                                    </div>
+                                                    <div class="form-group padded col-md-1" style="float: right;">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle Name
+                                                    </th>
+                                                    <th>Driver Name
+                                                    </th>
+                                                    <th>Total Repair/Maint. Cost 
+                                                    </th>
+                                                    <th>Repair Count</th>
+                                                    <th>Service Count</th>
+                                                    <th>Detail</th>
+                                                    <th class="hidden">VehicleId</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        var reportName;
+        $(document).ready(function () {
+            reportName = '@ViewBag.Report';
+            $(".js-example-basic").select2({});
+        });
+    </script>
+   
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.min.js")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+     <!-- JS for report acitvation check-->
+    <script src="~/Scripts/app/IsRptActChecked.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FMSRepairMaintenance.js?")"@DateTime.Now.Ticks></script>
+
+}

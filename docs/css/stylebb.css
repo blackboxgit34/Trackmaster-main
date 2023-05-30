@@ -1,0 +1,28 @@
+body{ margin:0; padding:0; background:url(../images/Loginpa.jpg) no-repeat #000; background-size:100% 153%; height:auto; font-family:Arial, Helvetica, sans-serif; transition:ease 1s;}
+.login_panel{ width:31%; padding-bottom:.5%; background:linear-gradient(#d4d4d4,#FFF);-webkit-background:linear-gradient(#d4d4d4,#FFF); -moz-background:linear-gradient(#d4d4d4,#FFF); -o-background:linear-gradient(#d4d4d4,#FFF); float:right; margin:10% 10% 0 0; border-radius:20px;}
+.logo{ width:100%;}
+.login_head{ color:#fc852b; font-weight:bold; font-size:30px; margin:5% 0 8% 10%; text-shadow:1px 1px 2px #000;}
+.fields{width:105%; float:left; margin-bottom:20px;}
+.fields label{ background:#f58635; color:#FFF; width:30%; text-align:center; line-height:40px; float:left; font-size:14px;}
+.fields input[type=text],input[type=password]{ width:64%;  float:left;  padding: 10px 0 11px 27px; font-size:1em; border:1px solid #cfcfcf; background:linear-gradient(#d8d8d8,#FFF);-webkit-background:linear-gradient(#d8d8d8,#FFF); -moz-background:linear-gradient(#d8d8d8,#FFF); -o-background:linear-gradient(#d8d8d8,#FFF);}
+
+.a{ float:left; width:12px; margin-left:-12px;}
+.b{float:left; width:8px; margin-top:12px;}
+.c{ float:left; width:10px; margin-left: -1px;}
+.remebr{ width:80%; margin:auto; font-size:10px;}
+.remebr span{color:#f58635;}
+.chk{ width:15px; height:15px;}
+.forgot{ float:right; color:#f58635; text-decoration:none;}
+.forgot:hover{ text-decoration:underline;}
+.btns{ width:96%;background:#f58635; border:none; color:#FFF; font-size:1.5em; cursor:pointer; height: 40px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; margin:5% 0 0 2% ;}
+input:focus{ outline:none;}
+.d{ width:60%; margin:auto; display:none;}
+.d img{ width:100%;}
+@media screen and (min-width:360px) and (max-width:860px)
+{
+		body{ background:radial-gradient(#666,#000)}
+		.d{ display:block; width:60%;}
+		.login_panel{ width:70%; margin:10% auto; float:none;}
+		.fields input[type=text],input[type=password]{ width:55%;}
+		.a,.c{ visibility:hidden;}
+}

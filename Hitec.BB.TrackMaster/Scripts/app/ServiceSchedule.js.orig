@@ -1,0 +1,88 @@
+﻿var table;
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+};
+$(document).ready(function () {
+<<<<<<< HEAD
+
+ 
+    var $custid = '45';
+=======
+   
+>>>>>>> 70f76ecba1a427dbb13d0604c4619d1802230759
+    var VehicleUrl =  apiBase.apiurl  + 'AdminAPI/GetVehicles';
+    $.get(VehicleUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#VehicleName").append($("<option></option>").val(value.Value).html(value.Text));
+        });
+    });
+
+    var ServiceUrl = apiBase.apiurl + 'FmsAPI/BindServiceScheduleItems';
+    $.post(ServiceUrl, function (data) {
+        $.each(data, function (key, value) {
+            $("#ServiceName").append($("<option></option>").val(value.ServiceItemID).html(value.ServiceItem));
+        });
+    });
+    GetServiceSchedule();
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+    })
+});
+$("#BtnSearch").click(function () {
+    GetServiceSchedule();
+});
+
+function GetServiceSchedule() {
+    deleteTable();
+    var $bbid = '';
+    var $beginDate = '';
+    var $endDate = '';
+    var $serviceid = '';
+    var $scheduleid = 0;
+    var d = new Date();
+    var strDate = d.getFullYear() + "/" + (d.getMonth() - 1) + "/" + d.getDate();
+    var endDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
+    $beginDate = strDate;
+    $endDate = endDate;
+    
+    var url = apiBase.apiurl + "FmsAPI/BindServiceSchedule";
+    console.log(url);
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            
+            console.log( "beginDate"+ $beginDate +"endDate"+ $endDate+ "custId"+ $custid + "bbid"+ $bbid +"serviceid"+ $serviceid +"scheduleid"+ $scheduleid )
+            param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "custId", "value": $custid }, { "name": "bbid", "value": $bbid }, { "name": "serviceid", "value": $serviceid }, { "name": "scheduleid", "value": $scheduleid });
+        },
+        "columns": [
+            { "data": "VehicleId" },
+            { "data": "ServiceScheduleID" },
+            { "data": "VehicleName" },
+            //{ "data": "ServiceItemNameList" },
+            //{ "data": "ScheduleAlert" },
+            //{ "data": "KM Alert" },
+            //{ "data": "NextDueDate" },
+            //{ "data": "NextDueKM" },
+            //{ "data": "ReminderValue" },
+            //{ "data": "LastPerformed" },
+            //{ "data": "Remarks" },
+        ],
+        //"rowCallback": function (row, data, index) {
+        //    console.log(data);
+        //    if (data.objRefTemperature == 0) {
+        //        var target = $(row).find(".details-control");
+        //        var index = (target).index();
+        //        $(row).find('td:eq(' + index + ')').removeClass('details-control')
+        //    }
+        //}
+    });
+}

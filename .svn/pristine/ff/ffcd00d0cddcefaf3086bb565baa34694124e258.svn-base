@@ -1,0 +1,103 @@
+﻿var table;
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+};
+$(document).ready(function () {
+    GetRefTempReport(null);
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+    })
+    $("#setTimeInterval").select2();
+});
+$("#BtnSearch").click(function () {
+    GetRefTempReport(null);
+});
+
+$("#excelExport").click(function () {
+    var downloadType = 'Excel';
+    var url = baseUrl + "Reportsapi/GetRefTempReport";
+    DownloadData(url, downloadType);
+});
+
+$("#pdfExport").click(function () {
+    var downloadType = 'PDF';
+    var url = baseUrl + "Reportsapi/GetRefTempReport";
+    DownloadData(url, downloadType);
+});
+
+function GetRefTempReport(downloadType) {
+    
+    deleteTable();
+    var url = apiBase.apiurl + "ReportsApi/GetRefTempReport";
+   
+    table = $('#dt_basic_Master').DataTable({
+        //"oLanguage": {
+        //    "sProcessing": "<img src='../Content/Trackmaster_files/loader.gif'/>"
+        //},
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "bbid", "value": "" }, { "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "downloadType", "value": downloadType }, { "name": "reportName", "value": '' }, { "name": "CommandName", "value": $('#Refcommandlist').val() });
+        },
+
+        "columns": [
+                //{
+                //    "data": "bbid",
+                //    "class": "hidden"
+                //},
+                { "data": "VehicleName" },
+                { "data": "CurrentTemperature" },
+                { "data": "HighestTemperature" },
+                { "data": "LowestTemperature" },
+                { "data": null,
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    
+                    $(nTd).html("<a target='_blank' href='/Report/RefTempDetail?beginDate=" + $beginDate + "&endDate=" + $endDate + "&bbid=" + oData.bbid + "&offset=" + oData.offset + "&TimeIntervals=" + $("#setTimeInterval").val() + "'>Detail</a>");
+                    }
+                },
+                   {
+                       "data": null,
+                       "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+                           $(nTd).html("<a target='_blank' href='/customreport/RefrigratorGraph'><img src='/VehType/chart_line_sel.png'></a>");
+                       }
+                   },
+        ]//,
+        //"rowCallback": function (row, data, index) {
+        //    if (data.objRefTemperature == 0) {
+        //        var target = $(row).find(".details-control");
+        //        var index = (target).index();
+        //        $(row).find('td:eq(' + index + ')').removeClass('details-control')
+        //    }
+        //}
+    });
+}
+
+
+function DownloadData(url, downloadType) {
+    var sEcho = 1;
+    var iDisplayStart = 0;
+    var iDisplayLength = 100000;
+    var sSearch = $('input[type=search]').val();
+    var iSortCol_0 = 0;
+    var sSortDir_0 = 'asc';
+    var sdt = moment($beginDate).format("D_MMM_YYYY");
+    var edt = moment($endDate).format("D_MMM_YYYY");
+    var reportName = 'Refrigerator_Temperature_Report_' + sdt + '_TO_' + edt;
+    var $bbid = '';
+    var CommandName = $('#Refcommandlist').val();
+    var url1 = url + "?beginDate=" + $beginDate + "&endDate=" + $endDate + "&CommandName=" + CommandName + "&bbid=" + $bbid + "&downloadType=" + downloadType + "&reportName=" + reportName + "&custId=" + $custid + "&sEcho=" + sEcho + "&iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&sSearch=" + sSearch + "&iSortCol_0=" + iSortCol_0 + "&sSortDir_0=" + sSortDir_0;
+    window.location = url1;
+}

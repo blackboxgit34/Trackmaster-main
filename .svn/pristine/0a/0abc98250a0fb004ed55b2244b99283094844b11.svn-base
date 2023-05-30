@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "ChangePassword";
+}
+
+
+
+
+
+
+
+
+
+
+
+<div class="row-fluid body">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-pencil"></i>
+                <h5>Change Password</h5>
+            </div>
+        </div>
+    </div>
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <form data-toggle="validator" role="form" id="formChangePassword">
+                                            <div class="form-group col-md-4 col-md-offset-3">
+                                                <label for="inputName" class="control-label">Current Password</label>
+                                                <input type="text" class="form-control" id="CurrentPassword" name="CurrentPassword" placeholder="Current Password" required>
+                                            </div>
+                                            <div class="form-group col-md-4 col-md-offset-3">
+                                                <label for="inputName" class="control-label">New Password</label>
+                                                <input type="text" class="form-control" id="NewPassword" name="NewPassword" placeholder="New Password" required>
+                                            </div>
+                                            <div class="form-group col-md-4 col-md-offset-3">
+                                                <label for="inputName" class="control-label">Confirm New Password</label>
+                                                <input type="text" class="form-control" id="txtCnfrmNewPwd" name="txtCnfrmNewPwd" placeholder="Confirm New Password" required>
+                                                <input type="hidden" id="custId" name="custId" />
+                                            </div>
+                                            <div class="form-group col-md-4 col-md-offset-3">
+                                                <button type="button" onclick="submitPassword();" class="btn btn-green">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script>
+        window.submitPassword = function () {
+            debugger;
+            var custId = '45';
+            var CurrentPassword = $("#CurrentPassword").val();
+
+            var NewPassword = $("#NewPassword").val();
+            var txtCnfrmNewPwd = $("#txtCnfrmNewPwd").val();
+            if (NewPassword == txtCnfrmNewPwd) {
+
+
+                //     var form= $("#formChangePassword").serialize();
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "AdminAPI/ChangePassword",
+                    data: { custId: custId, CurrentPassword: CurrentPassword, NewPassword: NewPassword },
+                    success: function (data) {
+                        debugger;
+                        toastr.success( "Password Updated");
+                    },
+                    error: function(error)
+                    {
+                        toastr.error("something went wrong!");
+                }
+                });
+            }
+            else {
+                toastr.error("something went wrong!");
+            }
+        }
+        
+    </script>
+    }
+

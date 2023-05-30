@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+}
+
+@model Hitec.BB.TrackMaster.Models.PlaybackModel
+@*<link rel="shortcut icon" href="//jqueryui.com/jquery-wp-content/themes/jqueryui.com/i/favicon.ico">*@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div>
+                @Html.Action("_RoutePlayBackFilter", "Report", new { reportTitle = "Route Deviation" })
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -40px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div class="row-fluid">
+
+                                    <div class="box_a_content cnt_a">
+
+                                        <div class="tabbable tabbable-bordered">
+
+                                            <div class="box_a_content">
+                                                <div style="padding: 0;">
+                                                    <div class="tab_container">
+                                                        <div id="tab1" class="tab_content">
+                                                            <div style="clear: both;">
+                                                            </div>
+                                                            <iframe id="workarea" name="workarea" height="600" width="100%"
+                                                                    frameborder="0" scrolling="no"></iframe>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="height: 5px; background-color: #F2F0F1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/widget-body-->
+
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div id="ReportTotal">
+                        <div class="box">
+                            <div class="box-content padded" style="background: white;">
+                                <form class="row-fluid">
+                                    <div class="col-md-2">
+                                        <b>Start Location</b>
+                                        <img src="~/images/legends/start.gif" style="margin:0 !important; padding:0 !important; height: 25px;" />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <b>End Location</b>
+                                        <img src="~/resources/images/legends/end.gif" style="margin:0 !important; padding:0 !important; height: 25px;" />
+
+                                    </div>
+                                    <img src="~/img/flags/forward-arrow20(1).png" style="height:32px;" /> <b>Overspeed</b>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--/widget-body-->
+</div>
+
+@section scripts{
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/routePlayBack.js" @DateTime.Now.Ticks></script>
+
+    <script>
+        var tableName;
+        var vehicleName;
+        $(document).ready(
+    ////function to get vehicles list
+
+        function  () {
+            debugger;
+            $("#vehicleslist").select2();
+            var baseurl = apiBase.apiurl;
+
+                var url = baseurl + 'adminapi/getvehicles?custid=' + $custid;
+                console.log('calling url: ' + url + ' to get vehicles list.');
+
+                var tableNameLiveStatus = getUrlParameter("tableNameLvStatus");
+                var vehicleNameLiveStatus = getUrlParameter("vehicleNameLvStatus");
+                var begindate = getUrlParameter("begindate");
+                var enddate = getUrlParameter("enddate");
+
+                var newdisdate = getUrlParameter("date");
+
+
+
+                var tripstartdate = getUrlParameter("tripstartdate");
+                var tripenddate = getUrlParameter("tripenddate");
+
+                var m_names = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+
+                var d = new Date(newdisdate);
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                var diststartdate= m_names[curr_month] +" "+curr_date +" "+ curr_year+" "+"12:00:00 am" ;
+                var distenddate= m_names[curr_month] +" "+curr_date +" "+ curr_year+" "+"11:59:59 pm" ;
+
+
+                if (tableNameLiveStatus);
+                {
+                    tableName = tableNameLiveStatus;
+                    vehicleName = vehicleNameLiveStatus;
+
+                    if (begindate)
+                    {
+                        $beginDate = begindate;
+                        $endDate = enddate;
+
+                        $('#reportrangeRoutePlayback span').html($beginDate + ' - ' + $endDate);
+                    }
+
+                    if (newdisdate)
+                    {
+                        $beginDate = diststartdate;
+                        $endDate = distenddate;
+
+                        $('#reportrangeRoutePlayback span').html($beginDate + ' - ' + $endDate);
+
+                    }
+                    debugger;
+
+                    if (tripstartdate) {
+                        $beginDate = tripstartdate;
+                        $endDate = tripenddate;
+
+                        $('#reportrangeRoutePlayback span').html($beginDate + ' - ' + $endDate);
+
+                    }
+                }
+
+                $.getJSON(url, function (data) {
+
+                    var $select = $('#vehicleslist');
+
+                    $.each(data, function (i, item) {
+                        $('#vehicleslist').append($('<option></option>').val(item.Value).html(item.Text));
+
+                        if (!tableName) {
+                            tableName = $('#vehicleslist').val();
+                            vehicleName = $("#vehicleslist option:selected").text();
+                            localStorage.setItem("tableName", tableName);
+                            localStorage.setItem("fromDate", $beginDate);
+                            localStorage.setItem("toDate", $endDate);
+                            localStorage.setItem("vehicleName", vehicleName);
+                            $('#workarea').attr('src', "../../HTML/RouteDeviation.html?tableName=" + tableName + "&fromDate=" + $beginDate + "&toDate=" + $endDate+"&custid="+$custid);
+                            labelInfo(tableName, $beginDate, $endDate);
+                        }
+                        if (tableNameLiveStatus) {//condition is used to update vehicle list to selected vehicle from live status
+                            $('#vehicleslist').val(tableNameLiveStatus);
+                        }
+                    });
+                })
+
+              //if table name comes from live status than if condition will skip to get vehicle from vehcile list
+                if (!tableName) {
+                    tableName = $('#vehicleslist').val();
+                    vehicleName = $("#vehicleslist option:selected").text();
+                }
+
+                if (tableName) {
+                    localStorage.setItem("tableName", tableName);
+                    localStorage.setItem("fromDate", $beginDate);
+                    localStorage.setItem("toDate", $endDate);
+                    localStorage.setItem("vehicleName", vehicleName);
+                    $('#workarea').attr('src', "../../HTML/RouteDeviation.html?tableName=" + tableName + "&fromDate=" + $beginDate + "&toDate=" + $endDate);
+                    labelInfo(tableName, $beginDate, $endDate);
+                }
+
+        }
+        );
+
+        window.GetRouteData = function () {
+
+            tableName = $('#vehicleslist').val();
+            vehicleName = $("#vehicleslist option:selected").text();
+            localStorage.setItem("tableName", tableName);
+            localStorage.setItem("fromDate", $beginDate);
+            localStorage.setItem("toDate", $endDate);
+            localStorage.setItem("vehicleName", vehicleName);
+            $('#workarea').attr('src', "../../HTML/RouteDeviation.html?tableName=" + tableName + "&fromDate=" + $beginDate + "&toDate=" + $endDate+"&custid="+$custid);
+
+            labelInfo(tableName, $beginDate, $endDate);
+        }
+
+        function labelInfo(tableName, $beginDate, $endDate) {
+            var baseurl = apiBase.apiurl;
+          //  var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+            if (tableName) {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: baseurl + "MapAPI/GetPlayBackDataResult",
+                    data: { tableName: tableName, fromDate: $beginDate, toDate: $endDate },
+                    success: function (data) {
+                        if (data) {
+                            $("#txtDistanceCovered").text(data.DistanceTravelled);
+                            localStorage.setItem("Dist", data.DistanceTravelled);
+                            $("#txtStoppageTime").text(data.Stoppageduration);
+                            localStorage.setItem("stoppage", data.Stoppageduration);
+                            $("#txtDrivingTime").text(data.Drivingduration);
+                            localStorage.setItem("drv", data.Drivingduration);
+                        }
+                        else {
+                            $("#txtDistanceCovered").text("0");
+                            $("#txtStoppageTime").text("0");
+                            $("#txtDrivingTime").text("0");
+                        }
+                    },
+                    error: function(error)
+                    {
+                        $("#txtDistanceCovered").text("0");
+                        $("#txtStoppageTime").text("0");
+                        $("#txtDrivingTime").text("0");
+                }
+                });
+            }
+        }
+    </script>
+
+}

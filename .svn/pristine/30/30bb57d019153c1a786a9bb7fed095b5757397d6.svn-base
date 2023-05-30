@@ -1,0 +1,607 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+@*<script src="~/Scripts/app/common.js"></script>*@
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+    $(document).ready(function () {
+        
+        var bbid = getUrlParameter('bbid');
+        var vehicleNo = '';
+        console.log('bbid is :' + bbid);
+        var VehicleDetailURL = apiBase.apiurl + "FmsAPI/VehicleGeneralInfo?vehicleNo=" + vehicleNo + "&bbid=" + bbid;
+        //testing
+
+     //   var VehicleDetailURL = apiBase.apiurl + "FmsAPI/VehicleGeneralInfo?vehicleNo=1125&bbid="; 
+
+      //  var VehicleDetailURL = apiBase.apiurl + "FmsAPI/VehicleGeneralInfo?vehicleNo=''&bbid="+bbid;
+
+        //console.log(VehicleDetailURL);
+       
+        var currentdate = new Date();
+        var localDate = currentdate.getDate() + "/" + parseInt((currentdate.getMonth()) + 1) + "/" + currentdate.getFullYear();
+        $.post(VehicleDetailURL, function (data) {
+            
+            var srcVal = data.VehicleImagePath.split(',')[0];
+            if (!data.BBID) {
+                $('#vehicleImage').attr("src", '../../Content/img/image-not-available.png');
+                $('#vehname').text(data.VehicleName);
+                $('#vehNameInGraph').text($('#vehname').text() + ' Status For ' + localDate);
+                $('#tdBBID').text(bbid);
+                
+            }
+            else {
+
+                console.log(data);
+                $('#tdBBID').text(bbid);
+                $('#vehNameInGraph').text($('#vehname').text() + ' Status For ' + localDate);
+                $('#vehicleImage').attr("src", srcVal);
+                $('#vehname').text(data.VehicleName);
+                $('#vehNo').text(data.VehicleNo);
+                $('#vehType').text(data.VehicleType);
+                $('#year').text(data.ModelYear);
+                $('#make').text(data.Make);
+                $('#model').text(data.Model);
+                $('#registrationNo').text(data.RegistrationNo);
+                $('#vin').text(data.VIN);
+                $('#color').text(data.VehicleColor);
+                $('#purchaseDate').text(data.PurchaseDate);
+                $('#price').text(data.Price);
+                $('#iniOdometer').text(data.InitialOdometer);
+                $('#insDate').text(data.InsuranceDate);
+                $('#insDueDate').text(data.InsuranceDueDate);
+                $('#insCompany').text(data.InsuranceCompany);
+                $('#insPolicy').text(data.InsurancePolicyNo);
+                $('#regDate').text(data.RegistrationDate);
+                $('#rcRenewDate').text(data.RCRenewalDate);
+                $('#engineNo').text(data.EngineNo);
+                $('#chassisNo').text(data.ChassisNo);
+                $('#gudtaxAmt').text(data.Good_tax);
+                $('#tokenTaxAmt').text(data.Token_tax);
+                $('#natPermitAmt').text(data.NationalPemit);
+                $('#ServAlertDate').text(data.DateServiceAlert);
+                $('#odoServAlert').text(data.OdometerServiceAlert);
+                $('#remarks').text(data.Remarks);
+            }
+        });
+
+
+        
+
+        var StatusGraphDetailURL = apiBase.apiurl + "ReportsApi/DetailPageGraph?bbid=" + bbid;
+      
+        //console.log(VehicleDetailURL);
+        $.post(StatusGraphDetailURL, function (response) {
+            
+            var total;
+            //+parseInt(response.GraphIgnitionOnCount)
+            total = parseInt(response.GraphParkedCount)  + parseInt(response.GraphMovingCount);
+
+            var parked = parseFloat(parseInt(response.GraphParkedCount) * 100 / total).toFixed();
+            //var parkedTime = parseFloat(parseInt(parked) / 100 * parseInt(response.TimeInTicks)).toFixed();
+            //var parkedTimeUnd= moment().startOf('day').seconds(parkedTime).format('H:mm:ss');
+
+         //   var igintion = parseFloat(parseInt(response.GraphIgnitionOnCount) * 100 / total).toFixed();
+            //var igintionTime = parseFloat(parseInt(igintion) / 100 * parseInt(response.TimeInTicks)).toFixed();
+            //var igintionTimeUnd = moment().startOf('day').seconds(igintionTime).format('H:mm:ss');
+
+            var moving = parseFloat(parseInt(response.GraphMovingCount) * 100 / total).toFixed();
+            //var movingTime =parseFloat(parseInt(moving) / 100 * parseInt(response.TimeInTicks)).toFixed();
+            //var movingTimeUnd = moment().startOf('day').seconds(movingTime).format('H:mm:ss');
+
+            $('#parkedPara').text('Parked: ' + response.stoppageTime);
+            $('#totalTimePara').text('Total Tracking: ' + response.totalTrackingTime);
+            $('#movingPara').text('Moving: ' + response.DrivingTime);
+
+            //google.charts.load('current', { 'packages': ['corechart'] });
+            //google.charts.setOnLoadCallback(drawChart);
+
+            google.charts.load("current", { packages: ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', '', { role: 'style' }],
+                  ['Parked', parseInt(parked), '#faa732'],
+                 // ['Ignition On', parseInt(igintion), '#8e9d13'],
+                  ['Moving', parseInt(moving), '#8e9d13'],
+                ]);
+
+                var options = {
+                    title: 'Vehicle Daily Status',
+                    pieHole: 0.3,
+                    colors: ['#8e9d13','#faa732'],
+                    'width':300,
+                     'height':130
+                };
+                var chart;
+                chart = new google.visualization.ColumnChart(document.getElementById('divStatusGraph'))
+
+                chart.draw(data, options);
+            }
+        });
+
+    });
+    function pad(n, width) {
+        var n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+    }
+</script>
+
+<div class="main_container" id="tables_page">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <p style="color: #999; font-size: 18px;">Vehicle Details</p>
+        </div>
+        <div class="col-md-7" style="text-align: center">
+            <div class="widget-body" style="height: 180px; background: #fff; border: 0; padding: 0;">
+               @* <img src="/resources/images/dashboard/c.png" alt="Machine Image" style="height: 176px">*@
+                <img  id="vehicleImage" src="../../Content/img/loading.gif" alt="loading Image" style="height: 176px; padding: 3px;">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <style>
+                .chart-wrapper {
+                    text-align: center;
+                    width: 80px;
+                    height: 63px;
+                    margin: 0 auto;
+                    margin-top: -8px;
+                }
+
+                    .chart-wrapper h3 {
+                        padding: 1em 0;
+                        font-size: 1.2em;
+                        font-weight: normal;
+                    }
+
+                .k-chart.small-chart {
+                    display: inline-block;
+                    width: 400px;
+                    height: 100px;
+                    margin-left: 10px;
+                    margin-top: 10px;
+                }
+            </style>
+            <div class="widget">
+                <div class="widget-body clearfix" style="height: 180px; background: #fff; overflow-x: auto">
+                    <div style="margin-left: 10px">
+                     <h6 id="vehNameInGraph"></h6>
+                    </div>
+                    <div class="col-md-6" id="divStatusGraph">
+                    </div>
+                     <div class="col-md-6 " style="padding-left: 20%; ">
+                        @* <h4>Status with Time</h4>*@
+                         <p id="totalTimePara"></p>
+                         <p id="parkedPara" ></p>
+                         <p id="movingPara"></p>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-md-7">
+            <table class="table table-striped table-bordered dataTable">
+                <tbody>
+                    <tr>
+                        <th>Vehicle Name :</th>
+                        <td id="vehname"></td>
+                        <th>Vehicle No :</th>
+                        <td id="vehNo"></td>
+                         <th >Vehicle Type : </th>
+                        <td id="vehType"></td>
+                        </tr>
+                    <tr>
+                        <th>Make : </th>
+                        <td id="make">N/A</td>
+                        <th>Model : </th>
+                        <td id="model">N/A</td>
+                        <th>Year : </th>
+                        <td id="year">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Registration No : </th>
+                        <td colspan="2" id="registrationNo">N/A</td>
+                         
+                        <th>Registration Date : </th>
+                        <td colspan="2" id="regDate">N/A</td>
+                  
+                    </tr>
+                    <tr style="display:none;">
+                        <th>VIN (Vehicle Identification No) or Serial No: </th>
+                        <td colspan="5" id="vin">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Color : </th>
+                        <td colspan="5" id="color">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Purchase Date : </th>
+                        <td colspan="5" id="purchaseDate">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Price : </th>
+                        <td colspan="5" id="price">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Initial Odometer : </th>
+                        <td colspan="5" id="iniOdometer">N/A</td>
+                    </tr>
+                  
+                    <tr>
+                        <th>Insurance Company : </th>
+                        <td colspan="5" id="insCompany">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Insurance Policy No : </th>
+                        <td colspan="5" id="insPolicy">N/A</td>
+                    </tr>
+                      <tr>
+                        <th>Insurance Date : </th>
+                        <td colspan="2" id="insDate">N/A</td>
+                  
+                        <th>Insurance Expiry Date : </th>
+                        <td colspan="2" id="insDueDate">N/A</td>
+                    </tr>
+                   
+                    <tr>
+                        <th>RC Renewal Date : </th>
+                        <td colspan="5" id="rcRenewDate">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Engine No : </th>
+                        <td colspan="5" id="engineNo">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Chassis No : </th>
+                        <td colspan="5" id="chassisNo">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Good Tax Amount : </th>
+                        <td colspan="5" id="gudtaxAmt">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Token Tax Amount : </th>
+                        <td colspan="5" id="tokenTaxAmt">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>National Permit Amount : </th>
+                        <td colspan="5" id="natPermitAmt">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Service Alert Date : </th>
+                        <td colspan="5" id="ServAlertDate">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Ododmeter Service Alert : </th>
+                        <td colspan="5" id="odoServAlert">N/A</td>
+                    </tr>
+                    <tr>
+                        <th>Remarks : </th>
+                        <td colspan="5" id="remarks">N/A</td>
+                    </tr>
+
+                    <tr style="display:none;">
+                        <th >Location : </th>
+                        <td colspan="5">N/A</td>
+                    </tr>
+                 @*   <tr>
+                        <th>Ignition Status :</th>
+                        <td colspan="5">OFF</td>
+                    </tr>
+                    <tr>
+                        <th>Engine : </th>
+                        <td colspan="5">OFF</td>
+                    </tr>*@
+                    
+                   @* <tr>
+                        <th>Machine Battery :  </th>
+                        <td colspan="5">
+                            <img src="/resources/images/battery/green_L1.png" alt="Battery Image" title="Battery Normal"></td>
+                    </tr>*@
+                @*    <tr>
+                        <th>Device Battery :  </th>
+                        <td>
+                            <img src="/resources/images/battery/green_L2.png" alt="Device Battery" title="Internal Battery Full"></td>
+                        <th>GPS:  </th>
+                        <td>
+                            <img src="/resources/images/satellite_F.png" alt="GPS Signal" title="Full GPS Signal"></td>
+                        <th>GSM:  </th>
+                        <td>
+                            <img src="/resources/images/signal2.png" alt="GSM Signal" title="InSufficient  GSM Signal"></td>
+                    </tr>*@
+                    <tr>
+                        <th>Installation Date :   </th>
+                        <td id="installationdate"></td>
+                        <th>Device ID :   </th>
+                        <td id="tdBBID"></td>
+                        <th style="display:none;" >Engine Hours(Before Installation):   </th>
+                        <td style="display:none;">20:0:0</td>
+                    </tr>
+                    @*<tr>
+                        <th>Total Engine Hours (Before + After Installation):   </th>
+                        <td colspan="5">111:4:22 </td>
+                    </tr>*@
+                    @*<tr>
+                        <th>Total Thresher Hours (Before + After Installation):</th>
+                        <td colspan="5">20:0:0</td>
+                    </tr>*@
+                    @*<tr>
+                        <th>Mobile No. For Alerts</th>
+                        <td colspan="5">NA</td>
+                    </tr>*@
+                  @*  <tr>
+                        <th>Current Speed  : </th>
+                        <td>26 Kmph</td>
+                        <th>Average Speed : </th>
+                        <td>Kmph</td>
+                        <th>Max Speed : </th>
+                        <td>0 Kmph</td>
+                    </tr>*@
+                   @* <tr>
+                        <th>LastAlertDate :   </th>
+                        <td>10/26/2016 12:39:43 PM</td>
+                        <th>Activation Status :   </th>
+                        <td colspan="3">Active</td>
+                    </tr>*@
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-5">
+            <script src="~/Content/js/APIURL.js"></script>
+            <div class="widget-header">
+                <i class="icon-globe"></i>
+                <h5>Location On Map</h5>
+            </div>
+            <div class="widget-body" style="background: #fff; border: 0; padding: 0;">
+                <style>
+                    .info-win {
+                        padding: 5px;
+                        width: 350px;
+                        overflow: hidden;
+                        line-height: 1.8;
+                        font-weight: bold;
+                    }
+                </style>
+
+                <!-- Map has been localized to show the names, wherever available in ENGLISH (en) and country/region as INDIA -->
+                <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdsMp_TiMpmLDoDw8jtVSKMvpiSBAY1EY&amp;language=en&amp;region=in&amp;libraries=geometry"></script>
+
+                <script type="text/javascript" src="/scripts/custom.js"></script>
+                <!-- Initialize timer script -->
+
+
+                <script type="text/javascript">
+                    function GetParameterValues(param) {
+                        var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                        for (var i = 0; i < url.length; i++) {
+                            var urlparam = url[i].split('=');
+                            if (urlparam[0] == param) {
+                                return urlparam[1];
+                            }
+                        }
+                    }
+                </script>
+
+                <script language="javascript" type="text/javascript">
+                    var timerID = null;
+                    var timerRunning = false;
+                    var delay = 60000; // refresh every 30 seconds
+                    var zoomToExtents = 0;
+                    var openedInfoWindow = null;
+                    // Initialize Timer
+                    function initializeTimer() {
+                        initializeMap();
+                        StopTheClock();
+                        //document.getElementById('side_bar').innerHTML = "Loading vehicles...";
+                        StartTheTimer();
+                    }
+                    function StopTheClock() {
+                        if (timerRunning)
+                            clearTimeout(timerID)
+                        timerRunning = false;
+                    }
+                    function StartTracking() {
+                        StartTheTimer();
+                    }
+                    function StartTheTimer() {
+                        readMapData();
+                        timerRunning = true;
+                        timerID = self.setTimeout("StartTracking()", delay)
+                    }
+                    //function reCenter() {
+                    //    var bound = new google.maps.LatLngBounds();
+                    //    for (var i in gmarkers) {
+                    //        bound.extend(gmarkers[i].getPosition());
+                    //    }
+                    //    map.fitBounds(bound);
+                    //    zoomToExtents = 1;
+                    //}
+
+                    // ================ read mapData ================
+
+                    function readMapData() {
+
+                        //document.getElementById("side_bar").innerHTML = "refreshing data...";
+
+                        var i = 0;
+                        var lat;
+                        var lng;
+                        var name;
+                        var drname;
+                        var speed;
+                        var lstdate;
+                        var icon_type;
+                        var loc;
+
+                        // clear side bar list
+                        side_bar_html = "";
+
+                        // clear markers
+                        if (gmarkers) {
+                            for (i in gmarkers) {
+                                gmarkers[i].setMap(null);
+                            }
+                            gmarkers.length = 0;
+                        }
+                        var name = GetParameterValues('vehl');
+                        // Get Map Data
+                        var bbidForMap = getUrlParameter('bbid');
+                        var url = apiBase.apiurl + "MapAPI/SelectedVehicleResponse";
+                        $.ajax({
+                            url: url,
+                            dataType: "json",
+                            type: "GET",
+                            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                            data: { custId: $custid, bbidString: bbidForMap },
+                            // async: false,
+                            success: function (data) {
+                                initializeMap();
+                                var count = data.vehicleMapList.length;
+                                var data = data.vehicleMapList;
+                                for (i = 0; i < data.length; i++) {
+                                    lat = data[i].lat;
+                                    lng = data[i].lng;
+                                    name = data[i].name;
+                                    drname = data[i].drname;
+                                    speed = data[i].speed;
+                                    lstdate = data[i].lstdate;
+                                    icon_type = parseFloat(data[i].type);
+                                    loc = data[i].loc;
+                                    Duration = data[i].Duration;
+                                    DriMob = data[i].DriMobNo;
+                                    LastDateIgnOnOff = data[i].LastDateIgnOnOff;
+
+                                    var html = "<span>" + name + " <br/>Speed - " + speed + "<br/>Driver Name - " + drname + "<br/>Driver Mobile No - " + DriMob + "<br/>DateTime - " + lstdate + "<br/>Location - " + loc + "<br/></span>";
+                                    // define lat-long for positioning Marker
+                                    var myLatlng = new google.maps.LatLng(lat, lng);
+                                    // call function to create Marker
+                                    var marker = createMarker(myLatlng, name, html, icon_type);
+                                    gmarkers.push(marker);
+                                }
+                                var bound = new google.maps.LatLngBounds();
+                                for (var i in gmarkers) {
+                                    bound.extend(gmarkers[i].getPosition());
+                                    if (i == 0) {
+                                        map.setCenter(gmarkers[i].getPosition());
+                                    }
+                                }
+                                map.fitBounds(bound);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                
+                            }
+                        })
+                    }
+
+                    // ================ create marker ================
+                    var side_bar_html = "";
+                    var gmarkers = [];
+                    var vehmarkers = [];
+                    var vmarkers = [];
+                    var htmls = [];
+                    var glabels = [];
+                    var i = 0;
+                    var icons = [];
+                    icons[1] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+                    icons[2] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+                    icons[3] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png"); //GreenIcon;   // Moving
+                    icons[4] = new google.maps.MarkerImage("../Content/map/legends/ignion.png"); //ErrorIcon;   // Unknown (Moving without Ignition On)
+                    icons[5] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+                    icons[6] = new google.maps.MarkerImage("../Content/map/legends/towed.png");
+                    icons[7] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+                    icons[8] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png");
+                    icons[9] = new google.maps.MarkerImage("../Content/map/legends/unreach.png");
+                    icons[10] = new google.maps.MarkerImage("../Content/map/legends/fenced.png");
+
+                    // ================ This function creates marker and associates info-window with it ================
+                    function createMarker(myLatlng, name, html, icon_type) {
+
+                        var customIcon = new google.maps.MarkerImage(icon_type);
+
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            map: map,
+                            title: name,
+                            icon: icons[icon_type]
+                            //icon: customIcon
+                        });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: html
+                        });
+                        google.maps.event.addListener(marker, 'mouseover', function () {
+                            infowindow.open(map, marker);
+                        });
+                        google.maps.event.addListener(marker, 'mouseout', function () {
+                            infowindow.close(map, marker);
+                        });
+
+                        google.maps.event.addListener(infowindow, 'closeclick', function () {
+                            openedInfoWindow = null;
+                        });
+
+                        vmarkers[i] = marker;
+                        htmls[i] = html;
+                        side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+                        if (j == 1) {
+                            //document.getElementById('side_bar').innerHTML = side_bar_html;
+                        }
+                        i++;
+                        return marker;
+                    }
+
+                    // ================ This function picks up the click and opens the corresponding info window ================
+                    var marker = new Array();
+                    function myclick(i) {
+                        var infowindow = new google.maps.InfoWindow({
+                            content: htmls[i]
+                        });
+                        if (openedInfoWindow != null) openedInfoWindow.close();
+                        infowindow.open(map, vmarkers[i]);
+                        openedInfoWindow = infowindow;
+                    }
+                </script>
+                <!-- Initialize map here -->
+                <script type="text/javascript">
+                    var map;
+                    var j = 0;
+                    function initializeMap() {
+                        document.getElementById("map_canvas").style.backgroundImage = "url(../resources/images/maploading.jpg)";
+                        var myOptions = {
+                            zoom: 16,
+                            center: new google.maps.LatLng(28.00, 77.77),
+                            mapTypeId: google.maps.MapTypeId.HYBRID
+                        };
+                        map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+                        j = 1;
+                    }
+                    // Asynchronous call
+                    google.maps.event.addDomListener(window, 'load', initializeTimer);
+                </script>
+
+                <div id="map_canvas" style="width: 100%; height: 403px; background-image: url(&quot;../resources/images/maploading.jpg&quot;); position: relative; background-color: rgb(229, 227, 223); overflow: hidden;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--Kendo UI js-->
+</div>

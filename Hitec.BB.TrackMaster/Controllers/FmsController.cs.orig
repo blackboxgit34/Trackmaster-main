@@ -1,0 +1,82 @@
+﻿using Hitec.BB.TrackMaster.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Hitec.BB.TrackMaster.Controllers
+{
+    public class FmsController : Controller
+    {
+        //
+        // GET: /Fms/
+        public ActionResult ServiceSchedule()
+        {
+            return View();
+        }
+        public ActionResult AddServiceSchedule()
+        {
+            return View();
+        }
+
+        public ActionResult ManageEmployee()
+        {
+            return View();
+        }
+
+        public ActionResult RenewalReminder()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddUpdateRenewalReminder(int? renewalID)
+        {
+            RenewalReminder modelObj = new RenewalReminder();
+
+            if(renewalID == null)
+                ViewBag.Title = "Add Renewal Reminder";
+            else
+                ViewBag.Title = "Update Renewal Reminder";
+
+
+            ViewBag.vehicleId = renewalID;
+
+            return View(modelObj);        
+<<<<<<< HEAD
+        }       
+       
+        public ActionResult TripInfo()
+        {
+            return View();
+        }
+        
+        public ActionResult MasterTrip()
+        {
+            return View();
+        }
+
+        public ActionResult AddEmployee()
+        {
+            return View();
+        }
+        public ActionResult AddTrip()
+        {
+            return View();
+        }
+        public ActionResult AddMasterTrip()
+        {
+            return View();
+        }
+
+=======
+        }
+
+        public ActionResult ManageVendor()
+        {
+            return View();
+        }
+>>>>>>> 70f76ecba1a427dbb13d0604c4619d1802230759
+    }
+}

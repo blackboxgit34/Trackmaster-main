@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Manage Tyre Disposal";
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title </h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                    <input type="button" style="margin-right: 10px;" value="Add" id="BtnAdd" class="btn btn-green" onclick="window.location.href = '../FMS/AddTyreDisposal'">
+                                    <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                                    @*<img src='/content/img/cc2.png' onmouseover="this.src='/content/img/z22.png';" onmouseout="this.src='/content/img/cc2.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">
+                                    <img src='/content/img/cc1.png' onmouseover="this.src='/content/img/z31.png';" onmouseout="this.src='/content/img/cc3.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">*@
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div>Statistics (@System.DateTime.Today.ToString("MMMM"))</div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4"></div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+
+                                                        <img src="~/Trackmaster_files/FMSIcons/totalTyreDisposed.png" />
+                                                        <strong>
+                                                            <span class="count" id="TotalDisposedCount" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Tyres Disposed</span>
+                                                </div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+
+                                                        <img src="~/Trackmaster_files/FMSIcons/totalTyresResold.png" />
+                                                        <strong>
+                                                            <span class="count" id="TotalTyresResold" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Resold</span>
+                                                </div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+
+                                                        <img src="~/Trackmaster_files/FMSIcons/totalTyreCondemned.png" />
+                                                        <strong>
+                                                            <span class="count" id="TotalTyresCondemned" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Condemned</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form class="form-inline">
+                                                    <div class="form-group padded">
+                                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                            <i class=" fa fa-calendar"></i>
+                                                            &nbsp;<span></span><b class="caret"></b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="padding-left: 5px;">
+                                                        <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle Name</th>
+                                                    <th>Driver Name</th>
+                                                    <th>Total Tyres Disposed</th>
+                                                    <th>Detail</th>
+                                                    <th class="hidden">VehicleId</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FmsTyreDisposal.js?")"@DateTime.Now.Ticks></script>
+}
+
+

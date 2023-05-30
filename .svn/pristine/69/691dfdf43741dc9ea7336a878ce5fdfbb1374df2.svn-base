@@ -1,0 +1,785 @@
+﻿@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+}
+@model Hitec.BB.TrackMaster.Models.DispatchedVehicleStatus
+<style>
+    div.a {
+    font-size: 10px;
+        margin-top: -22px;
+    margin-left: 16px;
+
+}
+
+        div.b {
+    font-size: 10px;
+        margin-top: -43px;
+    margin-left: 16px;
+
+}
+            div.c {
+    font-size: 10px;
+        margin-top: -42px;
+    margin-left: 16px;
+
+}
+                div.d {
+    font-size: 10px;
+        margin-top: -42px;
+    margin-left: 16px;
+
+}
+                    div.e {
+    font-size: 10px;
+        margin-top: -42px;
+    margin-left: 16px;
+
+}
+
+
+    .button {
+   
+    border: none;
+    color: white;
+    padding: 6px 13px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    width: 100px !important;
+}
+
+.button1 {
+     background-color: #8e9d13; /* Green */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2 {
+   background-color: #ddd;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button2:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.button1:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+</style>
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-map-marker"></i>
+                                <h5>@ViewBag.ReportTitle</h5>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -40px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+
+
+
+                                    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+                                    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+                                         <script src="~/Content/js/APIURL.js"></script>
+                                    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+                                 
+
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <div class="box_a">
+                                                @*       <div class="box_a_heading">
+                <h3>Search Vehicle
+                </h3>
+                <div class="span2 pull-right">
+                    <button type="button" class="btn btn-small" id="bb-alert">Help</button>
+                </div>
+            </div>*@
+                                                <div class="contents">
+
+
+
+
+
+                                                    <div class="vehicle-reports">
+                                                        <div style="clear: both;">
+                                                        </div>
+                                                        <div class="box_a_content">
+                                                            <noscript>
+                                                                <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+                            it seems JavaScript is either disabled or not supported by your browser. To view
+                            Google Maps, enable JavaScript by changing your browser options, and then try again.
+                                                            </noscript>
+                                                            <div id="map_canvas" style="width: 100%; height: 600px;">
+                                                                Loading map...
+                                                            </div>
+                                                            <div class="panel" style="width: 250px; padding: 10px; opacity: 1.5;">
+
+                                                                <form>
+                                                                    <div>
+
+                                                                         <div style="float: left">
+                                        <label>
+                                            <b>Total vehicles:</b> <span id="lbltotalvehicle" class="label label-success"></span>
+                                        </label>
+                                     <img src="~/resources/images/legends/moving.png" style="height:23px;"  title="Moving"/><div class="a">Moving&nbsp;<b><span id="movingtag"></span></b></div><br />
+                                     <img src="~/resources/images/legends/stop.gif" style="    height: 14px;margin-top: -49px;margin-left: 3px;" title="Parked"/><div class="b">Parked&nbsp;<b><span id="parkedtag"></span></b></div><br />
+                                     <img src="~/resources/images/legends/ignion.png" style="height:23px;margin-top: -46px;margin-left: 1px; "/><div class="c">IgnitionOn&nbsp;<b><span id="Ignitiontag" title="Ignition"></span></b></div><br />
+                                     <img src="~/resources/images/legends/hispeed.png" style="height:23px;margin-top: -46px;margin-left: 1px;"/><div class="d">Hispeed&nbsp;<b><span id="Hispeedtag" title="Hispeed"></span></b></div><br />
+                                     <img src="~/resources/images/legends/unreach.png" style="height:23px;margin-top: -46px;margin-left: 1px;" title="Unreachable"/><div class="e">Unreachable&nbsp;<b><span id="Unreachtag"></span></b></div>
+                                    </div>
+                                                         
+                                                                        <div style="float:right">
+                                  <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                                </div>
+                                                                        <!-- /input-group -->
+                                                                    </div>
+                                                                    <div>
+                                                                        <div>
+                                                                            <input type="text" class="form-control" id="address" placeholder="Search  location for Nearby Vehicles.">
+                                                                            <input type="hidden" id="LatLng">
+                                                                            <label for="exampleInputEmail1">Radius</label>
+                                                                            <div class="input-group" style="margin-bottom: 10px;">
+                                                                                <input type="number" class="form-control" id="Kilo" placeholder="Enter Km(s)" value="2">
+                                                                                <div class="input-group-addon ">KM</div>
+                                                                            </div>
+                                                                            <div class="input-group" style="margin-bottom: 10px;display:none;">
+                                                                                <input type="text" class="form-control " id="Mtr" placeholder="Enter meters" value="0">
+                                                                                <div class="input-group-addon ">M</div>
+                                                                            </div>
+                                  
+                                                                        </div>
+                                                                        <br />
+                                                                        <div class="row">
+                                                                            <div class="col-md-6" style="margin-left: 5%">
+                                                                                <button type="button"  class='button button1' id="GetCircleVehicle" onclick="AjaxGetVehicleNearestToPoint()">
+                                                                                    Search</button>
+                                                                            </div>
+                                                                            <div class="col-md-5">
+                                                                                <a href="#" onclick="history.go(0)" class='button button1' id="clear">ClearMap</a>
+                                                                               
+                                                                           
+                                                                            </div>
+                                                                        </div>
+                                                                      
+                                                                    </div>
+                                                                    <div>
+
+                                                                        <div>
+
+                                                                         
+                                                                        </div>
+                                                                    
+                                                                    </div>
+
+                                             
+                                                                    
+                                                                </form>
+
+                                                                <br />
+
+                                                            </div>
+                                                            <a class="trigger " href="#" style="width: 150px; margin-top: -3px; margin-right: 5px; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">Nearby Vehicles</a><div style="clear: both;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @{
+                                                        if (Convert.ToInt32(Session["hcid"]) == 7856)
+                                                        {
+                                                            Html.RenderPartial("LegeandPPF");
+                                                        }
+
+                                                        else
+                                                        {
+                                                            //Html.RenderPartial("_Legeand");
+                                                        }
+                  
+                    
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                     
+                                </div>
+
+                                <link href="~/Content/MapCSS/Map/LocationOnmapCSS/Utilitymap.css" rel="stylesheet" />
+                                @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&client=gme-nucleusmicrosystems&language=en&region=in&amp;libraries=geometry"></script>*@
+
+                                <script>
+
+                                    var geocoder;
+                                    var map;
+                                    var flightPlanArray = [];
+                                    var startlongitude;
+                                    var startlatitude;
+                                    var endLocationLat;
+                                    var endLocationLong;
+                                    $(document).ready(function () {
+                                        var addresslatlong;
+
+
+
+                                        var logindata;
+                                        if (JSON.parse(localStorage.getItem("GroupSelectedUser")) != true) {
+                                            if (JSON.parse(localStorage.getItem("cid")) != null) {
+                                                logindata = JSON.parse(localStorage.getItem("cid"));
+                                                //console.log(logindata);
+                                                $custid = logindata.data.CustId;
+                                            }
+                                            else if (JSON.parse(localStorage.getItem("custID")) != null) {
+                                                $custid = JSON.parse(localStorage.getItem("custID"));
+                                            }
+                                        }
+                                        else if (JSON.parse(localStorage.getItem("GroupSelectedUser")) == true) {
+                                            debugger;
+                                            if (localStorage.getItem("custId") != null) {
+                                                $custid = JSON.parse(localStorage.getItem("custId"));
+                                            }
+                                            else {
+                                                //when user did not select any subuser
+                                                $custid = (logindata) ? logindata.data.CustId : JSON.parse(localStorage.getItem("custID"));
+                                                //var logindata = JSON.parse(localStorage.getItem("cid"));
+                                                $custid
+                                            }
+                                            //logindata = JSON.parse(localStorage.getItem("cid"));
+
+                                        }
+                                        else {
+                                            window.location.href = "/home/login?logout=y";
+                                        }
+
+
+                                        var start = moment().subtract(0, 'days').startOf('day');
+                                        var end = moment();
+
+                                        function cb(start, end) {
+                                            $('#reportrange span').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+                                            $beginDate = start.format('MMM D YYYY h:mm:ss a');
+                                            $endDate = end.format('MMM D YYYY h:mm:ss a');
+                                        }
+
+                                        $('#reportrange').daterangepicker({
+                                            startDate: start,
+                                            endDate: end,
+                                            opens: "right",
+                                            timePicker: true,
+                                            ranges: {
+                                                'Today': [moment().subtract(0, 'days').startOf('day'), moment()],
+                                                'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+                                                'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment()]
+                                                //'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment()],
+                                                //'This Month': [moment().startOf('month').startOf('day'), moment()],
+                                                //'Last Month': [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month')]
+                                            },
+                                        }, cb);
+
+                                        cb(start, end);
+
+                                        AjaxGetLongitudeLatitude();
+                                        $("#home").removeClass("active");
+                                        $("#mapl").addClass("active");
+
+                                        initialize();
+
+                                        // Panel
+                                        $(".trigger").click(function () {
+                                            $(".panel").toggle("fast");
+                                            $(this).toggleClass("active");
+                                            return false;
+                                        });
+
+
+
+
+                                        $("#address").autocomplete({
+                                            minLength: 1,
+                                            source: function (request, response) {
+                                                $.ajax({
+                                                    url: apiBase.apiurl + "MapAPI/AutoCompleteDestination",
+                                                    type: "Get",
+                                                    dataType: "json",
+                                                    data: { custId: $custid, term: request.term },
+                                                    success: function (data) {
+                                                        response($.map(data, function (item) {
+                                                            return {
+
+                                                                label: item.loc,
+                                                                value: item.loc
+                                                            };
+                                                        }))
+                                                    }
+                                                });
+                                            },
+                                            select: function (event, ui) {
+                                                $('#address').val(ui.item.label);
+                                                $('#address').val(ui.item.value);
+                                                //                return false;
+                                            },
+                                            messages: {
+                                                noResults: "", results: ""
+                                            }
+                                        });
+
+                                    });
+                                    function AjaxGetLongitudeLatitude() {
+                                        $.ajax({
+                                            type: "GET",
+                                            dataType: "json",
+                                            url: apiBase.apiurl + "MapAPI/GetLongitudeLatitude",
+                                            data: { custId: $custid },
+                                            success: function (data) {
+
+                                                $.each(data, function (i, variant) {
+
+                                                    startlongitude = variant.Longitude;
+                                                    startlatitude = variant.Latitude;
+
+                                                });
+                                                initialize();
+                                            }
+                                        });
+
+
+
+                                    }
+
+                                    //******************* BEGIN INITIALIZE MAP **************************/
+
+                                    function initialize() {
+                                        //alert('startlongitude');
+                                        var india;
+                                        geocoder = new google.maps.Geocoder();
+
+                                        if (startlatitude == "" && startlongitude == "") {
+                                            india = new google.maps.LatLng(30.7333, 76.7794);
+                                        }
+                                        else if (startlatitude == undefined && startlongitude == undefined) {
+
+                                            india = new google.maps.LatLng(30.7333, 76.7794);
+                                        }
+                                        else {
+
+                                            india = new google.maps.LatLng(startlatitude, startlongitude);
+                                        }
+
+                                        var mapOptions = {
+                                            zoom: 14,
+                                            mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                            center: india
+                                        }
+                                        document.getElementById("map_canvas").style.backgroundImage = "url(../../images/maploading.jpg)";
+                                        map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+                                    }
+
+                                    var marker = null;
+                                    var markersCodeAddress = [];
+                                    function codeAddress() {
+
+                                        //thi is used to clear markers
+                                        deleteMarkers();
+                                        // this is used to clear the table 
+                                        // $("#vehTable tr").remove();
+                                        var check;
+                                        var lat;
+                                        var lng;
+                                        var address = document.getElementById('address').value;
+                                        var url = apiBase.apiurl + "MapAPI/GetLatLong";
+                                        $.get(url, { "custId": $custid, "address": address }, function (data) {
+
+                                            var mylatlong = data;
+                                            var mySplitResult = mylatlong.split(",");
+                                            check = data;
+                                            // This is used to reset the location Marker  
+                                            if (marker != null) {
+                                                marker.setMap(null);
+                                                if (circle != null) {
+                                                    circle.setMap(null);
+                                                    marker.setMap(null);
+                                                }
+                                                for (var i = 0; i < markersCodeAddress.length; i++) {
+                                                    markersCodeAddress[i].setMap(null);
+                                                }
+                                                marker = null;
+                                            }
+
+                                            if (marker == null) {
+
+                                                geocoder.geocode({ 'address': address }, function (results, status) {
+                                                    if (status == google.maps.GeocoderStatus.OK) {
+                                                        map.setCenter(results[0].geometry.location);
+                                                        $('#LatLng').val(results[0].geometry.location);
+                                                        marker = new google.maps.Marker({
+                                                            map: map,
+                                                            position: results[0].geometry.location
+
+                                                        });
+                                                        markersCodeAddress.push(marker);
+                                                        google.maps.event.addDomListener(window, 'load', initialize);
+                                                    } else {
+                                                        alert('Geocode was not successful for the following reason: ' + status);
+                                                    }
+                                                });
+
+                                            }
+                                            if (check != "null") {
+
+                                                lat = mySplitResult[0].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+                                                lng = mySplitResult[1].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+                                                $('#LatLng').val(check);
+                                                var ll = new google.maps.LatLng(lat, lng);
+                                                map.setCenter(ll);
+                                                marker = new google.maps.Marker({
+                                                    map: map,
+                                                    position: ll
+
+                                                });
+                                            }
+                                        });
+
+
+
+
+                                    }
+
+
+                                    function clearLocations() {
+                                        for (var i = 0; i < markersCodeAddress.length; i++) {
+                                            markersCodeAddress[i].setMap(null);
+                                        }
+                                        markersCodeAddress.length = 0;
+                                    }
+
+                                    var circle = null;
+                                    var markers = [];
+                                    var searchLatLng;
+                                    function AjaxGetVehicleNearestToPoint() {
+
+                                        //thi is used to clear markers
+                                        deleteMarkers();
+                                        // this is used to clear the table 
+                                        // $("#vehTable tr").remove();
+                                        if (circle != null) {
+                                            circle.setMap(null);
+                                        }
+                                        var KL = document.getElementById('Kilo').value;
+                                        var MT = document.getElementById('Mtr').value;
+                                        var Radius = parseInt((parseInt(KL) * parseInt(1000) + parseInt(MT)));
+
+                                        var LL = document.getElementById('LatLng').value;
+                                        var mySplitResult = LL.split(",");
+
+                                        var lat = mySplitResult[0].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+                                        var lng = mySplitResult[1].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+
+
+                                        var myLatlng = new google.maps.LatLng(lat, lng);
+                                        searchLatLng = myLatlng;
+                                        map.setCenter(myLatlng);
+                                        var infowindow = new google.maps.InfoWindow()
+
+                                        var marker = new google.maps.Marker({
+                                            map: map,
+                                            position: myLatlng
+
+                                        });
+
+
+
+                                        circle = new google.maps.Circle({
+                                            map: map,
+                                            radius: Radius,    // 10 miles in metres
+                                            strokeColor: '#006600',
+                                            strokeOpacity: 0.8,
+                                            strokeWeight: 2,
+                                            fillColor: '#006600',
+                                            fillOpacity: 0.35,
+                                        });
+                                        circle.bindTo('center', marker, 'position');
+                                        var vehicleType = $("#ddlVehicleType").val();
+                                        //for returning all vehicles
+                                        if (!vehicleType) {
+                                            vehicleType = "0";
+                                        }
+
+                                        // $("#divLoader").removeClass("hidden");
+                                        $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+                                        var url = apiBase.apiurl + "MapAPI/GetVehicleNearestToPoint";
+                                        $.ajax({
+                                            url: url,
+                                            dataType: "json",
+                                            type: "GET",
+                                            contentType: 'application/x-www-form-urlencoded; charset=utf-8',    //replace /json to the urlenoded
+                                            data: { Lats: lat, Lngs: lng, DiameterInMeter: Radius, custId: $custid },                  // data is not json
+                                            async: true,
+                                            processData: true,                                                  //important to use it as true
+                                            cache: false,
+
+                                            success: function (data) {
+                                                debugger;
+                                                var count = 0;
+                                            
+
+
+                                                //$("#divLoader").addClass("hidden");
+                                                $.unblockUI();
+                                                $.each(data, function (i, variant) {
+                                                    debugger;
+                                                    count += 1;
+                                                    $('#lbltotalvehicle').html(count);
+                                                   
+                                                    $('#movingtag').html(variant.M);
+                                                    $('#parkedtag').html(variant.P);
+                                                    $('#Ignitiontag').html(variant.I);
+                                                    $('#Hispeedtag').html(variant.H);
+                                                    $('#Unreachtag').html(variant.U);
+                                                    var myLatLng = new google.maps.LatLng(variant.Latitude, variant.Longitude);
+                                                    plotMarker(myLatLng, map, variant.VehicleName, variant.Location, variant.LastDate, variant.VehcileStatus, variant.BBID, variant.IsDispatched, variant.Latitude, variant.Longitude, variant.icon)
+
+                                                    //test
+                                                    $("#hdnVehicleList").removeClass("hidden");
+                                                    //if (variant.IsDispatched == true) {
+                                                    //    
+                                                    //    //var status = (variant.VehcileStatus.toLowerCase().indexOf("stop") >= 0) ? "<a class='text text-success' href='../../AssignVehicle/Index/?BBID=" + variant.BBID + "' target='_blank'> Track </a>" : "<a class='text text-success' href='../../AssignVehicle/Index?BBID=" + variant.BBID + "' target='_blank'>Dispatch </a>";
+                                                    //    var status = "<a class='text text-success' href='../../Report/MasterLiveStatusPunjabPolice' target='_blank'> Track </a>";
+                                                    //    $('#vehTable').append('<tr><td>' + variant.VehicleName + '</td><td>' + variant.Location + '</td><td>' + status + '</td></tr>')
+                                                    //}
+                                                    //end test
+
+
+                                                });
+
+                                                find_closest_marker(searchLatLng);
+                                            },
+                                            error: function (xhr) {
+                                                $("#divLoader").addClass("hidden");
+                                                alert('error');
+                                            }
+                                        });
+                                    }
+
+
+
+                                    //for Find out nearest point  
+
+                                    function rad(x) { return x * Math.PI / 180; }
+                                    function find_closest_marker(latLng) {
+
+                                        var lat = latLng.lat();
+                                        var lng = latLng.lng();
+                                        var R = 6371; // radius of earth in km
+                                        var distances = [];
+                                        var closest = -1;
+                                        for (i = 0; i < markers.length; i++) {
+                                            var mlat = markers[i].position.lat();
+                                            var mlng = markers[i].position.lng();
+                                            var dLat = rad(mlat - lat);
+                                            var dLong = rad(mlng - lng);
+                                            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                                Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+                                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                            var d = R * c;
+                                            distances[i] = d;
+                                            if (closest == -1 || d < distances[closest]) {
+
+                                                closest = i;
+                                            }
+                                        }
+
+                                        //for nearest point
+                                        // markers[closest].icon = "../../resources/images/alert_blink_icon.gif";
+                                    }
+
+                                    //end  Find out nearest point  
+
+
+
+                                    function plotMarker(position, map, name, Location, currentdate, VehStatus, bbid, IsDispatched, lat, lng, icon) {
+
+                                        VehStatus = VehStatus.replace("~/", "../../");
+                                        poiMarker = new google.maps.Marker({
+
+                                            position: position,
+                                            map: map,
+                                            draggable: false,
+                                            clickable: true,
+                                            icon: VehStatus,
+                                            animation: google.maps.Animation.DROP
+                                        });
+                                        var poimarker1 = poiMarker;
+                                        markers.push(poiMarker);
+                                        //  icon = icon.replace("~/", "../../");
+
+                                        //var contentString = 'Vehicle Name: ' + name + "Location " + Location + "Date " + currentdate;
+                                        //var status = (IsDispatched == true) ? "<a class='btn btn-success' href='../../AssignVehicle/TrackVehicle' target='_blank' style='float: right;'> Track </a>" : "<a class='btn btn-success' onClick='DispatchVehicle(this.id);' id='" + bbid + "'  data-toggle='modal' data-target='#myModal' style='float: right;'>Dispatch </a>";
+                                        //var status = (IsDispatched == true) ? "<a class='btn btn-success' href='../../HTML/POIMap.htm?bbid=" + bbid + "&vehname=" + name + "&lat=" + lat + "&longi=" + lng + "' target='_blank' style='float: right;'> Track </a>" : "<a class='btn btn-success' onClick='DispatchVehicle(this.id);' id='" + bbid + "'  data-toggle='modal' data-target='#myModal' style='float: right;'>Dispatch </a>";
+                                        //var image = "<img src='" + icon + "' />"
+                                        var contentString = '<b>Vehicle Name:</b>' + name + '<br/><b>Location:</b>' + Location + '<br/>' + '<b>Date: </b>' + currentdate + status;
+                                        var infowindow = new google.maps.InfoWindow({
+                                            content: contentString
+                                        });
+                                        google.maps.event.addDomListener(poimarker1, 'click', function () {
+                                            infowindow.open(map, poimarker1);
+                                        });
+                                    }
+                                    function ExportNearestPointToExcel(url) {
+                                        debugger
+                                        var KL = document.getElementById('Kilo').value;
+                                        var MT = document.getElementById('Mtr').value;
+                                        var Radius = parseInt((parseInt(KL) * parseInt(1000) + parseInt(MT)));
+
+                                        var LL = document.getElementById('LatLng').value;
+                                        var mySplitResult = LL.split(",");
+
+                                        var lat = mySplitResult[0].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+                                        var lng = mySplitResult[1].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+
+
+                                        var myLatlng = new google.maps.LatLng(lat, lng);
+
+                                        map.setCenter(myLatlng);
+                                        var infowindow = new google.maps.InfoWindow()
+
+                                        var marker = new google.maps.Marker({
+                                            map: map,
+                                            position: myLatlng
+
+                                        });
+
+                                        //var circle = new google.maps.Circle({
+                                        //    map: map,
+                                        //    radius: Radius,    // 10 miles in metres
+                                        //    fillColor: '#AA0000'
+                                        //});
+                                        //circle.bindTo('center', marker, 'position');
+                                        var reportName = 'Vehicle_To_Nearest_Point';
+                                      
+                                        var url1 = url + "?Lats=" + lat + "&Lngs=" + lng + "&DiameterInMeter=" + Radius + "&custid=" + $custid + "&reportName=" + reportName;
+                                        window.location = url1;
+                                   
+
+
+                                    }
+                                    $("#excelExport").click(function () {
+                                        debugger;
+                                        var downloadType = 'Excel';
+                                        var url = apiBase.apiurl + "MapAPI/ExportNearestVehicleToExcel";
+                                        ExportNearestPointToExcel(url);
+                                    });
+                                    // Sets the map on all markers in the array.
+                                    function setMapOnAll(map) {
+                                        for (var i = 0; i < markers.length; i++) {
+                                            markers[i].setMap(map);
+                                        }
+                                    }
+
+                                    // Removes the markers from the map, but keeps them in the array.
+                                    function clearMarkers() {
+                                        setMapOnAll(null);
+                                    }
+
+                                    // Deletes all markers in the array by removing references to them.
+                                    function deleteMarkers() {
+                                        clearMarkers();
+                                        markers = [];
+                                    }
+
+
+                                </script>
+                                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCITh4LYqVNyaJ_YDiYgRxv29dhPJnU-5o&libraries=places" language="javascript" type="text/javascript"></script>
+                                <script>
+
+                                    google.maps.event.addDomListener(window, 'load', initialize1);
+                                    function initialize1() {
+                                        var input = document.getElementById('address');
+                                        var options = {
+                                            componentRestrictions: { country: 'IN' }
+                                        };
+                                        var autocomplete = new google.maps.places.Autocomplete(input, options);
+                                        autocomplete.addListener('place_changed', function () {
+                                            var place = autocomplete.getPlace();
+                                            // place variable will have all the information you are looking for.
+                                            console.log(place.geometry['location'].lat());
+                                            endLocationLat = place.geometry['location'].lat();
+                                            endLocationLong = place.geometry['location'].lng();
+
+                                            console.log(place.geometry['location'].lng());
+                                            codeAddress();
+                                        });
+                                    }
+
+
+
+
+
+
+                                </script>
+                                <script>
+                                    $(function () {
+                                        window.DispatchVehicle = function (id) {
+                                            $.ajax({
+                                                url: '/AssignVehicle/ModalForDispatchedVehicle',
+                                                dataType: "json",
+                                                type: "GET",
+                                                data: { BBID: id },
+                                                contentType: 'application/x-www-form-urlencoded; charset=utf-8',    //replace /json to the urlenoded
+                                                async: true,
+                                                processData: true,                                                  //important to use it as true
+                                                cache: false,
+
+                                                success: function (data) {
+                                                    $("#VehicleName").val(data.VehicleName);
+                                                    $("#Location").val(data.Location);
+                                                    $("#BBID").val(data.BBID);
+                                                    $("#StartLocationLat").val(data.StartLocationLat);
+                                                    $("#StartLocationLong").val(data.StartLocationLong);
+                                                    $("#remarks").val(data.remarks);
+                                                }
+
+                                            });
+
+                                            $("#txtEndLocation").val($("#address").val());
+                                        };
+
+
+                                        window.SubmitDispatch = function () {
+                                            $("#EndLocationLat").val(endLocationLat);
+                                            $("#EndLocationLong").val(endLocationLong);
+                                            };
+                                    });
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,435 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>&nbsp;</title>
+    <script>
+        jQuery(function () {
+            if (!window.google || !window.google.maps) {                                
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in&' +
+                    'callback=initializeTimer';
+                document.body.appendChild(script);
+            }
+            else {
+                initializeTimer();
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        var icons = [];
+        icons[1] = "/Content/map/LocationOnMap/icon61.png";
+
+        icons[2] = "/Content/map/LocationOnMap/moving.png";
+        icons[3] = "/Content/map/LocationOnMap/parked.png";
+        icons[4] = "/Content/map/LocationOnMap/unraeach.png";
+        icons[6] = "/Content/map/LocationOnMap/towed.png";
+        icons[5] = "/Content/map/LocationOnMap/ignion.png";
+        icons[7] = "/Content/map/LocationOnMap/hispeed.png";
+        function initMap(myLatlng, name, html, icon_type, status, map, angle) {
+           
+            var lineSymbol = {
+                path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                scale: 7
+            };
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+
+                offset: '500%',
+                scale: 5
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+            return marker;
+        }
+        function createMarker(myLatlng, name, html, icon_type, status, map) {
+            var customIcon = new google.maps.MarkerImage(icons[icon_type]);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name
+                , icon: customIcon
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+            return marker;
+        }
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        function getdata() {
+            var id;
+            var vehname;
+            var drivername;
+            var drmob = '';
+
+            var vehname = $('#vehname').val();
+            id = $('#bbid').val();
+            document.getElementById('txtVehname').value = $('#vehname').val();          
+            var vehicle = getParameterByName("busRegNo");
+          
+
+            $.getJSON("https://api1.trackmaster.in/api/CommonApi/GetVehicleTrail?bbid=" + vehicle + "&custid=16520",
+                    function (data) {
+                        //clear markers
+                        if (gmarkers) {
+                            for (i in gmarkers) {
+                                gmarkers[i].setMap(null);
+                            }
+                            gmarkers.length = 0;
+                        }
+                        if (flightPath != null) {
+                            flightPath.setMap(null);
+                        }
+                              var i = 0;
+                              $.each(data, function (key, val) {
+                                 
+                            flightPlanCoordinates[i] = new google.maps.LatLng(val.Latitude, val.Longitude);
+                            var myLatlng = new google.maps.LatLng(val.Latitude, val.Longitude);
+                            Speed = val.Speed;
+                            Location = val.Location;                          
+                            angle = val.angle;
+                            DataDate = val.DataDate;
+                            var vehiclename = val.VehicleName;
+
+                            var serviceName = getParameterByName("serviceName");
+
+                            var departureDateNTime = getParameterByName("departureDateNTime");
+
+                            $('#lblLocation').html(Location);
+                            $('#speedtag').html(Speed);
+                            $('#Datadatetag').html(DataDate);
+                            //$('#Statustag').html(statusveh);
+                            $('#lblvehname').html(vehiclename);
+
+
+
+                            $('#Servicetag').html(serviceName);
+                            $('#Departuretag').html(departureDateNTime);
+
+                            Icontype = val.IconType;
+                            var html = "Vehicle Name:" + document.getElementById('txtVehname').value + "<br/> Date-Time: " + DataDate + "<br/> Speed: " + Speed + "<br/> Location: " + Location                          
+                            if (i == data.length - 1) {
+                                var PI = 3.14159;
+                                var lat1 = flightPlanCoordinates[0].lat() * PI / 180;
+                                var long1 = flightPlanCoordinates[0].lng() / 180;
+                                var lat2 = flightPlanCoordinates[1].lat() * PI / 180;
+                                var long2 = flightPlanCoordinates[1].lng() * PI / 180;
+                                var dLon = (long2 - long1);
+                                var y = Math.sin(dLon) * Math.cos(lat2);
+                                var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+                                var brng = Math.atan2(y, x);
+                                brng = brng * 180 / Math.PI
+                                brng = (brng + 360) % 360;
+                                brng = Math.round(brng);
+                               
+                                var marker = createMarker(myLatlng, vehname, html, Icontype, "status", map);
+                                var marker1 = initMap(myLatlng, vehname, html, Icontype, "status", map, brng);
+                                gmarkers.push(marker);
+                                gmarkers.push(marker1);
+
+                            }
+                            else {                               
+                                showTrail = $('#checkTrail').is(':checked');
+                                if (showTrail == true) {
+                                    var marker = createMarker(myLatlng, vehname, html, "1", "status", map);
+                                    gmarkers.push(marker);
+                                }
+                            }
+                            i++;
+
+                        });
+
+                        //auto center
+                        reCenter();
+
+                        if (showTrail == true) {
+
+
+
+
+                            for (var i = 0, n = flightPlanCoordinates.length; i < n; i++) {
+
+                                var coordinates = new Array();
+                                for (var j = i; j < i + 2 && j < n; j++) {
+                                    coordinates[j - i] = flightPlanCoordinates[j];
+                                }
+
+                                flightPath = new google.maps.Polyline({
+                                    path: coordinates,
+                                    strokeColor: '#0000FF',
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: 2,
+                                    geodesic: true,
+                                    icons: [{
+                                        icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
+                                        offset: '100%'
+                                    }]
+                                });
+                                flightPath.setMap(map);                             
+                            }                       
+                        }
+                    })
+                .fail(
+                    function (jqXHR, textStatus, err) {
+                        $('#product').html('Error: ' + jqXHR.responseText);
+                    });
+
+        }
+    </script>
+    <script language="javascript" type="text/javascript">
+        var BoxID;
+        var VehName;
+        var Location;
+        var Longitude;
+        var Latitude;
+        var Speed;
+        var angle;
+        var DataDate;
+        var Icontype;
+        var Status;
+
+        var map;
+        var flightPlanCoordinates = [];
+        var gmarkers = [];
+        var flightPath;
+        var delay = 1500;
+        var timerRunning = false;
+        var timerID;
+        var zoomToExtents = 0;
+        var autoZoom = true;
+        var showTrail = true;
+
+        //------------------ Initialize Timer ----------------------//
+        function initializeTimer() {
+            zoomToExtents = 0;
+            initialize();
+            StopTheClock();
+            StartTheTimer();
+        }
+
+        function StopTheClock() {
+            if (timerRunning)
+                clearTimeout(timerID)
+            timerRunning = false;
+        }
+        function StartTracking() {
+            StartTheTimer();
+        }
+        function StartTheTimer() {
+            getdata();
+            timerRunning = true;
+            timerID = self.setTimeout("StartTracking()", 15000);
+        }
+
+        function initialize() {
+         
+            var myLatLng = new google.maps.LatLng(30.7234, 76.76);
+         
+            var mapOptions = {
+                zoom: 10,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+        }
+    </script>
+    <script type="text/javascript" language="javascript">
+        // ---------------- Show Hide Trail -------------
+        function showHideTrail(check) {
+
+            for (var i = 1; i < gmarkers.length; i++) {
+                if (check == false) {
+                    gmarkers[i].setMap(null);
+                    flightPath.setMap(null);
+                }
+                else {
+                    gmarkers[i].setMap(map);
+                    flightPath.setMap(map);
+                }
+            }
+        }
+
+        // ---------------- Re-Center map to bounds -------------
+        function reCenter() {
+            try {
+                autoZoom = $('#checkZoom').is(':checked');
+            }
+            catch (ex) {
+            }
+            if (autoZoom == true) {
+                var bound = new google.maps.LatLngBounds();
+                for (var i in gmarkers) {
+                    bound.extend(gmarkers[i].getPosition());
+                }
+                map.fitBounds(bound);
+                //zoomToExtents = 1;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".trigger").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+        });
+    </script>
+    <style type="text/css">
+        a.trigger {
+            position: absolute;
+            text-decoration: none;
+            top: 207px;
+            right: 0;
+            color: #fff;
+            padding: 10px 40px 10px 15px;
+            background: #717d0f url(minus.png) 85% 55% no-repeat;
+            display: block;
+        }
+
+            a.trigger:hover {
+                /*position: absolute; text-decoration: none; top: 80px; left: 0; font-size: 16px; letter-spacing:-1px; font-family: verdana, helvetica, arial, sans-serif; color:#fff; padding: 20px 40px 20px 20px; font-weight: 700; background:#222222 url(images/plus.png) 85% 55% no-repeat; border:1px solid #444444; -moz-border-radius-topright: 20px; -webkit-border-top-right-radius: 20px; -moz-border-radius-bottomright: 20px; -webkit-border-bottom-right-radius: 20px; -moz-border-radius-bottomleft: 0px; -webkit-border-bottom-left-radius: 0px;*/ /*display: none;*/
+            }
+
+        a.active.trigger {
+            background: #717d0f url(plus.png) 85% 55% no-repeat; /**/
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        .veh_label {
+            font: 12px/16px Verdana,sans-serif;
+            font-weight: bold;
+            padding: 2px 4px 2px 4px;
+            width: auto;
+            white-space: nowrap;
+        }
+
+        .panel {
+            position: absolute;
+            top: 248px;
+            right: 0; /*display: none;*/
+            background: #fff;
+            border: 1px solid #ccc; /*-moz-border-radius-topright: 20px; -webkit-border-top-right-radius: 20px; -moz-border-radius-bottomright: 20px; -webkit-border-bottom-right-radius: 20px;*/
+            width: 300px;
+            height: auto;
+            padding: 10px;
+            filter: alpha(opacity=85);
+            opacity: .85;
+        }
+    </style>
+</head>
+<body>
+    <input type="hidden" id="vehname" value='@ViewBag.vehname' />
+    <input type="hidden" id="bbid" value='@ViewBag.bbid' />
+    <input type="hidden" id="txtVehname" />
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.
+    </noscript>
+    <div id="container">
+
+        @*<div class="container-fluid">
+            <div class="row content">
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <img src="~/img/about-us/logo.png" style=" margin-left: 30px; margin-top: 15px; height: 82px;" />
+                    </div>
+                    <div class="col-md-8">
+                        <h4 style="color: blue; margin-top: 20px;">Uttarakhand Transport Corporation Powered By <img src="~/Content/img/blackbox.png" /> GPS Technologies OPC Pvt Ltd</h4>
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                    <div id="map_canvas" style="width:100%; height:780px;">
+                    </div>
+                    <div class="panel" style="height: 300px;">
+                        <div id="side_bar">
+                            <p>
+                                Trail
+                                <input type="checkbox" id="checkTrail" checked="checked" onclick="javascript: showHideTrail(this.checked);" />
+                            </p>
+                            <p>
+                                Auto Zoom
+                                <input type="checkbox" onchange="javascript:reCenter();" id="checkZoom" checked="checked" />
+                            </p>
+
+                            <p>
+                                Bus No:  <span id="lblvehname" class="label label-success"></span>
+                            </p>
+                            <p>
+                                Location:  <span id="lblLocation" class="label label-success"></span>
+                            </p>
+                            <p>
+
+                                Speed &nbsp;<span id="speedtag" class="label label-success"></span> KM/h
+                            </p>
+                            <p>
+
+                                Datadate &nbsp;<span id="Datadatetag" class="label label-success"></span>
+                            </p>
+
+                            <p>
+                                Service Name &nbsp;<span id="Servicetag" class="label label-success"></span>
+                            </p>
+                            <p>
+                                Departure Time &nbsp;<span id="Departuretag" class="label label-success"></span>
+
+                            </p>
+                        </div>
+                    </div>
+        <footer class="container-fluid">
+            <p>Powered By BlackBox GPS Technologies OPC Pvt Ltd </p>
+        </footer>
+                    <a class="trigger" href="#">Settings</a>
+                </div>
+</body>
+</html>

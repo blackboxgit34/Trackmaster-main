@@ -1,0 +1,483 @@
+﻿@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+	<script src="~/Content/Alertify/sweetalert.min.js"></script>
+    <link href="~/Content/Alertify/sweetalert.css" rel="stylesheet" />
+<style type="text/css">
+    input[type="file"] {
+        display: block;
+    }
+
+    .imageThumb {
+        max-height: 75px;
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .pip {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+    }
+
+    .remove {
+        display: block;
+        background: #444;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
+</style>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                        <form id="userDetailsForm" method="post" class="col-centered col-sm-12">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        UserName
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtUserName" readonly name="login" class="form-control" />
+                                                                        <input type="hidden" name="custid" id="hdnCustId" />
+                                                                        <input type="hidden" name="custLogo" id="hdnCustLogo" />
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Owner Name
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtDisplayName" readonly name="name" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Bill Name
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtBillName" readonly name="BillName" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Phone
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtPhone" readonly name="phone" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Mobile
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtMobile"  readonly name="mobile" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Mobile 1
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtMobile1" readonly name="mobile1" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Mobile 2
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtMobile2" readonly name="mobile2" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Email
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="email" required id="txtEmail" readonly name="email" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Address
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtAddress" readonly name="address" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        City
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtCity" name="city" class="form-control" readonly />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        State
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtState" readonly name="state" class="form-control" readonly />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Country
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtCountry" readonly name="country" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                        Postal Code
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="text" id="txtPostalCode" readonly name="Postalcode" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group col-md-4">
+                                                                    </div>
+                                                                    <div class="form-group col-md-8">
+                                                                        <input type="submit" class="btn btn-success pull-right" value="Submit" onclick="btnSubmit();" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">Logo Upload</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style=" background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                    </div>
+                                                    <!-- Change /upload-target to your upload address -->
+                                                   
+                                                            @Html.Hidden("ImageFileName")
+                                                                                    @Html.Hidden("ImagePath")
+                                                                                    <input type="button" value="Choose File" onclick="document.getElementById('files').click();" /><br />
+                                                                                    <input type="file" id="files" name="files[]" style="display: none;" accept="image/x-png,image/gif,image/jpeg" />
+                                                                                    <br />
+                                                                                    <div id="BundleDetails">
+                                                                                    </div>
+                                                                                    <span class="label label-info">supported filetypes:.bmp,.jpg,.gif,.png</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script>
+        var imageCount = 1;
+        var spanId = 0;
+        var f = [];
+        $(document).ready(function () {
+            var baseUrl = apiBase.apiurl;
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: baseUrl + "AdminAPI/GetProfileData",
+                data: { custId: $custid },
+                async: false,
+                success: function (data) {
+                    $("#hdnCustId").val($custid);
+                    $("#txtUserName").val(data.login);
+                    $("#txtDisplayName").val(data.name);
+                    $("#txtBillName").val(data.city);
+                    $("#txtPhone").val(data.phone);
+                    $("#txtMobile").val(data.mobile);
+                    $("#txtMobile1").val(data.mobile1);
+                    $("#txtMobile2").val(data.mobile2);
+                    $("#txtEmail").val(data.email);
+                    $("#txtAddress").val(data.address);
+                    $("#txtCity").val(data.city);
+                    $("#txtState").val(data.state);
+                    $("#txtCountry").val(data.country);
+                    $("#txtPostalCode").val(data.Postalcode);
+
+                    //Change filepath to property name
+                    if (data.custLogo.length > 0) {
+                            var arr = data.custLogo.split(',');
+                        var count = 0;
+                        $.each(arr, function () {
+
+                            var fpath = this;
+
+                            fpath = fpath.replace(/\\/g, '/');
+
+                            var fname = fpath.substring(fpath.lastIndexOf('/') + 1, fpath.lastIndexOf('.'));
+
+
+                            if (this.length > 0) {
+                                //for restrict images to upload
+                                imageCount = imageCount + 1;
+
+                                $("<span class=\"pip imagePreview\" id='" + fname + "'>" +
+                          "<img id=\"Image" + (this.length--) + "\"  class=\"imageThumb\" src=\"" + this + "\" title=\"" + this + "\"/>" +
+                          "<br/><span class=\"remove\" onClick='DeleteImage(this.id);' id='" + this + "'  >Remove</span>" +
+                          "</span>").insertAfter("#files");
+                            }
+                        });
+                    }
+                }
+            })
+        });
+
+        window.btnSubmit = function () {
+            debugger;
+            //  UploadImageDocuments(); //for saving logo
+            swal("Alert!", "Want To Update The Profile?Please Contact to Customer Support", "success")
+            //saveData();
+            
+        };
+
+        function saveData()
+        {
+            var dataObject = $("#userDetailsForm").serializeArray();
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: baseUrl + "AdminAPI/UpDateProfileDetail",
+                data: $.param(dataObject),
+                async: false,
+                success: function (data) {
+                    toastr.success("successfully Updated");
+                },
+                error: function (data) {
+                    toastr.warning("Something went wrong");
+
+                }
+            })
+        }
+
+        function UploadImageDocuments() {
+            var imagesPath = '';
+            var imagesFileName = '';
+            var files = $("#files").get(0).files;
+            var data = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                data.append(files[i].name, files[i]);
+            }
+            if (files.length > 0) {
+                $.ajax({
+                    url: "/Admin/UploadMyFiles",
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    success: function (result) {
+                        var ImagePathList = "";
+                        var ImageNames = "";
+                        var i = 0;
+                        $.each(result, function (key, value) {
+
+                            var img = "../../" + value.fullPath + ',';//+ "\\" + value.Name + ',';
+                            ImagePathList += img;
+                            ImageNames += value.Name + ',';
+
+                        });
+                        //already have images list
+                        var ExisitingImageList = $("#ImagePath").val();
+                        $("#hdnCustLogo").val(ImagePathList);
+                        $("#ImageFileName").val(ImageNames);
+                        return true;
+                    },
+                    error: function (er) {
+                        alert(er);
+                        return false;
+                    }
+                }).done(function () {
+                    saveData();
+                });
+            }
+        }
+
+        function UpdateImageRemove(id) {
+            debugger;
+            id = parseInt(id);
+            var imageName = $("#Image" + id + "")[0].title;
+            //for removing image from array 
+            for (var i = f.length - 1; i >= 0; i--) {
+                if (f[i].name === imageName) {
+                    f.splice(i, 1);
+                }
+            }
+
+
+            $("#pip" + id + "").remove();
+            imageCount = imageCount - 1;
+
+        }
+
+        function DeleteImage(id) {
+            debugger;
+            var vehid = getUrlParameter("vehicleId");
+            var fileNameIndex = id.lastIndexOf("/") + 1;
+            var imagename = id.substr(fileNameIndex);
+            var fpath = id;
+
+            fpath = fpath.replace(/\\/g, '/');
+
+            var fname = fpath.substring(fpath.lastIndexOf('/') + 1, fpath.lastIndexOf('.'));
+
+            console.log(imagename);
+            var res = confirm("Do you want to delete this file?");
+            if (res) {
+                var ApiUrl = apiBase.apiurl + "AdminAPI/RemoveLogoImage?custid=" + $custid + "&imagename=" + imagename;
+                $.get(ApiUrl, function (result) {
+                    if (result > 0) {
+                        debugger;
+
+                        //after deleting success message and also image count-1
+                        $("#" + fname + "").remove();
+                        toastr.success("File Deleted successfully!");
+                        imageCount = imageCount - 1;
+                    }
+                    else {
+                        toastr.error("File Failed to Delete!");
+                    }
+                });
+            }
+        }
+        //code for file uploader
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                    filesLength = files.length;
+                    imageCount = imageCount + filesLength - 1;
+                    var file_size = $('#files')[0].files[0].size;
+                    if (imageCount < 2) {
+                        //extension check
+                        var ext = $('#files').val().split('.').pop().toLowerCase();
+                        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                            alert('Invalid File Type! Please upload an image file only.');
+                        }
+                        else if (file_size > 100000) {
+                            alert("File size greater than 100 Kb is not allowed");
+                        }
+                        else {
+                            imageCount = imageCount - filesLength + 1;
+                            //alert(filesLength)
+                            if (filesLength < 2) {
+                                for (var i = 0; i < filesLength; i++) {
+                                    debugger;
+                                    imageCount = imageCount + 1;
+                                    f.push(files[i]);
+
+                                    var fileReader = new FileReader();
+                                    fileReader.onload = (function (e) {
+                                        var file = e.target;
+                                        $("<span class=\"pip\" id='pip" + spanId + "'>" +
+                                          "<img id=\"Image" + (spanId) + "\" class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + files[i - 1].name + "\"/>" +
+                                          "<br/><span  class=\"remove\" onClick='UpdateImageRemove(this.id);' id='" + spanId + "' >Remove</span>" +
+                                          "</span>").insertAfter("#files");
+                                    });
+                                    fileReader.readAsDataURL(files[i]);
+                                }
+                            }
+                            else {
+                                alert('You can upload 1 image only!');
+                                return false;
+                            }
+                        }
+                    }
+                    else {
+
+                        imageCount = imageCount - filesLength + 1;
+                        alert('You can upload 1 image only!');
+                        return false;
+                    }
+
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
+    </script>
+
+}

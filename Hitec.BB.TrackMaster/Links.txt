@@ -1,0 +1,17 @@
+﻿AngularJS Route 1.5.8
+Install-Package AngularJS.Route
+
+AngularJS Cookies 1.5.8
+Install-Package AngularJS.Cookies
+
+angular-base64
+https://github.com/ninjatronic/angular-base64
+
+Angular file upload 12.2.12
+Install-Package angular-file-upload
+
+angular-validator 1.2.8
+Install-Package angular-validator
+
+angucomplete-alt
+https://github.com/ghiden/angucomplete-alt

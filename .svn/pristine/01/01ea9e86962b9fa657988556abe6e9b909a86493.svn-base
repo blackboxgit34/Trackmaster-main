@@ -1,0 +1,671 @@
+﻿$(".js-example-basic").select2({});
+
+var OrderId = 0;
+var startLoc;
+$(document).ready(function () {
+    
+    $('#DispatchDate').datepicker();
+    $('#AttachmentDiv').hide();
+    $('#LicenseExpiryDate').datepicker();
+
+    getRoutes();
+
+    $('#OrderType').change(function () {
+        var option = $('#OrderType').find(":selected").text();
+        hideAll();
+        if (option == "Load Based") $('#load').css('display', 'block');
+        else if (option == "Quantity Based") $('#quantity').css('display', 'block');
+        else if (option == "Kilometer Based") $('#kilometer').css('display', 'block');
+        else if (option == "Trip Based") $('#trip').css('display', 'block');
+        else if (option == "Lease Based") $('#lease').css('display', 'block');
+        else if (option == "Custom") $('#custom').css('display', 'block');
+    });
+
+    $('#AddNewOrder').on('keydown', '#TotalWeight, #PricePerLoadPerKilometer, #LoadKm, #TotalQuantity, #PricePerQuantityPerKilometer, #QuantityKm, #UnitKilometerCharge, #KilometerKm, #PerTripCost, #TripRound, #LeasePerDay, #DriverExpenditure', function (e) {
+        -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault()
+    });
+
+    $("#TotalWeight, #PricePerLoadPerKilometer, #LoadKm").keyup(function () {
+        $('#LoadTotal').val($('#TotalWeight').val() * $('#PricePerLoadPerKilometer').val() * $('#LoadKm').val());
+    });
+
+    $("#TotalQuantity, #PricePerQuantityPerKilometer, #QuantityKm").keyup(function () {
+        $('#QuantityTotal').val($('#TotalQuantity').val() * $('#PricePerQuantityPerKilometer').val() * $('#QuantityKm').val());
+    });
+
+    $("#UnitKilometerCharge, #KilometerKm").keyup(function () {
+        $('#KilometerTotal').html($('#UnitKilometerCharge').val() * $('#KilometerKm').val());
+    });
+
+    $("#PerTripCost, #TripRound").keyup(function () {
+        $('#TripTotal').html($('#PerTripCost').val() * $('#TripRound').val());
+    });
+
+    $("#LeasePerDay").keyup(function () {
+        var monthdays = $('#LeaseMonths option:selected').val() * $('#LeasePerDay').val();
+        //var d = $('#LeaseDays option:selected').val() * $('#LeasePerDay').val();
+        //var days = (isNaN(d)) ? 0 : d;
+        $('#LeaseTotal').html(monthdays).css("display", "block");
+    });
+
+    $("#LeaseMonths").change(function () {
+        var monthdays = $('#LeaseMonths option:selected').val() * $('#LeasePerDay').val();
+        //var d = $('#LeaseDays option:selected').val() * $('#LeasePerDay').val();
+        //var days = (isNaN(d)) ? 0 : d;
+        $('#LeaseTotal').html(monthdays).css("display", "block");
+    });
+
+    $("#GrNo").focusout(function () {
+        var gr = $('#GrNo').val();
+        var GrStatusUrl = apiBase.apiurl + 'fmsapi/GetGrStatus';
+        if (gr.length > 0) {
+            $.get(GrStatusUrl, { GrNo: gr }, function (data) {
+                if (data == " Gr No Already Exists") {
+                    $('#GrNoStatus').html($('#GrNo').val() + data);
+                    $('#GrNo').val('');
+                    $('#GrNo').focus();
+                    $('#GrNoStatus').css('display', 'block');
+                }
+                else {
+                    $('#GrNoStatus').html(data);
+                    $('#GrNoStatus').css('display', 'block');
+                }
+            });
+        }
+    });
+
+    $('#ImagePath, #ImageFileName').val('None');
+
+    $('#ddlRouteName').change(function () {
+        var RouteID = $('#ddlRouteName').find(":selected").val();
+        $('#VehicleId').val('').trigger("change");
+        var RouteDetailsUrl = apiBase.apiurl + 'MapAPI/GetStartEndRouteLoc';
+        if (RouteID != "") {
+            $.get(RouteDetailsUrl, { routeId: RouteID }, function (data) {
+                var count = 0;
+                // call and get the nearby vehicles
+                $('#TripFrom').val(data.StartLocName);
+                $('#TripTo').val(data.EndLocName);
+                startLoc = data.loc;
+                GetVehicleCount();
+
+                if (data.StartDate != "0001-01-01T00:00:00") {
+                    var StartDate = data.StartDate.split('T');
+                    var StartDate = StartDate[0].split('-');
+                    var EndDate = data.EndDate.split('T');
+                    var EndDate = EndDate[0].split('-');
+                    $("#DispatchDate").datepicker("option", "minDate", new Date(StartDate[0], StartDate[1] - 1, StartDate[2]));
+                    $("#DispatchDate").datepicker("option", "maxDate", new Date(EndDate[0], EndDate[1] - 1, EndDate[2]));
+                }
+            });
+        }
+    });
+
+    $('#VehicleMap').click(function () {
+        debugger;
+        $("#SelectVehcile").dialog({
+            autoOpen: true,
+            position: { my: "center", at: "200", of: window },
+            width: 900,
+            height: 600,
+            resizable: true,
+            title: 'Select vehicle',
+            modal: true,
+            open: function () {
+                initialize();
+                //var url = "../fms/CheckPassword?custid=" + $custid;
+                //$(this).load(url);
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                Close: function () {
+                    $(this).dialog("close");
+                }
+            }
+        }).css("display", "block");
+        $('.ui-widget-overlay').click(function () { $('#SelectVehcile').dialog("close"); });
+        $('#Kilo').val('2');
+        AjaxGetVehicleNearestToPoint();
+    });
+});
+
+function hideAll() {
+    $('#load').css('display', 'none');
+    $('#quantity').css('display', 'none');
+    $('#kilometer').css('display', 'none');
+    $('#trip').css('display', 'none');
+    $('#lease').css('display', 'none');
+    $('#custom').css('display', 'none');
+
+    debugger;
+    if (typeof getUrlParameter("BookingId") == "undefined") {
+        $('#TotalWeight').val('0');
+        $('#PricePerLoadPerKilometer').val('0');
+        $('#LoadKm').val('0');
+        $('#LoadTotal').val('0');
+
+        $('#TotalQuantity').val('0');
+        $('#PricePerQuantityPerKilometer').val('0');
+        $('#QuantityKm').val('0');
+        $('#QuantityTotal').val('0');
+
+        $('#UnitKilometerCharge').val('0');
+        $('#KilometerKm').val('0');
+        $('#KilometerTotal').html('0');
+
+        $('#PerTripCost').val('0');
+        $('#TripRound').val('0');
+        $('#TripTotal').html('0');
+
+        $('[name=LeaseMonths]').val('0');
+        $('[name=LeaseDays]').val('0');
+        $('#LeasePerDay').val('0');
+
+        $('#TotalTripCost').val('0');
+        $('#TotalLeaseCost').val('0');
+
+        $('#CustomCost').val('0');
+    }
+}
+
+function getRoutes() {
+    var routeNames = $('#ddlRouteName');
+    $.ajax({
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        url: apiBase.apiurl + "AdminAPI/GetRoutes",
+        data: { custId: $custid },
+        async: false,
+        success: function (data) {
+            for (i = 0; i < data.length; i++) {
+                routeNames.append($('<option/>').text(data[i].Text).attr('value', data[i].Value));
+            }
+        },
+        error: function () {
+            alert('Please try again');
+        }
+    }).done(function (results) {
+        bindVehicles();
+    });
+};
+
+function bindVehicles() {
+    var VehicleUrl = apiBase.apiurl + 'fmsapi/GetFmsVehicles';
+    $("#VehicleId").find('option').not(':first').remove();
+    $.get(VehicleUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#VehicleId").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+        });
+    }).done(function (results) {
+        bindCustomers();
+    });
+}
+
+function bindCustomers()  {
+    var VehicleUrl = apiBase.apiurl + 'fmsapi/GetCustomers';
+    $("#CustomerId").find('option').not(':first').remove();
+    $.get(VehicleUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#CustomerId").append($("<option></option>").val(value.CustomerID).html(value.CustomerName));
+        });
+    }).done(function (results) {
+        //BindPOI();
+        BindDrivers()
+    });
+}
+
+function BindPOI() {
+    var StarEndLocUrl = apiBase.apiurl + 'FmsAPI/GetStarEndLocation';
+    $("#TripFrom").find('option').not(':first').remove();
+    $("#TripTo").find('option').not(':first').remove();
+    $.get(StarEndLocUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#TripFrom").append($("<option></option>").val(value.StartLoc).html(value.StartLoc));
+            $("#TripTo").append($("<option></option>").val(value.StartLoc).html(value.StartLoc));
+        });
+    }).done(function (results) {
+        BindDrivers();
+    });
+}
+
+function BindDrivers() {
+    var StarEndLocUrl = apiBase.apiurl + 'FmsAPI/GetDriver';
+    $('#DriverName').find('option:not(:first)').remove();
+    $.get(StarEndLocUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#DriverName").append($("<option></option>").val(value.EmpName).html(value.EmpName));
+        });
+    }).done(function (results) {
+        BindTechnician();
+    });
+}
+
+function BindTechnician() {
+    var StarEndLocUrl = apiBase.apiurl + 'FmsAPI/GetTechnician';
+    $('#TechnicianName').find('option:not(:first)').remove();
+    $.get(StarEndLocUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#TechnicianName").append($("<option></option>").val(value.EmpName).html(value.EmpName));
+        });
+    }).done(function (results) {
+        getDetails();
+    });
+}
+
+function getDetails() {
+    var BookingId = getUrlParameter("BookingId");
+    if (BookingId != null) {
+        OrderId = BookingId;
+        var BookingUrl = apiBase.apiurl + 'fmsapi/GetBookingDetails';
+        $.get(BookingUrl, { BookingId: BookingId }, function (data) {
+            $(document).prop('title', 'Edit an order');
+            console.log(data);
+            $('#ddlRouteName').val(data.RouteId).trigger("change");
+            $('#OrderType').val(data.OrderTypeName).trigger("change");
+            
+            $('#OrderType').val(data.OrderTypeName).trigger("change");
+            $('#VehicleId').val(data.VehicleId).trigger("change");
+            $('#CustomerId').val(data.CustomerId).trigger("change");
+            $('#GrNo').val(data.GrNo);
+            $('#MaterialType').val(data.MaterialType);
+            $('#TripFrom').val(data.TripFrom).trigger("change");
+            $('#TripTo').val(data.TripTo).trigger("change");
+            $('#DriverName').val(data.DriverName).trigger("change");
+            $('#TechnicianName').val(data.TechnicianName).trigger("change");
+            $('#DriverExpenditure').val(data.DriverExpenditure);
+
+            var datemod = data.DispatchDateMod.split('T');
+            var d = datemod[0].split('-');
+            $('#DispatchDate').datepicker("setDate", new Date(d[0], d[1], d[2]));
+            $('#DispatchTime').val(formatAMPM(datemod[1]));
+            // set time using datemod[0] or datemod[2]
+
+            $('#PricePerLoadPerKilometer').val(data.PricePerLoadPerKilometer);
+            $('#TotalWeight').val(data.TotalWeight);
+            $('#TotalQuantity').val(data.TotalQuantity);
+            $('#PricePerQuantityPerKilometer').val(data.PricePerQuantityPerKilometer);
+            $('#UnitKilometerCharge').val(data.UnitKilometerCharge);
+            $('#PerTripCost').val(data.PerTripCost);
+            $('#TripRound').val(data.TripRound);
+            $('#WeightType').val('Kg').trigger("change");
+            $('#ImageUpload').attr('src', data.DocumentUpload.replace(',', ''));
+
+            if (data.OrderTypeName == "Load Based") {
+                $('#LoadKm').val(data.TotalDistanceKilometer).trigger("keyup");
+                $('#QuantityKm').val('0');
+                $('#LeasePerDay').val('0');
+                $('#KilometerKm').val('0');
+                $('#LeaseMonths').val('0').trigger("change");
+                $('#LeaseDays').val('0').trigger("change");
+                $('#CustomCost').val('0');
+            }
+            else if (data.OrderTypeName == "Quantity Based") {
+                $('#LoadKm').val('0');
+                $('#QuantityKm').val(data.TotalDistanceKilometer).trigger("keyup");
+                $('#LeasePerDay').val('0');
+                $('#KilometerKm').val('0');
+                $('#LeaseMonths').val('0').trigger("change");
+                $('#LeaseDays').val('0').trigger("change");
+                $('#CustomCost').val('0');
+            }
+            else if (data.OrderTypeName == "Kilometer Based") {
+                $('#LoadKm').val('0');
+                $('#QuantityKm').val('0');
+                $('#KilometerKm').val(data.TotalDistanceKilometer).trigger("keyup");
+                $('#LeasePerDay').val('0');
+                $('#LeaseMonths').val('0').trigger("change");
+                $('#LeaseDays').val('0').trigger("change");
+                $('#CustomCost').val('0');
+            }
+            else if (data.OrderTypeName == "Trip Based") {
+                $('#LoadKm').val('0');
+                $('#QuantityKm').val('0');
+                $('#KilometerKm').val('0'); 
+                $('#LeasePerDay').val('0');
+                $('#LeaseMonths').val('0').trigger("change");
+                $('#LeaseDays').val('0').trigger("change");
+
+                $('#LoadTotal').val('0');
+                $('#QuantityTotal').val('0');
+                $('#KilometerTotal').html('0');
+                $('#TripTotal').html(data.FreightCost);
+                $('#CustomCost').val('0');
+            }
+            else if (data.OrderTypeName == "Lease Based") {
+                $('#LoadKm').val('0');
+                $('#QuantityKm').val('0');
+                $('#KilometerKm').val('0'); $('#LeasePerDay').val(data.LeasePerDay);
+                $('#LeaseMonths').val(data.LeaseMonths).trigger("change");
+                $('#LeaseDays').val(data.LeaseDays).trigger("change");
+
+                $('#LoadTotal').val('0');
+                $('#QuantityTotal').val('0');
+                $('#KilometerTotal').html('0');
+                $('#TripTotal').html('0');
+                $('#CustomCost').val('0');
+            }
+            else if (data.OrderTypeName == "Custom") {
+                $('#LoadKm').val('0');
+                $('#QuantityKm').val('0');
+                $('#KilometerKm').val('0'); $('#LeasePerDay').val(data.LeasePerDay);
+                $('#LeasePerDay').val('0');
+                $('#LeaseMonths').val('0').trigger("change");
+                $('#LeaseDays').val('0').trigger("change");
+
+                $('#LoadTotal').val('0');
+                $('#QuantityTotal').val('0');
+                $('#KilometerTotal').html('0');
+                $('#TripTotal').html('0');
+                $('#CustomCost').val(data.FreightCost);
+            }
+
+        });
+    }
+}
+
+function populate(frm, data) {
+    $.each(data, function (key, value) {
+        $('[name=' + key + ']', frm).val(value);
+    });
+}
+
+function formatAMPM(date) {
+    debugger;
+    var temp = date.split(':');
+    var hours = temp[0];
+    var minutes = temp[1];
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    var strTime = hours + ':' + minutes + '' + ampm;
+    return strTime;
+}
+
+$('#AddNewOrder').submit(function () {
+    //UploadImageAndSaveData();
+    saveData();
+});
+
+function saveData() {
+    debugger;
+    var data = $('#AddNewOrder').serializeArray();
+    var BillingAmount;
+    var km;
+    var weightdi = 'None';
+    var ordertype;
+    var option = $('#OrderType').find(":selected").text();
+    if (option == "Load Based") {
+        BillingAmount = $('#LoadTotal').val();
+        km = $('#LoadKm').val();
+        weightdi = $('#WeightType').find(":selected").text();
+        ordertype = 1;
+    }
+    else if (option == "Quantity Based") {
+        BillingAmount = $('#QuantityTotal').val();
+        km = $('#QuantityKm').val();
+        ordertype = 2;
+    }
+
+    else if (option == "Kilometer Based") {
+        BillingAmount = $('#KilometerTotal').html();
+        km = $('#KilometerKm').val();
+        ordertype = 3;
+    }
+    else if (option == "Trip Based") {
+        BillingAmount = $('#TripTotal').html();
+        km = 0;
+        ordertype = 4;
+    }
+    else if (option == "Lease Based") {
+        BillingAmount = $('#LeaseTotal').html();
+        km = 0;
+        ordertype = 5;
+    }
+    else if (option == "Custom") {
+        BillingAmount = $('#CustomCost').val();
+        km = 0;
+        ordertype = 6;
+    }
+    data.push(
+        { name: "BookingId", value: OrderId },
+        { name: 'DispatchDateMod', value: $('#DispatchDate').val() + " " + $('#DispatchTime').find(":selected").text() },
+        { name: 'CustId', value: $custid },
+        { name: 'CustomerName', value: $('#CustomerId').find(":selected").text() },
+        { name: 'CustomerId', value: $('#CustomerId').find(":selected").val() },
+        { name: 'VehicleName', value: $('#VehicleId').find(":selected").text() },
+        //{ name: 'DocumentUpload', value: $('#ImagePath').val() },
+        { name: 'DocumentUpload', value: 'None' },
+
+        { name: 'WeightDimension', value: weightdi },
+        { name: 'BillingAmount', value: BillingAmount },
+        { name: 'TotalDistanceKilometer', value: km },
+
+        { name: 'OrderType', value: ordertype },
+        { name: 'RouteId', value: $('#ddlRouteName').find(":selected").val() }
+    );
+
+    var EmpUrl = apiBase.apiurl + 'FmsAPI/AddUpDateOrders';
+    $.post(EmpUrl, $.param(data), function (result) {
+        if (result > 0) {
+            toastr.success("Record Entered Successfuly.");
+            window.setTimeout(function () {
+                window.location.href = '/Fms/OrderBooking';
+            }, 1000);
+        }
+        else
+            toastr.error("Failed!!!")
+    });
+}
+
+function UploadImageAndSaveData() {
+    var imagesPath = '';
+    var imagesFileName = '';
+
+    //f contains all the uploaded files (because $("#files").get(0).files contains only latest loaded file) reference from "#files" on change event
+    var files = $("#file").get(0).files;
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        data.append(files[i].name, files[i]);
+    }
+    console.log(data);
+    if (files.length > 0) {
+        $.ajax({
+            url: "/Fms/UploadMyFiles",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (result) {
+                debugger;
+                var ImagePathList = "";
+                var ImageNames = "";
+                var i = 0;
+                $.each(result, function (key, value) {
+                    console.log(value.Name + '_' + value.fullPath);
+                    var img = value.fullPath + ',';
+                    ImagePathList += img;
+                    ImageNames += value.Name + ',';
+
+                });
+                $("#ImagePath").val(ImagePathList);
+                $("#ImageFileName").val(ImageNames);
+                return true;
+            },
+            error: function (er) {
+                alert(er);
+                return false;
+            }
+        }).done(function () {
+            debugger;
+            saveData();
+        });
+    }
+    else {
+        saveData();
+    }
+}
+
+var circle = null;
+var markers = [];
+var searchLatLng;
+function AjaxGetVehicleNearestToPoint() {
+    
+    deleteMarkers();
+    if (circle != null) {
+        circle.setMap(null);
+    }
+    var KL = document.getElementById('Kilo').value;
+    var MT = document.getElementById('Mtr').value;
+    var Radius = parseInt((parseInt(KL) * parseInt(1000) + parseInt(MT)));
+
+    var mySplitResult = startLoc.split(",");
+    var lat = mySplitResult[0].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+    var lng = mySplitResult[1].toLowerCase().replace(/[\,\(\)\!\$]/g, '');
+
+    var myLatlng = new google.maps.LatLng(lat, lng);
+    searchLatLng = myLatlng;
+    map.setCenter(myLatlng);
+    var infowindow = new google.maps.InfoWindow()
+
+    var marker = new google.maps.Marker({
+        map: map,
+        position: myLatlng
+
+    });
+
+    circle = new google.maps.Circle({
+        map: map,
+        radius: Radius,
+        fillColor: '#8e9d13'
+    });
+    circle.bindTo('center', marker, 'position');
+    var vehicleType = $("#ddlVehicleType").val();
+
+    if (!vehicleType) {
+        vehicleType = "0";
+    }
+
+    var url = apiBase.apiurl + "MapAPI/GetVehicleNearestToPoint";
+    $.ajax({
+        url: url,
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',    //replace /json to the urlenoded
+        data: { Lats: lat, Lngs: lng, DiameterInMeter: Radius, custId: $custid },                  // data is not json
+        async: true,
+        processData: true,                                                  //important to use it as true
+        cache: false,
+
+        success: function (data) {
+            debugger;
+            var count = 0;
+            console.log(data);
+            $.each(data, function (i, variant) {
+                count += 1;
+                $('#lbltotalvehicle').html(count);
+
+                var myLatLng = new google.maps.LatLng(variant.Latitude, variant.Longitude);
+                plotMarker(myLatLng, map, variant.VehicleName, variant.Location, variant.LastDate, variant.VehcileStatus, variant.BBID, variant.IsDispatched, variant.Latitude, variant.Longitude, variant.icon)
+
+                $("#hdnVehicleList").removeClass("hidden");
+
+            });
+
+        },
+        error: function (xhr) {
+            $("#divLoader").addClass("hidden");
+            alert('error');
+        }
+    });
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setMapOnAll(null);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+}
+
+//plot marker
+function plotMarker(position, map, name, Location, currentdate, VehStatus, bbid, IsDispatched, lat, lng, icon) {
+
+    VehStatus = VehStatus.replace("~/", "../../");
+    poiMarker = new google.maps.Marker({
+
+        position: position,
+        map: map,
+        draggable: false,
+        clickable: true,
+        icon: VehStatus,
+        animation: google.maps.Animation.DROP
+    });
+    var poimarker1 = poiMarker;
+    markers.push(poiMarker);
+    var contentString = '<b>Vehicle Name: </b>' + name + '<br/><b>Location: </b>' + Location + '<br/>' + '<b>Date: </b>' + currentdate + status + '<br/><input type="button" value="Assign Vehicle" onClick="SetBBID(\'' + bbid + '\')" />';
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+    google.maps.event.addDomListener(poimarker1, 'click', function () {
+        infowindow.open(map, poimarker1);
+    });
+}
+
+function SetBBID(bbid) {
+    debugger;
+    var VehicleIDUrl = apiBase.apiurl + 'FmsAPI/GetVehicleID';
+    $.get(VehicleIDUrl, { bbid: bbid }, function (data) {
+        $('#VehicleId').val(data).trigger("change");
+    });
+    $('#SelectVehcile').dialog('close');
+}
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
+
+var map = null;
+var directionDisplay;
+var directionsService = new google.maps.DirectionsService();
+var j = 0;
+
+function initialize() {
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    var mapOptions = {
+        litemode: true,
+        zoom: 13, //zoom level highest is 21 if m not wrong,
+        mapTypeId: google.maps.MapTypeId.ROADMAP, //view type of the google map, ie either satellite, or road maps
+        center: new google.maps.LatLng(30.850033, 76.6500523), //the longitute and latitude of the place which you want to put center in the map
+    };
+    map = new google.maps.Map(document.getElementById('map_canvas'), // defining div id to get the map
+mapOptions);
+    directionsDisplay.setMap(map);
+}
+
+function GetVehicleCount() {
+    var startLatLong = startLoc.split(',');
+    var url = apiBase.apiurl + "MapAPI/GetVehicleNearestToPoint";
+    $.ajax({
+        url: url,
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',    //replace /json to the urlenoded
+        data: { Lats: startLatLong[0], Lngs: startLatLong[1], DiameterInMeter: 2000, custId: $custid },                  // data is not json
+        async: true,
+        processData: true,                                                  //important to use it as true
+        cache: false,
+        success: function (data) {
+            $('#VehicleMap').text(data.length + ' Vehicles found near ' + $('#TripFrom').val() + '. Click here to select vehicle.');
+        }
+    });
+}
+
+//google.maps.event.addDomListener(window, "load", initialize);
+//j = 1;

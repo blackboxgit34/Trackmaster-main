@@ -1,0 +1,32 @@
+<div class="col-md-12" id="txtvehicle" style="visibility:hidden;display:none;">
+                                      <div class="col-md-3">
+                                         <img src="http://trackmaster.in/images/blackbox-logo-2.png" />
+                                        </div>
+                                    <div class="col-md-3">
+                                      <span> <p >Vehicle No: <b id="txtname"></b> </p>  </span>  
+                                    </div>
+                                   
+                                    <div class="col-md-3">
+                                         <span> <p >Report Date: <b id="txtdate"></b> </p>  </span>  
+                                        </div>
+                              
+         
+                                </div>
+
+
+
+
+
+            $('link[rel=stylesheet][href~="../Content/css/CssCustom.css"]').remove();
+            document.getElementById('txtvehicle').style.visibility = 'visible';
+            document.getElementById('txtvehicle').style.display = 'block';
+            document.getElementById('map_canvas2').style.visibility = 'hidden';
+            document.getElementById('divPanel').style.visibility = 'hidden';
+           
+            window.print();
+            document.getElementById('txtvehicle').style.visibility = 'hidden';
+            document.getElementById('txtvehicle').style.display = 'none';
+            location.reload(true);
+
+ var reportname = "RoutePlayBack" + "_" + fromDate + "_To_" + toDate + "_of_" + localStorage.getItem("vehicleName") + "";
+            var url1 = apiBase.apiurl + "MapAPI/GetPlayBackExcelResult?tableName=" + tableName + "&fromDate=" + fromDate + "&toDate=" + toDate + "&downloadType=Excel&reportName="+reportname+"";

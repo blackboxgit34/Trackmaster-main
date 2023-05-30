@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "UpdationForm";
+    Layout = null;
+}
+
+<div class="row-fluid body">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-user"></i>
+                <h5>Welcome to admin section</h5>
+            </div>
+        </div>
+    </div>
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <div class="container">
+                                            <p>this is test</p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

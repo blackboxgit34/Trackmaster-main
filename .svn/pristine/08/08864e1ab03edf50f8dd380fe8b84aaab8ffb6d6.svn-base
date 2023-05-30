@@ -1,0 +1,173 @@
+﻿google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', { 'packages': ['table'], callback: init });
+
+var size, opacity;
+size = 5;
+opacity = 0.7;
+
+function draw1(vehicleID, custid, GraphId, TableId) {
+    var url = apiBase.apiurl + 'FmsAPI/GetChartData?VehicleId=' + vehicleID + '&custid=' + custid + '&Months=' + $('#timeLine option:selected').val() + '&include=' + $("#salary:checked").length;
+    $.get(url, function(res) {
+        var data = new google.visualization.DataTable();
+        var tab = new google.visualization.DataTable();
+        data.addColumn('string', 'Month');
+        data.addColumn('number', 'Income');
+        data.addColumn('number', 'Expenditure');
+        data.addColumn('number', 'Profit');
+        tab.addColumn('string', 'Month');
+        tab.addColumn('number', 'Income');
+        tab.addColumn('number', 'Expenditure');
+        tab.addColumn('number', 'Profit');
+
+        $.each(res, function(i, item) {
+            data.addRow([item['Month'].substring(0, 3), item['Income'], item['Exp'], item['Profit']]);
+            tab.addRow([item['Month'], item['Income'], item['Exp'], item['Profit']]);
+        });
+
+        var options = {
+            title: 'Revenue Graph of ' + $('#vehicleID option:selected').text(),
+            legend: {
+                position: 'bottom'
+            },
+            vAxis: {
+                title: 'Cost (Rs.)'
+            },
+            colors: ['#4285F4', '#db4437', '#f4b400'],
+            seriesType: 'bars',
+            series: {
+                2: {
+                    type: 'line'
+                }
+            },
+            focusTarget: 'category'
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById(GraphId));
+        chart.draw(data, options);
+
+        var table = new google.visualization.Table(document.getElementById(TableId));
+        table.draw(tab, {
+            showRowNumber: true,
+            width: '95%'
+        });
+        $( ".google-visualization-table-table").addClass("table table-bordered table-sm");
+        $(".google-visualization-table-td").css('text-align', 'left');
+    });
+}
+
+function drawGraph(url, vehicleID, custid, ReportName, Color, GraphId, TableId, include, CostId, IncomeId) {
+    var APIurl = url + "?VehicleId=" + vehicleID + '&custid=' + custid + '&CostId=' + CostId + '&IncomeId=' + IncomeId + '&Months=' + $('#timeLine option:selected').val() + '&include=' + include;
+    $.get(APIurl, function(res) {
+        var data = new google.visualization.DataTable();
+        var tab = new google.visualization.DataTable();
+        data.addColumn('string', 'Month');
+        data.addColumn('number', ReportName + ' (Rs)');
+        tab.addColumn('string', 'Month');
+        tab.addColumn('number', ReportName + ' (Rs)');
+        $.each(res, function(i, item) {
+            data.addRow([item['Month'].substring(0, 3), item['Income']]);
+            tab.addRow([item['Month'], item['Income']]);
+        });
+        var options = {
+            title: ReportName + ' Graph of ' + $('#vehicleID option:selected').text(),
+            pointSize: size,
+            dataOpacity: opacity,
+            legend: {
+                position: 'bottom'
+            },
+            vAxis: {
+                title: 'Cost (Rs.)'
+            },
+            colors: [Color]
+        };
+        var chart = new google.visualization.LineChart(document.getElementById(GraphId));
+        chart.draw(data, options);
+
+        var table = new google.visualization.Table(document.getElementById(TableId));
+        table.draw(tab, {
+            showRowNumber: true,
+            width: '95%'
+        });
+        $(".google-visualization-table-table").addClass("table table-bordered table-sm");
+        $(".google-visualization-table-td").css('text-align', 'left');
+    });
+}
+
+function init() {
+    $('#vehicleID').val('-1').trigger("change");
+}
+
+var CommonUrl = apiBase.apiurl + 'FmsAPI/GetCostIncome';
+
+function CreateGraphs() {
+    debugger;
+    var option = $('.nav-tabs .active').text();
+    if (option == "Summary ") {
+        SummaryGraphs();
+    }
+    else if (option == "Income Graphs") {
+        IncomeGraphs();
+    }
+    else if (option == "Cost Graphs") {
+        CostGraphs();
+    }
+}
+
+function SummaryGraphs() {
+    vehicleID = $('#vehicleID').val();
+    var ProfitUrl = apiBase.apiurl + 'FmsAPI/GetTotalProfit';
+    google.charts.setOnLoadCallback(draw1(vehicleID, $custid, 'SummaryGraph', 'SummaryTable'));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Total Expenditure', '#FF9900', 'CostGraph', 'CostTable', $("#salary:checked").length, 0, -1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Total Income', '#3366cc', 'IncomeGraph', 'IncomeTable', 1, -1, 0));
+    google.charts.setOnLoadCallback(drawGraph(ProfitUrl, vehicleID, $custid, 'Total Profit', '#dc3912', 'ProfitGraph', 'ProfitTable', $("#salary:checked").length));
+}
+
+function IncomeGraphs() {
+    vehicleID = $('#vehicleID').val();
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Business Income', '#109618', 'BussGraph', 'BussTable', 1, -1, 1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Tyres Income', '#3366cc', 'TyreIncomeGraph', 'TyreIncomeTable', 1, -1, 2));
+}
+
+function CostGraphs() {
+    vehicleID = $('#vehicleID').val();
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Repair Cost', '#3366cc', 'RepairGraph', 'RepairTable', 1, 1, -1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Service Cost', '#dc3912', 'ServiceGraph', 'ServiceTable', 1, 2, -1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Fuel Cost', '#109618', 'FuelGraph', 'FuelTable', 1, 3, -1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, vehicleID, $custid, 'Driver Allowance', '#FF9900', 'DriverGraph', 'DriverTable', 1, 4, -1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, -1, $custid, 'Tyre Inventory', '#dc3912', 'TyreCostGraph', 'TyreCostTable', 1, 6, -1));
+    google.charts.setOnLoadCallback(drawGraph(CommonUrl, -1, $custid, 'Part Inventory', '#109618', 'PartsGraph', 'PartsTable', 1, 7, -1));
+}
+
+$(document).ready(function() {
+    $('.flip-container').click(function() {
+        this.classList.toggle('hover');
+    });
+
+    var VehicleUrl = apiBase.apiurl + 'FmsAPI/GetFmsVehicles';
+    $("#vehicleID").append($("<option></option>").val(-1).html('All Vehicles'));
+    $.get(VehicleUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#vehicleID").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+        });
+    });
+
+    $('#vehicleID, #timeLine').on('change', function () {
+        CreateGraphs();
+    });
+
+    $('#sum').click(function () {
+        SummaryGraphs();
+    });
+    $('#inc').click(function () {
+        IncomeGraphs();
+    });
+    $('#cst').click(function () {
+        CostGraphs();
+    });
+    $("#salary").change(function () {
+        //IncomeGraphs();
+        CreateGraphs();
+    });
+
+    SummaryGraphs();
+});

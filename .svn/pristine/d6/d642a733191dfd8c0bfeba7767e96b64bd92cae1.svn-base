@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="k-ff k-ff30 ng-scope" ng-app="blackbox" lang="en">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>Live Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://claas.trackmaster.in/content/res/images/favicon.ico">
+    <link href="css/bootstrap-timepicker.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/stylesad15.css" rel="stylesheet">
+    <!--<link href="css/angucomplete-alt.css" rel="stylesheet">-->
+    <link href="css/toastr.css" rel="stylesheet">
+    <link href="css/jquery.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables_002.css" rel="stylesheet">
+    <link href="css/jquery_002.css" rel="stylesheet">
+    <link href="css/jquery_003.css" rel="stylesheet">
+    <link href="css/bootstrap_002.css" rel="stylesheet">
+    <link href="css/dataTables.css" rel="stylesheet">
+    <link href="css/buttons.css" rel="stylesheet">
+    <link href="css/select.css" rel="stylesheet">
+    <link href="css/CustomCSS.css" rel="stylesheet">
+	<link href="css/NewStyle.css" rel="stylesheet">
+	<link href="css/small-business.css" rel="stylesheet">
+
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="css/Site.css" rel="stylesheet">
+	<style>
+	body
+		{
+		<!--background-image: url("image/vehicle.jpg");-->
+		    background-position: 2% 23%;
+		}
+	   #footer-bottom
+	   {
+            text-align: center;
+            color: #585858;
+            font-size: 10px;
+            background: #f4f4f4;
+            margin-bottom: 0;
+            position: relative;
+            bottom: 0;
+        }
+		.col-md-2 
+		{
+			width: 17% !important;
+			/* margin-right: 0px; */
+			/* margin-left: 6px; */
+			background: none !important;
+			text-align: left;
+		}
+		h4
+		{
+		  color:#fff;
+		 text-align:center;
+		}
+		@media only screen and (max-width:667px) {
+	 #error500
+		{
+			margin-top: 25% !important;
+		}
+		}
+    </style>
+</head>
+<body>
+    
+<div class="row">  
+    <nav class="navbar navbar-fixed-top">
+       <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img src="image/Web%2520page%2520blackbox-2.png" alt="">
+                </a>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+</div>
+<section id="error500" style="margin-top:9%">
+    <div class="container">
+        <!-- Heading Row -->
+    <div class="row">
+            <div class="col-md-12 col-md-offset-3" style="margin-top:-50px">
+               <a href="#">
+                    <img src="image/500.png" alt="pro2"></a>
+                   
+
+            </div>
+	</div>
+	</div>
+        <!-- Heading Row -->
+    <div class="row" id="errortxt" style="background:rgba(217, 115, 25, 0.79);margin-top: -70px;">
+            <!-- /.col-md-4 -->
+            <div class="col-md-12" style="padding: 37px 16px 86px 6px;">
+                <h4 style="	font-size:90px;font-weight:700; text-align:center; line-height:70px; font-family:Pacifico;">
+                    ooOps!!!
+                </h4>
+				<h4 id="h4500" style="font-size:35px;font-weight:500;padding-top:20px">
+                   SOMETHING WENT WRONGE.
+                </h4>
+				<h4 id="h4500" style="font-size: 26px;font-weight:500;padding-top:20px">
+                   Why not retry refreshing you page? Or you can <a href="#"> contact us</a>
+                </h4>
+                <p style="text-align:center; padding-top:20px">
+					<button type="button" class="btn btn-warning" style="padding:9px 9px 9px 9px">Go to Our home page</button>
+                </p>
+            </div>
+           
+    </div>
+
+    </div>
+</section>
+	
+    
+    
+    <script type="text/javascript" src="js/jquery_002.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javescript">
+        $(document).ready(function () {
+            $(".form_toggle").click(function () {
+                $("#login_form").hide();
+                $("#pass_form").show();
+            });
+            $("#btnRequest").click(function () {
+                submitDemoRequest();
+            });
+
+            var MyUrl = '/Login/BannerData';
+
+            $.ajax({
+                url: MyUrl,
+                data: { ID: 11 },
+                success: function (data) {
+                    debugger;
+                    if (data == "No msg") {
+                        $("#test").css("display", "none");
+                        $("#test").html("");
+                    }
+                    else {
+                        $("#test").css("display", "block");
+                        $("#test").html(data);
+                    }
+                }
+            });
+        });
+
+        function submitDemoRequest() {
+            var url = '/login/CameraDemo';
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var phone = $("#phone").val();
+            if (name == '') {
+                alert('Please enter Name');
+                return;
+            }
+            if (email == '') {
+                alert('Please enter Email');
+                return;
+            }
+            else {
+                if (!validateEmail(email)) {
+                    alert('Invalid email');
+                    return;
+                }
+            }
+            if (phone == '') {
+                alert('Please enter Phone');
+                return;
+            }
+            var dataToSend = JSON.stringify({ name: name, email: email, phone: phone });
+
+            $.ajax({
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Accept", "application/json");
+                },
+                type: "POST",
+                url: url,
+                data: dataToSend,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    onSuccess(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    onError(XMLHttpRequest, textStatus, errorThrown);
+                }
+            });
+        }
+
+        function onSuccess(data) {
+            alert(data);
+            alert('Thank you for contacting us. We will get back to you soon!');
+        }
+
+        function onError(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest);
+            alert(textStatus);
+            alert(errorThrown);
+        }
+
+        // Function that validates email address through a regular expression.
+        function validateEmail(sEmail) {
+            var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+            if (filter.test(sEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+(function(){"use strict";function n(n,t){t.defaults.useXDomain=!0;delete t.defaults.headers.common["X-Requested-With"]}function t(n,t,i,r){n.repository=i.get("repository")||{};n.repository.loggedUser&&(r.defaults.headers.common.Authorization=n.repository.loggedUser.authdata)}function i(n,t,i){n.isUserLoggedIn()||(t.previousState=i.path(),i.path("/login"))}angular.module("blackbox",["common.core","common.ui"]).config(n).run(t);n.$inject=["$routeProvider","$httpProvider"];t.$inject=["$rootScope","$location","$cookieStore","$http"];i.$inject=["membershipService","$rootScope","$location"]})();
+/*
+//# sourceMappingURL=app.min.js.map
+*/

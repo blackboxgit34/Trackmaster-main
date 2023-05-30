@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "TestPDF";
+}
+
+
+ 
+<h2>Convert to  PDF</h2>
+ 
+<table class="table">
+    <tr>
+        <td class="alert-success">First Name</td>
+        <td class="alert-info">Last name</td>
+        <td style="background-color: yellow;">Profile Image</td>
+    </tr>
+ @*   @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+ 
+            <td>@item.LastName</td>
+            <td><img src="@Url.Content("~/content/" + Path.GetFileName(item.ProfileImage))" alt="" width="100" height="100" /></td>
+        </tr>
+    }*@
+ 
+</table>    
+           
+@Html.ActionLink("Print","Print", "Home")

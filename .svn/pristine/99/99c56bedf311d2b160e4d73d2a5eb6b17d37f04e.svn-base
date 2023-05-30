@@ -1,0 +1,110 @@
+﻿var table;
+function format(d) {
+}
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+    //$('#dt_basic_Master').empty(); // empty in case the columns change   
+};
+$(document).ready(function () {
+    var ServiceUrl = apiBase.apiurl + 'FmsAPI/BindServiceScheduleItems';
+    $('#servItems').find('option:not(:first)').remove();
+       $.post(ServiceUrl, function (data) {
+        $.each(data, function (key, value) {
+            $("#servItems").append($("<option></option>").val(value.ServiceItemID).html(value.ServiceItem));
+        });
+    });
+    GetVehServScheduleReport();
+
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+    })
+
+
+});
+$("#BtnSearch").click(function () {
+    GetVehServScheduleReport();
+});
+
+function GetVehServScheduleReport() {
+    deleteTable();
+<<<<<<< HEAD
+    //var $custid = '45';
+    console.log($beginDate);
+    console.log($endDate);
+    console.log($custid);
+    var $serviceid = $("#servItems").val();
+    var $scheduleid = 0;
+=======
+    $beginDate = null;
+    $endDate = null;
+    var $serviceid = '';
+    var $scheduleid = -1;
+>>>>>>> 70f76ecba1a427dbb13d0604c4619d1802230759
+    var url = apiBase.apiurl + "FmsApi/GetVehicleServiceSchedule";
+    
+    console.log('Calling URL: ' + url + ' to get Report data.');
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "bbid", "value": "" }, { "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "serviceid", "value": $serviceid }, { "name": "scheduleid", "value": $scheduleid });
+        },
+
+        "columns": [
+                { "data": "VehicleName" },
+                { "data": "ServiceItemNameList" },
+                { "data": "ScheduleAlert" },
+                { "data": "NextDueDate" },
+                { "data": "NextDueKM" },
+                { "data": "ReminderValue" },
+                { "data": "LastPerformed" },
+                { "data": "Remarks" },
+                {
+                    "data": null,
+                    "render": function (data, type, full, meta) {
+                        debugger;
+                        return '<a href="/fms/AddServiceSchedule?ssid='+ full.ServiceScheduleID+'">Edit</a> / <a href="#" class="editor_remove">Delete</a>';
+                    }
+
+                },
+        ],
+        "rowCallback": function (row, data, index) {
+            var target = $(row).find(".details-control");
+            var index = (target).index();
+            $(row).find('td:eq(' + index + ')').removeClass('details-control')
+        }
+    });
+  
+    $('#dt_basic_Master tbody').on('click', 'a.editor_remove', function () {
+        var data = table.row($(this).parents('tr')).data().ServiceScheduleID;
+        var ApiUrl = apiBase.apiurl + "FmsAPI/RemoveServiceSchedule?ServiceScheduleID=" + data;
+        $.post(ApiUrl, function (result) {
+            if (result > 0) {
+                toastr.success("Record Deleted successfully!");
+            }
+            else
+            {
+                toastr.error("Record Failed to Delete!");
+            }
+        });
+    });
+}

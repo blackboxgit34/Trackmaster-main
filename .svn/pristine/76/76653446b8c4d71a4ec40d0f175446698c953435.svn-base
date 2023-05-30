@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+@*    <script src="../Scripts/jquery-3.1.1.min.js"></script>*@
+    @*<script src="../Content/Scripts/Googlecharts.js"></script>*@
+</head>
+<body>
+    <div id="map"></div>
+    <input type="hidden" id="firstMonthCountIn" value= '@ViewBag.firstMonthCountIn' />
+    <input type="hidden" id="firstMonthCountOut" value= '@ViewBag.firstMonthCountOut' />
+    <input type="hidden" id="secondMonthCountIn" value= '@ViewBag.secondMonthCountIn' />
+    <input type="hidden" id="secondMonthCountOut" value= '@ViewBag.secondMonthCountOut' />
+    <input type="hidden" id="reportName" value= '@ViewBag.reportName' />
+    <script>
+        $(document).ready(function () {
+            //  google.charts.load("current", { packages: ["corechart"] });
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+            google.charts.setOnLoadCallback(drawChart2);
+            function drawChart() {
+                debugger;
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                  ['Normal',@ViewBag.firstMonthCountOut],
+                  ['@ViewBag.reportName', @ViewBag.firstMonthCountIn],
+                  //['Commute', 2],
+                  //['Watch TV', 2],
+                  //['Sleep', 7]
+                ]);
+
+                var options = {
+                    // title: '@ViewBag.firstMonthName Month',
+                    title: 'Last 1 - 30 days',
+                    pieHole: 0.4,
+                    colors: ['#8e9d13', '#faa732']
+                    //  is3D: true,
+
+                };
+                var chart;
+                try {
+                    chart = new google.visualization.PieChart(document.getElementById('firstMonthlGraphDiv'));
+                }
+                catch (exe) {
+                    toastr.warning("Please minimize, already opened graph.");
+                }
+
+                chart.draw(data, options);
+            }
+            function drawChart2() {
+                debugger;
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                  ['Normal',   @ViewBag.secondMonthCountOut],
+                  ['@ViewBag.reportName',@ViewBag.secondMonthCountIn],
+                  //['Commute', 2],
+                  //['Watch TV', 2],
+                  //['Sleep', 7]
+                ]);
+
+                var options = {
+                    //title: ' @ViewBag.secondMonthName',
+                    title: 'Last 31 - 60 days',
+                    pieHole: 0.4,
+                    colors: ['#8e9d13', '#faa732']
+                    //  is3D: true,
+
+                };
+                var chart;
+
+                chart = new google.visualization.PieChart(document.getElementById('secondMonthlGraphDiv'));
+
+                chart.draw(data, options);
+            }
+        });
+    </script>
+
+    <div class="col-md-6">
+        <div class="w3-container city w3-animate-zoom" id='firstMonthlGraphDiv' style="width: 100%; height: 330px; border: aliceblue;"></div>
+    </div>
+    <div class="col-md-6">
+        <div class="w3-container city w3-animate-zoom" id='secondMonthlGraphDiv' style="width: 100%; height: 330px; border: aliceblue;"></div>
+    </div>
+
+</body>
+</html>

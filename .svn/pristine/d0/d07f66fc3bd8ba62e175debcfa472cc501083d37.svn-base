@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "CameraImages";
+   // ViewBag.Report = "CameraImages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/imageViewCss.css" rel="stylesheet" />
+<div class="row-fluid body">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilterWithVehicleList","Report", new { reportTitle = "Camera Images", report = ViewBag.Report })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>image</th>
+                                                    <th>image</th>
+                                                    <th>image</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+<!-- The Modal -->
+<div id="myModal" class="modal" style=" margin-left: 10%;    height: 117%;    width: 75%;">
+  <span onclick="modalPopUpClose();" class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section scripts{
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/common.js"></script>
+    <script>
+      //  var tableName;
+        var cameraId;
+        $(document).ready(
+    ////function to get vehicles list
+    function () {
+        $("#vehicleslist").select2();
+        
+        var baseurl = apiBase.apiurl;  @*'@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';*@
+        var url = baseurl + 'adminapi/BindAllCamera?custid='+$custid;
+    console.log('calling url: ' + url + ' to get vehicles list.');
+
+    $.getJSON(url, function (data) {
+            debugger;
+            //here vehicle list is camera list
+        var $select = $('#vehicleslist');
+        //$('<option>', {
+        //    value: ''
+        //}).html('--select vehicle--').appendTo($select);
+
+
+
+        $.each(data, function (i, item) {
+            $('#vehicleslist').append($('<option></option>').val(item.Value).html(item.Text));
+            if (!cameraId) {
+                cameraId = $('#vehicleslist').val();
+            }
+        });
+    })
+    });
+        </script>
+    <script src="~/Scripts/app/cameraImages.js"></script>
+        }

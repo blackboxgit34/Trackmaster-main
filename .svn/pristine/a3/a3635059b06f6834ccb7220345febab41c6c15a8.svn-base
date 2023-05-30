@@ -1,0 +1,322 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html ng-app="blackbox">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://trackmaster.in/images/favicon.ico">
+    <link href="~/content/css/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="~/content/css/font-awesome.css" rel="stylesheet">
+    <link href="~/content/css/stylesad15.css" rel="stylesheet">
+    <link href="~/content/css/angucomplete-alt.css" rel="stylesheet">
+    <link href="~/content/css/toastr.css" rel="stylesheet">
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.powertip.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/CustomCSS.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+
+        @* Code for GOOGLE ANALYTICS *@
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-93165722-1', 'auto');
+        ga('send', 'pageview');
+
+</script>
+        @* END Code for GOOGLE ANALYTICS *@
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="~/content/css/CustomCss.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="~/content/Site.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-image: url('@Url.Content("~/images/vehicle.jpg")');
+            background-position: 2% 23%;
+        }
+
+        #footer-bottom {
+            text-align: center;
+            color: #585858;
+            font-size: 10px;
+            background: #f4f4f4;
+            margin-bottom: 0;
+            position: relative;
+            bottom: 0;
+        }
+
+        .col-md-2 {
+            width: 17% !important;
+            /* margin-right: 0px; */
+            /* margin-left: 6px; */
+            background: none !important;
+            text-align: left;
+        }
+    </style>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="@Url.Content("~/scripts/jquery-3.1.1.min.js")?v=0.00.000"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+</head>
+<body ng-controller="rootCtrl">
+    <div class="row">
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="@Url.Content("~/images/blackbox-logo-2.png")" alt="">
+                    </a>
+                </div>
+            </div>
+            <!-- /.container -->
+        </nav>
+    </div>
+
+    <section style="margin-top: 15%">
+
+        <div class="widget-body" style="padding: 20px; position:absolute;top: 18%;   width: 100%;  display: none;" id="divOuterAlert">
+            <div class="widget-body clearfix" style="background-color: rgba(255,255,255,0.2); overflow-x: auto; width: 64%; border: ridge; color: #f26b34; padding: 5px;">
+                <div class="box_a">
+                    <div class="box_a_content cnt_a1">
+                        <p id="pSetAlertText">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" ng-controller="loginCtrl">
+            <!-- Heading Row -->
+            <div class="row">
+                <!--<div class="row">
+                <div id="test" style="z-index: 999; display: none;" class="val-message val-error"></div>
+            </div>-->
+
+
+                <div class="col-md-3" style="width: 25%">
+                    <a href="#">
+                        <img src="@Url.Content("~/images/bb-login.png")" alt="pro2"></a>
+                </div>
+                <!-- /.col-md-4 -->
+
+                <div class="col-md-5" style="padding: 20px">
+
+
+
+                    <h4 style="line-height: 30px; font-weight: bold;">Do you know you are logging in to the website of India's only patented product in GPS Technology Category?
+                    </h4>
+                    <p>
+                        BlackBox is proud to be India's first and only product to get patent from government
+                    of India. This makes us all the more commited to render best-in-class services to
+                    our esteemed patrons like you.
+                    </p>
+                </div>
+
+                <div class="col-md-4" style="margin-top: -60px">
+                    <div id="form">
+                        <form name="loginform" id="loginform" method="post" enctype="application/x-www-form-urlencoded">
+                            <div class="head-section text-center  wow bounceIn" data-wow-delay="0.4s">
+                                <img src="@Url.Content("~/images/blackbox-logo.png")" title="name">
+                                <br>
+                                <span style="font-size: 14px; font-weight: 600">Sign in to your account</span>
+                            </div>
+                            <br>
+                            <!--<div class="loginform" style="text-align:center">-->
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" name="username" ng-model="user.username" class="form-control" id="username" placeholder="User Name" style="padding-left: 45px;">
+                            </div>
+                            <div class="input-group" style="margin-top: 20px">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                </span>
+                                <input type="password" class="form-control" id="txtPassword" ng-model="user.password" name="password" placeholder="Password " aria-describedby="basic-addon1" style="padding-left: 45px;">
+                            </div>
+                            <div class="form-check" style="margin-top: 12px">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input">
+                                    Remember me
+                                </label>
+                            </div>
+                            <div class="clearfix"></div>
+                            <button class="button" ng-click="login()" id="btnSubmit" type="button" ng-disabled = "disableSubmit" style="margin-top: 10px">
+                                Sign in</button>
+                            <br>
+                            <div class="register">
+                            @*<a href="#pass_form" class="form_toggle" style="color: #f26b34;">Forgot Password?</a><br>*@
+                               
+                                   <a href="@Url.Action("ForgotPassword","Home")" class="form_toggle" style="color: #f26b34;">Forgot Password?</a><br>
+                            </div>
+                            <!-- </div>   -->
+                        </form>
+                        <div>
+                            <form action="/Login/ForgotPassword" id="pass_form" method="post" style="display: none">
+                                <div class="head-section text-center  wow bounceIn" data-wow-delay="0.4s">
+                                    <img src="@Url.Content("~/images/blackbox-logo-2.png")" title="name">
+                                    <br>
+                                    <span style="font-size: 14px; font-weight: 600">Can't Sign In?</span>
+                                </div>
+                                <br>
+                                <div class="loginform" id="forgetFrm" style="min-height: 150px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" name="username" class="form-control" id="usernamec" placeholder="User Name" style="padding-left: 45px;">
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <button class="button" align="right" type="submit">Request Password</button>
+                                    </div>
+                                    <div class="box_footer text-center clearfix minor_text" style="padding-top: 10px;">
+                                        Never mind, <a href="javascript:;" onclick="window.location.reload()">Send Back</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row" style="margin-top: 0px;">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2">
+                    <span style="margin-top: 11px; color: #000; margin-bottom: 9px;">Trial version for 30 Days!</span>
+                    <a href="https://itunes.apple.com/us/app/blackbox-fms/id937229552?ls=1&amp;mt=8" target="_blank">
+                        <img src="@Url.Content("~/images/apple_store_en.png")" alt="apple_store_app" class="btn_img" style="padding-left: 10px"></a>
+                </div>
+                <div class="col-md-2" style="width: 18%">
+                    <a href="http://trackmaster.in/downloads/" target="_blank" class="btn_img"><span style="color: #333">Download older version of App</span></a>
+                    <a href="https://play.google.com/store/apps/details?id=com.humbhi.blackbox" target="_blank">
+                        <img src="@Url.Content("~/images/google_play_en.png")" alt="apple_store_app" class="btn_img"></a>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div>
+            <p style="font-size: 11px; font-weight: 600; text-align: center">
+                SCO 96-97, Sector 34-A, Chandigarh (UT), India &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Phone:
+            91-172 5016501, Email: info@hitecpoint.in
+            </p>
+        </div>
+        <div>
+            <p style="font-size: 11px; font-weight: 600; text-align: center">
+                This Site is Optimized for FireFox 28.0<sup>™</sup> &amp; higher | Google
+            Chrome 34.0<sup>™</sup> &amp; higher | IE 9.0<sup>™</sup> and higher
+            | Last updated : Nov <span>-</span> 2016
+            | Current Time: 10:23:02.8749498
+            </p>
+        </div>
+        <div id="footer-bottom">
+            <a href="http://www.hitecpoint.in/" target="_blank">www.hitecpoint.in</a>
+        </div>
+    </footer>
+
+    <script>
+        var baseurl = 'http://112.196.27.102:96/api/commonapi/';
+    </script>
+    <script src="@Url.Content("~/scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/scripts/angular.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-cookies.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-route.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-base64.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-validator.min.js")?v=0.00.000"></script>
+
+    <script src="@Url.Content("~/app/app.js")?v=@DateTime.Now.Ticks"></script>
+    <script src="@Url.Content("~/app/modules/common.core.js")?v=0.00.007"></script>
+    <script src="@Url.Content("~/app/modules/common.ui.js")?v=0.00.002"></script>
+    <script src="@Url.Content("~/app/rootCtrl.js")"></script>
+
+    <script src="~/Scripts/CryptoJSv3.1.2/components/core.js"></script>
+    <script src="~/Scripts/CryptoJSv3.1.2/components/sha1.js"></script>
+
+    <script src="@Url.Content("~/app/services/apiService.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/notificationService.js")"></script>
+    <script src="@Url.Content("~/app/services/membershipService.js")?v=@DateTime.Now.Ticks"></script>
+    <script type="text/javascript" src="~/content/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/app/home/loginCtrl.js")?v=@DateTime.Now.Ticks"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        $(function () {
+            localStorage.removeItem("cid");
+            localStorage.removeItem("custID");
+
+
+            localStorage.removeItem("customMenuList");
+
+            localStorage.removeItem("custId");
+            //for group user
+            localStorage.removeItem("GroupSelectedUser");
+            localStorage.removeItem("SubUsers");
+            localStorage.removeItem('IsVerified');
+            localStorage.removeItem('IsCustomMenu');
+
+
+            $("#txtPassword").keydown(function (e) {
+                debugger;
+                if (e.keyCode == 13) {
+                    debugger;
+                    $('#btnSubmit').click();
+                }
+            });
+          
+            var MyUrl = baseurl + 'AlertOnLoginPage';
+            //alert(MyUrl);
+            ;
+            $.ajax({
+                url: MyUrl,
+                data: { ID: "11" },
+                success: function (data) {
+                    debugger;
+                    if (data == "No msg") {
+                        $("#divOuterAlert").css("display", "none");
+                        $("#pSetAlertText").html("");
+                    }
+                    else {
+                        $("#divOuterAlert").css("display", "block");
+                        $("#pSetAlertText").html(data);
+                    }
+
+                }
+            });
+
+        });
+       
+    </script>
+    <!-- /row-fluid -->
+</body>
+</html>

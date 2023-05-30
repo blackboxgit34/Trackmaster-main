@@ -1,0 +1,328 @@
+﻿$(document).ready(function () {
+
+    GetAllVehicles();
+
+
+
+});
+
+
+function GetAllVehicles() {
+    debugger;
+
+    
+    var url = baseUrl + 'CommonApi/CommonVehiclesList';
+    param = { custid: $custid };
+    $.get(url, param, function (data) {
+        debugger;
+        $.each(data, function (key, value) {
+            debugger;
+            $("#Vehiclelist").append($("<option></option>").val(value.Value).html(value.Text));
+        });
+    }).done(function () {
+        debugger;
+
+
+        debugger;
+        var pumaid = $("#Vehiclelist").val();
+        console.log(pumaid);
+        $.ajax({
+            type: "Get",
+            url: baseUrl + 'CustomAPI/FuelDataGraph',
+            data: {
+                vehicleId: pumaid, beginDate: $beginDate, endDate: $endDate
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (chartsdata) {
+                debugger;
+                debugger;
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Datadate');
+                data.addColumn('number', 'Fuellevel');
+                data.addColumn('number', 'speed');
+                data.addColumn('number', 'Distance');
+
+                data.addRows(chartsdata.length);
+                for (var i = 0; i < chartsdata.length; i++) {
+                    debugger;
+                    data.setValue(i, 0, "'" + chartsdata[i].DataDate + " & Loc:-" + chartsdata[i].Location + "'");
+                    data.setValue(i, 1, chartsdata[i].FuelLevel);
+                    data.setValue(i, 2, chartsdata[i].Speed);
+                    data.setValue(i, 3, chartsdata[i].Distance);
+
+                }
+                var chart = new google.visualization.LineChart(document.getElementById('chartdiv'));
+                chart.draw(data,
+                  {
+                      width: 1205,
+                      height: 400,
+                      position: "top",
+                      fontsize: "14px",
+
+                      series: {
+                          0: { targetAxisIndex: 0 },
+                          1: { targetAxisIndex: 1 }
+                      },
+                      vAxes: {
+
+                          0: { title: 'FuelLevel' },
+                          1: { title: 'Speed' }
+                      },
+                      hAxis: { title: "Fuel Details", titleTextStyle: { color: "green" }, textPosition: "none" }, vAxis: { title: 'Fuel Level(Liters)', titleTextStyle: { color: "red" } },
+                  });
+
+            }
+        });
+
+        ////-------------------------Get History Fuel Data On Change-------------------------------------
+        debugger;
+        var url = baseUrl + 'CustomAPI/HistoryFuelData';
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: url,
+            data: { vehicleId: $('#Vehiclelist').val() },
+            success: function (data) {
+                debugger;
+
+                $('.HTotal').html(data[2].Data1);
+                $('.HCurrent').html(data[0].Data1);
+                $('.HRemaining').html(data[1].Data1);
+                $('.HDate').html(data[3].Data1);
+
+                
+                debugger;
+                var aHistory = parseInt(data[0].Data1);
+                FusionCharts.ready(function () {
+                    var fusioncharts = new FusionCharts({
+                        type: 'cylinder',
+                        dataFormat: 'json',
+                        id: 'fuelMeter-1',
+                        renderAt: 'chart-container1',
+                        width: '250',
+                        height: '350',
+                        dataSource: {
+                            "chart": {
+                                "theme": "fint", "caption": "History Fuel Level", "lowerLimit": "0", "upperLimit": "100", "lowerLimitDisplay": "Empty", "upperLimitDisplay":data[2].Data1,
+
+                                "showValue": "1",
+                                "chartBottomMargin": "25",
+                                "cylFillColor": "#00FF00"
+                            },
+                            "value": aHistory
+                        }
+                    }
+            );
+                    fusioncharts.render();
+                });
+            },
+            error: function (error) {
+                toastr.error("something went wrong!");
+            }
+        });
+
+        ////-------------------------Get Current Fuel Data On Change--------------------------------------------
+        var urlcurrent = baseUrl + 'CustomAPI/CurrentFuelData';
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: urlcurrent,
+            data: { vehicleId: $('#Vehiclelist').val() },
+            success: function (data) {
+                debugger;
+                $('.CTotal').html(data[2].Data1);
+                $('.CCurrent').html(data[0].Data1);
+                $('.CRemaining').html(data[1].Data1);
+                $('.CDate').html(data[3].Data1);
+
+                debugger;
+                var aHistory = parseInt(data[0].Data1);
+                FusionCharts.ready(function () {
+                    var fusioncharts = new FusionCharts({
+                        type: 'cylinder',
+                        dataFormat: 'json',
+                        id: 'fuelMeter-1',
+                        renderAt: 'chart-container',
+                        width: '250',
+                        height: '350',
+                        dataSource: {
+                            "chart": {
+                                "theme": "fint", "caption": "Current Fuel Level", "lowerLimit": "0", "upperLimit": "100", "lowerLimitDisplay": "Empty", "upperLimitDisplay":data[2].Data1,
+
+                                "showValue": "1",
+                                "chartBottomMargin": "25",
+                                "cylFillColor": "#00FF00"
+                            },
+                            "value": aHistory
+                        }
+                    }
+            );
+                    fusioncharts.render();
+                });
+            },
+            error: function (error) {
+                toastr.error("something went wrong!");
+            }
+        });
+        
+    });
+}
+
+
+
+
+
+//---------------------------------------On vehicle DropDown Change --------------------------------------------------------------------------------
+$('#Vehiclelist').on("change", function () {
+
+    ////-------------------------Get History Fuel Data On Change-------------------------------------
+    debugger;
+    var url = baseUrl + 'CustomAPI/HistoryFuelData';
+    $.ajax({
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        url: url,
+        data: { vehicleId: $('#Vehiclelist').val()},
+        success: function (data) {
+            debugger;
+            $('.HTotal').html(data[2].Data1);
+            $('.HCurrent').html(data[0].Data1);
+            $('.HRemaining').html(data[1].Data1);
+            $('.HDate').html(data[3].Data1);
+            debugger;
+            var aHistory = parseInt(data[0].Data1);
+            FusionCharts.ready(function () {
+                var fusioncharts = new FusionCharts({
+                    type: 'cylinder',
+                    dataFormat: 'json',
+                    id: 'fuelMeter-1',
+                    renderAt: 'chart-container1',
+                    width: '250',
+                    height: '350',
+                    dataSource: {
+                        "chart": {
+                            "theme": "fint", "caption": "History Fuel Level", "lowerLimit": "0", "upperLimit": "100", "lowerLimitDisplay": "Empty", "upperLimitDisplay":data[2].Data1,
+                            
+                            "showValue": "1",
+                            "chartBottomMargin": "25",
+                            "cylFillColor": "#00FF00"
+                        },
+                        "value": aHistory
+                    }
+                }
+        );
+                fusioncharts.render();
+            });
+        },
+        error: function (error) {
+            toastr.error("something went wrong!");
+        }
+    });
+
+    ////-------------------------Get Current Fuel Data On Change-----------------
+    var urlcurrent = baseUrl + 'CustomAPI/CurrentFuelData';
+    $.ajax({
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        url: urlcurrent,
+        data: { vehicleId: $('#Vehiclelist').val() },
+        success: function (data) {
+            debugger;
+            $('.CTotal').html(data[2].Data1);
+            $('.CCurrent').html(data[0].Data1);
+            $('.CRemaining').html(data[1].Data1);
+            $('.CDate').html(data[3].Data1);
+            debugger;
+            var aHistory = parseInt(data[0].Data1);
+            FusionCharts.ready(function () {
+                var fusioncharts = new FusionCharts({
+                    type: 'cylinder',
+                    dataFormat: 'json',
+                    id: 'fuelMeter-1',
+                    renderAt: 'chart-container',
+                    width: '250',
+                    height: '350',
+                    dataSource: {
+                        "chart": {
+                            "theme": "fint", "caption": "Current Fuel Level", "lowerLimit": "0", "upperLimit": "100", "lowerLimitDisplay": "Empty", "upperLimitDisplay":data[2].Data1,
+
+                            "showValue": "1",
+                            "chartBottomMargin": "25",
+                            "cylFillColor": "#00FF00"
+                        },
+                        "value": aHistory
+                    }
+                }
+        );
+                fusioncharts.render();
+            });
+        },
+        error: function (error) {
+            toastr.error("something went wrong!");
+        }
+    });
+    //-----------------------------------------
+    debugger;
+    var pumaid = $("#Vehiclelist").val();
+    console.log(pumaid);
+    $.ajax({
+        type: "Get",
+        url: baseUrl + 'CustomAPI/FuelDataGraph',
+        data: {
+            vehicleId: pumaid, beginDate: $beginDate, endDate: $endDate
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (chartsdata) {
+            debugger;
+            debugger;
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Datadate');
+            data.addColumn('number', 'Fuellevel');
+            data.addColumn('number', 'speed');
+            data.addColumn('number', 'Distance');
+         
+            data.addRows(chartsdata.length);
+            for (var i = 0; i < chartsdata.length; i++) {
+                debugger;
+                data.setValue(i, 0, "'" + chartsdata[i].DataDate + " & Loc:-" + chartsdata[i].Location + "'");
+                data.setValue(i, 1, chartsdata[i].FuelLevel);
+                data.setValue(i, 2, chartsdata[i].Speed);
+                data.setValue(i, 3, chartsdata[i].Distance);
+               
+            }
+            var chart = new google.visualization.LineChart(document.getElementById('chartdiv'));
+
+
+
+
+            chart.draw(data,
+              {
+                  width: 1205,
+                  height: 400,
+                  position: "top",
+                  fontsize: "14px",
+            
+                  series: {
+                      0: {targetAxisIndex: 0},
+                      1: {targetAxisIndex: 1}
+                  },
+                  vAxes: {
+                     
+                      0: { title: 'FuelLevel' },
+                      1: { title: 'Speed' }
+                  },
+                  hAxis: { title: "Fuel Details", titleTextStyle: { color: "green" }, textPosition: "none" }, vAxis: { title: 'Fuel Level(Liters)', titleTextStyle: { color: "red" } },
+              });
+
+        }
+    });
+
+})

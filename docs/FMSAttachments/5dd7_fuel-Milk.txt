@@ -1,0 +1,436 @@
+  public ActionResult MilkLidReport(FormCollection fc, string date3, string time3, string date4, string time4, string MilkLidActiveVehicles)
+        {
+            string LidBoxID = Request.QueryString["bbid"];
+            //string LidBoxID = "G836";
+            List<SelectListItem> items = new List<SelectListItem>();
+            items = GetMilkLidActiveVehicles();
+            DateTime dropstartdate = DateTime.Today;
+            DateTime dropenddate = DateTime.Now;
+            ViewBag.MilkLidActiveVehicles = items;
+            string firstvalue = String.Empty;
+            if (MilkLidActiveVehicles == null)
+            {
+                firstvalue = LidBoxID;
+            }
+            else
+            {
+                firstvalue = MilkLidActiveVehicles;
+            }
+            String startdate = String.Empty;
+            String enddate = String.Empty;
+            if (!String.IsNullOrEmpty(date3))
+            {
+                startdate = Convert.ToDateTime(date3 + " " + time3).ToString();
+                enddate = Convert.ToDateTime(date4 + " " + time4).ToString();
+                MilkFuelLidEX fill = ReportsProvider.GetMilkFuelLidReport(Convert.ToDateTime(startdate), Convert.ToDateTime(enddate), MilkLidActiveVehicles);
+                return View("MilkLidReport", fill);
+            }
+            else
+            {
+                MilkFuelLidEX fill = ReportsProvider.GetMilkFuelLidReport(Convert.ToDateTime(dropstartdate), Convert.ToDateTime(dropenddate), firstvalue);
+                return View("MilkLidReport", fill);
+            }
+        }
+
+*********************************************************************************************************************************************************
+ public List<SelectListItem> GetMilkLidActiveVehicles()
+        {
+            int custid = Convert.ToInt32(Session["hcid"]);
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var item in ReportsProvider.GetMilkLidFuelVehicleDetails(custid).ToList())
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = Convert.ToString(item.VehicleName),
+                    Value = Convert.ToString(item.BBID)
+                });
+            }
+            return items;
+        }
+********************************************************************************************************************************************************************
+ public static List<Vehicles> GetMilkLidFuelVehicleDetails(int userId)
+        {
+            List<Vehicles> VehcileName = new List<Vehicles>();
+            SqlDataReader dr = SqlHelper.ExecuteReader(Utility.GetConString(), CommandType.Text, @"SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED SELECT [HTM].[BBID], [HTM].[VehName] FROM [dbo].[ht_main] [HTM] INNER JOIN [dbo].[AuxIPConfig] [AIC] ON [HTM].[BBID] = [AIC].[BBID] WHERE [HTM].[VehName] NOT LIKE '%del%' AND [HTM].[IsDeleted] = 0 AND [HTM].[activate] = 1 AND [HTM].[custid] = " + userId + " ORDER BY [HTM].BBID");
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            foreach (DataRow r in dt.Rows)
+            {
+                Vehicles obj = new Vehicles();
+                obj.VehicleName = r["vehname"].ToString();
+                obj.BBID = r["bbid"].ToString();
+                VehcileName.Add(obj);
+            }
+            return VehcileName;
+        }
+
+
+********************************************************************************************************************************************************************
+
+   public static MilkFuelLidEX GetMilkFuelLidReport(DateTime beginDate, DateTime endDate, string vehicleId)
+        {
+            MilkFuelLidEX objMilkFuelLidEX = new MilkFuelLidEX();
+            List<MilkFuelLid> listMilkFuelLid = new List<MilkFuelLid>();
+            string boxType = string.Empty;
+            DataTable dt = new DataTable();
+            dt = BindMilkLidReport(beginDate, endDate, vehicleId, "normal");
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        MilkFuelLid objMilkFuelLid = new MilkFuelLid();
+                        objMilkFuelLid.StartDateTime = Convert.IsDBNull(dt.Rows[i]["startdate"]) ? string.Empty : Convert.ToString(dt.Rows[i]["startdate"]);
+                        objMilkFuelLid.EndateTime = Convert.IsDBNull(dt.Rows[i]["enddate"]) ? string.Empty : Convert.ToString(dt.Rows[i]["enddate"]);
+                        objMilkFuelLid.Duration = Convert.IsDBNull(dt.Rows[i]["Duration"]) ? string.Empty : Convert.ToString(dt.Rows[i]["Duration"]);
+                        objMilkFuelLid.OpenLidLocation = Convert.IsDBNull(dt.Rows[i]["sloc"]) ? string.Empty : Convert.ToString(dt.Rows[i]["sloc"]);
+                        objMilkFuelLid.OpenLatitudeLocation = Convert.IsDBNull(dt.Rows[i]["lat"]) ? string.Empty : Convert.ToString(dt.Rows[i]["lat"]);
+                        objMilkFuelLid.OpenLongitudeLocation = Convert.IsDBNull(dt.Rows[i]["long"]) ? string.Empty : Convert.ToString(dt.Rows[i]["long"]);
+                        objMilkFuelLid.LidCloseLocation = Convert.IsDBNull(dt.Rows[i]["eloc"]) ? string.Empty : Convert.ToString(dt.Rows[i]["eloc"]);
+                        objMilkFuelLid.CloseLatitudeLocation = Convert.IsDBNull(dt.Rows[i]["elat"]) ? string.Empty : Convert.ToString(dt.Rows[i]["elat"]);
+                        objMilkFuelLid.CloseLongitudeLocation = Convert.IsDBNull(dt.Rows[i]["elong"]) ? string.Empty : Convert.ToString(dt.Rows[i]["elong"]);
+                        listMilkFuelLid.Add(objMilkFuelLid);
+                    }
+                }
+            }
+            objMilkFuelLidEX.objMilkFuelLid = listMilkFuelLid;
+            return objMilkFuelLidEX;
+        }
+
+
+
+********************************************************************************************************************************************************************
+   private static DataTable BindMilkLidReport(DateTime beginDate, DateTime endDate, string vehicleId, string mode)
+        {
+
+            DataSet ds = new DataSet();
+            DataTable objDT = new DataTable("disttrav");
+            try
+            {
+                DataRow objDR = null;
+                objDT.Columns.Add("startdate", typeof(System.DateTime));
+                objDT.Columns.Add("enddate", typeof(System.DateTime));
+                objDT.Columns.Add("duration", typeof(string));
+                objDT.Columns.Add("sloc", typeof(string));
+                objDT.Columns.Add("eloc", typeof(string));
+                objDT.Columns.Add("lat", typeof(string));
+                objDT.Columns.Add("long", typeof(string));
+                objDT.Columns.Add("elat", typeof(string));
+                objDT.Columns.Add("elong", typeof(string));
+                ds = null;
+                ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED SELECT * FROM auxipconfig where bbid = '" + vehicleId + "'");
+                if (ds != null)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (Convert.ToInt32(ds.Tables[0].Rows[0]["auxIP3"]) == 64)
+                        {
+                            ds = null;
+                            ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED SELECT datadate,loc,latitude,longitude,speed,acignition,datamode, auxIP3 as auxIP from " + vehicleId + " where datadate between " + "'" + Convert.ToString(beginDate) + "'" + " and " + "'" + Convert.ToString(endDate) + "' order by datadate asc");
+                        }
+                        else if (Convert.ToInt32(ds.Tables[0].Rows[0]["auxIP4"]) == 64)
+                        {
+                            ds = null;
+                            ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED SELECT datadate,loc,latitude,longitude,speed,acignition,datamode, auxIP4 as auxIP from " + vehicleId + " where datadate between " + "'" + Convert.ToString(beginDate) + "'" + " and " + "'" + Convert.ToString(endDate) + "' order by datadate asc");
+                        }
+                    }
+                }
+                bool flag = false;
+                DateTime startd = default(System.DateTime);
+                DateTime endd = default(System.DateTime);
+                long mdate = 0;
+                long mhour = 0;
+                if (mode == "normal")
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        for (int iCount = 0; iCount <= ds.Tables[0].Rows.Count - 1; iCount++)
+                        {
+                            if (!(Convert.IsDBNull(ds.Tables[0].Rows[iCount]["auxIP"])))
+                            {
+                                int iip = Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]);
+                                int speed = Convert.ToInt32(ds.Tables[0].Rows[iCount]["speed"]);
+                                int acignition = Convert.ToInt32(ds.Tables[0].Rows[iCount]["acignition"]);
+                                int datamode = Convert.ToInt32(ds.Tables[0].Rows[iCount]["datamode"]);
+                                if (Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]) == 1 & flag == false)
+                                {
+                                    objDR = objDT.NewRow();
+                                    objDR["startdate"] = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                    objDR["sloc"] = Convert.ToString(ds.Tables[0].Rows[iCount]["loc"]);
+                                    objDR["lat"] = Convert.ToString(ds.Tables[0].Rows[iCount]["latitude"]);
+                                    objDR["long"] = Convert.ToString(ds.Tables[0].Rows[iCount]["longitude"]);
+                                    startd = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                    flag = true;
+                                }
+                                else if (Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]) == 1 & flag == true)
+                                {
+                                    endd = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                }
+                                else if (Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]) == 0 & flag == true)
+                                {
+                                    if (endd < Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]))
+                                    {
+                                        objDR["enddate"] = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                        objDR["eloc"] = Convert.ToString(ds.Tables[0].Rows[iCount]["loc"]);
+                                        objDR["elat"] = Convert.ToString(ds.Tables[0].Rows[iCount]["latitude"]);
+                                        objDR["elong"] = Convert.ToString(ds.Tables[0].Rows[iCount]["longitude"]);
+                                        endd = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                    }
+                                    else
+                                    {
+                                        objDR["enddate"] = endd;
+                                    }
+                                    TimeSpan ts = endd.Subtract(startd);
+                                    mdate = Convert.ToInt64(ts.TotalSeconds);
+                                    mhour = Convert.ToInt64(ts.TotalHours);
+                                    objDR["duration"] = GetElapsedTime1(mdate);
+                                    if (ts.TotalMinutes > 2)
+                                    {
+                                        objDT.Rows.Add(objDR);
+                                    }
+                                    flag = false;
+                                }
+                            }
+                        }
+                        if (flag == true)
+                        {
+                            TimeSpan ts = endd.Subtract(startd);
+                            mdate = Convert.ToInt64(ts.TotalSeconds);
+                            if (mdate > 0)
+                            {
+                                objDR["duration"] = GetElapsedTime1(mdate);
+                            }
+                            if (ts.TotalMinutes > 2)
+                            {
+                                objDT.Rows.Add(objDR);
+                            }
+                        }
+                    }
+                    if (objDT.Rows.Count > 0)
+                    {
+                        return objDT;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }
+**************************************************************************************************************************************************************
+        public ActionResult FuelTankLidReport(FormCollection fc, string date3, string time3, string date4, string time4, string FuelTankLidActiveVehicles)
+        {
+          
+            string LidBoxID = Request.QueryString["bbid"];
+            List<SelectListItem> items = new List<SelectListItem>();
+            items = GetMilkLidActiveVehicles();
+            DateTime dropstartdate = DateTime.Today;
+            DateTime dropenddate = DateTime.Now;
+            ViewBag.FuelTankLidActiveVehicles = items;
+            string firstvalue = String.Empty;
+            if (FuelTankLidActiveVehicles == null)
+            {
+                firstvalue = LidBoxID;
+            }
+            else
+            {
+                firstvalue = FuelTankLidActiveVehicles;
+            }
+            String startdate = String.Empty;
+            String enddate = String.Empty;
+            if (!String.IsNullOrEmpty(date3))
+            {
+                startdate = Convert.ToDateTime(date3 + " " + time3).ToString();
+                enddate = Convert.ToDateTime(date4 + " " + time4).ToString();
+                FuelTankLidEX fill = ReportsProvider.GetFuelTankLid(Convert.ToDateTime(startdate), Convert.ToDateTime(enddate), FuelTankLidActiveVehicles);
+                return View("FuelTankLidReport", fill);
+            }
+            else
+            {
+                FuelTankLidEX fill = ReportsProvider.GetFuelTankLid(Convert.ToDateTime(dropstartdate), Convert.ToDateTime(dropenddate), firstvalue);
+                return View("FuelTankLidReport", fill);
+            }
+        }
+
+**************************************************************************************************************************************************************
+
+  public static FuelTankLidEX GetFuelTankLid(DateTime beginDate, DateTime endDate, string vehicleId)
+        {
+            FuelTankLidEX objFuelTankLidEX = new FuelTankLidEX();
+            List<FuelTankLid> listFuelTankLid = new List<FuelTankLid>();
+            string boxType = string.Empty;
+            DataTable dt = new DataTable();
+            dt = BindFuelTankLidDetails(beginDate, endDate, vehicleId);
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    int days = 0;
+                    int hours = 0;
+                    int minutes = 0;
+                    int seconds = 0;
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        FuelTankLid objFuelTankLid = new FuelTankLid();
+                        objFuelTankLid.StartDateTime = Convert.IsDBNull(dt.Rows[i]["startdate"]) ? string.Empty : Convert.ToString(dt.Rows[i]["startdate"]);
+                        objFuelTankLid.EndateTime = Convert.IsDBNull(dt.Rows[i]["enddate"]) ? string.Empty : Convert.ToString(dt.Rows[i]["enddate"]);
+                        objFuelTankLid.Duration = Convert.IsDBNull(dt.Rows[i]["Duration"]) ? string.Empty : Convert.ToString(dt.Rows[i]["Duration"]);
+                        //objFuelTankLid.OpenLidLocation = Convert.IsDBNull(dt.Rows[i]["sloc"]) ? string.Empty : Convert.ToString(dt.Rows[i]["sloc"]);
+                        objFuelTankLid.OpenLatitudeLocation = Convert.IsDBNull(dt.Rows[i]["lat"]) ? string.Empty : Convert.ToString(dt.Rows[i]["lat"]);
+                        objFuelTankLid.OpenLongitudeLocation = Convert.IsDBNull(dt.Rows[i]["long"]) ? string.Empty : Convert.ToString(dt.Rows[i]["long"]);
+                        objFuelTankLid.LidCloseLocation = Convert.IsDBNull(dt.Rows[i]["eloc"]) ? string.Empty : Convert.ToString(dt.Rows[i]["eloc"]);
+                        //objFuelTankLid.CloseLatitudeLocation = Convert.IsDBNull(dt.Rows[i]["elat"]) ? string.Empty : Convert.ToString(dt.Rows[i]["elat"]);
+                        //objFuelTankLid.CloseLongitudeLocation = Convert.IsDBNull(dt.Rows[i]["elong"]) ? string.Empty : Convert.ToString(dt.Rows[i]["elong"]);
+
+                        string[] arr = objFuelTankLid.Duration.ToString().Split('-');
+                        if (arr.Length > 1)
+                        {
+                            int iDays = Convert.ToInt32(arr.GetValue(0));
+                            string strTime = Convert.ToString(arr.GetValue(1));
+                            string[] arrTime = strTime.Split(':');
+                            int iHours = Convert.ToInt32(arrTime.GetValue(0));
+                            int iMinutes = Convert.ToInt32(arrTime.GetValue(1));
+                            int iSeconds = Convert.ToInt32(arrTime.GetValue(1));
+                            days = days + iDays;
+                            hours = hours + iHours;
+                            minutes = minutes + iMinutes;
+                            seconds = seconds + iSeconds;
+                        }
+
+                        listFuelTankLid.Add(objFuelTankLid);
+                    }
+                    Int32 totSeconds = days * 86400 + hours * 3600 + minutes * 60 + seconds;
+                    TimeSpan ts = DateTime.Now.AddSeconds(totSeconds).Subtract(DateTime.Now);
+                    objFuelTankLidEX.TotalEWHHrs = ts.TotalHours.ToString();
+                    objFuelTankLidEX.TotalWorkingHoursTimeSpan = ts;
+                    objFuelTankLidEX.TotalWorkingHours = ts.Days.ToString() + " day(s) " + ts.Hours.ToString() + " hour(s) " + ts.Minutes.ToString() + " minute(s) ";
+                }
+            }
+            objFuelTankLidEX.objFuelTankLid = listFuelTankLid;
+            return objFuelTankLidEX;
+        }
+
+**************************************************************************************************************************************************************
+ private static DataTable BindFuelTankLidDetails(DateTime beginDate, DateTime endDate, string vehicleId)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                DataTable objDT = new DataTable("disttrav");
+                DataRow objDR = null;
+                objDT.Columns.Add("startdate", typeof(System.DateTime));
+                objDT.Columns.Add("enddate", typeof(System.DateTime));
+                objDT.Columns.Add("duration", typeof(string));
+                objDT.Columns.Add("eloc", typeof(string));
+                objDT.Columns.Add("lat", typeof(string));
+                objDT.Columns.Add("long", typeof(string));
+                ds = null;
+                ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED select * from auxipconfig where bbid = '" + vehicleId + "'");
+                if (ds != null)
+                {
+                    //Start: Added by Jasmine to fix datetime string issue
+                    CultureInfo currentCulture = CultureInfo.CurrentCulture;
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                    //End: Added by Jasmine to fix datetime string issue
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (Convert.ToInt32(ds.Tables[0].Rows[0]["auxIP3"]) == 7)
+                        {
+                            ds = null;
+                            ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED select datadate,loc,latitude,longitude, auxIP3 as auxIP from " + vehicleId + " where datadate between " + "'" + beginDate + "'" + " and " + "'" + endDate + "' order by datadate asc");
+                        }
+                        else if (Convert.ToInt32(ds.Tables[0].Rows[0]["auxIP4"]) == 7)
+                        {
+                            ds = null;
+                            ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED select datadate,loc,latitude,longitude, auxIP4 as auxIP from " + vehicleId + " where datadate between " + "'" + beginDate + "'" + " and " + "'" + endDate + "' order by datadate asc");
+                        }
+                        else if (Convert.ToInt32(ds.Tables[0].Rows[0]["acsignal"]) == 83)
+                        {
+                            ds = null;
+                            ds = SqlHelper.ExecuteDataset(Utility.GetConString(), CommandType.Text, "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED select datadate,loc,latitude,longitude, acsignal as auxIP from " + vehicleId + " where datadate between " + "'" + beginDate + "'" + " and " + "'" + endDate + "' order by datadate asc");
+                        }
+                    }
+
+                    //Start: Added by Jasmine to fix datetime string issue
+                    Thread.CurrentThread.CurrentCulture = currentCulture;
+                    //End: Added by Jasmine to fix datetime string issue
+                }
+                bool flag = false;
+                DateTime startd = default(System.DateTime);
+                DateTime endd = default(System.DateTime);
+                long mdate = 0;
+                long mhour = 0;
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    for (int iCount = 0; iCount <= ds.Tables[0].Rows.Count - 1; iCount++)
+                    {
+                        if (!(Convert.IsDBNull(ds.Tables[0].Rows[iCount]["auxIP"])))
+                        {
+                            int iip = Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]);
+                            if (Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]) == 1 & flag == false)
+                            {
+                                objDR = objDT.NewRow();
+                                objDR["startdate"] = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                objDR["eloc"] = Convert.ToString(ds.Tables[0].Rows[iCount]["loc"]);
+                                objDR["lat"] = Convert.ToString(ds.Tables[0].Rows[iCount]["latitude"]);
+                                objDR["long"] = Convert.ToString(ds.Tables[0].Rows[iCount]["longitude"]);
+                                startd = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                flag = true;
+                            }
+                            else if (Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]) == 1 & flag == true)
+                            {
+                                endd = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                            }
+                            else if (Convert.ToInt32(ds.Tables[0].Rows[iCount]["auxIP"]) == 0 & flag == true)
+                            {
+                                if (endd < Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]))
+                                {
+                                    objDR["enddate"] = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                    endd = Convert.ToDateTime(ds.Tables[0].Rows[iCount]["datadate"]);
+                                }
+                                else
+                                {
+                                    objDR["enddate"] = endd;
+                                }
+                                TimeSpan ts = endd.Subtract(startd);
+                                mdate = Convert.ToInt32(ts.TotalSeconds);
+                                mhour = Convert.ToInt64(ts.TotalHours);
+                                objDR["duration"] = GetElapsedTime1(mdate);
+                                objDT.Rows.Add(objDR);
+                                flag = false;
+                            }
+                        }
+                    }
+                    if (flag == true)
+                    {
+                        TimeSpan ts = endd.Subtract(startd);
+                        mdate = Convert.ToInt64(ts.TotalSeconds);
+                        if (mdate > 0)
+                        {
+                            objDR["duration"] = GetElapsedTime1(mdate);
+                        }
+                        objDT.Rows.Add(objDR);
+                    }
+                }
+                if (objDT.Rows.Count > 0)
+                {
+                    return objDT;
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return null;
+        }

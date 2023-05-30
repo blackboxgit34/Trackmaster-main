@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../Content/Scripts/Googlecharts.js"></script>
+    <script src="../Content/js/APIURL.js"></script>
+
+    <!-- Css for custom loader -->
+    <style>
+        #loading-img {
+            background: url("http://www.chimply.com/images/samples/classic-spinner/animatedEllipse.gif") center center no-repeat;
+            display: none;
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            top: 33%;
+            left: 1%;
+            right: 1%;
+            margin: auto;
+        }
+
+        .container {
+            height: 400px;
+            background: #000;
+            color: #fff;
+        }
+
+        .group {
+            position: relative;
+            width: 100%;
+        }
+
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+        #donutchart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:95%;
+    height:100%;
+}
+    </style>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var baseURL = apiBase.apiurl;
+
+            //show loader when page load
+            $("#loading-img").css({ "display": "block" });
+
+
+            var Moving;
+            var HiSpeed;
+            var Ignition;
+            var Parked;
+            var Towed;
+            var Unreachable;
+            var MyUrl = baseURL + 'LiveStatus/VehiclesStatusGraph';
+            google.charts.load("current", { packages: ["corechart"] });
+
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                
+                //getUrlParameter () is defined under APIURL.js file
+                var userId = getUrlParameter('custId');
+                $.ajax({
+                    url: MyUrl, data: { custId: userId },
+                    success: function (data) {
+                        document.getElementById("vehicleStatus").disabled = false;
+                        $('#aLiveStatus').attr('href', '../map/sixeyemap').attr('target', '_blank');;
+                        Moving = data.Moving;
+                        HiSpeed = data.Hispeed;
+                        Ignition = data.Ignitionon;
+                        Parked = data.Parked;
+                        Towed = data.towed;
+                        Unreachable = data.Unreach;
+                        var total = parseInt(Moving) + parseInt(HiSpeed) + parseInt(Ignition) + parseInt(Parked) + parseInt(Towed) + parseInt(Unreachable);
+                        var data = google.visualization.arrayToDataTable([
+                          ['Task', ''],
+                          ['Moving ' + Moving, Moving],
+                          ['HiSpeed ' + HiSpeed, HiSpeed],
+                          ['Parked ' + Parked, Parked],
+                          ['Ignition On ' + Ignition, Ignition],
+                          ['Towed ' + Towed, Towed],
+                          ['Unreachable ' + Unreachable, Unreachable],
+                        ]);
+
+                        var options = {
+                            title: 'Total Vehicles:'+ total,
+                            pieHole: 0.4,
+                            colors: ['#409021', '#11A487', '#F4D03F', '#DC7633', '#6F8AD6', '#C70039'],
+                            pieSliceText: 'value',
+                            animation: {
+                                duration: 1000,
+                                easing: 'in',
+                                startup: true
+                            }
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                        chart.draw(data, options);
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body style="margin-top: 15%">
+    <!--<img id='loaderGif' src='../Content/Trackmaster_files/loader.gif'/>-->
+    <div id="vehicleStatus" style="background-color: lightgray;">
+        <div id="loading-img"></div>
+        <a href="#" id="aLiveStatus">
+            <div id="donutchart"></div>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "RefTempAlert";
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<style>
+    th {
+        font-weight: normal;
+        padding: 5px !important;
+        font-size: 9px !important;
+    }
+
+
+
+
+</style>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            @Html.Action("_FixReportFilter","report", new { reportTitle = "Refrigerator Temperature Alert Report" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" >
+                                            <thead>
+                                                <tr>
+                                                     <th class="hidden" >BBID</th>
+                                                     <th>Refrigrator</th>
+                                                     <th>12.00AM to 12:30AM</th>
+                                                     <th>12:30 AM to 1:00AM</th>
+                                                     <th>1:00 AM to 1:30AM</th>
+                                                     <th>1:30 AM to 2:00AM</th>
+                                                     <th>2:00 AM to 2:30AM</th>
+                                                     <th>2:30 AM to 3:00AM</th>
+                                                     <th>3:00 AM to 3:30AM</th>
+                                                     <th>3:30 AM to 4:00AM</th>
+                                                     <th>4:00 AM to 4:30AM</th>
+                                                     <th>4:30 AM to 5:00AM</th>
+                                                     <th>5:00 AM to 5:30AM</th>
+                                                     <th>5:30 AM to 6:00AM</th>
+                                                     <th>6:00 AM to 6:30AM</th>
+                                                     <th>6:30 AM to 7:00AM</th>
+                                                     <th>7:00 AM to 7:30AM</th>
+                                                     <th>7:30 AM to 8:00AM</th>
+                                                     <th>8:00 AM to 8:30AM</th>
+                                                     <th>8:30 AM to 9:00AM</th>
+                                                     <th>9:00 AM to 9:30AM</th>
+                                                     <th>9:30 AM to 10:00AM</th>
+                                                     <th>10:00 AM to 10:30AM</th>
+                                                     <th>10:30 AM to 11:00AM</th>
+                                                     <th>11:00 AM to 11:30AM</th>
+                                                     <th>11:30 AM to 12:00AM</th>
+                                                     <th>12.00 PM to 12:30PM</th>
+                                                     <th>12:30 PM to 1:000PM</th>
+                                                     <th>1:00 PM to 1:30PM</th>
+                                                     <th>1:30 PM to 2:00PM</th>
+                                                     <th>2:00 PM to 2:30PM</th>
+                                                     <th>2:30 PM to 3:00PM</th>
+                                                     <th>3:00 PM to 3:30PM</th>
+                                                     <th>3:30 PM to 4:00PM</th>
+                                                     <th>4:00 PM to 4:30PM</th>
+                                                     <th>4:30 PM to 5:00PM</th>
+                                                     <th>5:00 PM to 5:30PM</th>
+                                                     <th>5:30 PM to 6:00PM</th>
+                                                     <th>6:00 PM to 6:30PM</th>
+                                                     <th>6:30 PM to 7:00PM</th>
+                                                     <th>7:00 PM to 7:30PM</th>
+                                                     <th>7:30 PM to 8:00PM</th>
+                                                     <th>8:00 PM to 8:30PM</th>
+                                                     <th>8:30 PM to 9:00PM</th>
+                                                     <th>9:00 PM to 9:30PM</th>
+                                                     <th>9:30 PM to 10:00PM</th>
+                                                     <th>10:00 PM to 10:30PM</th>
+                                                     <th>10:30 PM to 11:00PM</th>
+                                                     <th>11:00 PM to 11:30PM</th>
+                                                     <th>11:30 PM to 12:00PM</th>                                                     
+                                                  
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/commonFixWeek.js? 1.0"></script>
+    <script>
+        var time = new Date().getTime();
+        $(document.body).bind("mousemove keypress", function (e) {
+            time = new Date().getTime();
+        });
+
+        function refresh() {
+            if (new Date().getTime() - time >= 60000)
+                window.location.reload(true);
+            else
+                setTimeout(refresh, 10000);
+        }
+
+        setTimeout(refresh, 10000);
+</script>
+    @*<script src="~/Scripts/app/common.js"></script>*@
+    <script src="~/Scripts/app/RefTemperatureAlert.js"></script>
+}

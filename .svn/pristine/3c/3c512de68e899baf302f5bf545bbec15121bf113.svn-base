@@ -1,0 +1,964 @@
+﻿@{
+    ViewBag.Title = "Show Map";
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+}
+
+<style>
+    a.trigger {
+        position: absolute !important;
+        text-decoration: none !important;
+        top: 188px !important;
+        left: 1125px !important;
+        color: #fff !important;
+        padding: 10px 40px 10px 15px !important;
+        background: #8e9d13 url(../Content/map/plus.png) 85% 55% no-repeat !important;
+        display: block !important;
+        z-index: 1;
+    }
+
+    a.active.trigger {
+        /*background: #526ea6 url(../Content/map/minus.png) 85% 55% no-repeat !important; /**/*/
+    }
+    .panel1 {
+        background: none repeat scroll 0 0 #fff;
+        border: 1px solid #ccc;
+        height: auto;
+        left: 0;
+        opacity: 0.85;
+        padding: 10px;
+        position: absolute;
+        top: 80px;
+        width: 300px;
+        display: none;
+    }
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #floating-panel {
+        position: absolute;
+        top:75px;
+        left: 29%;
+        z-index: 5;
+        background-color: whitesmoke;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+    #divPanel {
+        position: absolute;
+        top: 226px;
+        left: 82%;
+        z-index: 5;
+        /*background-color: whitesmoke;*/
+        padding: 32px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+</style>
+<link href="~/Content/JquerySlides/TTMenu.css" rel="stylesheet" />
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<div id="floating-panel" style="width: 837px !important; margin-left: -80px;">
+
+    <div class="col-md-6 col-sm-6" style="width:770px;margin-left:-19px">
+        <form class="form-search" method="get" id="s" action="/">
+            <div class="input-append">
+     <b>Vehicle-Type</b> <select class="select2" id="VehicleTypeList" style="margin-left:-16px; height: 28px; width: 84px;"></select>
+            </div>
+            <div class="input-append">
+                <input type="text" style="margin-top:1px; class=" input-medium search-query" size="80" id="searchVehicle" name="search" disabled placeholder="Please wait! vehicle No's are loading...">
+
+
+                <i class="icon-search add-on"></i>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-1">
+        <span class="pull-right">
+            <button class="btn btn-success pull-left" style="margin-top: 3.3%; margin-left:-53%;" onclick="searchVehicleOnMap();" type="button" data-toggle="tooltip" title="refresh map"><i class="fa fa-refresh"></i></button>
+
+        </span>
+    </div>
+
+    
+
+    <input id="hdnBbid" type="hidden">
+</div>
+
+
+<div class="panel" id="divPanel">
+
+ 
+
+        
+
+       
+        @*<div class="btn-group btn-adjst" style="margin-left: 10px; margin-top: -113px;">
+            <table>
+           
+            </table>
+
+        </div>*@
+    <table class="table">
+        <tr>
+            <td>
+                Hide/show Name
+            </td>
+            <td>
+                <input type="checkbox" id="HideVName" data-height="20" checked data-on="On" data-off="Off" data-width="50" data-toggle="toggle" data-size="mini" data-onstyle="success" data-offstyle="default">
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Auto Refresh
+            </td>
+            <td>
+                <input type="checkbox" id="autoRefreshOnOFF" data-height="20" data-width="50" checked data-on="On" data-off="Off"  data-toggle="toggle" data-size="mini" data-onstyle="success" data-offstyle="default">
+
+            </td>
+        </tr>
+       
+            <tr>
+                <td style="padding-left: 10%;">
+                    POIs
+                </td>
+                <td>
+                  
+                    <input type="checkbox" id="checkPOI"   onclick="PointOfInterest()" />
+                </td>
+                </tr>
+        @*<tr>
+            <td style="padding-left: 10%;">
+                Icon Map
+            </td>
+            <td>
+
+                <input type="checkbox" id="checkPOI" checked="checked" onclick="PointOfInterest()" />
+            </td>
+        </tr>*@
+
+        
+  
+    </table>
+
+</div>
+<a class="trigger" href="#">Map View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+<div id="mySidenav" class="sidenav">
+    <div id="sideBarMap">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="portlet-body">
+                    <div class="panel mapPanelMargin">
+                        <div class="widget-header">
+                            <h5>Vehicle No's list</h5>
+                        </div>
+                        <div id="side_bar" style="width: 100%; overflow: auto; height: 0%!important">
+                        </div>
+                        <div id="settings" style="border-top: dashed 1px #777;">
+                            <a onclick="reCenter();" href="#" class="hidden" style="color: #0000B7; font-weight: normal;">Reset Map </a>
+                            &nbsp;<br />
+                            &nbsp;
+                            <a href="#" class="hidden" style="color: #0000B7; font-weight: normal;" onclick="InitializeTimer()">Refresh </a>
+                            <p class="hidden">
+                               
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+</div>
+
+<div id="main" style="padding: 0px;">
+    <link href="~/Content/Multiselect/tags.css" rel="stylesheet" />
+    <!-- jQuery UI CSS -->
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css" />
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            border: 1px solid #222;
+            position: absolute;
+            margin-left: 42% !important;
+            margin-top: 13.5% !important;
+        }
+    </style>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link href="~/Content/Css/customStyleSheet.css" rel="stylesheet" />
+    <style type="text/css">
+        .Newla {
+            color: black;
+            background-color: #fff;
+            font-family: Verdana, "Arial", "Lucida Grande",sans-serif;
+            font-size: 10px;
+            text-align: center;
+            padding: 6px;
+            letter-spacing: 0.05em;
+            border-radius: 25px;
+            -moz-border-radius: 25px;
+        }
+    </style>
+    <link href="~/Content/map/map.css" rel="stylesheet" type="text/css" />
+    @section scripts{
+        <script src="~/Scripts/app/common.js"></script>
+        <script src="~/Content/Multiselect/tagsinput.js"></script>
+        <script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="~/Content/Multiselect/jquery.autocomplete.multiselect.js"></script>
+        <script src="~/Content/js/APIURL.js"></script>
+
+        @* this is used for autocomplete *@
+        <script type="text/javascript">
+            var liveStatusAuto = true;
+            var myCallback;
+            var vehicletype = "0";
+            var Nametype = "0";
+            var bbidArray = [];
+
+            var url = apiBase.apiurl + "MapAPI/AutoCompleteSearchOnMap";
+            $('#searchVehicle').autocomplete({
+                source: function (request, response) {
+                    var query = extractLast(request.term);
+                    var userId = JSON.parse(localStorage.getItem("custID"));
+                    if (userId == null) {
+                        userId = JSON.parse(localStorage.getItem("custId"));
+                    }
+                    //  jQuery.support.cors = true;
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: url,
+                        data: { userId: userId, query: query },
+                        async: false,
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.Text,
+                                    value: item.Value
+                                }
+                            })
+                            );
+                        }
+                    })
+                },
+                focus: function () {
+                    return false;
+                },
+                select: function (event, ui) {
+
+                    var terms = split(this.value);
+                    var selectedBBID = $('#hdnBbid').val(ui.item.value).val();
+                    bbidArray.push(selectedBBID);
+                    terms.pop();
+                    terms.push(ui.item.label);
+                    terms.push('');
+                    this.value = terms.join(', ');
+                    var url = apiBase.apiurl + "MapAPI/SelectedVehicleResponse";
+                    var jObject = {};
+                    jObject = JSON.stringify(bbidArray);
+
+                    var bbidString = bbidArray.toString();
+                    var userId = JSON.parse(localStorage.getItem("custID"));
+                    if (userId == null) {
+                        userId = JSON.parse(localStorage.getItem("custId"));
+                    }
+                    //when user select
+                    // jQuery.support.cors = true;
+                    $.ajax({
+                        url: url,
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        data: { custId: userId, bbidString: bbidString, type: vehicletype },
+                        // async: false,
+                        success: function (data) {
+
+                            //thi is used to clear markers
+                            jQuery('#side_bar').empty();
+                            side_bar_html = "";
+                            deleteMarkers();
+                            localStorage['autoRefresh'] = false;
+                            initializeMap();
+                            var count = data.vehicleMapList.length;
+                            var data = data.vehicleMapList;
+                            for (i = 0; i < data.length; i++) {
+                                lat = data[i].lat;
+                                lng = data[i].lng;
+                                name = data[i].name;
+                                drname = data[i].drname;
+                                speed = data[i].speed;
+                                lstdate = data[i].lstdate;
+                                icon_type = parseFloat(data[i].type);
+                                loc = data[i].loc;
+                                Duration = data[i].Duration;
+                                DriMob = data[i].DriMobNo;
+                                LastDateIgnOnOff = data[i].LastDateIgnOnOff;
+
+                                var poiname = data[i].POILocation;
+                                var lastidlingstatus = data[i].LastIdlingDuration 
+                                var html = "<span>" + name + " <br/>Speed - " + speed + "<br/>Driver Name - " + drname + "<br/>Driver Mobile No - " + DriMob + "<br/>DateTime - " + lstdate + "<br/>Location - " + loc + "<br/>POI- " + poiname + "<br/>Last Idling Duration - " + lastidlingstatus + "</span>";
+                                // define lat-long for positioning Marker
+                                var myLatlng = new google.maps.LatLng(lat, lng);
+                                // call function to create Marker
+                                var marker = createMarker(myLatlng, name, html, icon_type);
+
+                                var label = new Label(
+                                  {
+                                      draggable: false,
+                                      map: map
+                                  });
+                                var hh = name;
+                                var htmlXX = '<span class=" Newla" style="overflow:hidden;">' + hh + '</span>';
+                                if (hh.match(/AMMONIA.*/)) {
+                                    // do something
+                                    htmlXX = '<span class=" Newla" style="overflow: hidden;background:#7fcef9;">' + hh + '</span>';
+                                }
+
+
+                                label.bindTo('position', marker, 'position');
+                                label.set('text', htmlXX);
+                                gmarkers.push(marker);
+                                glabels.push(label);
+                                gmarkers.push(marker);
+
+                                // fit map to accomodate all markers (only for first time)
+                            }
+                            var bound = new google.maps.LatLngBounds();
+                            for (var i in gmarkers) {
+                                bound.extend(gmarkers[i].getPosition());
+                                if (i == 0) {
+                                    map.setCenter(gmarkers[i].getPosition());
+                                }
+                            }
+                            map.fitBounds(bound);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+
+                        }
+                    })
+                    return false;
+                },
+                minLength: 1,
+            });
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+
+            function extractLast(term) {
+                return split(term).pop();
+            }
+
+            window.searchVehicleOnMap = function () {
+                window.location.href = "/Map/showmap";
+            };
+
+            // Sets the map on all markers in the array.
+            function setMapOnAll(map) {
+                for (var i = 0; i < gmarkers.length; i++) {
+                    gmarkers[i].setMap(map);
+                }
+
+            }
+
+            // Removes the markers from the map, but keeps them in the array.
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
+
+            // Deletes all markers in the array by removing references to them.
+            function deleteMarkers() {
+                clearMarkers();
+                gmarkers = [];
+
+            }
+        </script>
+        @* end of autocomplete *@
+        <script>
+            $(function () {
+                localStorage['autoRefresh'] = true;
+                $('#autoRefreshOnOFF').change(function () {
+                    // alert($(this).prop('checked'));
+                    localStorage['autoRefresh'] = $(this).prop('checked');
+                    //this condtion is used to add flag when user clicked off auto refresh
+                    if ($(this).prop('checked') == false) {
+                        localStorage['whenUncheck'] = true;
+                    }
+
+                    //this conditon is used to check when user click refresh on after refresh off
+                    if (($(this).prop('checked')) && localStorage['whenUncheck'] == "true") {
+
+                        StartTracking();
+                    }
+                })
+
+                $('#HideVName').change(function () {
+
+
+                    if ($(this).prop('checked') == false) {
+                        Nametype = "1";
+                        document.getElementById("logoPic").style.zIndex = "1";
+                        document.getElementById("mySidenav").style.width = "250px";
+                        document.getElementById("main").style.marginLeft = "250px";
+                    }
+
+
+                    if ($(this).prop('checked') == true) {
+                        Nametype = "0";
+                        document.getElementById("mySidenav").style.width = "0";
+                        document.getElementById("main").style.marginLeft = "0";
+                    }
+
+                    initializeTimer();
+                })
+
+
+                $('#HideVName').change(function () {
+
+
+                    if ($(this).prop('checked') == false) {
+                        Nametype = "1";
+                        document.getElementById("logoPic").style.zIndex = "1";
+                        document.getElementById("mySidenav").style.width = "250px";
+                        document.getElementById("main").style.marginLeft = "250px";
+                    }
+
+
+                    if ($(this).prop('checked') == true) {
+                        Nametype = "0";
+                        document.getElementById("mySidenav").style.width = "0";
+                        document.getElementById("main").style.marginLeft = "0";
+                    }
+
+                    initializeTimer();
+                })
+            })
+        </script>
+
+        @* Below code is used in html page *@
+        <!--for local-->
+        @*<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems" language="javascript" type="text/javascript"></script>*@
+        <!--for live-->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in" language="javascript" type="text/javascript"></script>
+
+        <script src="~/Content/map/LocationOnMap/label.js"></script>
+        <script src="~/Content/map/LocationOnMap/Fluster2.packed.js"></script>
+        <!-- Initialize timer script -->
+        <script type="text/javascript">
+
+            var timerID = null;
+            var timerRunning = false;
+            var delay = (90 * 1000);
+            var lastListFlag = false;
+            var lastCountFlag = false;
+            //    var delay = 1000;
+            var zoomToExtents = 0;
+            var openedInfoWindow = null;
+            function initializeTimer() {
+                zoomToExtents = 0;
+                initializeMap();
+                if (document.getElementById("checkPOI").checked == true) {
+                    PointOfInterest();
+                }
+                else {
+                }
+                StopTheClock();
+                document.getElementById('side_bar').innerHTML = "Loading vehicles...";
+                StartTheTimer();
+            }
+            function StopTheClock() {
+                if (timerRunning)
+                    clearTimeout(timerID)
+                timerRunning = false;
+            }
+            //here we can create auto refresh
+            function StartTracking() {
+
+                //this is used to check whether auto refresh is on or off
+                if (localStorage['autoRefresh'] == "true") {
+                    StartTheTimer();
+                }
+            }
+            function StartTheTimer() {
+
+                //this flag is used to start the ajax
+                lastListFlag = false
+                readMapData();
+                timerRunning = true;
+                timerID = self.setTimeout("StartTracking()", delay)
+            }
+            function reCenter() {
+                var bound = new google.maps.LatLngBounds();
+                for (var i in gmarkers) {
+                    bound.extend(gmarkers[i].getPosition());
+                }
+                map.fitBounds(bound);
+                zoomToExtents = 1;
+            }
+
+            // ================ read mapData ================
+            function readMapData() {
+
+               
+                var i = 0;
+                var lat;
+                var lng;
+                var name;
+                var drname;
+                var DriMob;
+                var speed;
+                var lstdate;
+                var icon_type;
+                var loc;
+                var LastDateIgnOnOff;
+                var Duration;
+                // clear side bar list
+                side_bar_html = "";
+
+                if (gmarkers) {
+                    for (i in gmarkers) {
+                        gmarkers[i].setMap(null);
+                    }
+                    gmarkers.length = 0;
+                }
+                if (glabels) {
+                    for (i in glabels) {
+                        glabels[i].setMap(null);
+                    }
+                    glabels.length = 0;
+                }
+                GetDataToMapAJax("1", "40")
+                // clear markers
+            }
+
+            //AJAX Function
+            function GetDataToMapAJax(startLength, endLength) {
+                var userId = JSON.parse(localStorage.getItem("custID"));
+                if (userId == null) {
+                    userId = JSON.parse(localStorage.getItem("custId"));
+                }
+                //   var userId = $custid;
+                var url = apiBase.apiurl + "MapAPI/ListVehiclesInfoOnMap";
+                // jQuery.support.cors = true;
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+
+                    data: "type=" + vehicletype + "&userId=" + userId + "&startLength=" + startLength + "&endLength=" + endLength,
+                    // contentType: 'application/json; charset=utf-8',
+                    // async: true,
+                    processData: false,
+                    cache: false,
+
+                    success: function (data) {
+                        
+                        var count = data.ListLength;
+                        var data = data.vehicleMapList;
+                        for (i = 0; i < data.length; i++) {
+                            lat = data[i].lat;
+                            lng = data[i].lng;
+                            name = data[i].name;
+                            drname = data[i].drname;
+                            speed = data[i].speed;
+                            lstdate = data[i].lstdate;
+                            icon_type = parseFloat(data[i].type);
+                            loc = data[i].loc;
+                            Duration = data[i].Duration;
+                            DriMob = data[i].DriMobNo;
+                            var vicon = data[i].iconURL;
+                            var poilocation = data[i].POILocation;
+                            LastDateIgnOnOff = data[i].LastDateIgnOnOff;
+                            var lastidlingstatus = data[i].LastIdlingDuration
+                            var html = "<span>" + name + " <br/>Speed - " + speed + "<br/>Driver Name - " + drname + "<br/>Driver Mobile No - " + DriMob + "<br/>DateTime - " + lstdate + "<br/>Location - " + loc + "<br/>POI -" + poilocation + "<br/>Last Idling Duration -" + lastidlingstatus + "</span>";
+                            // define lat-long for positioning Marker
+                            var myLatlng = new google.maps.LatLng(lat, lng);
+                            // call function to create Marker
+                            var marker = createMarker(myLatlng, name, html, icon_type);
+
+
+                            if (Nametype == "1") {
+
+                                gmarkers.push(marker);
+                            }
+                            else {
+                                var label = new Label(
+                                 {
+                                     draggable: false,
+                                     map: map
+                                 });
+                                var hh = name;
+
+
+
+                                var htmlXX = '<span class="Newla" style="overflow:hidden;">' + hh + '</span>';
+                                if (hh.match(/AMMONIA.*/)) {
+
+                                    htmlXX = '<span class="Newla" style="overflow: hidden;background:#7fcef9;">' + hh + '</span>';
+                                }
+
+
+                                label.bindTo('position', marker, 'position');
+                                label.set('text', htmlXX);
+                                gmarkers.push(marker);
+                                glabels.push(label);
+                                //gmarkers.push(marker);
+
+                            }
+                        }
+                        var bound = new google.maps.LatLngBounds();
+                        for (var i in gmarkers) {
+                            bound.extend(gmarkers[i].getPosition());
+                            if (i == 0) {
+                                map.setCenter(gmarkers[i].getPosition());
+                            }
+                        }
+                        map.fitBounds(bound);
+
+                        if (lastListFlag == false) {
+
+                            if (count < 40) {
+                                lastListFlag = true;
+                            }
+                            else {
+                                if (endLength <= count) {
+
+                                    var startlength = parseInt(endLength) + 1;
+                                    var endlength = parseInt(endLength) + 40;
+                                    if (endlength > count) {
+                                        lastCountFlag = true;
+                                    }
+                                    GetDataToMapAJax(startlength, endlength)
+                                }
+                                else {
+
+                                    if (lastCountFlag == false) {
+
+                                        var startlength = parseInt(endLength) - 40;
+                                        var preEndlength = count - startlength;
+                                        var endlength = startlength + preEndlength;
+                                        GetDataToMapAJax(startlength, endlength)
+                                    }
+                                    lastListFlag = true;
+
+                                }
+
+                            }
+
+                        }
+                        $('#searchVehicle').prop("disabled", false);
+                        $('#searchVehicle').attr("placeholder", "Search Vehicle No's");
+                    }
+                });
+            };
+
+
+
+
+            // ================ create marker ================
+            var side_bar_html = "";
+            var gmarkers = [];
+            var vehmarkers = [];
+            var vmarkers = [];
+            var htmls = [];
+            var glabels = [];
+            var i = 0;
+            var icons = [];
+            icons[1] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+            icons[2] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+            icons[3] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png"); //GreenIcon;   // Moving
+            icons[4] = new google.maps.MarkerImage("../Content/map/legends/ignion.png"); //ErrorIcon;   // Unknown (Moving without Ignition On)
+            icons[5] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+            // icons[5] = new google.maps.MarkerImage("  ../../VehType/testingImages/vehicleIcons/car-green.png");
+
+
+            icons[6] = new google.maps.MarkerImage("../Content/map/legends/towed.png");
+            icons[7] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+            icons[8] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png");
+            icons[9] = new google.maps.MarkerImage("../Content/map/legends/unreach.png");
+            icons[10] = new google.maps.MarkerImage("../Content/map/legends/fenced.png");
+
+            // ================ This function creates marker and associates info-window with it ================
+            function createMarker(myLatlng, name, html, icon_type) {
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: name,
+                    icon: icons[icon_type]
+
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: html
+                });
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'mouseout', function () {
+                    infowindow.close(map, marker);
+                });
+                google.maps.event.addListener(infowindow, 'closeclick', function () {
+                    openedInfoWindow = null;
+                });
+                vmarkers[i] = marker;
+                htmls[i] = html;
+                side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+                if (j == 1) {
+                    document.getElementById('side_bar').innerHTML = side_bar_html;
+                }
+                i++;
+                return marker;
+            }
+            // ================ This function picks up the click and opens the corresponding info window ================
+            var marker = new Array();
+            function myclick(i) {
+                var infowindow = new google.maps.InfoWindow({
+                    content: htmls[i]
+                });
+                if (openedInfoWindow != null) openedInfoWindow.close();
+                infowindow.open(map, vmarkers[i]);
+                openedInfoWindow = infowindow;
+            }
+        </script>
+        <!-- Initialize map here -->
+        <script type="text/javascript">
+            var map;
+            var j = 0;
+            function initializeMap() {
+                document.getElementById("map_canvas").style.backgroundImage = "url(../Content/map/MapImages/maploading.jpg)";
+                var myOptions = {
+                    zoom: 8,
+                    center: new google.maps.LatLng(30.97, 76.77),
+                    gestureHandling: 'greedy',
+                    //mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    mapTypeId: google.maps.MapTypeId.HYBRID,
+                    liteMode: true,
+                    zoomControlOptions: {
+                        position: google.maps.ControlPosition.TOP_RIGHT
+                    },
+                    styles: [
+          {
+              "featureType": "poi",
+              "stylers": [
+                { "visibility": "off" }
+              ]
+          }
+                    ]
+                };
+                map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+                j = 1;
+            }
+            // Asynchronous call
+            google.maps.event.addDomListener(window, 'load', initializeTimer);
+        </script>
+
+        <script type="text/javascript">
+            function PointOfInterest() {
+                if (document.getElementById("checkPOI").checked == true) {
+                    //alert('true');
+                    //  var userId = $custid;
+
+                    var userId = JSON.parse(localStorage.getItem("custID"));
+                    if (userId == null) {
+                        userId = JSON.parse(localStorage.getItem("custId"));
+                    }
+                    var fluster = new Fluster2(map);
+
+                    var url = apiBase.apiurl + "MapAPI/ListPOI";
+                    //jQuery.support.cors = true;
+                    $.ajax({
+                        url: url,
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        data: "custId=" + userId,
+                        //contentType: 'application/json; charset=utf-8',
+                        async: true,
+                        processData: false,
+                        cache: false,
+
+                        success: function (data) {
+
+                            
+
+                            for (var i = 0; i < data.length; i++) {
+                                var lat = parseFloat(data[i].lat);
+                                var lng = parseFloat(data[i].lng);
+                                var details = data[i].details;
+
+                                var POIType = data[i].POIType;
+
+                                if (POIType == null || POIType == "") {
+
+                                    POIType = "Dflt";
+                                }
+
+                                var image = "../Content/img/POI/" + POIType + ".png";
+
+
+                                var marker = new google.maps.Marker
+                                     (
+                                     {
+                                         position: new google.maps.LatLng(lat, lng),
+                                         draggable: false,
+                                         map: map,
+                                         icon: image
+                                     });
+                             
+
+                                if (Nametype == "1") {
+
+                                    gmarkers.push(marker);
+                                }
+                                else {
+
+                                    var label = new Label(
+                                    {
+                                        draggable: false,
+                                        map: map
+                                    });
+                                    label.bindTo('position', marker, 'position');
+                                    var poiss = '<span class=" Newla" style="overflow:hidden;">' + details + '</span>';
+                                    label.set('text', poiss);
+
+                                    gmarkers.push(marker);
+                                }
+                            }
+
+                            var bound = new google.maps.LatLngBounds();
+                            for (var i in gmarkers) {
+                                bound.extend(gmarkers[i].getPosition());
+                                if (i == 0) {
+                                    map.setCenter(gmarkers[i].getPosition());
+                                }
+                            }
+                            map.fitBounds(bound);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+
+                            alert("error");
+                        }
+                    });
+                }
+                else if (document.getElementById("checkPOI").checked == false) {
+                    initializeTimer();
+                }
+            };
+
+        </script>
+        @*<script src="~/Content/map/jquery-1.4.2.min.js"></script>*@
+
+        <script>
+
+            $("#VehicleTypeList").change(function () {
+                vehicletype = $("#VehicleTypeList").val();
+              
+                initializeTimer();
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".trigger").click(function () {
+                    $(".panel").toggle("fast");
+                    $(this).toggleClass("active");
+                    return false;
+                });
+
+
+          
+            });
+
+            $(document).ready(function () {
+                $("#side_bar").height($(window).height() - 200 + 'px');
+                GetVehicleTypesList();
+            });
+
+
+            function GetVehicleTypesList() {
+                var VehicleTypeUrl = apiBase.apiurl + 'fmsapi/GetVehicleTypesWithcustid?custid=' + $custid;
+
+                $('#VehicleTypeList').find('option:not(:first)').remove();
+                $.get(VehicleTypeUrl, function (data) {
+                    $('#VehicleTypeList').append($('<option></option>').val(0).html("All Type's"));
+                    $.each(data, function (key, value) {
+                        $("#VehicleTypeList").append($("<option></option>").val(value.typeId).html(value.vehicleType));
+                    })
+                });
+            }
+        </script>
+    }
+    <div class="">
+        <noscript>
+            <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+            it seems JavaScript is either disabled or not supported by your browser. To view
+            Google Maps, enable JavaScript by changing your browser options, and then try again.
+        </noscript>
+        <div id="">
+            <div class="">
+                <div class="caption font-dark">
+                    <div class="row-fluid">
+                        <div class="widget-body" style="border: 0">
+                            <div class="row-fluid">
+                                <div class="widget span12">
+                                    <div class="widget-header">
+                                        <button onclick="openNav()" class="btn btn-success pull-left" style="margin-top: 0.3%; margin-left:0.5%;"><i class=" fa fa-expand" style="cursor: pointer; color:white;" data-toggle="tooltip" title="Click to view vehicle No's list">   </i>  </button>
+
+                                        <h5>&nbsp;&nbsp;&nbsp; View Map</h5>
+                                        @*<div class="btn-group btn-adjst" style="margin-left: 37px;">
+
+                                            <input type="checkbox" id="HideVName" data-height="15" data-width="150" data-toggle="toggle" checked data-on="Hide V-Name" data-off="Show V-Name" data-size="mini" data-onstyle="success" data-offstyle="danger">  <input type="checkbox" id="autoRefreshOnOFF" data-height="15" data-width="150" data-toggle="toggle" checked data-on="Auto refresh On" data-off="Auto refresh Off" data-size="mini" data-onstyle="success" data-offstyle="danger">
+
+                                        </div>*@
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--/widget-body-->
+                    </div>
+                </div>
+                <div id="map_canvas" style="width: 100%; height: 70em; margin-top: -0.3em;">
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("logoPic").style.zIndex = "1";
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+</script>

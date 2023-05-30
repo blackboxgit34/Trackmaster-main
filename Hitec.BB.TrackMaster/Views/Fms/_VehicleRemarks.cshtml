@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title>
+    <script>
+        var imageCount = 1;
+        var spanId = 0;
+        var f = [];
+        $('document').ready(function () {
+
+            if (window.File && window.FileList && window.FileReader) {
+                $("#VehicleDocs").on("change", function (e) {
+                    
+                    var files = e.target.files,
+                    filesLength = files.length;
+                    imageCount = imageCount + filesLength - 1;
+                    var file_size = $('#VehicleDocs')[0].files[0].size;
+                    if (imageCount < 2) {
+                        //extension check
+                        var ext = $('#VehicleDocs').val().split('.').pop().toLowerCase();
+                        //if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                        //    alert('Invalid File Type! Please upload an image file only.');
+                        //}
+                        //   else
+                        if (file_size > 300000) {
+                            alert("File size greater than 300Kb is not allowed");
+                        }
+                        else {
+                            imageCount = imageCount - filesLength + 1;
+                            //alert(filesLength)
+                            if (filesLength < 2) {
+                                for (var i = 0; i < filesLength; i++) {
+                                    imageCount = imageCount + 1;
+                                    f.push(files[i]);
+                                    var fileReader = new FileReader();
+                                    fileReader.onload = (function (e) {
+                                        var file = e.target;
+                                        $("<span class=\"pip\" id='pip" + spanId + "'>" +
+                                          "<img id=\"Image" + (spanId) + "\" class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + files[i - 1].name + "\"/>" +
+                                          "<br/><span  class=\"remove\" onClick='UpdateImageRemove(this.id);' id='" + spanId + "' >Remove</span>" +
+                                          "</span>").insertAfter("#VehicleDocs");
+                                    });
+                                    fileReader.readAsDataURL(files[i]);
+                                }
+                            }
+                            else {
+                                alert('You can upload 1 image only!');
+                                return false;
+                            }
+                        }
+                    }
+                    else {
+
+                        imageCount = imageCount - filesLength + 1;
+                        alert('You can upload 1 image only!');
+                        return false;
+                    }
+
+                });
+
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                    filesLength = files.length;
+                    imageCount = imageCount + filesLength - 1;
+                    var file_size = $('#files')[0].files[0].size;
+                    if (imageCount < 2) {
+                        //extension check
+                        var ext = $('#files').val().split('.').pop().toLowerCase();
+                        //if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                        //    alert('Invalid File Type! Please upload an image file only.');
+                        //}
+                        // else 
+                        if (file_size > 300000) {
+                            alert("File size greater than 100Kb is not allowed");
+                        }
+                        else {
+                            imageCount = imageCount - filesLength + 1;
+                            //alert(filesLength)
+                            if (filesLength < 2) {
+                                for (var i = 0; i < filesLength; i++) {
+                                    imageCount = imageCount + 1;
+                                    f.push(files[i]);
+                                    var fileReader = new FileReader();
+                                    fileReader.onload = (function (e) {
+                                        var file = e.target;
+                                        $("<span class=\"pip\" id='pip" + spanId + "'>" +
+                                          "<img id=\"Image" + (spanId) + "\" class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + files[i - 1].name + "\"/>" +
+                                          "<br/><span  class=\"remove\" onClick='UpdateImageRemove(this.id);' id='" + spanId + "' >Remove</span>" +
+                                          "</span>").insertAfter("#files");
+                                    });
+                                    fileReader.readAsDataURL(files[i]);
+                                }
+                            }
+                            else {
+                                alert('You can upload 1 image only!');
+                                return false;
+                            }
+                        }
+                    }
+                    else {
+
+                        imageCount = imageCount - filesLength + 1;
+                        alert('You can upload 1 image only!');
+                        return false;
+                    }
+
+                });
+
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+
+
+
+
+
+        });
+
+
+
+
+
+
+        $("#repairBtnSubmit").click(function () {
+            
+            UploadRepairImageDocuments();
+        }
+        );
+        function UploadRepairImageDocuments() {
+            
+
+            var imagesPath = '';
+            var imagesFileName = '';
+            var files = $("#VehicleDocs").get(0).files;
+            var data = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                data.append(files[i].name, files[i]);
+            }
+            if (files.length > 0) {
+
+                $.ajax({
+                    url: "/Fms/UploadMyFiles",
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    dataType: "json",
+                    success: function (result) {
+                        
+                        var ImagePathList = "";
+                        var ImageNames = "";
+                        var i = 0;
+                        $.each(result, function (key, value) {
+
+                            var img = "../../" + value.fullPath + ',';//+ "\\" + value.Name + ',';
+                            ImagePathList += img;
+                            ImageNames += value.Name + ',';
+
+                        });
+                        //already have images list
+                        var ExisitingImageList = $("#ImagePath").val();
+                        $("#ImagePath").val(ImagePathList);
+                        $("#ImageFileName").val(ImageNames);
+                        //     return true;
+                    },
+                    error: function (er) {
+                        alert("Unable to upload image!!!")
+                        //      console.log(er);
+
+                    }
+                }).done(function () {
+                    SaveVehicleData();
+                });
+            }
+            else {
+                SaveVehicleData();
+            }
+        }
+
+
+        function SaveVehicleData() {
+
+
+
+            if (confirm('Do you want to submit the form?')) {
+                
+
+                var ImagePath = $("#ImagePath").val();
+                var remarks = $("#VehicleRemarks").val();
+                var DocName = $("#ImageFileName").val();
+                var device = $("#bbid").val();
+
+                var ApiUrl = apiBase.apiurl + "FmsAPI/FileUploadControl?remarks=" + remarks + "&bbid=" + device + "&DocName=" + DocName + "&Docpath=" + ImagePath;
+                $.post(ApiUrl, function (result) {
+                    if (result > 0) {
+                        
+
+
+                        toastr.success("File updated successfully!");
+                        imageCount = imageCount - 1;
+                    }
+                    else {
+                        toastr.error("File is not uploaded!");
+                    }
+                });
+            }
+        }
+    </script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <form id="FileUploadForm" method="post">
+        <input type="hidden" id="bbid" value= '@ViewBag.bbid' />
+        <div class="row-fluid">
+            <div class="col-md-12">
+
+                <div class="form-group padded col-md-4">
+                    Remarks  
+                </div>
+                <div class="form-group padded col-md-8">
+                    <textarea rows="10" cols="100" id="VehicleRemarks" name="Remarks" style="height:65px"></textarea>
+                </div>
+
+
+            </div>
+
+
+            <div class="col-md-12">
+
+
+                <div class="form-group padded col-md-4">
+                    Upload Documents       <input type="text" id="TopXServicesPerformedIds1" name="TopXServicesPerformedIds1" class="hidden">
+                        <input type="button" value="submit" id="repairBtnSubmit" class="btn btn-green pull-left">
+                </div>
+                <div class="form-group padded col-md-8">
+
+                    @Html.Hidden("ImageFileName")
+                    @Html.Hidden("ImagePath")
+                    <input type="button" value="Choose File" onclick="document.getElementById('VehicleDocs').click();" /><br />
+                    <input type="file" id="VehicleDocs" name="VehicleDocs[]" style="display: none;" />
+                    <br />
+                    <div id="RepairBundleDetails">
+                    </div>
+
+                    <span class="label label-info">Only 1 File can be uploaded and of size upto 300 Kb only</span>
+                </div>
+
+            </div>
+
+   
+        </div>
+     
+    </form>
+</body>
+</html>
+<script src="~/Scripts/app/_layoutCustId.js"></script>
+<script src="~/Content/js/APIURL.js"></script>
+

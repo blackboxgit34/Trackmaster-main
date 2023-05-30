@@ -1,0 +1,494 @@
+﻿@{
+    Layout = null; 
+}
+<!DOCTYPE html>
+<html class="k-ff k-ff30" lang="en" ng-app="blackbox">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://trackmaster.in/images/favicon.ico">
+    <link href="~/content/css/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="~/content/css/font-awesome.css" rel="stylesheet">
+    <link href="~/content/css/stylesad15.css" rel="stylesheet">
+    <link href="~/content/css/angucomplete-alt.css" rel="stylesheet">
+    <link href="~/content/css/toastr.css" rel="stylesheet">
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.powertip.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+      <!--for confiramtion (Alertify)-->
+    <link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+    <link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+
+    <link href="~/Content/CustomCSS.css" rel="stylesheet" />
+
+
+        @* Code for GOOGLE ANALYTICS *@
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-93165722-1', 'auto');
+        ga('send', 'pageview');
+
+</script>
+        @* END Code for GOOGLE ANALYTICS *@
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="~/content/css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="~/content/Site.css" rel="stylesheet" />
+    @RenderSection("css", false)
+    <script src="@Url.Content("~/scripts/jquery-3.1.1.min.js")?v=0.00.000"></script>
+    <link href="~/Content/css/daterangepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+  <style>
+
+             .Subuser {
+        background-color:#99A3A4 !important;
+    }
+        .bgimg {
+    background-image: url('../Trackmaster_files/custCare.jpg');
+     background-size: 548px 138px;
+    background-repeat: no-repeat;
+    width:600px!important;
+}
+   
+              .btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+  </style>
+</head>
+<body onload="display_ct();" ng-controller="rootCtrl">
+      <div id="divNavbar" class="hidden">
+        @Html.Partial("_Navbar")
+    </div>
+    <div id="divCustomMenu" class="hidden">
+        @Html.Partial("Custom_Navbar")
+    </div>
+ 
+    <div class="container-fluid" style="background: #fff; padding: 0 10px;">
+        <div class="row" style="padding: 11px 0px 0px 26px;">
+            <div class="col-md-8">
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary btn-circle  pull-left" style="margin-top: -7px; margin-bottom: 4px;" onclick="history.go(-1); return true;"><i class="fa fa-arrow-left"></i></button>
+                </div>
+                <div class="col-md-1">
+                    <div style="display: none;" id="btnAdmin">
+                        <a onclick="backToAdmin();" class="btn btn-xs btn-success" style="margin-top: -7px;"><i class="fa fa-arrow-left"></i>&nbsp;Admin</a>
+                        <!-- <img src="~/content/Trackmaster_files/logo-2x.png" style="width:150px;" class="TopStrip">-->
+                    </div>
+                </div>
+                <div class="col-md-3 col-md-offset-1">
+                    <div style="display: none;" id="divDdlGroupUser">
+                        <select id="ddlGroupUser">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="pull-right text-muted">Welcome: {{loginName}}</span>
+                    <span class="pull-right" style="padding-right: 23px;">@*New Site HelpLine:<img src="~/Content/image/WhatsAppIcon.png"   style="height: 20px;" /> +91-7082015501*@  Customer Support :&nbsp;&nbsp;<button type="button" id="btnContactDetails" class="btn btn-xs btn-info btn-circle  pull-right" style="margin-top: -7px; margin-bottom: 4px; "><i class="fa fa-phone" ></i></button> @*<a href="http://vts.trackmaster.in/" target="_blank">&nbsp&nbsp;Old Version &nbsp;&nbsp;</a>*@</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-4">
+                  <a href="" id="whatsNew"> What's New <img src="~/Content/image/newFeat.png" style="height: 20px;" /></a>
+                </div>
+                <div class="col-md-7">
+                    <span class="pull-right">Disable Web Alerts &nbsp;<input type="checkbox" id="chkWebAlert" /></span>&nbsp;
+                </div>
+               @* <div class="col-md-1">
+                    <span class="pull-right">
+                        <button type="button" id="btnContactDetails" class="btn btn-xs btn-info btn-circle  pull-right" style="margin-top: -7px; margin-bottom: 4px;"><i class="fa fa-phone"></i></button>
+                    </span>
+
+                </div>*@
+                
+            </div>
+        </div>
+        @*<div class="row" style="padding: 11px 0px 0px 26px;">
+           
+            <div class="col-md-4 " style="border:solid 1px red">
+             
+                
+                <div class="col-md-4" style="border:solid 1px red">
+                 
+                </div>
+            </div>
+            
+        </div>*@
+    </div>
+      
+    <div class="main_container" id="tables_page">
+    <div id="divLoader" class="hidden "></div>
+        @*style="padding-bottom: 9%;"*@
+        <div class="container-fluid" >
+            @RenderBody()
+        </div>
+    </div>
+     <!--OverSpeed Alert-->
+        @Html.Partial("_OverspeedAlert");
+    <script src="~/Content/DataTable/jquery.dataTables.min.js"></script>
+    <script src="@Url.Content("~/scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/scripts/angular.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-cookies.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-route.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-base64.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/ng-file-upload-all.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-validator.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angucomplete-alt.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/app/app.js")?v=0.00.008"></script>
+    <script src="@Url.Content("~/app/modules/common.core.js")?v=0.00.006"></script>
+    <script src="@Url.Content("~/app/modules/common.ui.js")?v=0.00.002"></script>
+    <script src="@Url.Content("~/app/rootCtrl.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/apiService.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/notificationService.js")"></script>
+    <script src="@Url.Content("~/app/services/membershipService.js")?v=1"></script>
+    <script type="text/javascript" src="~/content/js/bootstrap.min.js"></script>
+
+    <script src="@Url.Content("~/Content/js/jquery.blockUI.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script src="@Url.Content("~/Content/js/jquery.powertip.min.js")"></script>
+        <!--For Confirmation (Alertify)-->
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <!-- /row-fluid -->
+    <script type="text/javascript">
+        
+        //var apiBase;
+        //if ($custid > 13000) {
+        //    apiBase = {
+        //        //for live
+        //        // apiurl: 'http://112.196.27.102:97/api/',
+        //        //for local
+        //        apiurl: 'http://localhost:3970/api/',
+        //    };
+        //}
+        //else {
+        //    apiBase = {
+        //        //for live
+        //        // apiurl: 'http://112.196.27.102:89/api/',
+        //        //for local
+        //        apiurl: 'http://localhost:3970/api/',
+        //    };
+        //}
+
+      
+        function setDate() {
+            var d = new Date();
+            //var d = new Date(),
+            minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+            hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+            ampm = d.getHours() >= 12 ? 'pm' : 'am',
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+          //  document.getElementById("CurrDate").innerHTML = s;
+        }
+
+        function display_ct() {
+            var strcount
+            setDate()
+            tt = display_c();
+        }
+
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+        //to remove custom temlate when click to admin button
+        function backToAdmin() {
+            localStorage.removeItem("customMenuList");
+            window.location.href = "@Url.Action("staff","admin")";
+        }
+        
+    </script>
+    <script type="text/javascript">
+        $.holdReady(true);
+        $.getScript("@Url.Content("/Scripts/app/_mapLayoutCustId.js")", function (data) {
+            $.holdReady(false);
+        });
+
+    </script>
+      
+     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    @RenderSection("scripts", false)
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+  <script>
+
+      //for web alerts
+      $(function () {
+
+       
+          $('[data-toggle="tooltip"]').tooltip();
+          var reportName = document.location.pathname.match(/[^\/]+$/)[0];
+          var url = apiBase.apiurl + "adminapi/CheckForAdOnReports";
+          $.ajax({
+              url: url,
+              dataType: "json",
+              type: "GET",
+              contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+              data: { custid: $custid, reportName: reportName },
+              async: false,
+              success: function (data) {
+                  if (data.length == 0) {
+                      window.location.href = "../../home/FeatureDisable";
+                  }
+              },
+              error: function (err) {
+                  toastr.warning('something went wrong!');
+              }
+
+          });
+      
+          $.get(apiBase.apiurl + 'AdminAPI/GetWebAlert', { custid: $custid }, function (data) {
+              $('#chkWebAlert').prop('checked', data);
+          });
+
+          $("#btnContactDetails").click(function () {
+              
+              debugger;
+              $.ajax({
+                  dataType: "json",
+                  type: "GET",
+                  contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                  url: apiBase.apiurl + "CommonApi/GetHelpLineNumber",
+                  data: { custId: $custid },
+                  success: function (data) {
+                      //alertify.confirm("(<i class='fa fa-phone'></i>)Service Department:<b>" + data.Service + "</b></br>(<i class='fa fa-phone'></i>)marketing Officer:<b>" + data.Marketing + "</b></br>(<i class='fa fa-phone'></i>)Collection Officer: <b>" + data.Collection + "</b></br>", function (e) {
+                      //    if (e) {
+                      //     //   ajaxRespOnChkboxEvt(bbid, eventType, alertType, auxIP, statusFlag, $custid, vehicleId)
+                      //        return false;
+                      //    } else {
+                      //        alertify.error("You've clicked Cancel");
+                      //        return false;
+                      //    }
+                      //});
+
+
+
+                      alertify.confirm(" <div class='bgimg'><b>&nbsp;Hello, we are here to help you.</b><br>&nbsp;Customer Support: <b> " + data.Servicename + " </b>(<b><i class='fa fa-phone' style='color:green;'></i></b>) <b> " + data.Service + " </b></br>&nbsp;For Sale: <b> " + data.Marketname + " </b>(<i class='fa fa-phone' style='color:green;'></i>)<b> " + data.Marketing + " </b></br>&nbsp;To Know Your Account Details:  <b>  " + data.Collectioname + " </b>(<i class='fa fa-phone' style='color:green;'></i>)<b>  " + data.Collection + " </b></br><i class='fa fa-gh'></i> <b>If you feel unattended by our Team Executives feel Free to <br>&nbsp;share your FEEDBACK at 9779903124 </b></br></div>", function () { }
+                          , function () { });
+                      //Run
+                      //Overloads
+
+                      //  toastr.success("(<i class='fa fa-phone'></i>)Service Department:<b>" + data.Service + "</b></br>(<i class='fa fa-phone'></i>)marketing Officer:<b>" + data.Marketing + "</b></br>(<i class='fa fa-phone'></i>)Collection Officer: <b>" + data.Collection + "</b></br>");
+                  },
+                  error: function (error) {
+                      toastr.error("something went wrong!");
+                  }
+              });
+
+
+
+
+              //setTimeout(function () {
+              //    $("#alertify-cancel").css("visibility", "hidden");
+              //}, 10);
+
+
+
+
+              setTimeout(function () { $("#alertify-cancel").css("visibility", "hidden"); $("#alertify-ok").text("Close"); }, 500);
+          });
+
+
+
+      });
+
+      $('#chkWebAlert').change(function () {
+          var check = $(this).prop('checked');
+          $.ajax({
+              dataType: "json",
+              type: "GET",
+              contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+              url: apiBase.apiurl + "AdminAPI/ChangeWebAlert",
+              data: { custid: $custid, status: check },
+              success: function (data) {
+                  toastr.success("Successfully Updated");
+              },
+              error: function (error) {
+                  toastr.error("something went wrong!");
+              }
+          });
+      });
+
+
+      window.submitPassword = function () {
+          var custId = $custid;
+          var CurrentPassword = $("#CurrentPassword").val();
+
+          var NewPassword = $("#txtNewPassword").val();
+          var txtCnfrmNewPwd = $("#txtCnfrmNewPwd").val();
+          if (NewPassword == txtCnfrmNewPwd) {
+              //     var form= $("#formChangePassword").serialize();
+              $.ajax({
+                  dataType: "json",
+                  type: "GET",
+                  contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                  url: apiBase.apiurl + "AdminAPI/ChangePassword",
+                  data: { custId: custId, CurrentPassword: CurrentPassword, NewPassword: NewPassword },
+                  success: function (data) {
+                      toastr.success("Password Updated");
+                      setTimeout(function () {
+                          location.reload(true);
+                      }, 2000);
+
+                  },
+                  error: function (error) {
+                      toastr.error("something went wrong!");
+                  }
+              });
+          }
+          else {
+              toastr.error("something went wrong!");
+          }
+      }
+
+      var currentPage = location.pathname.split('/').slice(-1)[0];
+      if (currentPage == "admindashboard") {
+          $("#layoutFooter").addClass("hidden");
+      }
+      else {
+          $("#layoutFooter").removeClass("hidden");
+
+      }
+
+
+      window.btnChangePassword = function () {
+          //$.ajax()
+          $.get('@Url.Action("_changePassword", "Settings")', function (data) {
+                $('#modalInnerContain').html(data);
+                $('#modalOuterDiv').modal('show');
+            });
+        }
+
+
+
+        window.btnTripSettings = function () {
+            $.get('../Settings/_UpdateSettings', function (data) {
+                $('#addAmountContainer').html(data);
+                $('#addUserAmountContainer').modal('show');
+            });
+        }
+
+
+
+        window.btnAdminLogin = function () {
+            $.get('@Url.Action("_adminLogin", "Settings")', function (data) {
+                $('#modalInnerContain').html(data);
+                $('#modalOuterDiv').modal('show');
+            });
+        }
+
+
+        window.submitAdmLgn = function () {
+            var userName = $("#txtUserName").val();
+            var password = $("#txtPassword").val();
+
+            if (userName && password) {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "AdminAPI/AdminLogin",
+                    data: { userName: userName, password: password },
+                    success: function (data) {
+                        toastr.success("successfully Logged In To Admin acount");
+                        setTimeout(function () {
+                            window.location.href = "@Url.Action("Profile", "Settings")";
+                        }, 2000);
+
+                    },
+                    error: function (error) {
+                        toastr.error("something went wrong!");
+                    }
+                });
+            }
+            else {
+                toastr.error("Please provide UserName and Password!");
+                return false;
+            }
+        };
+
+
+      $("#whatsNew").click(function () {
+          $("#divWhatsNew").dialog({
+              autoOpen: true,
+              position: { my: "center", at: "200", of: window },
+              width: 750,
+              height: 500,
+              resizable: true,
+              title: "What's New",
+              modal: true,
+              open: function () {
+                  $(".ui-dialog-titlebar-close").addClass("hidden");
+
+                  $(this).html("Take a look at the new and innovative things can you look forward to on the new website -</br>" +
+"* Your Smart Dashboard that offers statistical analysis as well as industry-specific information. </br>" +
+"* New features in the Route Playback section. </br>" +
+"* Huge improvement in LIVE Status page </br>" +
+"* New & improved GeoFencing</br>" +
+"* Forget 4-eye map; now we bring you 6-eye map. </br>" +
+"* Enjoy the Print Map Option for more ease </br>" +
+"* New Desktop alerts for over speeding and panic</br>" +
+"* All new reports of Drivers' Performance & Driver Behaviour that will give you a glimpse of his overspeeding, acceleration and harsh breaking patterns. </br>" +
+"* We made FMS an integrated part of Trackmaster</br>" +
+"* Multiple Vehicle Search option, New Trip Maps and so much more that is just ONE CLICK AWAY!");
+              },
+              buttons: {
+                  Close: function () {
+                      $(this).dialog("close");
+                  }
+              }
+          });
+          return false;
+
+      });
+
+
+    </script>
+
+
+    <!-- Bootstrap Edit Ticket Modals With Forms -->
+<div class="modal fade " id="modalOuterDiv" tabindex="-1" role="dialog" aria-hidden="true"style="background: transparent; overflow-y: hidden; margin-left: -50%; width: 100%;">
+    <div class="modal-dialog" style="width: 90%">
+    <div id="modalInnerContain"></div>
+        </div>
+</div>
+
+    <!--what's new-->
+    <div id="divWhatsNew" title="Basic dialog">
+    </div>
+</body>
+</html>

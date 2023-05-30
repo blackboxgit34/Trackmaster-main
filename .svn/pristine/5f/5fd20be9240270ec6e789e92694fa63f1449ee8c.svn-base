@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "GetBoxInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+
+<div class="row-fluid body">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file"></i>
+                <h5>Get Box Information</h5>
+            </div>
+        </div>
+        <form onclick="fg();">
+        <div class="w3-container city w3-animate-zoom">
+            <div class="row-fluid body">
+                <div class="widget-body">
+                    <!-- Main window -->
+                    <div class="main_container" id="tables_page">
+                        <div class="row-fluid">
+                            <div class="row-fluid">
+                                <div id="alertss" class="widget span12">
+                                    <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                        <div id="DivVehcleCounter" style="padding: 15px;">
+                                            <div class="box-content padded">
+                                                <table id="dtGetVehInfo" class="table table-bordered" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vehicle No
+                                                            </th>
+                                                            <th>BBID
+                                                            </th>
+                                                           @* <th>Vehicle Reg. No.</th>*@
+                                                           @*<th>Driver Name
+                                                            </th>
+                                                            <th>Driver Mobile Number
+                                                            </th>*@
+                                                              @*<th>Driver License No.
+                                                            </th>*@
+                                                            <th>Vehicle Order</th>
+                                                            <th>Alert Mobile No.
+                                                            </th>
+                                                            <th>Install. Date</th>
+                                                            <th>Vehicle Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </form>
+    </div>
+</div>
+<div id="PasswordDialog" title="Basic dialog">
+</div>
+@section scripts{
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+      <script type="text/javascript" src="@Url.Content("~/scripts/app/Security.js?")"@DateTime.Now.Ticks></script>
+    <script src="~/Scripts/app/getBoxInfo.js"></script>
+    }

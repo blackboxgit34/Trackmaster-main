@@ -1,0 +1,196 @@
+﻿<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Message</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div id="Fade" class="w3-container city w3-animate-zoom">
+                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div id="DivVehcleCounter">
+                                <div class="box-content padded">
+                                    <div class="box-content padded">
+                                        <form data-toggle="validator" role="form">
+                                            <div class="col-md-4">
+                                                <div class="form-group ">
+                                                    <label for="inputName" class="control-label">Select Driver Name</label>
+                                                    <select class="form-control" id="ddlDriverName" multiple>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group ">
+                                                   
+                                                    <label for="inputName" class="control-label" onkeypress="return isNumber(event)">Mobile Number <span title="Please insert comma(,) after every mobile number in mobile number box." class="pull-right badge badge-default"><i class=" fa fa-info-circle"></i></span></label>
+                                                    <input type="text" placeholder="If not in list, please enter mobile number here." id="txtMobileNumber" style="height: 3.5em;" required />
+
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-md-12">
+                                                <div class="form-group ">
+                                                    <label for="inputName" class="control-label">Message</label>
+                                                    <textarea rows="4" maxlength="128" cols="50" id="txtMessage" name="comment" style="height: initial;"></textarea>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <button type="button" onclick="submitRequest();" class="btn btn-green"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/APIURL.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $(".form-control").select2({
+            //  placeholder: "select Vehicles.",
+        });
+        var baseurl = apiBase.apiurl;
+       // var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + 'CommonApi/GetDriverWithMobileNumber?custid=' + $custid;
+        $.getJSON(url, function (data) {
+            
+            $('#ddlDriverName').append($('<option></option>').val(0).html("All Drivers"));
+            $.each(data, function (i, item) {
+                $('#ddlDriverName').append($('<option></option>').val(item.MobileNo).html(item.DriverName));
+            });
+        });
+    });
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    $(function () {
+        $("#ddlDriverName").change(function () {
+            if ($("#ddlDriverName").val() == "0") {
+                $("#txtMobileNumber").attr("disabled", "disabled");
+            }
+            else {
+                $("#txtMobileNumber").removeAttr('disabled');
+            }
+        });
+    });
+
+
+    function submitRequest() {
+        var baseurl = apiBase.apiurl;
+        var url = baseurl + 'SmsControlAPI/GetCustomerSmsDetail';
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: url,
+            data: { custid: $custid },
+            success: function (data) {
+                //data[0].TotalSMS
+                //data[0].consumedSms
+                if (data[0].remainingsms > 0) {
+                    alertify.confirm("Currently Your SMS balance is :<b> " + data[0].remainingsms + "</b>. Do you want to proceed?", function (e) {
+                        if (e) {
+                            ajaxSendSMS();
+                            return true;
+                        } else {
+                            alertify.error("You've clicked Cancel");
+                            return false;
+                        }
+                    });
+                }
+                else {
+                    toastr.warning("Message Limit overexceeded. Please recharge your sms pack. <a href='../smsportal/AddSmsForCustomer' target='_blank' style='color:blue'>Click here to buy</a>");
+                }
+            }
+        });
+    };
+
+    function ajaxSendSMS() {
+        
+        var mobileNumber = $("#ddlDriverName").val();
+        var mobileNumberBox = $("#txtMobileNumber").val();
+        if ($("#ddlDriverName").val() == "0") {
+
+        }
+        else {
+            if (mobileNumber != "" & mobileNumber != null) {
+
+                if (mobileNumberBox != "" & mobileNumberBox != null) {
+
+                    mobileNumber = (mobileNumber + "," + mobileNumberBox);
+                }
+            }
+            else {
+                if (mobileNumberBox != "" & mobileNumberBox != null) {
+                    mobileNumber = mobileNumberBox;
+                }
+            }
+        }
+       
+         
+       
+       
+        //mobileNumber = mobileNumber.concat(',' + mobileNumberBox)
+        if (mobileNumber) {
+           
+            var message = $("#txtMessage").val();
+            if (message != "" & message != null) {
+                if (message.length > 128) {
+                    toastr.warning("Message limit is 128 character. Limit overexceeded");
+                    return false;
+                }
+
+                $.ajax({
+                    dataType: "json",
+                    type: "Get",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "CommonApi/SendSMS",
+                    //url: "http://localhost:3970/api/CommonApi/SendSMS",
+                     data: { mobileNumber: mobileNumber, message: message, custId: $custid },
+                    success: function (data) {
+                        
+                        if (data == "success") {
+                            toastr.success("SMS successfully send to destination.");
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 3000);
+                        }
+                        else {
+                            toastr.error(data);
+                        }
+
+                    },
+                    error: function (error) {
+                        
+                        toastr.error(data);
+                    }
+                });
+            }
+            else {
+                toastr.warning("Please Enter Message!");
+            }
+        }
+        else {
+            toastr.warning("Please Insert mobile number or select driver from list!");
+        }
+
+    }
+
+</script>

@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "Battery Level Graph";
+}
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+    <style>
+        #myChart {
+        height: 100%;
+        width: 100%;
+            min-height: 150px;
+        }
+
+
+
+    .button {
+        border: none;
+        color: white;
+        padding: 0px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 100px !important;
+    }
+
+    .button1 {
+        background-color: #a6a6a6; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        background-color: #8e9d13; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+
+    .button1:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+
+
+    .blockPage {
+        border: none !important;
+    }
+
+    .google-visualization-tooltip {
+        width: 190px !important;
+        border: none !important;
+        border-radius: 21px !important;
+        background: rgba(192,192,192,0.7);
+        position: absolute !important;
+        box-shadow: 7px 7px 5px 0px rgba(192,192,192,0.7) !important;
+        background: -moz-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+        background: -webkit-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+        background: -o-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+        background: -ms-linear-gradient(30deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+        background: linear-gradient(120deg, rgba(192,192,192,0.7) 30%, rgba(192,192,192,0.7) 70%) !important;
+        font-size: 10px !important;
+        font-weight: normal !important;
+    }
+
+
+    google-visualization-tooltip-item span:nth-child(2) {
+        display: inline-block;
+        width: 150px !important;
+        text-align: right !important;
+    }
+
+    .checkbox-wrapper {
+        position: relative;
+        top: -1px;
+    }
+    </style>
+
+    <div class="row-fluid">
+        <div class="widget-body ">
+            <div class="main_container" id="tables_page">
+
+                @Html.Action("_reportFilterWithFuelList", "Fuel", new { reportTitle = @ViewBag.Title })
+                <br />
+                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                            <div id="alertss" class="widget span12">
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="prindiv">
+                                        <div class="col-md-12" id="txtvehicle" style="visibility:hidden;display:none;">
+                                            <div class="col-md-3">
+                                                <img src="https://trackmaster.in/images/blackbox-logo-2.png" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span> <p>Vehicle No: <b id="txtname"></b> </p>  </span>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <span> <p>Report Date: <b id="txtdate"></b> </p>  </span>
+                                            </div>
+
+
+                                        </div>
+                                        <div id="DivVehcleCounter" style="align-items:center;">
+
+                                            @*@Url.Action("fueltheftreport", "customreport")*@
+
+
+
+
+                                            <div class="col-md-12" style="text-align: center;">
+
+                                                <div id="chartdiv" style="width: 100px; height: 400px;">
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row-fluid" id="alertMessage" style="margin-bottom: 12px; margin-top: 5px;">
+        <div class="widget-body" style="border: 0">
+            <div class="row-fluid">
+                <div class="widget span12">
+                    <div class="widget-body clearfix" style="overflow-x: auto">
+                        <div id="ReportTotal">
+                            <div class="box">
+                                <div class="box-content padded" style="background: white;">
+                                    <form class="row-fluid">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <h4 style="color: orangered">DISCLAIMER</h4>
+                                            </div>
+                                            <div class="col-md-9">We are one of the Industry who provides best solution for Fuel Monitoring with  approx 99% accuracy in  fuel .</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+                                                @section scripts{
+
+
+        <script>
+
+
+
+
+        $(".select2").select2();
+
+</script>
+    <script src="~/Scripts/app/common.js"></script>
+    
+    <script src="~/Scripts/app/batterygraph.js"@DateTime.Now.Ticks></script>
+}

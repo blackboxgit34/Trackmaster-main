@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "EmployeeRFIDReport";
+}
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilter","Report", new { reportTitle = "Employee RFID Report" })
+
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rf Tag Id
+                                                    </th>
+                                                    <th>User Name
+                                                    </th>
+                                                    <th>First Name
+                                                    </th>
+                                                    <th>Data Date
+                                                    </th>
+                                                    <th>Location
+                                                    </th>
+                                                    
+                                                    @*<th>more</th>*@
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+
+@section scripts{
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/EmployeeRfidReport.js?")"@DateTime.Now.Ticks></script>
+}

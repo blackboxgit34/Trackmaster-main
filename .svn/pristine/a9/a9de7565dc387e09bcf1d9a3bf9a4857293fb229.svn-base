@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "View-Assigned Route/Trip";
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+}
+
+       <div class="row-fluid" style="margin-bottom: 12px;">
+                <div class="widget-body" style="border: 0">
+                          <div class="widget-header">
+                                <i class="fa fa-map"></i>
+                                <h5 id="statusText">View-Assigned Route/Trip</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div class="row-fluid">
+  
+            <div class="box_a_content cnt_a">
+               
+                <div class="tabbable tabbable-bordered" >
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tb1_a">
+                            <div class="box_a_content">
+                                <div style="padding: 0;">
+                                    <div class="tab_container">
+                                        <div id="tab1" class="tab_content">
+                                            <div style="clear: both;">
+                                            </div>
+                                                <iframe id="workarea" name="workarea" src="../../HTML/RouteTrack.htm" height="600" width="100%"   frameborder="0" scrolling="no"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height: 5px; background-color: #F2F0F1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                            </div>
+                        </div>
+                    </div>

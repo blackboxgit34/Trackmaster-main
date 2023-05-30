@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Driver Performance";
+}
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+@*<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="~/Content/Scripts/donut-pie-chart.js"></script>*@
+
+<div class="row-fluid body">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file"></i>
+                <h5>Driver Performance</h5>
+            </div>
+            <div class="widget-body">
+              @Html.Action("_AdminReportFilter","Admin", new { reportTitle = "Driver Performance", report = "" })
+
+        </div>
+    </div>
+    <div class="widget-body">
+    <div id="Fade" class="w3-container city w3-animate-zoom" >
+                                                                        <div class="row-fluid body">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+          
+            <br />
+                                                                          <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+               @* <div class="widget-body" style="border: 0">*@
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    @*<th>BBID
+                                                    </th>*@
+                                                    <th>Vehicle Name
+                                                    </th>
+                                                    <th>    Speed Range
+                                                    </th>
+                                                     <th>
+                                                     Rating in (%)
+                                                    </th>
+                                                    <th>Rating in stars</th>
+                                                    <th>Action</th>
+                                                    <th class="hidden">BBID</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="popup" style=" position:absolute;display:none">
+                                    
+            <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-map"></i>
+                            <h5>Average Speed Graph</h5>
+
+                            <div class="pull-right">
+                                <input type="button" id="GraphClose" value="Close" class="btn btn-primary btn-mini sixEyeMapHeaderButton"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                  <div style="float: left; margin-top: -1.5%;" class="exp"  id="graphDiv"></div>
+           </div>
+                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            </div>
+        </div>
+                                                                    </div>
+        </div>
+        </div>
+
+        </div>
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/driverPerformance.js"></script>
+}

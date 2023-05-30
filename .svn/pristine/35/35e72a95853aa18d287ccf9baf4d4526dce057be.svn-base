@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Vehicle Document Renewal Reminders";
+    ViewBag.Report = "renewalreminder";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.6/select2-bootstrap.css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
+<script src="~/Content/select2/select2.min.js"></script>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title </h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                    <input type="button" value="Add" id="BtnAdd" style="margin-right: 10px;" class="btn btn-green" onclick="window.location.href = '../FMS/AddRenewalReminder'">
+                                    <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div>Statistics (@System.DateTime.Today.ToString("MMMM"))</div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-3"></div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/totalDocumentRenewalReminders.png" />
+                                                        <strong>
+                                                            <span class="count" id="reminders" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Reminders</span>
+                                                </div>
+                                                <div class="form-group col-sm-2 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/overdueDocumentReminders.png" />
+                                                        <strong>
+                                                            <span class="count" id="overdueReminders" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Over Due</span>
+                                                </div>
+                                                <div class="form-group col-sm-2 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/dueSoonDocumentReminders.png" />
+                                                        <strong>
+                                                            <span class="count" id="dueSoonReminders" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Due Soon</span>
+                                                </div>
+                                                <div class="form-group col-sm-2 status">
+                                                    <div class="top-info">
+                                                        
+                                                            <img src="~/Trackmaster_files/FMSIcons/okDocumentReminders.png" />
+                                                        <strong>
+                                                            <span class="count" id="okReminders" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>OK</span>
+                                                </div>
+                                                <div class="col-sm-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row">
+                                            <form class="form-inline">
+                                                <div class="form-group col-sm-4" style="padding-left: 35px;">
+                                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                        &nbsp;<span></span><b class="caret"></b>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="col-md-5 form-group">
+                                                        <select id="RenewalTypeList" name="RenewalTypeList" class="form-control">
+                                                            <option value="0" selected>Select Renewal Type</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle Name
+                                                    </th>
+                                                    <th>Reminder Count
+                                                    </th>
+                                                    <th>Details
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section css{
+    <style>
+        .col-sm-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        var reportName;
+        $(document).ready(function () {
+            reportName = '@ViewBag.Report';
+            $(".js-example-basic").select2({});
+        });
+    </script>
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FMSRenewalReminder.js?")" @DateTime.Now.Ticks></script>
+}

@@ -1,0 +1,372 @@
+﻿$(".js-example-basic").select2({})
+
+$(document).ready(function () {
+    $('#FitDate').datepicker();
+    $('#AddTyrePos').hide();
+    $("input[type=radio][name=RemovedTyreStatus]").attr('disabled', true);
+
+    $('form').on('keydown', '#odometerReading', function (e) {
+        -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault()
+    });
+
+    bindVehicleList();
+
+    GetTyrePositioning();
+
+    bindData();
+});
+
+//On tyre serial no selection
+$('#TyreInvenId').on("change", function () {
+    var tfitid = $(this).val();
+    //if (tfitid == "") {
+    //    tfitid = $('#TyreInvenIdTxt').val();
+    //}
+
+    if (!tfitid)
+        tfitid = 0;
+    var url = apiBase.apiurl + "FmsApi/GetInventoryByInventId";
+    $.get(url, { custid: $custid, invenid: tfitid }, function (data) {
+        $("#Tyre_Warranty").val(data.Warranty + data.WarrantyType);
+        $.each(data, function (item, value) {
+            if (item == "Warranty" || item == "WarrantyType") { }
+            else if (item == "TypeTyre") {
+                switch (value) {
+                    case "1":
+                        value = "New";
+                        break
+                    case "2":
+                        value = "Old";
+                        break
+                    case "3":
+                        value = "Retreaded";
+                        break
+                    default:
+                        value = "NA";
+                        break
+                }
+                $("#Tyre_TypeTyre").val(value);
+            }
+            else if (item == "PurchaseDate") {
+                var purDate = moment(value).format("MM/DD/YYYY");
+                $("#Tyre_" + item).val(purDate);
+            }
+            else
+                $("#Tyre_" + item).val(value);
+        });
+    });
+});
+
+$('#AddNewTyre').on("click", function () {
+    $('#AddTyrePos').show();
+});
+
+$('#cancel').on("click", function () {
+    $('#AddTyrePos').hide();
+});
+
+$('#add').on("click", function () {
+    var posname = $('#TyrePositionName').val();
+    if (posname) {
+        var VehUrl = apiBase.apiurl + 'FmsAPI/FMSTyrePosition?position=' + posname;
+        $.post(VehUrl, function (result) {
+            if (result > 0) {
+                toastr.success("Tyre Position Added Successfuly.");
+                $('#AddTyrePos').hide();
+                GetTyrePositioning();
+            }
+            else
+                toastr.error("Failed!!!")
+        });
+    }
+    else
+        alert("Enter the position First!!")
+});
+
+function GetTyrePositioning() {
+
+    //trye position List
+    var tpUrl = apiBase.apiurl + 'FmsAPI/GetFMSTyrePosition';
+    $.get(tpUrl, function (data) {
+        $('#tblTyrePosition').html('');
+        var table = $('<table></table>').addClass('table table-striped');
+        var rowcount = 0;
+        $.each(data, function (key, value) {
+            var row = $("<td><input name='TyrePositionId'  type='radio' value='" + value.Value + "'/>" + value.Name + "</td>");
+            if (rowcount == 0) {
+                row = $("<td><input name='TyrePositionId' required='required' type='radio' value='" + value.Value + "'/>" + value.Name + "</td>");
+            }
+            rowcount++;
+            table.append(row);
+        });
+        $('#tblTyrePosition').append(table);
+    });
+    //end tyre position list
+}
+
+//get parameters from url
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+
+
+function bindData() {
+    //Fill tyre serial no list
+    var tfitid = getUrlParameter("tfit");
+    var isfit = (!tfitid) ? 0 : 1;
+    var tUrl = apiBase.apiurl + 'FmsAPI/GetFMSTyre?custid=' + $custid + '&fit=' + isfit;
+    $.get(tUrl, function (data) {
+        $('#TyreInvenId').find('option:not(:first)').remove();
+        $.each(data, function (key, value) {
+            $("#TyreInvenId").append($("<option></option>").val(value.Value).html(value.Name));
+        });
+    }).done(function () {
+        if (tfitid != null && tfitid > 0) {
+
+            $("#statusText").text("Update Tyre fitting");
+            var url = apiBase.apiurl + "FmsApi/GetTyreFittingByFittingId";
+            $.get(url, { custid: $custid, fittingid: tfitid }, function (data) {
+                $.each(data, function (item, value) {
+                    //console.log(item +' : '+value);
+                    if (item == "TyreInvenId") {
+                        $("#" + item).val(value);
+                        $('#TyreInvenId').trigger("change");
+
+                        //$("#" + item + 'Txt').val(value);
+                        //$("#" + item).addClass('hidden');
+                        //$("#" + item + 'Txt').removeClass('hidden');
+                        //$('#TyreInvenId').trigger("change");
+                    }
+                    else if (item == "RemovedTyreInvenId") {
+                        $("#" + item + 'Txt').val(value);
+                        $("#" + item).addClass('hidden');
+                        $("#" + item + 'Txt').removeClass('hidden');
+
+                    }
+                    else if (item == "RemovedTyreStatus") {
+                        $('input[name="RemovedTyreStatus"][value="' + value + '"]').prop('checked', true);
+                    }
+                    else if (item == "TyreFittingType") {
+                        $('input[name="TyreFittingType"][value="' + value + '"]').prop('checked', true);
+                        $('input[name="TyreFittingType"][value="' + value + '"]').prop('checked', true).trigger("change");
+                    }
+                    else if (item == "FitDate") {
+                        var fitDate = moment(value).format("MM/DD/YYYY");
+                        $("#" + item).val(fitDate);
+                    }
+                    else if (item == "VehicleId") {
+                        $("#" + item).select2().select2('val', value);
+                        $('#VehicleId').trigger("change");
+                    }
+                    else if (item == "FromVehicleId") {
+
+                        $("#" + item).select2().select2('val', value);
+                        $("#" + item + 'Txt').val(value);
+
+                        // $('#FromVehicleId').trigger("change");
+                        $("#" + item).addClass('hidden');
+                    }
+                    else if (item == "FromVehicleName") {
+                        $("#" + item).val(value);
+                        $("#" + item).removeClass('hidden');
+                    }
+                    else if (item == "TyrePositionId") {
+                        $("input[name=TyrePositionId][value=" + value + "]").prop('checked', true);
+                    }
+                    else
+                        $("#" + item).val(value);
+                });
+            });
+
+            $("#RemovedTyreInvenId").prop("disabled", true);
+            $("#VehicleId").prop("disabled", true);
+            $("#FromVehicleId").prop("disabled", true);
+            $("#TyreInvenId").prop("disabled", true);
+            $("input[type=radio][name=TyreFittingType]").attr('disabled', true);
+
+        }
+        else
+        {
+            var TyreInvenIdFromMain = getUrlParameter("TyreInvenId");
+            if (TyreInvenIdFromMain != null && TyreInvenIdFromMain > 0)
+            {
+                $('#TyreInvenId').val(TyreInvenIdFromMain);
+                $('#TyreInvenId').trigger("change");
+            }
+        }
+    });
+
+
+}
+
+function bindVehicleList() {
+    //Fill vehicle dropdown list
+    var VehUrl = apiBase.apiurl + 'FmsAPI/GetFmsVehicles?custid=' + $custid;
+    $.get(VehUrl, function (data) {
+        $('#VehicleId').find('option:not(:first)').remove();
+        $('#FromVehicleId').find('option:not(:first)').remove();
+        $.each(data, function (key, value) {
+            $("#VehicleId").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+            $("#FromVehicleId").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+        });
+    }).done(function () {
+        var vid = $('#vehicleIdFromMain').val();
+        if (vid != 0) {
+            $("#VehicleId").select2().select2('val', vid);
+        }
+    });
+}
+
+$('input[type=radio][name=TyreFittingType]').change(function () {
+    if (this.value == '1') {
+        //bindData();
+        $("#VehicleFrom").addClass('hidden');
+    }
+    else if (this.value == '2') {
+        var VehUrl = apiBase.apiurl + 'FmsAPI/GetFmsVehicles?custid=' + $custid;
+        $.get(VehUrl, function (data) {
+            $('#FromVehicleId').find('option:not(:first)').remove();
+            $("#FromVehicleId").val(null).trigger("change");
+            $.each(data, function (key, value) {
+                $("#FromVehicleId").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+            });
+        });
+
+        $("#VehicleFrom").removeClass('hidden');
+    }
+});
+
+
+//Add TyreFitting
+$('#AddNewTyreFitting').submit(function () {
+    var VehicleId = $("#VehicleId option:selected").val();
+    var FromVehicleId = $("#FromVehicleId option:selected").val();
+    var RemovedTyreInvenId = $("#RemovedTyreInvenId").val();
+
+    if (FromVehicleId == "") {
+        FromVehicleId = $("#FromVehicleIdTxt").val();
+    }
+
+    var radiobutton = $("input[name='TyreFittingType']:checked").val();
+    debugger;
+    if (radiobutton == '2') //Switched from other vehicle
+    {
+        if (FromVehicleId == '') {
+            alert('Please select vehicle from which tyre has been switched');
+            return false;
+        }
+        else if (RemovedTyreInvenId == '') {
+            alert('Please select vehicle from which tyre has been switched');
+            return false;
+        }
+        else if (VehicleId == FromVehicleId) {
+            alert("Vehicle from which tyre has been reused cannot be same as vehicle in which tyre is fitted.");
+            return false;
+        }
+        else {
+            saveData();
+        }
+    }
+    else if (radiobutton == '1') //From stock
+    {
+        saveData();
+    }
+    else {
+        alert('No option selected in radio button.');
+    }
+});
+
+function saveData() {
+    var VehicleName = $("#VehicleId option:selected").text();
+    var FromVehicleName = $("#FromVehicleId option:selected").text();
+    var SerialNo = $("#TyreInvenId option:selected").text();
+
+    //var tyreInventIdTxt = $("#TyreInvenIdTxt").val();
+    //if (tyreInventIdTxt)
+    //{
+    //    SerialNo = tyreInventIdTxt;
+    //}
+
+    var myform = $('#AddNewTyreFitting');
+    var disabled = myform.find(':input:disabled').removeAttr('disabled');
+    var data = $('#AddNewTyreFitting').serializeArray();
+    data.push({ name: 'Custid', value: $custid },
+              { name: 'VechileName', value: VehicleName },
+              { name: 'FromVehicleName', value: FromVehicleName },
+              { name: 'SerialNo', value: SerialNo }
+    );
+    disabled.attr('disabled', 'disabled');
+
+
+    console.log(data);
+    debugger;
+    var TFUrl = apiBase.apiurl + 'FmsAPI/AddUpdateTyreFitting';
+    $.post(TFUrl, $.param(data), function (result) {
+        if (result > 0) {
+            toastr.success("Record Entered Successfuly")
+            window.setTimeout(function () {
+                window.location.href = '/Fms/TyreFitting';
+            }, 1000);
+        }
+        else
+            toastr.error("Failed!!!")
+    });
+}
+
+
+$('#VehicleId').on("change", function () {
+    var vehicleid = $('#VehicleId').val();
+
+    if (vehicleid == '') {
+
+    }
+    else {
+        var tUrl = apiBase.apiurl + 'FmsAPI/GetFMSTyreListByVehicleId?custid=' + $custid + '&vehicleid=' + vehicleid;
+        $.get(tUrl, function (data) {
+            $('#RemovedTyreInvenId').find('option:not(:first)').remove();
+            $.each(data, function (key, value) {
+                $("#RemovedTyreInvenId").append($("<option></option>").val(value.Value).html(value.Name));
+            });
+        })
+    }
+});
+
+$('#FromVehicleId').on("change", function () {
+    var vehicleid = $('#FromVehicleId').val();
+
+    if (vehicleid == '') {
+
+    }
+    else {
+        var tUrl = apiBase.apiurl + 'FmsAPI/GetFMSTyreListByVehicleId?custid=' + $custid + '&vehicleid=' + vehicleid;
+        $.get(tUrl, function (data) {
+            $('#TyreInvenId').find('option:not(:first)').remove();
+            $.each(data, function (key, value) {
+                $("#TyreInvenId").append($("<option></option>").val(value.Value).html(value.Name));
+            });
+        })
+    }
+});
+
+
+$('#RemovedTyreInvenId').on("change", function () {
+    var RemovedTyreInvenId = $("#RemovedTyreInvenId").val();
+
+    if (RemovedTyreInvenId == "") {
+        $('input[name="RemovedTyreStatus"]').prop('checked', false);
+        $("input[type=radio][name=RemovedTyreStatus]").attr('disabled', true);
+    }
+    else {
+        $("input[type=radio][name=RemovedTyreStatus]").attr('disabled', false);
+    }
+});

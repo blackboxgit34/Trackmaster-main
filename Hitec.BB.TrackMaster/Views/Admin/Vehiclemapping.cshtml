@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Vehicle Mapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+
+<div class="row-fluid body">
+    <div class="span12">
+        <div class="box_a">
+            @*<div class="widget-header">
+                <i class="fa fa-file"></i>
+                <h5>Vehicle Mapping</h5>
+            </div>*@
+            @Html.Action("_ReportFilter", new { reportTitle = "Vehicle Mapping" })
+        </div>
+        <form>
+            <div class="w3-container city w3-animate-zoom">
+                <div class="row-fluid body">
+                    <div class="widget-body">
+                        <!-- Main window -->
+                      
+                        <div class="main_container" id="tables_page">
+                         
+                            <div class="row-fluid">
+                                <div class="row-fluid">
+                                    <div id="alertss" class="widget span12">
+                                        <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                            <div id="DivVehcleCounter" style="padding: 15px;">
+                                                <div class="box-content padded">
+                                                    <table id="dtGetVehInfo" class="table table-bordered" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    Fast Tag reader ID
+                                                                </th>
+                                                                <th>
+                                                                    Fast Tag ID
+                                                                </th>
+                                                                <th>
+                                                                    Arrived on
+                                                                </th>
+                                                                <th>
+                                                                    Assigned on
+                                                                </th>
+                                                                <th>
+                                                                    Exit on
+                                                                </th>
+                                                                <th>
+                                                                    Vehicle no
+                                                                </th>
+                                                                <th>Action</th>
+                                                                <th>Violations</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section scripts{
+    @*<script src="~/Content/Alertify/alertify.min.js"></script>*@
+
+    <script src="~/Scripts/app/common.js"></script>
+    @*<script src="~/Content/js/APIURL.js"></script>*@
+    @*<script type="text/javascript" src="@Url.Content("~/scripts/app/Security.js?")" @DateTime.Now.Ticks></script>*@
+    <script src="~/Scripts/app/Vehiclemapping.js"></script>
+}

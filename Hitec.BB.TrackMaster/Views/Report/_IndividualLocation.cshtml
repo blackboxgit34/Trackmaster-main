@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+
+    <title>&nbsp;</title>
+
+  
+
+
+    <script>
+        jQuery(function () {
+            if (!window.google || !window.google.maps) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBu4NyT_yiDqc-z09IviAzDSZDxPi2LTgg&libraries=drawing&' +
+                      'callback=initMap';
+                document.body.appendChild(script);
+            }
+            else {
+                initMap();
+            }
+        });
+    </script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        .veh_label {
+            font: 12px/16px Verdana,sans-serif;
+            font-weight: bold;
+            padding: 2px 4px 2px 4px;
+            width: auto;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <input type="hidden" id="vehname" value= '@ViewBag.vehname' />
+    <input type="hidden" id="lat" value= '@ViewBag.lat' />
+    <input type="hidden" id="longi" value= '@ViewBag.longi' />
+    <input type="hidden" id="location" value= '@ViewBag.location' />
+    <input type="hidden" id="driverName" value= '@ViewBag.driverName' />
+    <input type="hidden" id="driverNumber" value= '@ViewBag.driverNumber' />
+    <input type="hidden" id="speed" value= '@ViewBag.speed' />
+    <input type="hidden" id="dateTime" value= '@ViewBag.dateTime' />
+     <input type="hidden" id="status" value= '@ViewBag.status' />
+    <script type="text/javascript">
+        var html;
+        var newIcon;
+
+        function initMap() {
+
+            var vehname = $('#vehname').val();
+            var lat = $('#lat').val();
+
+            var longi = $('#longi').val();
+            var location = $('#location').val();
+
+            var driverName = $('#driverName').val();
+            var driverNumber = $('#driverNumber').val();
+            var speed = $('#speed').val();
+            var dateTime = $('#dateTime').val();
+            var status = $('#status').val();
+
+            status = status.substring(1, status.length);
+            if (dateTime == null || dateTime == "") {
+
+                console.log('dateTime: ' + dateTime);
+
+                if (dateTime == "") {
+                    html = "<div class='veh_label'>Vehicle Name:" + vehname + "<br/>Location: " + location + "</div>";
+                }
+                else {
+                    html = "<div class='veh_label'>Vehicle Name:" + vehname + "<br/>Driver Name: " + driverName + "<br/>Driver Number: " + driverNumber + "<br/>Speed: " + speed + "<br/>Date Time: " + dateTime + "<br/>Location: " + location + "</div>";
+                }
+                var myOptionss = {
+                    center: new google.maps.LatLng(lat, longi),
+                    zoom: 16,
+                    scrollwheel: false,
+                    navigationControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    draggable: false,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                map = new google.maps.Map(document.getElementById('map'), myOptionss);
+
+                // define lat-long for positioning Marker
+                var myLatlng = new google.maps.LatLng(lat, longi);
+
+                // call function to create Marker
+
+                //var marker = createMarker(myLatlng, location, html);
+                var marker = createMarker(myLatlng, location, html, status);
+                gmarkers.push(marker);
+            
+                html = "<div class='veh_label'>Vehicle Name:" + vehname + "<br/>Location: " + location + "</div>";
+            }
+            else {
+                html = "<div class='veh_label'>Vehicle Name:" + vehname + "<br/>Driver Name: " + driverName + "<br/>Driver Number: " + driverNumber + "<br/>Speed: " + speed + "<br/>Date Time: " + dateTime + "<br/>Location: " + location + "</div>";
+            }
+            var myOptionss = {
+                center: new google.maps.LatLng(lat, longi),
+                zoom: 16,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById('map'), myOptionss);
+
+            // define lat-long for positioning Marker
+            var myLatlng = new google.maps.LatLng(lat, longi);
+
+            // call function to create Marker
+
+            var marker = createMarker(myLatlng, location, html, status);
+            gmarkers.push(marker);
+        }
+
+        // ================ create marker ================
+        var side_bar_html = "";
+        var gmarkers = [];
+        var vehmarkers = [];
+        var vmarkers = [];
+        var htmls = [];
+        var i = 0;
+
+        // ================ This function creates marker and associates info-window with it ================
+        function createMarker(myLatlng, name, html, status) {
+            
+            //var loc = $(location).attr('hostname');
+            //var iconBase = loc;
+            //status = iconBase + status;
+            //alert(status);
+            var customIcon
+            if (status !="") {
+                 customIcon = new google.maps.MarkerImage(status);
+            }
+            else {
+                customIcon = new google.maps.MarkerImage();
+            }
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+                icon: customIcon
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: html,
+                maxWidth: 500
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+
+            vmarkers[i] = marker;
+            htmls[i] = html;
+            side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+            //if (j == 1) {
+            //    //document.getElementById('side_bar').innerHTML = side_bar_html;
+            //}
+            i++;
+            return marker;
+        }
+
+        // ================ This function picks up the click and opens the corresponding info window ================
+        var marker = new Array();
+        function myclick(i) {
+            var infowindow = new google.maps.InfoWindow({
+                content: htmls[i]
+            });
+            if (openedInfoWindow != null) openedInfoWindow.close();
+            infowindow.open(map, vmarkers[i]);
+            openedInfoWindow = infowindow;
+        }
+
+    </script>
+</body>
+</html>

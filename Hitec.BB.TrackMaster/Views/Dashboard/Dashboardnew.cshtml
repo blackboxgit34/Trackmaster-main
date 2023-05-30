@@ -1,0 +1,835 @@
+﻿@{
+    ViewBag.Title = "Dashboard 2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .canvasjs-chart-credit {
+        display: none !important;
+    }
+</style>
+<style>
+    .font {
+        font-family: emoji;
+    }
+    .lbl {
+        font-size: 14px;
+    }
+    .button {
+        border: none;
+        color: white;
+        padding: 0px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 21px;
+        margin: 8px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 100px !important;
+    }
+    #tblcust tr, td {
+        border: none !important;
+    }
+
+    .button1 {
+        background-color: #a6a6a6; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        background-color: #8e9d13; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .button1:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+    /*.column {
+        float: left;
+        width: 25%;
+        padding: 0 5px;
+    }
+
+    .row {
+        margin: 0 -5px;
+    }
+
+    
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+   
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        text-align: center;
+        background-color: #444;
+        color: white;
+    }*/
+
+    .order-card {
+        color: #fff;
+    }
+
+    .bg-c-blue {
+        background: linear-gradient(45deg,#4099ff,#73b4ff);
+    }
+
+    .bg-c-green {
+        background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+    }
+
+    .bg-c-yellow {
+        background: linear-gradient(45deg,#FFB64D,#ffcb80);
+    }
+
+    .bg-c-pink {
+        background: linear-gradient(45deg,#FF5370,#ff869a);
+    }
+
+
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+        border: none;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .card .card-block {
+            padding: 25px;
+        }
+
+    .order-card i {
+        font-size: 40px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+</style>
+
+<script src="/Trackmaster_files/amcharts.js"></script>
+<script src="/Trackmaster_files/pie.js"></script>
+<script type="text/javascript">
+    var chart = AmCharts.makeChart("chartdiv", {
+        "type": "pie",
+        "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b></span>",
+        "innerRadius": 50,
+        "minRadius": 140,
+        "labelRadius": -40,
+        "labelText": "[[title]]:[[value]]",
+        "dataProvider": [{
+            "country": "Total",
+            "litres": 10
+        }, {
+            "country": "Running",
+            "litres": 8
+        }, {
+            "country": "Parked",
+            "litres": 7
+        }, {
+            "country": "Ignition On",
+            "litres": 6
+        }, {
+            "country": "Moving",
+            "litres": 8
+        },
+         {
+             "country": "Un-reachable",
+             "litres": 9
+         }],
+        "valueField": "litres",
+        "titleField": "country"
+    });
+</script>
+
+@*<link href="~/Trackmaster_files/Dashboard.css" rel="stylesheet" />*@
+<script type="text/javascript">
+    function setDate() {
+        var d = new Date();
+        //var d = new Date(),
+        minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+        hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+        ampm = d.getHours() >= 12 ? 'pm' : 'am',
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        //return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+        var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+        document.getElementById("CurrDate").innerHTML = s;
+    }
+
+    function display_ct() {
+        var strcount
+        setDate()
+        tt = display_c();
+    }
+
+    function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout('display_ct()', refresh)
+    }
+
+</script>
+<link href="~/Content/css/driver.css" rel="stylesheet" />
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+
+
+
+<div class="main_container" id="tables_page">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="widget-body">
+              
+                <div class="main_container" id="tables_page">
+                    <br />
+
+
+
+                   
+                    <div class="row-fluid" id="divMenuContainer">
+                        <div class="widget widget-padding">
+                            <div class="widget-header" >
+                                <i class="icon-cogs"></i>
+                                <h5 id="widgetHeader">Dashboard</h5>
+                                <div class="widget-buttons">
+                                    <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-xl-3" style="width:25% !important">
+                                    <div class="card bg-c-blue order-card">
+                                        <div class="card-block">
+                                            <h4 class="m-b-20"> Trips Completed</h4>
+                                            <h2 class="text-right"><i class="fa fa-bus f-left"></i><span id="comptripcurr">0</span></h2>
+                                            <p class="m-b-0">Previous Month<span id="comptripprev" class="f-right" style="font-size:16px;">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xl-3" style="width:25% !important">
+                                    <div class="card bg-c-green order-card">
+                                        <div class="card-block">
+                                            <h4 class="m-b-20">Poi Covered</h4>
+                                            <h2 class="text-right"><i class="fa fa-map-marker f-left"></i><span id="poicovcurr">0</span></h2>
+                                            <p class="m-b-0">Previous Month<span id="poicovprev" class="f-right" style="font-size:16px;">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xl-3" style="width:25% !important">
+                                    <div class="card bg-c-yellow order-card">
+                                        <div class="card-block">
+                                            <h4 class="m-b-20">Waste Collected(Ton)</h4>
+                                            <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span id="wastecurr">0</span></h2>
+                                            <p class="m-b-0">Previous Month<span id="wasteprev" class="f-right" style="font-size:16px;">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xl-3" style="width:25% !important">
+                                    <div class="card bg-c-pink order-card">
+                                        <div class="card-block">
+                                            <h4 class="m-b-20">Poi Missed</h4>
+                                            <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span id="poimisscurr">0</span></h2>
+                                            <p class="m-b-0">Previous Month<span class="f-right" id="poimissprev" style="font-size:16px;">0</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                <div class="column">
+                                    <div class="card">
+                                        <p><i class="fa fa-user"></i></p>
+                                        <h3>11+</h3>
+                                        <p>Partners</p>
+                                    </div>
+                                </div>
+
+                                <div class="column">
+                                    <div class="card">
+                                        <p><i class="fa fa-check"></i></p>
+                                        <h3>55+</h3>
+                                        <p>Projects</p>
+                                    </div>
+                                </div>
+
+                                <div class="column">
+                                    <div class="card">
+                                        <p><i class="fa fa-smile-o"></i></p>
+                                        <h3>100+</h3>
+                                        <p>Happy Clients</p>
+                                    </div>
+                                </div>
+
+                                <div class="column">
+                                    <div class="card">
+                                        <p><i class="fa fa-coffee"></i></p>
+                                        <h3>100+</h3>
+                                        <p>Meetings</p>
+                                    </div>
+                                </div>
+                            </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--End of dynamic rendering section-->
+                    <div class="row-fluid" >
+                        <div class="widget-body" style="border: 0">
+
+                            <div class="row-fluid">
+                                <div class="widget widget-padding">
+                                    <div class="widget-header">
+                                        <i class="icon-map-marker"></i>
+                                        <h5>Vehicle On Map</h5>
+                                        <div class="widget-buttons">
+                                            <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-body" style="min-height: 333px;">
+                                        <iframe id="dashMap" src="" width="100%" height="333px" frameborder="0" style="border: 0">
+
+                                        </iframe>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+
+                        <div class="row-fluid  ">
+                           
+                            <div class="widget widget-padding col-md-4">
+                                <div class="widget-header">
+                                    <i class="icon-map-marker"></i>
+                                    <h5>Last Activity</h5>
+                                    <div class="widget-buttons">
+                                        <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                               
+                                <div class="widget-body clearfix" style="height: 350px; background: #fff; text-align: center; overflow-x: hidden; overflow-y: auto;" id="events">
+
+
+                                 
+
+
+                                </div>
+                              
+                            </div>
+
+                            <div class="widget widget-padding col-md-4">
+                                <div class="widget-header">
+                                    <i class="icon-map-marker"></i>
+                                    <h5>Trip Status</h5>
+                                    <div class="widget-buttons">
+                                        <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                               
+                                <div class="widget-body clearfix" style="height: 350px; background: #fff; text-align: center; overflow-x: hidden; overflow-y: hidden;">
+                                    <div id="container" style="width: 450px; height: 350px; margin: 0 auto">
+                                    </div>
+
+                                    @*<iframe src="" id="vehicleStatusGraph" style="width: 414px !important; height: 350px; background-color: #FFFFFF; border: aliceblue;"></iframe>*@
+
+
+                                </div>
+
+                            </div>
+                            <div class="widget widget-padding col-md-4">
+                                <div class="widget-header">
+                                    <i class="icon-map-marker"></i>
+                                    <h5>Average Time</h5>
+                                    <div class="widget-buttons">
+                                        <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                               
+                                <div class="widget-body clearfix" style="height: 150px; background: #fff; text-align: center; overflow-x: hidden; overflow-y: hidden">
+
+
+                                 
+                                        <div class="col-md-3" style="box-shadow: 0px 1px 19px #dddddd;    height:160px; width:100%;">
+                                            <div style="text-align:left;">
+                                        <h4 style="color: #867f7f">Average call time
+                                                </h4>  
+                                            </div>
+                                            <div style="text-align:left;">
+                                                <i class="fa fa-cart-plus f-left fa-5x"></i>
+                                                @*<img src="~/images/phone.PNG" />*@  
+                                            </div>
+                                           
+                                            <div style="text-align:center;">
+                                              
+                                                <span style="font-size: 20px;margin-left: -14px;position: relative; top: -21px;">
+
+                                                 
+                                                    <span style="font-size:50px;" id="avgdl">0</span>min<br />
+                                                 
+                                                    <img src="~/images/down.PNG" id="tmdown" /><span style="color:green;" id="varitm">+14.2%</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                       
+                                    
+                                  
+
+
+                                </div>
+                                <br />
+
+                                <div class="widget-body clearfix" style="height: 150px; background: #fff; text-align: center; overflow-x: hidden; overflow-y: hidden">
+
+                                 
+
+                                    <div class="col-md-3" style="box-shadow: 0px 1px 19px #dddddd;    height:160px; width:100%;">
+                                        <div style="text-align:left;">
+                                            <h4 style="color: #867f7f">
+                                                Average wait time
+                                            </h4>
+                                        </div>
+                                        <div style="text-align:left;">
+                                         
+                                            <i class="fa fa-cart-plus f-left fa-5x"></i>
+                                            @*<img src="~/images/price.png" style=" height: 40px;" />*@
+                                        </div>
+
+                                        <div style="text-align:center;">
+
+                                            <span style="font-size: 20px;margin-left: -14px;position: relative; top: -21px;">
+
+
+                                                <span style="font-size:40px;" id="avgprice">0</span>₹<br />
+                                                <img src="~/images/down.PNG" id="pricedown" /><span style="color:red;" id="variprice">-1.2%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    
+                    <br />
+                    <br />
+
+
+                    <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                        <div class="widget-header" style="text-align:center;">
+                            
+                           Vehicle Wise Details
+                            <div class="widget-buttons">
+                                <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="widget-body clearfix" style="overflow-x: auto">
+                            <div class="box" style="background: #fdfdfd;">
+                                <div class="box-content padded">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <form class="form-inline">
+                                                <div class="form-group padded">
+                                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                        <i class=" fa fa-calendar"></i>
+                                                        &nbsp;<span></span><b class="caret"></b>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="padding-left: 5px;">
+                                                    <input type="button" value="Search" id="BtnSearch" class="btn btn-green">
+                                                </div>
+                                                <div class="form-group">
+                                                    <span class="badge badge-info" data-toggle="tooltip" data-placement="left" title="Recommended Date range is between 1-7 days.Loads faster."><i class="fa fa-info-circle"></i></span>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-body" style="border: 0">
+                            <div class="row-fluid">
+                                <div class="widget span12">
+                                    <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                        <div class="row-fluid">
+
+
+                                           
+
+
+                                                          
+                                                                <div class="col-md-12">
+
+                                                                    <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>
+                                                                                    Trip Name
+                                                                                </th>
+                                                                                <th>
+                                                                                    Vehicle no
+                                                                                </th>
+                                                                                <th>
+                                                                                    Route Id
+                                                                                </th>
+
+                                                                                <th>
+                                                                                    Start DateTime
+                                                                                </th>
+                                                                                <th>
+                                                                                    End DateTime
+                                                                                </th>
+
+                                                                                <th>
+                                                                                    Distance (Km)
+                                                                                </th>
+                                                                                <th>
+                                                                                    POI Covered/Total Count/Last POI
+                                                                                </th>
+                                                                                @*<th>
+                        Details
+                    </th>*@
+                                                                            </tr>
+
+                                                                        </thead>
+                                                                      
+                                                                    </table>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                        
+                                  
+                                    
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+
+            
+        </div>
+
+    </div>
+<div id="PasswordDialog" title="Basic dialog">
+</div>
+
+<script src="~/Content/js/APIURL.js"></script>
+<script src="~/Scripts/app/common.js"></script>
+<script src="~/Scripts/app/TripSecurity.js"></script>
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+</script>
+<script type="text/javascript">
+    $('.dynamicValues').each(function () {
+        var md = $(this).attr("store-mode");
+    })
+</script>
+
+<script>
+    var id = 1;
+    var date;
+    $(document).ready(function () {
+        google.charts.load("current", { packages: ["corechart"] });
+        //google.charts.load('current', { 'packages': ['table'] });
+        google.charts.setOnLoadCallback(drawChart);
+        Tripdetails();
+        Counters();
+        TripEvents(id);
+      
+
+        setInterval(function () { TripEvents(2) }, 15000);
+
+        setInterval(function () { Tripdetails() }, 120000);
+        setTimeout(DynamicRender, 10000)
+
+        function DynamicRender() {
+           
+            $('#dashMap').attr('src', '../../HTML/DashMap.htm?custId=' + $custid);
+        
+        }
+    });
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
+</script>
+<script type="text/javascript">
+    google.load('visualization', '1.0', { 'packages': ['corechart'], 'callback': drawChart });
+</script>
+
+<script language="JavaScript">
+    function Counters() {
+        $.ajax({
+            type: "Get",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "CustomAPI/DashboardCounters",
+            data: { custId: $custid },
+            success: function (data) {
+                $("#comptripcurr").text(data.CompletedtripsCurrent);
+                $("#comptripprev").text(data.CompletedtripsPrevious);
+                $("#poimisscurr").text(data.MissedpoisCurrent);
+                $("#poimissprev").text(data.MissedpoisPrevious);
+                $("#poicovcurr").text(data.PoiscoveredCurrent);
+                $("#poicovprev").text(data.PoiscoveredPrevious);
+                $("#wastecurr").text(data.WastecollectedCurrent);
+                $("#wasteprev").text(data.WastecollectedPrevious);
+               
+            }
+        });
+    }
+    function TripEvents(id) {
+        if (id == 1) {
+            $.ajax({
+                type: "Get",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "CustomAPI/TopTripEvents",
+                data: { custId: $custid,id:"1",date:"" },
+                success: function (data) {
+                    var a = data;
+                    var tableString = '<table class="table table-striped" id="tblcust" cellspacing="0" cellpadding="0"><tbody style="font-size:15px;">';
+                    if (a.length > 0) {
+                        $("#events").html("");
+                        a.forEach(function (element) {
+                            var col = "";
+                            if (element.events == "Picked Waste") {
+                                col = "#a569bd";
+                            }
+                            else {
+                                col = "#f5b041";
+                            }
+                           
+                            tableString = tableString +
+                            '<tr>' +
+                                //'<td>' + d.VehicleName + '</td>' +
+                                '<td style="font-family: emoji;">' + element.vehicleno + '<br />' + '<span style="color: darkgray; ">' + element.time + '</span>' + '</td>' + '<td></td>' + '<td class="font" style="color: ' + col + '; font-weight: bold; vertical-align: middle;font-family: emoji;">' + element.events + '</td>'
+
+                            +
+
+                            '</tr>'
+                        });
+                        date = data[data.length-1].Date;
+                        tableString = tableString + '</tbody></table>';
+                        console.log(tableString);
+                        $("#events").append(tableString);
+                        id = 2;
+                    }
+
+
+
+
+                }
+            });
+        }
+
+        else {
+            $.ajax({
+                type: "Get",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "CustomAPI/TopTripEvents",
+                data: { custId: $custid,id:"2",date:date },
+                success: function (data) {
+                    var a = data;
+                    var tableString = '<table class="table table-striped" id="tblcust" cellspacing="0" cellpadding="0"><tbody style="font-size:15px;">';
+                    if (a.length > 0) {
+                        
+                        a.forEach(function (element) {
+                            var col = "";
+                            if (element.events == "Picked Waste") {
+                                col = "#a569bd";
+                            }
+                            else {
+                                col = "#f5b041";
+                            }
+                          
+                            tableString = tableString +
+                            '<tr>' +
+                                //'<td>' + d.VehicleName + '</td>' +
+                                '<td style="font-family: emoji;">' + element.vehicleno + '<br />' + '<span style="color: darkgray; ">' + element.time + '</span>' + '</td>' + '<td></td>' + '<td class="font" style="color: ' + col + '; font-weight: bold; vertical-align: middle;font-family: emoji;">' + element.events + '</td>'
+
+                            +
+
+                            '</tr>'
+                        });
+                        date = data[data.length - 1].Date;
+                        tableString = tableString + '</tbody></table>';
+                        $("#events").append(tableString);
+                        id = 2;
+                    }
+
+
+
+
+                }
+            });
+        }
+    
+    }
+    function drawChart() {
+        $.ajax({
+            type: "Get",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "CustomAPI/TripStatusGraph",
+            data: { custId: $custid },
+            success: function (data) {
+                debugger;
+              
+                // Define the chart to be drawn.
+                var data1 = new google.visualization.DataTable();
+                data1.addColumn('string', 'Browser');
+                data1.addColumn('number', 'Percentage');
+                data1.addRows([
+                   ['Completed Trips', parseInt(data.CompletedTrips)],
+                   ['Ongoing Trips', parseInt(data.OngoingTrips)],
+                   ['Missed Points', parseInt(data.MissedpoisCurrent)],
+                   ['Route Deviated', parseInt(data.Routedeviated)],
+                   ['Route Not Started', parseInt(data.RouteNotStarted)],
+                   ['Route Not Assigned', parseInt(data.RouteNotAssigned)]
+                   
+                ]);
+
+                // Set chart options
+                var options = {
+                    //'title': 'Trip Status',
+                    'width': 450,
+                    'height': 350,
+                    pieHole: 0.6,
+                    colors: ['#A569BD', '#EC7063', '#5499C7', '#48C9B0', '#F5B041', '#99A3A4'],
+                    pieSliceTextStyle: {
+
+                        fontSize: 8
+                    },
+                    titleTextStyle: {
+
+                        fontName: 'Times New Roman', // i.e. 'Times New Roman'
+                        fontSize: 9 // 12, 18 whatever you want (don't specify px)
+
+
+                    }
+
+                };
+
+                // Instantiate and draw the chart.
+                var chart = new google.visualization.PieChart(document.getElementById('container'));
+                chart.draw(data1, options);
+              
+
+            }
+        });
+    
+        
+    }
+    //google.charts.setOnLoadCallback(drawChart);
+    function Tripdetails()
+
+    {
+       
+
+            deleteTable();
+            var url = apiBase.apiurl + "CustomAPI/GetTripsdetail";
+         
+            table = $('#dt_basic_Master').DataTable({
+                "processing": true,
+                "serverSide": true,
+                destroy: true,
+                retrieve: true,
+                language: {
+                    searchPlaceholder: "Search",
+                    sSearch: ""
+                },
+                "sAjaxSource": url,
+                "iDisplayLength": 20,
+                "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+                "fnServerParams": function (param) {
+                    param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid });
+                },
+
+                "columns": [
+                        {
+                            "data": "Tripname"
+                           
+                        },
+                        { "data": "vehname" },
+                        { "data": "Routeid" },
+                        { "data": "starttime" },
+                      
+                           {
+                        
+                               "render": function (data, type, full, meta) {
+                                   if (full.endtime != "") {
+                                       return full.endtime
+                                   }
+                                   else
+                                   {
+                                       if (full.Routeendby == "user-requested") {
+                                           return "<span style='color:green;'>Request Submitted</span>";
+                                       }
+
+                                       else {
+                                           return '<button class="btn btn-green btn-submit btn-small" type="button" onclick="fn(' + full.Tripid + ');">Send Request</button>';
+                                       }
+                                      
+                                       
+                                   }
+
+                                   
+                               }
+                           },
+
+                        { "data": "Distance" },
+                    {
+                        
+                        "render": function (data, type, full, meta) {
+
+                            return '<span>' + full.poicovered + '</span>/' + '<span>' + full.poicount + '</span>/' + '<span>' + full.lastpoi + '</span>';
+                        }
+                    },
+
+
+                ],
+               
+            });
+
+
+            //for filter from live status
+          
+
+        }
+
+    $("#BtnSearch").click(function () {
+        Tripdetails();
+    });
+</script>
+

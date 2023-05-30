@@ -1,0 +1,405 @@
+﻿
+
+<link href="../css/bill.css" rel="stylesheet" type="text/css" />
+<center>
+    <button type="submit" id="PDF" value="PDF" name="Command" style="display:none;border:none; background-color: Transparent;"><img src="../../img/icons/1434190882_pdf.png" title="Pdf" id="Imgpfd" /></button>
+    <a href="#" id="Print" onclick="javascript:printu();" style="display:none;cursor: pointer;"><img id="PrintImg" src="../../img/icons/1434113419_printer.png" title="Print" /></a>
+</center>
+<table id="paid" width="100%" style="visibility: hidden">
+    <tr>
+        <td>
+            <div>
+                <div style="width: 99%; float: none">
+                    <div style="width: 55%; ">
+                        <div style="float:right; margin-bottom:3px;"> <b>PERFORMA INVOICE</b></div>
+                    </div>
+                    <div class="main Print test" style="background-color: Transparent;" id="printableArea">
+
+                        <table class="rightinner" cellpadding="0" cellspacing="0">
+
+                            <tr>
+                                <td valign="top" align="left">
+
+                                    <span id="BillName"></span><br />
+                                    <span id="Address"></span><br />
+                                    <span id="City"></span><br />
+                                    <span id="State"></span><br />
+                                    <span id="PostalCode"></span><br />
+                                    <span id="mobile"></span><br />
+                                    <span id="GstIn"></span>
+                                    <br />
+                                    Total Bill
+                                </td>
+                                <td style="width: 250px;">
+                                    <img src="http://trackmaster.in/images/Hitecpoint.gif">
+                                    Account Number:<div style="float: right;">
+                                        <strong>
+                                            <span id="AccountNo"></span>
+                                        </strong>
+                                    </div>
+                                    <br />
+                                    Bill Number:<div style="float: right;">
+                                        <strong>
+                                            <span id="billno"></span>
+                                        </strong>
+                                    </div>
+                                    <br />
+                                    Bill Date:<div style="float: right;">
+                                        <strong>
+                                            <span id="BillDate"></span>
+                                        </strong>
+                                    </div>
+                                    <br />
+                                    Bill Period:<div style="float: right;">
+                                        <strong>
+                                            <span id="billperiod"></span>
+                                        </strong>
+                                    </div>
+                                    <br />
+                                    <span>Due Date:</span> <div style="float: right;">
+                                        <strong>
+                                            <span id="DueDate"></span>
+                                        </strong>
+                                    </div>
+                                    <br />
+                                </td>
+                            </tr>
+                        </table>
+                        <h4 style="text-align: left; margin: 5px 0 0 0;">
+                            Bill Summary
+                        </h4>
+                        <table class="inner" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    Previousbalance:(+)
+                                </td>
+                                <td style="text-align: center;">
+                                    Adjustments (-)
+                                </td>
+                                <td style="text-align: center;">
+                                    Current Charges
+                                </td>
+                                @if (Convert.ToInt32(Session["hcid"]) == 1241 || Convert.ToInt32(Session["hcid"]) == 1242)
+                                {
+                                    <td style="text-align: center; background-color: #f0f0f0;">
+                                        Amount Payable
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align: center; background-color: #f0f0f0;">
+                                        Amount Payable By
+                                    </td>
+                                    <td style="border-right: none; text-align: right;">
+                                        Amount Payable After
+                                    </td>
+                                }
+                            </tr>
+                            <tr align="right">
+                                <td rowspan="2" style="border-bottom: none;">
+                                    <span id="PreviousBalance"></span>
+                                </td>
+                                <td rowspan="2" style="border-bottom: none;">
+                                    <span id="Adjustments"></span>
+                                </td>
+                                <td rowspan="2" style="border-bottom: none;">
+                                    <span id="CurrentCharges"></span>
+                                </td>
+                                <td style="border-bottom: none; color: #f21a1a; font-weight: bold;">
+                                    <span id="DueDat"></span><br />
+                                </td>
+                                <td style="border-right: none; border-bottom: none;">
+                                    <span id="PayAfterDate"></span>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr align="right">
+                                <td style="border-bottom: none; font-weight: bold;">
+                                    <span id="Totalbalance"></span>
+                                </td>
+                                <td style="border-right: none; border-bottom: none;">
+                                    <span id="PayafterCharges"></span>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 5px; ">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="vertical-align: top;">
+                                        <table class="leftinner" border="0">
+                                            <tr>
+                                                <td>
+                                                    1. Subscription/Lease Rent:<div style="float: right;">
+                                                        <span id="MonthlySubscription"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2. SMS Alerts Charges:<div style="float: right;">
+                                                        <span id="smsCharges"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    3. Voice Charges:<div style="float: right;">
+                                                        <span id="voicecharges"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    4. Service Charges:<div style="float: right;">
+                                                        <span id="Servicecharges"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    5. Reactivation Charges:<div style="float: right;">
+                                                        <span id="reactivationcharges"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    6. Current Charges:<div style="float: right;">
+                                                        <span id="CurrentCharge"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Discounts(DiscountPerc
+                                                    30%):(-)<div style="float: right;">
+                                                        <span id="DiscountPerc"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+
+                                                    <b>Net Charges after discnt(0%):(-)</b>
+                                                    <div style="float: right;">
+                                                        <span id="MainCharges"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b> Service Tax(14%):(-)</b> <div style="float: right;">
+                                                        <span id="ServiceTax"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b> Swach Bharat cess(0.50%):(-)</b> </b><div style="float: right;">
+                                                        <span id="Bharat"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Krishi Kalyan cess(0.50%):(-)</b> <div style="float: right;">
+                                                        <span id="Kalyan"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Previous Balance:(+)<div style="float: right;">
+                                                        <span id="PreviousBal"></span>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        </table>
+                                        <table width="250px" class="bottominner">
+                                            <tr style="font-weight: bold;">
+                                                <td>
+                                                    Total Payable Charges(Rs.)
+                                                    <div style="float: right;">
+                                                        <span id="Totalbal"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </td>
+                                    <td valign="top">
+                                        <img src="../images/adv.jpg" id="adv" alt="Bill Advert" style="padding: 8px;" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="payment" style="height:auto !important">
+                            <div style="margin-bottom: :20px">
+                                We offer various options to make your subsciption payment
+                            </div>
+                            <div style="float: left; width: 300px; text-align: left; margin-top: 10px;padding-right: 16px;">
+                                <ul style="list-style: none">
+                                    <li>
+                                        <div style="float:left; width:20%">
+                                            <img src="../images/online.png" style="height:48px">
+                                        </div>
+                                        <div style="float:left; width:80%">
+                                            <span style="font-size:15px"><b>Online</b></span>
+                                            <p> Visit "My Bill" section in www.trackmaster and pay using Netbanking , Debit Card, Credit Card and Paytm and other wallets.</p>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div style="float:left; width:20%">
+                                            <img src="../images/checkordd.png" style="height:48px">
+                                        </div>
+                                        <div style="float:left; width:80%">
+                                            <span style="font-size:15px"><b>Cheque / Demand Draft</b></span>
+                                            <ul>
+                                                <li>Bank Name : Karur Vysya Bank (KVB)</li>
+                                                <li>Current Account No: 4202115000000787</li>
+                                                <li>IFC CODE: KVBL0004202</li>
+                                                <li>SWIFT CODE: KVBLINBBIND</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div style="float: right; width: 300px; text-align: left; margin-top: 10px;padding-right: 16px;">
+                                <ul style="list-style: none">
+                                    <li>
+                                        <div style="float:left; width:20%">
+                                            <img src="../images/blackbox.png" style="height:48px">
+                                        </div>
+                                        <div style="float:left; width:80%">
+                                            <span style="font-size:15px"><b>BlackBox App</b></span>
+                                            <p> Log on to "My Bill" section in BlackboxApp and pay using Netbanking , Debit Card, Credit Card and Paytm and other wallets.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        Demand Draft will be drawn in favour of
+                                        <strong>HiTecpoint Technologies (P) Ltd, Chandigarh</strong>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div style="clear: both;">
+
+                            </div>
+                        </div>
+                        <div class="noclass" style="line-height: 15px; margin-top: 10px; padding-top: 10px;">
+                            <table>
+                                <tr>
+                                    <td colspan="3" style="font-size: 9px; color: Black; text-align: center; font-weight: bold;">
+                                        #Please ignore previous balance, if already paid. Pay only current subscription
+                                        charges.
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="font-size: 9px; color: Black; text-align: center;">
+                                        #Customer is entitled to get discount only when he pays 1 year subscription in advance.*Customer
+                                        has to pay re-activation charges of 150/- if he pays the bill 30 days after the
+                                        last date.
+                                    </td>
+                                </tr>
+                                <tr colspan="3" style="font-size: 9px; color: Black; text-align: center; ">
+                                    <td>
+                                        <b>
+                                            Declaration: This performa Invoice is only the estimation of charges as per your bill plan & bill cycle. Please dont count it for accounting purpose because "INPUT CREDIT is not available on this performa Invoice."
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 14px; color: Black; text-align: center; font-weight: bold">
+                                        Hi-Tecpoint Technologies Pvt. Ltd
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" colspan="3" style="font-size: 10px; color: Black; text-align: center;
+                                            font-weight: bold">
+                                        S.C.O. 96-97, Sector-34A, Behind Piccadily Multiplex, Chandigarh, Ph: +91-172-6617809
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center" style="font-size: 11px; color: Black; text-align: center;
+                                            font-weight: bold;">
+                                        E-mail: info@hitecpoint.in.  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;        Website: www.hitecpoint.in
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    @*<td colspan="3" style="font-size: 9px; color: Black; text-align: center;">
+
+                                        Company CIN:-U31900CH2015OPC035728 , PAN:-AAGCB4202Q , GSTIN:-04AAGCB4202Q2ZP, SAC Code:-998316
+
+                                    </td>*@
+                                </tr>
+
+
+
+
+                                <tr>
+                                    <td style="color: #f21a1a;">
+                                        @*<asp:Literal ID="litAdjNarration" runat="server"></asp:Literal>*@
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br />
+                    </div>
+                    <div id="tblPaid" runat="server" align="center" class="noprint">
+                        <table>
+                            <tr>
+                                <td colspan="5" style="font-size: 11px; color: Black; text-align: center; border: 0;">
+                                    This is computer generated bill, does not require any signature.
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12" style="display:none">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div id="DivVehcleCounter" style="padding: 15px;">
+                        <div class="box-content padded">
+                            <table id="dt_basic_Master" class="table table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>ROW_NO</th>
+                                        <th>VehName</th>
+                                        <th>Actual Amount</th>
+                                        <th>SMS Charges(+)</th>
+                                        <th>Previous Balance</th>
+                                        <th>Voice Charges(+)</th>
+                                        <th>Service Charges(+)</th>
+                                        <th>Bill Period</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.js")" @DateTime.Now.Ticks></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/BillCustom.js?")" @DateTime.Now.Ticks></script>
+}

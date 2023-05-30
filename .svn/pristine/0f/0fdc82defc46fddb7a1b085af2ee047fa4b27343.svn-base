@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Over-Speed Analysis";
+    ViewBag.Report = "Over-Speed";
+}
+ <script src="~/Content/Alertify/sweetalert.min.js"></script>
+    <link href="~/Content/Alertify/sweetalert.css" rel="stylesheet" />
+<div class="row-fluid body">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilter", new { reportTitle = ViewBag.Title, report = ViewBag.Report })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    @*<th>BBID
+                                                    </th>*@
+                                                    <th>Vehicle No
+                                                    </th>
+                                                    <th>Driver Name
+                                                    </th>
+                                                    <th>Overspeed Count
+                                                    </th>
+                                                    <th>Overspeed Limit
+                                                    </th>
+                                                    <th>Max. Speed
+                                                    </th>
+                                                    <th>Total Overspeed Driving Duration
+                                                    </th>
+                                                    <th>Details</th>
+                                                    <th class="hidden">BBID</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+
+@section scripts{
+  <script>
+      
+      var reportName;
+      $(document).ready(function () {
+          debugger;
+          reportName = '@ViewBag.Report';
+      });
+</script>
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/SpeedAnalysisReport.js?")"@DateTime.Now.Ticks></script>
+}

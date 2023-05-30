@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = ViewBag.ReportTitle;
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilter", "Report", new { reportTitle = "Daily Report" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle No</th>
+
+                                                    <th>Branch</th>
+                                                    <th>Zone</th>
+
+                                                    <th>Detail</th>
+
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/RotatorDailyTripReport.js"></script>
+}
+
+

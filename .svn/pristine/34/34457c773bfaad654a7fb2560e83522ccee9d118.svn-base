@@ -1,0 +1,109 @@
+﻿var table;
+function format(d) {
+    var data = d;
+
+    if (data.Count > 0) {
+        var a = data.OverLoadAlert;
+        var tableString = '<table id="subTbl" class="table table-bordered" cellpadding="5" cellspacing="0" width="100%" ><thead ><tr"><th>Date Time</th><th>Location</th></tr></thead>';
+        a.forEach(function (element) {
+
+            tableString = tableString +
+                '<tr>' +
+                '<td>' + element.Dateime + '</td>' +
+            '<td>' + element.Location + '</td>' +
+            '</tr>'
+        });
+
+        tableString = tableString + '</table>';
+
+    }
+
+    // `d` is the original data object for the row
+    return tableString;
+}
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+    //$('#dt_basic_Master').empty(); // empty in case the columns change   
+};
+$(document).ready(function () {
+    GetOverLoadAlert();
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+
+    })
+});
+$("#BtnSearch").click(function () {
+    GetOverLoadAlert();
+
+});
+
+function GetOverLoadAlert() {
+
+    deleteTable();
+    
+   // var $custid = '1619';
+    //var baseUrl = '@System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"]';
+    //var url = "http://localhost:3970/api/ReportsApi/GetOverLoadAlertReport";
+    var url = apiBase.apiurl + "CustomApi/GetOverLoadAlertReport";
+    //console.log('Calling URL: ' + url + ' to get Report data.');
+    table = $('#dt_basic_Master').DataTable({
+        "oLanguage": {
+            "sProcessing": "<img src='../Content/Trackmaster_files/loader.gif'/>"
+        },
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            
+            param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "bbid", "value": "" });
+        },
+
+        "columns": [
+             { "data": "VehName" },
+                { "data": "Count" },
+                {
+                    "orderable": false, "targets": 0,
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                }
+
+
+        ],
+        "rowCallback": function (row, data, index) {
+            //console.log(data);
+            if (data.Count == 0) {
+
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        }
+
+
+    });
+}

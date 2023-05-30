@@ -1,0 +1,272 @@
+﻿@{
+    ViewBag.Title = "Gen Set Details";
+}
+
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<div class="row-fluid">
+    <div class="widget-body">
+     
+        <div class="main_container" id="tables_page">
+            @*@Html.Action("_ReportFilter", new { reportTitle = "Gen Set Details" })*@
+
+
+            @Html.Action("_reportFilterWithFuelList", "Fuel", new { reportTitle = "Gensat Details" })
+            <br />
+
+
+
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#1" data-toggle="tab">Gensat Detailed Report </a>
+                            </li>
+                            <li>
+                                <a href="#2" data-toggle="tab">Gensat Ignition Report </a>
+                            </li>
+
+                            <li>
+                                <a href="#3" data-toggle="tab">Gensat Graph  </a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content ">
+                            <div class="tab-pane active" id="1">
+                                <div id="alertss" class="widget span12">
+
+                                    <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                        <div id="DivVehcleCounter">
+                                            <div class="box-content padded">
+                                                <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+
+
+                                                        @*<tr>
+
+                                    <th colspan="4">EQUIP-DETAILS</th>
+
+                                    <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consumption</th>
+                                    <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filling</th>
+                                    <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drainage</th>
+                                    <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Hour </th>
+                                </tr>*@
+                                                        <tr>
+                                                            <th class="hidden">
+                                                                BBID
+                                                            </th>
+                                                            @*<th>
+                                       Location
+                                    </th>
+                                    <th>
+                                      SITE
+                                    </th>*@
+                                                            <th>
+                                                                Gensat Name
+                                                            </th>
+                                                            <th>
+                                                                Genset Cap
+                                                            </th>
+                                                            <th>
+                                                                Consumption per day(liter)
+                                                            </th>
+                                                            @*<th>
+                                       Monthly Consumption(liter)
+                                    </th>*@
+                                                            <th>
+                                                                Filling per day(liter)
+                                                            </th>
+                                                            @*<th>
+                                       Monthly  Filling(liter)
+                                    </th>*@
+                                                            <th>
+                                                                Drainage per day(liter)
+                                                            </th>
+                                                            @*<th>
+                                        Monthly  Drainage(liter)
+                                    </th>*@
+
+
+                                                            <th>
+                                                                Genset Total Working Hour Duration (dd-hh-mm-ss)
+                                                            </th>
+
+                                                            <th>Details</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="2">
+                                
+
+
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <table id="dt_basic_Master1" class="table table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="hidden">
+                                                            BBID
+                                                        </th>
+                                                        <th>
+                                                            Gensat Name
+                                                        </th>
+                                                       
+                                                        <th>
+                                                            Ignition Count
+                                                        </th>
+                                                        <th>
+                                                            Ignition On Duration
+                                                        </th>
+                                                        <th>Details</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="3">
+                                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                    <div class="widget-body" style="border: 0">
+                                        <div class="row-fluid">
+                                            <div id="alertss" class="widget span12">
+                                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                                    <div id="prindiv">
+                                                        <div class="col-md-12" id="txtvehicle" style="visibility:hidden;display:none;">
+                                                            <div class="col-md-3">
+                                                                <img src="http://trackmaster.in/images/blackbox-logo-2.png" />
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <span> <p>Vehicle No: <b id="txtname"></b> </p>  </span>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <span> <p>Report Date: <b id="txtdate"></b> </p>  </span>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div id="DivVehcleCounter" style="align-items:center;">
+
+
+
+
+
+
+                                                            <div class="col-md-12" style="text-align: center;">
+
+                                                                <div id="chartdiv" style="width: 100px; height: 500px;">
+                                                                </div>
+
+
+                                                            </div>
+
+
+                                                            <div class="col-md-12" style="text-align: center;">
+
+                                                                <div class="col-md-2" style="text-align: center;">
+                                                                    <div class="checkbox ">
+                                                                        <input id="checkbox2" type="checkbox" checked="">
+                                                                        <label for="checkbox2" style="color: #1a237e !important;">
+                                                                            Fuel
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-2" style="text-align: center;">
+                                                                    <div class="checkbox">
+                                                                        <input id="checkbox4" type="checkbox" checked="">
+                                                                        <label for="checkbox4" style="color: #1c91c0 !important;">
+                                                                            Rear Engine
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+
+
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            </div>
+
+
+                        
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+
+
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+        td.details-control-extra {
+            background: url('../Content/img/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control-extra {
+            background: url('../Content/img/details_close.png') no-repeat center center;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/GenSet.js?v="@DateTime.Now.Ticks></script>
+<script src="~/Scripts/app/GensatIgnition.js?v=" @DateTime.Now.Ticks></script>
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script>
+
+@*<script src="~/Scripts/app/GensetGraph.js?v=" @DateTime.Now.Ticks></script>*@
+}

@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Location on Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <!-- Map css -->
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+        media="screen" />
+    <!-- Map has been localized to show the names, wherever available in ENGLISH (en) and country/region as INDIA -->
+   
+     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" language="javascript"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="../js/Map/LocationOnMap/label.js"></script>
+    <script type="text/javascript" src="../js/Map/LocationOnMap/Fluster2.packed.js"></script>
+    <!-- Initialize timer script -->
+    <script language="JavaScript" type="text/javascript">
+        var timerID = null;
+        var timerRunning = false;
+        var delay = 20000;
+        var zoomToExtents = 0;
+        var openedInfoWindow = null;
+        function initializeTimer() {
+            //zoomToExtents = 0;
+            initializeMap();
+            if (document.getElementById("checkPOI").checked == true) {
+                PointOfInterest();
+                //alert('true');
+            }
+            else {
+                //alert('false');
+            }
+            StopTheClock();
+            document.getElementById('side_bar').innerHTML = "Loading vehicles...";
+            StartTheTimer();
+        }
+        function StopTheClock() {
+            if (timerRunning)
+                clearTimeout(timerID)
+            timerRunning = false;
+        }
+        function StartTracking() {
+            StartTheTimer();
+        }
+        function StartTheTimer() {
+            readMapData();
+            timerRunning = true;
+            timerID = self.setTimeout("StartTracking()", delay)
+        }
+        function reCenter() {
+            var bound = new google.maps.LatLngBounds();
+            for (var i in gmarkers) {
+                bound.extend(gmarkers[i].getPosition());
+            }
+            //map.fitBounds(bound);
+            //zoomToExtents = 1;
+        }
+
+        // ================ read mapData ================
+        function readMapData() {
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "../AJAXOutput/EMRILocationMapOutput.aspx", false);
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+            markers = xmlDoc.getElementsByTagName("marker");
+            document.getElementById("side_bar").innerHTML = "refreshing data...";
+
+            var i = 0;
+            var lat;
+            var lng;
+            var name;
+            var drname;
+            var speed;
+            var lstdate;
+            var icon_type;
+            var loc;
+            var IncidentId;
+            var AssignedTime;
+            var LocationId;
+            var ContactNumber;
+            var baseLocation;
+            // clear side bar list
+            side_bar_html = "";
+
+            // clear markers
+            if (gmarkers) {
+                for (i in gmarkers) {
+                    gmarkers[i].setMap(null);
+                }
+                gmarkers.length = 0;
+            }
+
+            for (i = 0; i < markers.length; i++) {
+                lat = markers[i].getAttribute("lat");
+                lng = markers[i].getAttribute("lng");
+                name = markers[i].getAttribute("name");
+                drname = markers[i].getAttribute("drname");
+                speed = markers[i].getAttribute("speed");
+                lstdate = markers[i].getAttribute("lstdate");
+                icon_type = parseFloat(markers[i].getAttribute("type"));
+                loc = markers[i].getAttribute("loc");
+
+                IncidentId = markers[i].getAttribute("IncidentId");
+                AssignedTime = markers[i].getAttribute("AssignedTime");
+                LocationId = markers[i].getAttribute("LocationId");
+                ContactNumber = markers[i].getAttribute("ContactNumber");
+                baseLocation = markers[i].getAttribute("baseLocation");
+                //var currentTime = new Date();
+                var html = "<span>" + name + " <br/>Speed - " + speed + "<br/>Driver Name - " + drname + "<br/>DateTime - " + lstdate + "<br/>Location - " + loc + "<br/> IncidentId-" + IncidentId + "<br/>AssignedTime-" + AssignedTime + "<br/>LocationId-" + LocationId + "<br/> ContactNumber-" + ContactNumber + " <br/>baseLocation-" + baseLocation + "</span>";
+                // define lat-long for positioning Marker
+                var myLatlng = new google.maps.LatLng(lat, lng);
+
+                // call function to create Marker
+                var marker = createMarker(myLatlng, name, html, icon_type);
+                gmarkers.push(marker);
+
+                // fit map to accomodate all markers (only for first time)
+                if (zoomToExtents == 0) {
+                    if (i == markers.length - 1) {
+                        var bound = new google.maps.LatLngBounds();
+                        for (var k in gmarkers) {
+                            bound.extend(gmarkers[k].getPosition());
+                        }
+                        map.fitBounds(bound);
+                        zoomToExtents = 1;
+                    }
+                }
+            }
+        }
+
+        // ================ create marker ================
+        var side_bar_html = "";
+        var gmarkers = [];
+        var vehmarkers = [];
+        var vmarkers = [];
+        var htmls = [];
+        var i = 0;
+
+        var icons = [];
+        icons[1] = new google.maps.MarkerImage("../img/legends/stop.png");
+        //        // This marker is 28 pixels wide by 40 pixels tall.
+        //      new google.maps.Size(28, 40),
+        //        // The origin for this image is 0,0.
+        //      new google.maps.Point(0, 0),
+        //        // The anchor for this image is the base of the icon at 0,0.
+        //      new google.maps.Point(0, 0));
+
+        icons[2] = new google.maps.MarkerImage("../img/legends/moving.png");
+        icons[3] = new google.maps.MarkerImage("../img/legends/hispeed.png"); //GreenIcon;   // Moving
+        icons[4] = new google.maps.MarkerImage("../img/legends/ignion.png"); //ErrorIcon;   // Unknown (Moving without Ignition On)
+        icons[5] = new google.maps.MarkerImage("../img/legends/stop.png");
+        icons[6] = new google.maps.MarkerImage("../img/legends/towed.png");
+        icons[7] = new google.maps.MarkerImage("../img/legends/moving.png");
+        icons[8] = new google.maps.MarkerImage("../img/legends/hispeed.png");
+        icons[9] = new google.maps.MarkerImage("../img/legends/unreach.png");
+        icons[10] = new google.maps.MarkerImage("../img/legends/fenced.png");
+
+        // ================ This function creates marker and associates info-window with it ================
+        function createMarker(myLatlng, name, html, icon_type) {
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+                icon: icons[icon_type]
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+
+            vmarkers[i] = marker;
+            htmls[i] = html;
+            side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+            if (j == 1) {
+                document.getElementById('side_bar').innerHTML = side_bar_html;
+            }
+            i++;
+            return marker;
+        }
+
+        // ================ This function picks up the click and opens the corresponding info window ================
+        var marker = new Array();
+        function myclick(i) {
+            var infowindow = new google.maps.InfoWindow({
+                content: htmls[i]
+            });
+            if (openedInfoWindow != null) openedInfoWindow.close();
+            infowindow.open(map, vmarkers[i]);
+            openedInfoWindow = infowindow;
+        }
+    </script>
+    <!-- Initialize map here -->
+    <script type="text/javascript">
+        var map;
+        var j = 0;
+        function initializeMap() {
+            document.getElementById("map_canvas").style.backgroundImage = "url(../img/maploading.jpg)";
+            var myOptions = {
+                zoom: 8,
+                center: new google.maps.LatLng(30.97, 76.77),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+            j = 1;
+        }
+        // Asynchronous call
+        google.maps.event.addDomListener(window, 'load', initializeTimer);
+    </script>
+    <script type="text/javascript">
+        function PointOfInterest() {
+            if (document.getElementById("checkPOI").checked == true) {
+                //alert('true');
+                var fluster = new Fluster2(map);
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("GET", "../AspxPages/POIOutput.aspx", false);
+                xmlhttp.send();
+                xmlDoc = xmlhttp.responseXML;
+                markers = xmlDoc.getElementsByTagName("marker");
+                //for loop starts    
+                for (var i = 0; i < markers.length; i++) {
+                    var lat = parseFloat(markers[i].getAttribute("lat"));
+                    var lng = parseFloat(markers[i].getAttribute("lng"));
+                    var details = markers[i].getAttribute("details");
+                    var marker = new google.maps.Marker
+                    (
+                    {
+                        position: new google.maps.LatLng(lat, lng),
+                        draggable: false,
+                        map: map
+                    });
+                    // Add the marker to the Fluster
+                    fluster.addMarker(marker);
+                    // Set styles
+                    // These are the same styles as default, assignment is only for demonstration ...
+                    fluster.styles =
+                    {
+                        // This style will be used for clusters with more than 0 markers
+                        0:
+                        {
+                            image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                            //image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                            textColor: '#FFFFFF',
+                            width: 53,
+                            height: 52
+                        },
+                        // This style will be used for clusters with more than 10 markers
+                        10:
+                        {
+                            image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m2.png',
+                            //image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                            textColor: '#FFFFFF',
+                            width: 56,
+                            height: 55
+                        },
+                        20:
+                        {
+                            image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m3.png',
+                            //image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                            textColor: '#FFFFFF',
+                            width: 66,
+                            height: 65
+                        }
+                    };
+                    // Initialize Fluster
+                    // This will set event handlers on the map and calculate clusters the first time.
+                    fluster.initialize();
+                    var label = new Label(
+                    {
+                        draggable: false,
+                        map: map
+                    });
+                    label.bindTo('position', marker, 'position');
+                    label.set('text', details);
+
+                }
+            }
+            else if (document.getElementById("checkPOI").checked == false) 
+            {
+                initializeTimer();
+                //alert('false');
+                
+            }
+
+            //end for }
+        };
+            
+            
+           
+       
+    </script>
+    <!--<script type="text/javascript" language="javascript">
+        // ---------------- Show Hide Trail -------------
+        function showHideTrail() {
+
+            if (document.getElementById("checkPOI").checked = true) {
+                initializeTimer();
+                alert('true');
+            }
+            else {
+                alert('false');
+            }
+            //}
+        }
+    </script>-->
+    <script type="text/javascript" src="../js/Map/LocationOnMap/jquery-1.3.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".trigger").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.</noscript>
+    <div id="container">
+        <div id="map_canvas" style="width: 100%; height: 680px;">
+        </div>
+        <div class="panel">
+            <div id="side_bar" style="padding: 25px 0px 10px 7px; height: 450px; overflow: auto;">
+            </div>
+            <div id="settings" style="border-top: dashed 1px #777;">
+                <a onclick="reCenter();" href="#" style="color: #0000B7; font-weight: normal;">Reset
+                    Map</a>&nbsp;<br />
+                &nbsp; <a href="#" style="color: #0000B7; font-weight: normal;" onclick="InitializeTimer()">
+                    Refresh</a>
+                <p>
+                    Show POI
+                    <input type="checkbox" id="checkPOI" checked="checked" onclick="PointOfInterest()" />
+                </p>
+            </div>
+        </div>
+        <a class="trigger" href="#">Vehicles</a></div>
+</body>
+</html>

@@ -1,0 +1,244 @@
+﻿@{
+    Layout = null; 
+}
+<!DOCTYPE html>
+<html class="k-ff k-ff30" lang="en" ng-app="blackbox">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://trackmaster.in/images/favicon.ico">
+    <link href="~/content/css/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="~/content/css/font-awesome.css" rel="stylesheet">
+    <link href="~/content/css/stylesad15.css" rel="stylesheet">
+    <link href="~/content/css/angucomplete-alt.css" rel="stylesheet">
+    <link href="~/content/css/toastr.css" rel="stylesheet">
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.powertip.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" rel="stylesheet" />
+    @*<link href="~/Content/CustomCSS.css" rel="stylesheet" />*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link href="~/Content/css/CustomCSS.css" rel="stylesheet" />
+
+    <!--for confiramtion (Alertify)-->
+    <link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+    <link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+
+    @* Code for GOOGLE ANALYTICS *@
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-93165722-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    @* END Code for GOOGLE ANALYTICS *@
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="~/content/css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="~/content/Site.css" rel="stylesheet" />
+    @RenderSection("css", false)
+    <script src="@Url.Content("~/scripts/jquery-3.1.1.min.js")?v=0.00.000"></script>
+    <link href="~/Content/css/daterangepicker.css" rel="stylesheet" />
+    @*<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <style>
+    
+        .bgimg {
+    background-image: url('../Trackmaster_files/custCare.jpg');
+     background-size: 548px 138px;
+    background-repeat: no-repeat;
+    width:600px!important;
+}
+   
+ .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+        .affix {
+    top:50px;
+    right:0;
+    position:fixed;
+}
+    </style>
+</head>
+<body onload="display_ct();" ng-controller="rootCtrl">
+
+ 
+    <div class="container-fluid" style="background: #fff; padding: 0 10px;">
+        <div class="row" style="padding: 11px 0px 0px 26px;">
+            <div class="col-md-8">
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary btn-circle  pull-left" style="margin-top: -7px; margin-bottom: 4px;" onclick="history.go(-1); return true;"><i class="fa fa-arrow-left"></i></button>
+                </div>
+                <div class="col-md-1">
+                    <div style="display: none;" id="btnAdmin">
+                        <a onclick="backToAdmin();" class="btn btn-xs btn-success" style="margin-top: -7px;"><i class="fa fa-arrow-left"></i>&nbsp;Admin</a>
+                        <!-- <img src="~/content/Trackmaster_files/logo-2x.png" style="width:150px;" class="TopStrip">-->
+                    </div>
+                </div>
+                <div class="col-md-3 col-md-offset-1">
+                    <div style="display: none;" id="divDdlGroupUser">
+                        <select id="ddlGroupUser">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="pull-right text-muted">Welcome: {{loginName}}</span>
+                    <span class="pull-right" style="padding-right: 23px;">@*New Site HelpLine:<img src="~/Content/image/WhatsAppIcon.png"   style="height: 20px;" /> +91-7082015501*@  Customer Support :&nbsp;&nbsp;<button type="button" id="btnContactDetails" class="btn btn-xs btn-info btn-circle  pull-right" style="margin-top: -7px; margin-bottom: 4px; "><i class="fa fa-phone" ></i></button> @*<a href="https://vts.trackmaster.in/" target="_blank">&nbsp&nbsp;Old Version &nbsp;&nbsp;</a>*@</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-4">
+                  <a href=""  id="whatsNew"> What's New <img src="~/Content/image/newFeat.png" style="height: 20px;" /></a>
+                </div>
+                <div class="col-md-8">
+                    <span class="pull-right">Disable Web Alerts &nbsp;<input type="checkbox" id="chkWebAlert" /></span>&nbsp;
+                </div>
+           @*     <div class="col-md-1">
+                    <span class="pull-right">
+                        <button type="button" id="btnContactDetails" class="btn btn-xs btn-info btn-circle  pull-right" style="margin-top: -7px; margin-bottom: 4px;"><i class="fa fa-phone"></i></button>
+                    </span>
+
+                </div>*@
+                
+            </div>
+        </div>
+        @*<div class="row" style="padding: 11px 0px 0px 26px;">
+           
+            <div class="col-md-4 " style="border:solid 1px red">
+             
+                
+                <div class="col-md-4" style="border:solid 1px red">
+                 
+                </div>
+            </div>
+            
+        </div>*@
+    </div>
+                   
+    <div class="main_container" id="tables_page">
+        <div id="divLoader" class="hidden "></div>
+        @*style="padding-bottom: 9%;"*@
+        <div class="container-fluid">
+
+            @RenderBody()
+        </div>
+    </div>
+
+    <div id="showSettings" title="Basic dialog">
+    </div>
+    <!--OverSpeed Alert-->
+   
+    <!-- /row-fluid -->
+   @* <div class="footer" id="layoutFooter">
+        @Html.Partial("_Footer")
+    </div>*@
+    <script src="~/Content/DataTable/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
+    <script src="@Url.Content("~/scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/scripts/angular.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-cookies.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-route.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-base64.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/ng-file-upload-all.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-validator.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angucomplete-alt.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/app/app.js")?v=0.00.008"></script>
+    <script src="@Url.Content("~/app/modules/common.core.js")?v=0.00.006"></script>
+    <script src="@Url.Content("~/app/modules/common.ui.js")?v=0.00.002"></script>
+    <script src="@Url.Content("~/app/rootCtrl.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/apiService.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/notificationService.js")"></script>
+    <script src="@Url.Content("~/app/services/membershipService.js")?v=1"></script>
+    <script type="text/javascript" src="~/content/js/bootstrap.min.js"></script>
+
+    <script src="@Url.Content("~/Content/js/jquery.blockUI.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.powertip.min.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <!--For Confirmation (Alertify)-->
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <!-- /row-fluid -->
+    <script type="text/javascript">
+      
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        function display_ct() {
+            var strcount
+           // setDate()
+            tt = display_c();
+        }
+
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+      
+    </script>
+   
+
+    <script type="text/javascript" src="/Content/js/moment.min.js"></script>
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="/Content/js/daterangepicker.js"></script>
+    @RenderSection("scripts", false)
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+    
+    
+    <!-- Bootstrap Edit Ticket Modals With Forms -->
+    <div class="modal fade " data-keyboard="false" id="modalOuterDiv" tabindex="-1" role="dialog" aria-hidden="true" style="background: transparent; overflow-y: hidden; margin-left: -50%; width: 100%;">
+        <div class="modal-dialog" style="width: 90%">
+            <div id="modalInnerContain"></div>
+        </div>
+    </div>
+
+    <!--what's new-->
+    <div id="divWhatsNew" title="Basic dialog">
+    </div>
+</body>
+</html>

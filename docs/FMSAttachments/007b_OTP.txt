@@ -1,0 +1,53 @@
+[AcceptVerbs("GET")]
+        public HttpResponseMessage ViewOTP()
+        {
+            var response = commonRepositoryIF.ViewOTP();
+            if (response != null)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            }
+        }
+
+
+
+======================================================================================================================================
+
+List<StaffOtp> ViewOTP();
+
+======================================================================================================================================
+
+public List<StaffOtp> ViewOTP()
+        {
+            //if (number == DateTime.Now.Day + (DateTime.Now.Hour > 12 ? DateTime.Now.Hour - 12 : DateTime.Now.Hour))
+            if(true)
+            {
+                List<StaffOtp> list = new List<StaffOtp>();
+                DataSet ds = SqlHelper.ExecuteDataset(Utility.GetSecurityConString, CommandType.StoredProcedure, "GetAllOTP");
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    StaffOtp st = new StaffOtp();
+                    st.username = dr["username"].ToString();
+                    st.website = dr["website"].ToString();
+                    st.logintime = dr["logintime"].ToString();
+                    st.ipaddress = dr["loginipaddress"].ToString();
+                    st.otp = dr["otp"].ToString();
+                    list.Add(st);
+                }
+                return list;
+            }
+            else return null;
+        }
+
+
+======================================================================================================================================
+
+// for Dushyant
+        public string username { get; set; }
+        public string website { get; set; }
+        public string logintime { get; set; }
+        public string ipaddress { get; set; }
+        public string otp { get; set; }

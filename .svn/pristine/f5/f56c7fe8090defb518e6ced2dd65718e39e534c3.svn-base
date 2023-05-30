@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "thankyou";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TRACKMASTER</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="icon" type="image/ico" href="/images/favicon.ico" />
+    <link rel="Stylesheet" href="/css/CssMenu.css" />
+    <link href="http://www.trackmaster.in/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="http://www.trackmaster.in/css/elusive/css/elusive-webfont.css" rel="stylesheet"/>
+<link href="http://www.trackmaster.in/js/lib/datatables/css/bootstrap.dataTables.css" rel="stylesheet"/>
+<link href="http://www.trackmaster.in/css/loader.css" rel="stylesheet"/>
+
+<link href="http://www.trackmaster.in/js/lib/footable/css/hagal_footable.css" rel="stylesheet"/>
+<link href="http://www.trackmaster.in/css/style.css" rel="stylesheet"/>
+
+    <link href="PumApp/css/style.css" rel="stylesheet" type="text/css" />
+ 
+    
+   <script>
+
+       $(document).ready(function () {
+           function disableBack() { window.history.forward() }
+
+           window.onload = disableBack();
+           window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+       });
+
+</script>
+</head>
+<body>
+    <div id="main-wrapper">
+        <!-- top bar -->
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <div id="mobileNav" class="pull-left">
+                    </div>
+                 
+                </div>
+            </div>
+         
+        </div>
+        <!-- header -->
+        <header id="header" style="top: 31px;">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="logo_holder"> 
+                            <a href="http://www.trackmaster.in/" class="main_logo"><img src="http://www.trackmaster.in/img/blackbox.png" alt="">
+                            </a>
+                        </div>
+                      <img src="http://www.trackmaster.in/images/Payment/logo-home.png"  style="float:right; height:40px "/>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div id="timeline" class="modal hide fade" role="dialog" style="width: 752px; left: 42%">
+            
+        </div>
+        <section id="main_section1">
+            <div class="container-fluid1">
+                <div id="contentwrapper1">
+                    <div id="loading" class="overlaycontent-box" style="display: none; width: 200px; left: 65%;">
+                        <center>
+                            <div class="msg">
+                                Loading, please wait..<br />
+                                    <img src="/Content/img/elements/loaders/6.gif" alt="loading" style="margin-top:10px;" />
+                            </div>
+                        </center>
+                    <div class="clr">
+                    &nbsp;
+                    </div>
+                </div>
+                <div id="overlay" style="display:none;"></div>
+                <div id="content1" style="padding:0 20px 0 20px;">
+                    
+
+
+
+
+
+
+
+<!-- main content -->
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="box_a_heading">
+                <h3>
+                   Payment Receipt</h3>
+            </div>
+            <div class="box_a_content cnt_a">
+          
+          
+             <div class="alert alert-error" id="errorBox1" style="display:none"  >
+                                                <a class="close" data-dismiss="alert">×</a>
+                                                <strong>Error!</strong>  Please enter Amount..!
+           
+                         
+                                  </div>
+
+
+              
+          </div>
+            
+             <form id="form1" runat="server" >
+             
+             
+          
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="thankyou_con">
+ <div class="thanks"><img src="thank_img2.jpg" alt="thank you" style=" float:left;"/>
+ <div class="thanks_right2">
+ <h3>Thank You - your payment is received</h3>
+ <p>Your online transaction has been completed. </p>
+ <!--<a href=""><img src="images/thanks_btn.jpg" class="thanks_btn"/></a>-->
+ <table border="0" width="500" class="table">
+  <tbody>
+  
+ <tr>
+    <td style="font-size: 14px;">Order Id : @ViewData["OrderId"] </td>   
+  </tr>
+   <tr>   
+    <td style="font-size: 14px;">Recharge Type : @ViewData["RechargeType"]</td>    
+  </tr>
+   <tr>   
+    <td style="font-size: 14px;">Amount  : Rs @ViewData["Amount"] &nbsp;</td>
+  </tr>
+  <tr>
+  <td>
+ <asp:Button ID="Button1" class="btn btn-info" runat="server" Text="Dowmload Receipt" 
+          onclick="Button1_Click"></asp:Button>
+
+         
+         <a href="http://www.trackmaster.in/" class="btn btn-info">Back To Trackmaster</a>
+  </td>
+  </tr>
+</tbody></table>
+
+ </div>
+ </div>
+
+</div>
+                    </div>
+                </div>
+
+                   </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+                <!-- #content end -->
+                </div>
+
+                
+                <!-- #contentwrapper end -->
+                <!-- sticky footer space -->
+                <div id="footer_space"></div>
+    </div>
+      
+   
+      
+    <footer id="footer">
+        <div class="row-fluid">
+            <div class="span3">
+                &copy; Blackbox Technology OPC Pvt Ltd2013
+            </div>
+            <div class="span9">
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li>&middot;</li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+    <script type="text/javascript">
+        function changeCulture(culture) {
+            $.post("/Dashboard/SetCulture?culture=" + culture, null, function (response) {
+                location.reload();
+            });
+        }
+    </script>
+</body>
+</html>

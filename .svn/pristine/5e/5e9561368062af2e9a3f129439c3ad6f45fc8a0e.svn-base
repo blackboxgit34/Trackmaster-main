@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "AverageSpeedReport";
+}
+<script src="~/Content/js/APIURL.js"></script>
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+@*<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>*@
+<div id="Fade" class="w3-container city w3-animate-zoom">
+    <div class="row-fluid">
+
+        <div class="row-fluid">
+            <!--Heading part-->
+@*            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+                            <h5>Update Settings</h5>
+                            <div class="pull-right">
+                                <button class="pull-right btn btn-green btn-small" style="margin-top: 5.5%; margin-right: 10%;" data-toggle="modal" data-target="#myModal" href="#" id="popUP">Update Settings</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>*@
+
+            <!-- End of Heading part-->
+
+
+            @* <div class="w3-padding">Use any of the w3-animate-classes to fade, zoom or slide in tab content.</div>*@
+
+            <div class="row-fluid" style=" margin-right: 10%; margin-bottom: 12px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_MasterDriverAverage" class="table table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    @*<th>BBID
+                                                    </th>*@
+                                                    <th>Vehicle Name
+                                                    </th>
+                                                    <th>Speed Range
+                                                    </th>
+                                                     <th>
+                                                     Rating in (%)
+                                                    </th>
+                                                    <th>Rating</th>
+                                                    <th>Action</th>
+                                                    <th class="hidden">BBID</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            </div>
+        </div>
+                                                                    </div>
+      
+
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/_DashboardAvgSpeedRangeReport.js"></script>

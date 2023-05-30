@@ -1,0 +1,267 @@
+﻿///// This report is used for Driver Behaviour system.
+
+function format(d) {
+    debugger;
+    var data = d;
+
+    if (data.Count > 0) {
+        debugger;
+        //var a = data.overSpeedData;
+        var overSpeedLimitCount = parseInt(data.OverSpeedLimitCount);
+        var underSpeedLimitCount = parseInt(data.Count) - parseInt(data.OverSpeedLimitCount);
+        var bbid = data.BBID;
+      
+      
+            //console.log(element.Location);
+            //console.log(element.Location);
+        tableString = '<div class="w3-container city w3-animate-zoom1" id=' + data.BBID + ' style="width: 500px; height: 250px; margin-left:30%;"></div>';
+           // google.setOnLoadCallback(drawChart);
+
+            tableString = tableString;
+
+          //  google.charts.load("current", { packages: ["corechart"] });
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                debugger;
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                  ['Under over speed', underSpeedLimitCount],
+                  ['Over Speed limit crossed', overSpeedLimitCount],
+                  //['Commute', 2],
+                  //['Watch TV', 2],
+                  //['Sleep', 7]
+                ]);
+
+                var options = {
+                    title: 'Over Speed Range for ',
+                    pieHole: 0.4,
+                  //  is3D: true,
+                  
+                };
+                var chart;
+                try{
+                     chart = new google.visualization.PieChart(document.getElementById(bbid));
+                }
+                catch(exe)
+                {
+                    toastr.warning("Please minimize, already opened graph.");
+                }
+
+                chart.draw(data, options);
+            }
+    }
+    else {
+        var tableString = '<div>';
+       
+            //console.log(element.Location);
+        tableString = tableString +
+            '<p>' +
+        'There is no data for <b>' + data.VehicleName + '</b> between selected Dates.';
+            tableString = tableString + '</p></div>';
+    }
+    // `d` is the original data object for the row
+    return tableString;
+}
+
+$(document).ready(function () {
+    GetOverSpeed();
+    // Add event listener for opening and closing details
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        debugger;
+        var tr = $(this).closest('tr');
+        //for getting bbid from datatable
+        bbid = tr[0].lastChild.innerHTML;
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+            location.reload(true);
+        }
+        else {
+            debugger;
+            var overSpeedLimitCount = parseInt(row.data().OverSpeedLimitCount);
+            var underSpeedLimitCount = parseInt(row.data().Count) - parseInt(row.data().OverSpeedLimitCount);
+
+            //var inRange = parseInt(row.data().OverSpeedLimitCount);
+            //var outRange = parseInt(row.data().Count) - parseInt(row.data().InRangeSpeed);
+            //  google.charts.load("current", { packages: ["corechart"] });
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                debugger;
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                 ['Under over speed', underSpeedLimitCount],
+                  ['Over Speed limit crossed', overSpeedLimitCount],
+                  //['Commute', 2],
+                  //['Watch TV', 2],
+                  //['Sleep', 7]
+                ]);
+
+                var options = {
+                    title: 'Over Speed Range For: ' + row.data().VehicleName,
+                    pieHole: 0.4,
+                    colors: ['#8e9d13', '#faa732']
+                    //  is3D: true,
+                };
+                var chart;
+                try {
+                    //var div= document.getElementById('popup');
+                    // document.getElementById('popup').style.display = 'block';
+                    // div.css({
+                    //     position: "absolute",
+                    //     top: event.pageY,
+                    //     left: event.pageX
+                    // });
+                    document.getElementById('popup').style.display = 'block';
+
+                    var d = document.getElementById('popup');
+                    var e = window.event;
+
+                    var width = $(window).width() / 2;
+                    var height = $(window).height() / 2;
+
+                    var top = e.offsetY - $(window).scrollTop();
+                    debugger;
+                    //if (top > (height - 250)) {
+                    //    d.style.top = top - $(this).height() + 'px';
+                    // //   $('#popup').css('top', top - $('#popup').height() - $(this).height() + 'px');
+                    //}
+                    //else {
+                    //    d.style.top = top + $(this).height() + 'px';
+                    //   // $('#popup').css('top', top + $(this).height() + 'px');
+                    //}
+                    d.style.position = "fixed";
+                    d.style.right = width - 200 + 'px';
+                    d.style.top = height - 100 + 'px';
+                    //document.getElementById('popup').style.position = 'absolute';
+                    //document.getElementById('popup').style.top = event.pageY;
+                    //document.getElementById('popup').style.left = event.pageX;
+
+                    //.css( {position:"absolute", top:event.pageY, left: event.pageX});
+                    chart = new google.visualization.PieChart(document.getElementById('graphDiv'));
+                }
+                catch (exe) {
+                    toastr.warning("Please minimize, already opened graph.");
+                }
+
+                chart.draw(data, options);
+            }
+            // Open this row
+            //row.child(format(row.data())).show();
+            //tr.addClass('shown');
+
+        }
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+    })
+
+});
+
+$("#BtnSearch").click(function () {
+    GetOverSpeed();
+});
+$("#GraphClose").click(function () {
+    document.getElementById('popup').style.display = 'none';
+});
+
+function GetOverSpeed() {
+    // clear tables contents
+    deleteTable();
+    // set date-time
+    //setDateTime();
+    // set export URL
+    getOverSpeedExcel($beginDate, $endDate);
+
+    var url = baseUrl + "AdminAPI/GetAverageSpeedReport";
+    table = $('#dt_basic_Master').DataTable({
+        //"oLanguage": {
+        //    "sProcessing": "<img id='loaderGif' src='../Content/Trackmaster_files/loader.gif'/>"
+        //},
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "custid", "value": $custid }, { "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, {"name":"bbid", "value":""});
+        },
+
+        "columns": [
+                { "data": "VehicleName" },
+                 { "data": "DriverName" },
+                 { "data": "OverSpeedLimit" },
+             {
+                 "render": function (data, type, full, meta) {
+                    
+                     //for getting percentage under overspeed limit
+                     var num = parseInt(full.Count) - parseInt(full.OverSpeedLimitCount);
+                     var percentage = num * 100 / full.Count;
+
+                     return '<span>' + percentage.toFixed() + '% </span>';
+                 }
+             },
+              {
+                  "render": function (data, type, full, meta) {
+                      var num = parseInt(full.Count) - parseInt(full.OverSpeedLimitCount);
+                      var percentage = num * 100 / full.Count;
+                     
+                      if (percentage) {
+                          if (percentage > 99) {
+                              debugger;
+                              return '<span class="stars-container   stars-100">★★★★★</span>';
+                          }
+                          else
+                          {
+                             
+
+                              var score;
+                              if (parseInt(percentage.toFixed().toString()[1]) > 5) {
+                                  score = (parseInt(percentage.toFixed().toString()[0])) * 10 + 10;
+                              }
+                              else {
+                                  debugger;
+                                  score = (parseInt(percentage.toFixed().toString()[0])) * 10;
+                              }
+
+                              return '<span class="stars-container   stars-' + score.toString() + '">★★★★★</span>';
+                          }
+                      }
+                      return '<span>No Data</span>';
+                  }
+               },
+               {
+                   "orderable": false,
+                   "targets": 0,
+                   "className": 'details-control',
+                   "orderable": false,
+                   "data": null,
+                   "defaultContent": ''
+               },
+                {
+                    "data": "BBID",
+                    "class": "hidden"
+                }
+        ],
+        "rowCallback": function (row, data, index) {
+            if (data.overspeedCount == 0) {
+
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        }
+    });
+}
+    
+
+
+function getOverSpeedExcel(start, end) {
+    var url = baseUrl + "test/export?custId=1619&v=1.00.000";
+    $('#excelDown').attr('href', url);
+}

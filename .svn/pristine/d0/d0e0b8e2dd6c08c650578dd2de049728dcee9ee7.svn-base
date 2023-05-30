@@ -1,0 +1,487 @@
+﻿<style>
+    .dropdown-menu .divider {
+        height: 1px !important;
+        margin: 4px 1px !important;
+        overflow: hidden !important;
+        background-color: #cabebe !important;
+        border-bottom: 1px solid rgba(149, 154, 149, 0.77) !important;
+    }
+</style>
+
+<nav class="navbar navbar-top navbar-inverse navbar-static-top" role="navigation" style="height: 70px; margin-top: -20px; padding-top: 8px; padding-bottom: 5px;">
+    <div class="navbar-header" style="height: 40px; position: relative;">
+        <div>
+            <a href="@Url.Action("dashboard", "dashboard")">
+                <img src="~/content/Trackmaster_files/bb.png" id="logoPic" style="position: relative; top: 16px; left: 24px; cursor: pointer; z-index: 9999">
+            </a>
+            <!--<a class="navbar-brand" href="#">
+                <span style="color: #fff; font-size: 120%; font-family:Arial"></span>
+            </a>-->
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" style="z-index: 99999;" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle Top Navigation</span>
+            <i class="icon-list"></i>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" style="height: 40px;" id="navbar-collapse">
+        <ul class="nav pull-right navbar-nav">
+            <li id="dropdown_Maps" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Maps" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Dashboard">
+                    <i class="fa fa-desktop" style="font-size: 15px"></i>
+                    <br />
+                    Dashboard <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/Dashboard/Dashboard")"><span style="padding-left: 8px">Dashboard 1 </span></a></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/Dashboard/Dashboard2")"><span style="padding-left: 8px">Dashboard 2 </span></a></a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="@Url.Content("~/Report/LiveStatus")" title="Live Status">
+                    @*<i class="fa fa-wifi"></i>*@
+                    <img src="~/Trackmaster_files/Icon_4_20_2017/animatedLiveSt.gif" style="margin-top: -3px;" />
+                    <br />
+                    <div>Live Status</div>
+                </a>
+            </li>
+            <li id="dropdown_Maps" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Maps" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Map">
+                    <i class="fa fa-map" style="font-size: 15px"></i>
+                    <br />
+                    Map <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+
+                        <a tabindex="-1" href="@Url.Content("~/map/showmap")"><span style="padding-left: 8px">Map </span></a></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/map/replay")"><span style="padding-left: 8px">Route Playback </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/map/sixeyemap")"><span style="padding-left: 8px">Six Eye Map </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/map/search")"><span style="padding-left: 8px">Search Vehicles </span></a>
+
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/map/routetrack")"><span style="padding-left: 8px">Trip Map </span></a>
+
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    <i class="fa fa-file-archive-o"></i>
+                    <br />
+                    Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/distance")"><span style="padding-left: 8px">Distance Report </span></a>
+
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/Stoppage")"><span style="padding-left: 8px">Stoppage Analysis </span></a>
+                    </li>
+
+                    @*<li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/distance")"><span>Distance</span></a>
+                    </li>*@
+                    <li style="text-align: left;">
+
+                        <a tabindex="-1" href="@Url.Content("~/report/SpeedAnalysisReport")"><span style="padding-left: 8px">Over_Speed Analysis</span></a>
+
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/StoppageAnalysisReport")"><span style="padding-left: 8px">Over_Stoppage Analysis</span></a>
+                    </li>
+
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/ignition")"><span style="padding-left: 8px">Ignition Analysis </span></a>
+
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/Idling")"><span style="padding-left: 8px">Idling Analysis </span></a>
+                    </li>
+                       <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/overidling")"><span style="padding-left: 8px">Over_idling Report </span></a>
+                    </li>
+                    <li class="divider"></li>
+
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/customReport/tripreport")"><span style="padding-left: 8px">Trip Report </span></a>
+
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/smsreports")"><span style="padding-left: 8px">Sms & Notification Report </span></a>
+
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/GetTimeSlotsReport")"><span style="padding-left: 8px">Time Slots Report </span></a>
+
+                    </li>
+                    <li class="divider"></li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/summary")"><span style="padding-left: 8px">Monthly Summary </span></a>
+
+                    </li>
+
+                @*  <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/DoorReport")">
+                            <span style="padding-left: 8px">Door Report </span></a>
+                    </li>*@
+            </li>
+            @* <li style="text-align: left;">
+                <a tabindex="-1" href="@Url.Content("~/report/LiveStatusMotherDairy")"><span style="padding-left: 8px">Mother dairy Live Status </span></a>
+            </li>*@
+        </ul>
+        </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    @*<i class="fa fa-file-archive-o"></i>*@
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                    <br />
+                    Add-On Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    @*  <li style="text-align: left;">
+
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/fuel")"><span style="padding-left: 8px">Fuel Analysis</span></a>
+                    </li>*@
+                    <li style="text-align: left;">
+
+                        <a tabindex="-1" href="@Url.Content("~/fuel/FuelGraph")"><span style="padding-left: 8px">Fuel Report</span></a>
+                    </li>
+                    <li style="text-align: left;">
+
+                        <a tabindex="-1" href="@Url.Content("~/report/refTemp")"><span style="padding-left: 8px">Refrigerator Temp.</span></a>
+                    </li>
+
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/ac")"><span style="padding-left: 8px">AC On/Off</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/WorkHours")"><span style="padding-left: 8px">Engine Working Hours </span></a>
+
+                    </li>
+                    <li class="separator"></li>
+                    <li style="text-align: left;">
+
+
+                        <a tabindex="-1" href="@Url.Content("~/Report/DoorReport")"><span style="padding-left: 8px">Door Report </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/report/milkLid")"><span style="padding-left: 8px">Lid Report </span></a>
+
+                    </li>
+                    <li style="text-align: left"><a tabindex="-1" href="@Url.Content("~/AddOn/PanicReport")"><span style="padding-left: 8px">Panic Report </span></a></li>
+
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/Report/dumperlid")"><span style="padding-left: 8px">Dumper Tilt Report </span></a>
+                    </li>
+                    <li style="text-align: left;">
+
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/CameraImages")"><span style="padding-left: 8px">Camera Images </span></a>
+
+                    </li>
+                          <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/rfid")"><span style="padding-left: 8px">RFID Report</span></a>
+                    </li>
+                 @*   <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/EmployeeRFIDReport")"><span style="padding-left: 8px">Employee RFID</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/DriverRFIDReport")"><span style="padding-left: 8px">Driver RFID</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/VehicleRFIDReport")"><span style="padding-left: 8px">Vehicle RFID</span></a>
+                    </li>*@
+                </ul>
+            </li>
+        <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                @*<i class="fa fa-file-archive-o"></i>*@
+                <i class="fa fa-area-chart" aria-hidden="true"></i>
+                <br />
+                FMS <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;">
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageVehicles")"><span>Manage Vehicles</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ServiceReminders")"><span>Manage Service Reminders </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/RenewalReminder")"><span>Renewal Reminders</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageRepairMaintenance")"><span>Manage Repair/Maintenance</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/TyreInventory")"><span>Tyre Inventory </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/TyreFitting")"><span>Manage Tyre Fitting </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/TyreDisposal")"><span>Manage Tyre Disposal </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/manageparts")"><span>Parts Inventory</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageFuel")"><span>Manage Fuel</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/OrderBooking")"><span>Manage Booking Orders </span></a>
+                </li>
+
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageEmployee")"><span>Manage Employees </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageCustomer")"><span>Manage Customers </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageVendor")"><span>Manage Supplier</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/ManageDriverDocs")"><span>Manage Driver Documents </span></a>
+                </li>
+
+
+            </ul>
+        </li>
+
+        <li id="dropdown_Training" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a id="goto_Training" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Training">
+                <i class="fa fa-map-marker"></i>
+                <br />
+                Geo Fencing <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;">
+                <li style="text-align: left;">
+                    <a href="@Url.Content("~/Geofence/Set")"><span style="padding-left: 8px">Set </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a href="@Url.Content("~/Geofence/MangaeGeofence")"><span style="padding-left: 8px">Manage </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a href="@Url.Content("~/Geofence/ViewGeofence")"><span style="padding-left: 8px">View </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/geofence/fence-violations")"><span style="padding-left: 8px">Geofence Violations </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/Common/ADDPOI")"><span style="padding-left: 8px">Add POI </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/Common/POiDetails")"><span style="padding-left: 8px">Manage POI</span></a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li id="dropdown_Profile" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a id="goto_Profile" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Profile">
+
+                <i class="icon-bell-alt"></i>
+                <span id="bdgAnyAlert" class="badge badge-important pull-right hidden" style="position: relative; left: 0px; background-color: red; color: white !important;"><i class="fa fa-check" aria-hidden="true"></i></span>
+                <br />
+                Alerts <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;">
+                <li style="text-align: left;">
+                    <a href="@Url.Content("~/AddOn/PanicReport")"><span style="padding-left: 8px">Panice Alert <span id="panicAlertDash" class="badge badge-important pull-right" style="position: relative; left: 0px; background-color: red; color: white !important;"></span></span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a href="@Url.Content("~/report/SpeedAnalysisReport")"><span style="padding-left: 8px">Overspeed Alert <span id="overSpeedAlertDash" class="badge badge-important pull-right" style="position: relative; left: 0px; background-color: red; color: white !important;"></span></span></a>
+                </li>
+                @* <li style="text-align: left;">
+                    <a href="#"><span style="padding-left: 8px">panic Alert  </span></a>
+                </li>*@
+
+            </ul>
+        </li>
+
+        @* <li id="dropdown_Profile" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a id="goto_Profile" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Profile">
+                <i class="fa fa-sliders" style="font-size: 15px"></i>
+                <br />
+                Dashboard 2 <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;" id="customMenuList">
+                <!--Will come from Database-->
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/CustomReport/EntryExitReport")"><span style="padding-left: 8px">Entry Exit </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/CustomReport/Stationaryreport")"><span style="padding-left: 8px">Stationary Report </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/CustomReport/WorkinghourReport")"><span style="padding-left: 8px">Working hours </span></a>
+                </li>
+
+               
+
+            </ul>
+        </li>*@
+        <li id="dropdown_MyBill" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a id="goto_MyBill" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="My Bill">
+                <i class="icon-file" style="font-size: 15px"></i>
+                <br />
+                My Bills <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;">
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/billing/account-summary")"><span style="padding-left: 8px">Account Summary </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/billing/payment-options")"><span style="padding-left: 8px">Payment Options </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/subscription/SubscriptionPlans")"><span style="padding-left: 8px">Subscription plans</span></a>
+                </li>
+            </ul>
+        </li>
+        @*   <li id="dropdown_MyBill" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a class="height" id="goto_machines" href="@Url.Content("~/Admin/admindashboard")" title="Live Status">
+                <i class="icon-file" style="font-size: 15px"></i>
+                <br />
+                Driver Behaviour
+            </a>
+        </li>*@
+        <li id="dropdown_Misc" class="dropdown" style="text-align: center; padding-bottom: 10px">
+            <a id="goto_Misc" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Misc">
+                <i class="fa fa-cog"></i>
+                <br />
+                Settings <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;">
+
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/admin/getboxinfo")"><span>Box Info</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/settings/setemailtime")"><span>Set Emails Time</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/FMS/NTMManageVehicles")"><span>Assign Driver</span></a>
+                </li>
+
+                <li style="text-align: left;">
+
+                    <a tabindex="-1" href="@Url.Content("~/settings/UpdateTripSettings")"><span>Routing & Trip Settings</span></a>
+
+                </li>
+                @*<li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/Settings/ManageRoute")"><span>Manage Trip</span></a>
+                </li>*@
+                <li style="text-align: left;">
+
+                    <a tabindex="-1" href="@Url.Content("~/admin/UpdateOverSpeedStopSettings")"><span>OverSpeed and Stoppage</span><pan></a>
+
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/settings/SetNotificationAlert")"><span>SMS & Notifications </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/fms/SetNotificationAlert")"><span>FMS SMS & Notifications </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/Admin/MaxMileageTimeSlots")"><span>Time Slots Settings </span></a>
+                </li>
+                 <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/smsportal/AddSmsForCustomer")"><span>Buy SMS </span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/admin/feedback")"><span>Feedback</span></a>
+                </li>
+                  <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/misc/addservicerequest")"><span>Add Service Requst</span></a>
+                </li>
+                  <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/misc/ViewAllComplaint")"><span>View Service Request</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" onclick="btnAdminLogin();" href="#"><span>Profile </span></a>
+                </li>
+
+                <li style="text-align: left;">
+                    <a tabindex="-1" onclick="btnChangePassword();" href="#"><span>Change Password </span></a>
+                </li>
+                @*  <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/Admin/Index")"><span>Admin </span></a>
+                    </li>*@
+
+            </ul>
+        </li>
+        <li style="text-align: center; padding-bottom: 10px">
+
+
+            @*<a class="height" id="goto_logout" href="~/Home/Login" title="Log out">*@
+
+            <a class="height" id="goto_logout" href="javascript:;" ng-click="logout()" title="Log out">
+
+                <i class="icon-signout" style="font-size: 15px"></i>
+                <br />
+                <div>Log Out</div>
+            </a>
+        </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+
+@*<!-- Modal -->
+<div class="modal  fade" id="changePassword" role="dialog" style="display: block; width: 43%; height: 60%; overflow: hidden; padding-right: 0px;">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Settings</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="box-content padded">
+
+                        <form data-toggle="validator" role="form" id="formChangePassword">
+                            <div class="form-group ">
+                                <label for="inputName" class="control-label">Current Password</label>
+                                <input type="text" class="form-control" id="CurrentPassword" name="CurrentPassword" placeholder="Current Password" required>
+                            </div>
+                            <div class="form-group ">
+                                <label for="inputName" class="control-label">New Password</label>
+                                <input type="text" class="form-control" id="NewPassword" name="NewPassword" placeholder="New Password" required>
+                            </div>
+                            <div class="form-group ">
+                                <label for="inputName" class="control-label">Confirm New Password</label>
+                                <input type="text" class="form-control" id="txtCnfrmNewPwd" name="txtCnfrmNewPwd" placeholder="Confirm New Password" required>
+                                <input type="hidden" id="custId" name="custId" />
+                            </div>
+                            <div class="form-group ">
+                                <button type="button" onclick="submitPassword();" class="btn btn-green">Submit</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@

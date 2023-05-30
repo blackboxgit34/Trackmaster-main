@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Fuel Details";
+}
+
+<div class="main_container" id="tables_page">
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <p style="color: #999; font-size: 18px;">Vehicle Details</p>
+        </div>
+        <div class="col-md-7" style="text-align: center">
+            <div class="widget-body" style="height: 180px; background: #fff; border: 0; padding: 0;">
+                <h1>Fuel Gauge Here...</h1>
+            </div>
+        </div>
+        <div class="col-md-5">
+
+            <div class="widget">
+                <div class="widget-body clearfix" style="height: 180px; background: #fff; overflow-x: auto">
+                    <div style="margin-left: 10px">
+                        <h6>CT 40 TT Cambodia Status for : 10-Nov-2016</h6>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-md-7">
+            <div class="widget-body" style="background: #fff; border: 0; padding: 0;">
+                <h2 class="text-muted">Fuel Graph...</h2>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="widget-body" style="background: #fff; border: 0; padding: 0;">
+                <h2 class="text-muted">Filling & Theft Details</h2>
+
+            </div>
+        </div>
+    </div>
+    <!--Kendo UI js-->
+</div>

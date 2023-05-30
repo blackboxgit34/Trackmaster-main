@@ -1,0 +1,258 @@
+  public HttpResponseMessage GetOdometerDistance(string bbid, DateTime beginDate, DateTime endDate, int custid, string downloadType, string reportName, int sEcho, int iDisplayStart,
+       int iDisplayLength,
+       string sSearch,
+       int iSortCol_0,
+       string sSortDir_0)
+        {
+            OdometerDistanceEx OdometerDistance = new OdometerDistanceEx();
+            if (String.IsNullOrEmpty(bbid))
+            {
+                bbid = null;
+            }
+
+            if (beginDate != null && endDate != null)
+            {
+                var lowerBound = iDisplayStart;
+                var upperBound = iDisplayStart + iDisplayLength;
+                OdometerDistance = customReportRepoObj.GetOdometerDistanceReport
+                    (bbid, beginDate, endDate, custid, lowerBound, upperBound, sSearch);
+            }
+            if (!String.IsNullOrEmpty(downloadType) && (downloadType.Equals("Excel")))
+            {
+                var stream = ImportExportExcelService.ExportToExcelFlatList(OdometerDistance.ReportData, reportName, null, null);
+
+                HttpResponseMessage result = null;
+                // serve the file to the client      
+                result = Request.CreateResponse(HttpStatusCode.OK);
+                //byte[] array = Encoding.ASCII.GetBytes(str.ToString());
+                MemoryStream mem = new MemoryStream(stream);
+                result.Content = new StreamContent(mem);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = reportName + ".xls"
+                };
+                return result;
+            }
+            else if (!String.IsNullOrEmpty(downloadType) && downloadType.Equals("PDF"))
+            {
+                if (beginDate.ToString("MM/dd/yyyy") == DateTime.Today.ToString("MM/dd/yyyy"))
+                {
+                    beginDate = beginDate.AddDays(-1);
+                    endDate = endDate.AddDays(-1);
+                }
+                if (endDate.ToString("MM/dd/yyyy") == DateTime.Today.ToString("MM/dd/yyyy"))
+                {
+
+                    endDate = endDate.AddDays(-1);
+                }
+                string name = customReportRepoObj.GetCustomername(custid.ToString());
+                HttpResponseMessage result = null;
+                PDFGenerateForAllReports pdfGeneratedForAllReports = new PDFGenerateForAllReports();
+
+                var stream = pdfGeneratedForAllReports.ExportTopdfGenericTest(OdometerDistance.ReportData, reportName, name, (beginDate).ToString("MM/dd/yyyy"), (endDate).ToString("MM/dd/yyyy"));
+
+
+                // serve the file to the client      
+                result = Request.CreateResponse(HttpStatusCode.OK);
+                //byte[] array = Encoding.ASCII.GetBytes(str.ToString());
+                MemoryStream mem = new MemoryStream(stream);
+                result.Content = new StreamContent(mem);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = reportName + ".pdf"
+                };
+                return result;
+            }
+            if (OdometerDistance.ReportData != null)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK, new
+                {
+                    sEcho = sEcho,
+                    iTotalRecords = OdometerDistance.PageCount,
+                    iTotalDisplayRecords = OdometerDistance.PageCount,
+                    aaData = OdometerDistance.ReportData
+                });
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            }
+        }
+
+
+
+
+*********************************************************************
+
+
+
+
+
+
+    public OdometerDistanceEx GetOdometerDistanceReport(string bbid, DateTime beginDate, DateTime endDate, int custid, int lowerBound, int upperBound, string sSearch)
+          {
+              int itemcount = 0;
+              //  custid = 1619;
+            
+              OdometerDistanceEx objTravelRepEx = new OdometerDistanceEx();
+              objTravelRepEx.ReportData = new List<OdometerDistanceReportExReportData>();
+              objTravelRepEx.PageCount = 0;
+
+              SqlDataReader dr = null;
+              if (sSearch == null)
+              {
+                  SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@LowerBand",lowerBound),
+                new SqlParameter("@UpperBand",upperBound),
+                new SqlParameter("@ItemCount",0),
+                new SqlParameter("@custId",custid),
+                    new SqlParameter("@BBID",bbid)
+                };
+                  param[2].Direction = ParameterDirection.Output;
+
+                  dr = SqlHelper.ExecuteReader(Utility.GetConString, CommandType.StoredProcedure, "NewTMOverSpeedStopReport", param);
+                  objTravelRepEx.PageCount = Convert.ToInt16(dr.RecordsAffected.ToString());
+              }
+              else
+              {
+                  SqlParameter[] param = new SqlParameter[]
+                {
+                    new SqlParameter("@LowerBand",lowerBound),
+                    new SqlParameter("@UpperBand",upperBound),
+                    new SqlParameter("@ItemCount",0),
+                    new SqlParameter("@custId",custid),
+                new SqlParameter("@searchText",sSearch)
+            };
+                  param[2].Direction = ParameterDirection.Output;
+
+                  dr = SqlHelper.ExecuteReader(Utility.GetConString, CommandType.StoredProcedure, "SearchVehicleOnOverSpeedStop", param);
+                  objTravelRepEx.PageCount = Convert.ToInt16(dr.RecordsAffected.ToString());
+              }
+
+              List<OdometerDistanceReportExReportData> listTravelReport = new List<OdometerDistanceReportExReportData>();
+              ReportBase objRepBase = new ReportBase();
+              string boxType = string.Empty;
+
+
+
+              if (dr.HasRows)
+              {
+                  while (dr.Read())
+                  {
+
+                      OdometerDistanceReportExReportData objDistMainDeatils = new OdometerDistanceReportExReportData();
+
+                      objDistMainDeatils.VehicleName = Convert.IsDBNull(dr["vehname"]) ? string.Empty : Convert.ToString(dr["vehname"]);
+                      objDistMainDeatils.bbid = Convert.IsDBNull(dr["bbid"]) ? string.Empty : Convert.ToString(dr["bbid"]);
+                      DataSet ds = new DataSet();
+                      ds = GetOdoMeterDateAndreading(objDistMainDeatils.bbid, Convert.ToInt32(custid));
+                      DateTime odometerdate = Convert.ToDateTime(ds.Tables[0].Rows[0]["OdometerDateTime"]);
+                      string Odometerreading = Convert.ToString(ds.Tables[0].Rows[0]["InitialOdometer"]);
+
+
+                      DataSet dm = new DataSet();
+                      if (beginDate.ToString("MM/dd/yyyy") == DateTime.Today.ToString("MM/dd/yyyy"))
+                      {
+                          beginDate = beginDate.AddDays(-1);
+                          endDate = endDate.AddDays(-1);
+                      }
+                      if (endDate.ToString("MM/dd/yyyy") == DateTime.Today.ToString("MM/dd/yyyy"))
+                      {
+
+                          endDate = endDate.AddDays(-1);
+                      }
+
+                      dm = Getodometerdistance(beginDate,endDate, objDistMainDeatils.bbid, custid.ToString());
+
+                      if (dm != null)
+                      {
+                          if (dm.Tables[0].Rows.Count > 0)
+                          {
+
+                              if (string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["StartOdometer"])) && string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["EndOdometer"])))
+                              {
+                                  objDistMainDeatils.StartOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading));
+                                  objDistMainDeatils.EndOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading));
+                                  objDistMainDeatils.OdometerDistanceTravel = Convert.ToString(Convert.ToDecimal("0.00"));
+                              }
+
+                              else
+                              {
+                                  if (string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["StartOdometer"])) && (!string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["EndOdometer"])) && !string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["distance"]))))
+                                  {
+                                      objDistMainDeatils.StartOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading) + (Convert.ToDecimal(dm.Tables[0].Rows[0]["distance"])) - Convert.ToDecimal(dm.Tables[0].Rows[0]["EndOdometer"]));
+                                  }
+                                  else
+                                  {
+                                      objDistMainDeatils.StartOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading) + Convert.ToDecimal(dm.Tables[0].Rows[0]["StartOdometer"]));
+                                  }
+                                  if (string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["EndOdometer"])) && (!string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["StartOdometer"])) && !string.IsNullOrEmpty(Convert.ToString(dm.Tables[0].Rows[0]["distance"]))))
+                                  {
+                                      objDistMainDeatils.EndOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading) + (Convert.ToDecimal(dm.Tables[0].Rows[0]["distance"])) + Convert.ToDecimal(dm.Tables[0].Rows[0]["StartOdometer"]));
+                                  }
+                                  else
+                                  {
+                                      objDistMainDeatils.EndOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading) + Convert.ToDecimal(dm.Tables[0].Rows[0]["EndOdometer"]));
+                                  }
+
+
+                                  objDistMainDeatils.OdometerDistanceTravel = Convert.ToString(Convert.ToDecimal(dm.Tables[0].Rows[0]["distance"]));
+                              }
+
+
+
+
+                          }
+
+                          else
+                          {
+                              objDistMainDeatils.StartOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading));
+                              objDistMainDeatils.EndOdometerDistance = Convert.ToString(Convert.ToDecimal(Odometerreading));
+                              objDistMainDeatils.OdometerDistanceTravel = Convert.ToString(Convert.ToDecimal("0.00"));
+                          }
+
+
+                      }
+                     
+                         
+                      objDistMainDeatils.startdate = beginDate.ToString("yyyy/MM/dd");
+                      objDistMainDeatils.enddate = endDate.ToString("yyyy/MM/dd"); ;
+                      objTravelRepEx.ReportData.Add(objDistMainDeatils);
+                  }
+
+
+
+              }
+              return objTravelRepEx;
+          }
+
+
+********************************************
+
+
+          public DataSet Getodometerdistance(DateTime beginDate, DateTime endDate, string vehicleId, string custid)
+          {
+
+
+
+              DataTable objDT = new DataTable();
+              string p1 = Convert.ToDateTime(beginDate).ToString("yyyy-MM-dd HH:mm:ss");
+              string p2 = Convert.ToDateTime(endDate).ToString("yyyy.MM.dd HH:mm:ss");
+              SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@date1",p1),
+                new SqlParameter("@date2",p2),
+           
+                new SqlParameter("@BBID",vehicleId),
+                 new SqlParameter("@Custid",Convert.ToInt32(custid)),
+                
+                
+            };
+
+              DataSet ds = SqlHelper.ExecuteDataset(Utility.GetConStringHitec, CommandType.StoredProcedure, "Calcodometer", param);
+              return ds;
+
+          }

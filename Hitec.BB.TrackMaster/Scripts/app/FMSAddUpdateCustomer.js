@@ -1,0 +1,163 @@
+﻿$(".js-example-basic").select2({})
+$(document).ready(function () {
+    $('#HireDate').datepicker();
+    $("#AttachmentDiv").hide();
+    $('form').on('keydown', '#PhoneNo, #LandlineNo, #CreditCyleLimit, #ContactPersonNo1, #ContactPersonNo2, #CreditCyleAmount', function (e) {
+        -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault()
+    });
+    var StateUrl = apiBase.apiurl + 'FmsAPI/GetFmsStates';
+    $('#StateId').find('option:not(:first)').remove();
+    $.get(StateUrl, function (data) {
+        $.each(data, function (key, value) {
+            
+            $("#StateId").append($("<option></option>").val(value.Value).html(value.Name));
+        });
+    }).done(function () { bindData(); });
+
+});
+
+//get parameters from url as ( request.QueryString in c# )
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+//Cities changes when state name changes
+$('#AddNewCustomer').on('change', '#StateId', function () {
+    var stateid = $(this).val();
+       bindcities(stateid);
+});
+
+//Add file and bind file name and path
+$("#fileAttachmentsPath").bind("click change", function () {
+    var data = new FormData();
+    var files = $("#fileAttachmentsPath").get(0).files;
+    if (files.length > 0) {
+        data.append("MyImages", files[0]);
+    }
+    $.ajax({
+        url: "/Fms/UploadFile",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function (result) {
+            
+            $("#AttachmentsFileName").val(result.imgName);
+            $("#AttachmentName").val(result.imgName);
+            $("#AttachmentPath").val(result.imgPath);
+            $("#Attachment_Path").attr("href", result.imgPath);
+            
+        },
+        error: function (er) {
+            alert(er);
+        }
+    });
+});
+
+//Bind Cities wrt states
+function bindcities(stateid) {
+    var CityUrl = apiBase.apiurl + 'FmsAPI/GetFmsCity';
+    $('#CityId').find('option').remove();
+    $.get(CityUrl, { stateid: stateid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#CityId").append($("<option></option>").val(value.Value).html(value.Name));
+        });
+    });
+}
+
+//remove attachment
+function removeAttachment() {
+    var attPath = $("#AttachmentPath").val();
+    var cid = $("#CustomerID").val();
+    var url = apiBase.apiurl + "FmsApi/RemoveAttachment?custid=" + $custid + "&customerid=" + cid;
+    $.post(url, function (data) {
+        if (result) {
+            toastr.success("Document Updated.");
+            var url = "/Fms/RemoveDocument?DocumentPath=" + attPath;
+            $.post(url, function (result) {
+                if (result)
+                    toastr.success("Document Removed.");
+                else
+                    toastr.error("Document Not Found!!");
+            });
+        }
+        else
+            toastr.error("Failed!!");
+    });
+}
+
+//Submit to Add Customer
+$('#AddNewCustomer').submit(function () {
+    
+    var State = $("#StateId option:selected").text();
+    var City = $("#CityId option:selected").text();
+    var data = $('#AddNewCustomer').serializeArray();
+    data.push({ name: 'CustId', value: $custid },
+          { name: 'State', value: State },
+    { name: 'City', value: City }
+    );
+    var EmpUrl = apiBase.apiurl + 'FmsAPI/AddUpdateCustomer';
+    $.post(EmpUrl, $.param(data), function (result) {
+        if (result > 0) {
+            toastr.success("Record Entered Successfuly.");
+            window.setTimeout(function () {
+                window.location.href = '/Fms/ManageCustomer';
+            }, 1000);
+        }
+        else
+            toastr.error("Failed!!!")
+    });
+});
+
+function bindData()
+{
+    //Edit mode
+    var cid = getUrlParameter("cid");
+    if (cid != null && cid > 0) {
+        $("#statusText").text("Update Customer");
+        var url = apiBase.apiurl + "FmsApi/GetCustomerByCustomerId";
+        $.get(url, { custid: $custid, customerid: cid }, function (data) {
+            $("#StateId option:contains(" + data.State + ")").attr('selected', 'selected');
+            var stateId = 0;
+            stateId = $("#StateId option:selected").val();
+            bindcities(stateId);
+            $.each(data, function (item, value) {
+                switch (item) {
+                    case "City":
+                        $("#CityId").text(value);
+                        break;
+                    case "AttachmentName":
+                        
+                        if (value.length > 0) {
+                            
+                            console.log("AttachmentName" + value);
+                            var arr = value.split('_');
+                            $("#AttachmentName").text(arr[1]);
+                            $("#AttachmentDiv").show();
+                        }
+                        else {
+                            $("#AttachmentDiv").hide();
+                        }
+                        break;
+                    case "AttachmentPath":
+                        console.log("AttachmentPath" + value);
+                        $("#" + item).val(value);
+                        $("#Attachment_Path").attr("href", value);
+                        break;
+                    default:
+                        $("#" + item).val(value);
+                        break;
+                }
+            });
+        });
+    }
+}

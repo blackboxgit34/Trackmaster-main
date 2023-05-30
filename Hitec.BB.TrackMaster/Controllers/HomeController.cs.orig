@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Hitec.BB.TrackMaster.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Login()
+        {
+            return View("Login");
+        }
+        public ActionResult Index()
+        {
+            return View("Blank");
+        }
+<<<<<<< HEAD
+        public ActionResult info()
+        {
+            return View("info");
+=======
+
+        public ActionResult Feedback()
+        {
+            return View("Feedback");
+>>>>>>> 343da1a8bc0ca93cc62112c13555b83226ed1f39
+        }
+    }
+}

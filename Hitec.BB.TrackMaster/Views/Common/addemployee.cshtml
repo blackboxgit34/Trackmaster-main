@@ -1,0 +1,304 @@
+﻿@{
+    ViewBag.Title = "Add & Remove RFID Cards";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .button {
+        border: none;
+        color: white;
+        padding: 0px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 400px !important;
+    }
+
+    .button1 {
+        background-color: #dc3545; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        background-color: #92a214; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button3 {
+        background-color: #0d6efd; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        width: 200px !important;
+    }
+
+    .a {
+        font-size: 17px;
+    }
+</style>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>@ViewBag.Title</h5>
+
+            </div>
+            <div class="box_a_content">
+
+                <div class="widget-body">
+
+                    <label id="ErrorMessage" style="color: red"></label>
+                    <table id="dt_table_tools1" class="table ">
+                        <tbody>
+
+                            <tr style="display:none;">
+                                <td class="a">
+                                    First Name
+                                </td>
+                                <td>
+                                    <div style="width:40% !important;">
+                                        @Html.TextBox("issfuel", null, new { type = "text", style = "margin-bottom:0px;width: 400px;", placeholder = "Enter First Name of employee", min = "0" })
+
+
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+
+
+                            <tr style="display:none;">
+                                <td class="a">
+                                    Last Name
+                                </td>
+                                <td>
+                                    @Html.TextBox("InsDate", null, new { type = "text", style = "margin-bottom:0px;width: 400px;", placeholder = "Enter Last Name of employee " })
+                                </td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+
+
+                            <tr style="display:none;">
+                                <td class="a">
+                                    Card No
+                                </td>
+                                <td>
+                                    @Html.TextBox("night", null, new { type = "text", style = "margin-bottom:0px;width: 400px;", placeholder = "Enter card no of RFID", min = "0" })
+                                </td>
+                                <td class="a"></td>
+                                <td></td>
+                            </tr>
+                            <tr style="display:none;">
+                                <td></td>
+                                <td>
+                                    <input type="submit" id="Submit" name="Submit" value="Submit" class="button button2" />
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+
+                            <tr>
+                                <td colspan="4" class="a" style="  color:#fd7e14;font-weight:bold;">
+                                    Upload Excel
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="a">
+
+                                    Upload Excel Data
+                                </td>
+                                <td>
+                                    <div class="col-md-6">
+                                        @using (Html.BeginForm("addemployee", "Common", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+
+                                            <div class="form-group">
+                                                <input type="hidden" name="custid" id="custid" />
+                                                <input type="file" id="fileToUpload" name="file" />
+                                                <p class="help-block">Only xls file allowed<br />. Max size 1 MB.</p>
+                                                <span class="field-validation-error" id="spanfile"></span>
+                                            </div>
+
+                                            <button type="submit" id="btnSubmit" class="btn btn-green" style="cursor:pointer !important">
+
+                                                <img src="~/vendor/upload.png" style="height:21px;" /> &nbsp;Upload
+                                            </button>
+                                        }
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <script type="text/javascript">
+                                                window.onload = function () {
+                                                    alert("@ViewBag.Message");
+                                                };
+                                            </script>
+                                        }
+                                    </div>
+                                </td>
+                                <td class="a">
+                                    Download Excel
+                                </td>
+                                <td>
+                                    <div class="col-md-6">
+                                        @using (Html.BeginForm("DownloadRFIDExcel", "Common", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <button type="submit" id="btnExcel" class="btn btn-green" style="cursor:pointer !important">
+
+                                                <img src="~/vendor/downloadd.png" style="height:21px;" /> &nbsp;Download  Excel
+                                            </button>
+                                            <li>  Please Download Excel to upload RFID Card No Excel</li>
+                                            <li>All Feilds are mendatory</li>
+
+                                        }
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br />
+                    @*<br />
+                        @Html.Action("_Panicreportfilter", "CustomReport", new { reportTitle = " RFID Card Report", report = ViewBag.Report })*@
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table">
+                                            <thead>
+                                                <tr class="a">
+                                                    <th>S No</th>
+                                                    <th>Employee ID</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Card No</th>
+                                                    <th>Gender</th>
+                                                    <th>Contact no</th>
+                                                    <th>Created Date</th>                                                  
+                                                    <th>Action </th>
+
+
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+  
+    </div>
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/_layoutCustId.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+
+    <script src="~/Scripts/app/rfiduser.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#custid").val($custid);
+        });
+
+    </script>
+
+
+    <script type="text/javascript">
+
+
+
+
+
+
+
+        $("#AddServiceRequestForm").submit(function (event) {
+
+
+
+
+
+
+
+
+            saverecords()
+
+            event.preventDefault();
+
+
+        });
+        function saverecords() {
+            debugger;
+
+            var VehicleName = $("#VehicleName option:selected").text();
+            var monthlycharges = $("#txtmnthlychrge").val();
+            var vehreg = $("#vehreg").val();
+            var vehtype = $("#vehtype").val();
+            var bbid = $("#VehicleName").val().toString();
+            var vehmodel = $("#vehmodel").val();
+            var InsDate = $("#InsDate").val();
+            var pollutiondate = $("#pollutiondate").val();
+            var InsDate = $("#InsDate").val();
+            var servicedate = $("#servicedate").val();
+            var mobno = $("#mobno").val();
+            var drivername = $("#drivername").val();
+            var vendor = $("#vendor").val();
+            var mileage = $("#mileage").val();
+
+
+
+
+            var AddComplaintUrl = baseUrl + "taxiapi/saveDCMvehdetails";
+            $.ajax({
+                type: "POST",
+                data: {
+                    bbid: bbid,
+                    vehreg: vehreg,
+                    charges: monthlycharges,
+                    mileage: mileage,
+                    vehtype: vehtype,
+                    vehmodel: vehmodel,
+                    insdate: InsDate,
+                    polludate: pollutiondate,
+                    servicedate: servicedate,
+                    drivername: drivername,
+                    mobno: mobno,
+                    vendordetails: vendor
+                },
+                url: AddComplaintUrl,
+                success: function (data) {
+                    if (data)
+                        toastr.success("please select Vehicle name, email, and any complaint checkbox");
+                    else
+                        toastr.warning("please select Vehicle name, email, and any complaint checkbox");
+                }
+            });
+        }
+
+
+
+
+
+    </script>
+}
+
+

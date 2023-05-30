@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Set Geo-fence</title>
+    <meta name="keywords" content="blackbox,google map,v3,geofence" />
+    <meta name="description" content="BlackBox Geofence Creator" />
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+        media="screen" />
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" language="javascript"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="../js/Map/GeoFence/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../js/Map/GeoFence/polygon.min.js"></script>
+    <style type="text/css">
+        .panel1
+        {
+            background: none repeat scroll 0 0 #fff;
+            border: 1px solid #ccc;
+            height: auto;
+            left: 0;
+            opacity: 0.85;
+            padding: 10px;
+            position: absolute;
+            top: 80px;
+            width: 300px;
+        }
+        a.trigger1
+        {
+            background: url("minus.png") no-repeat scroll 85% 55% #526ea6;
+            color: #fff;
+            display: block;
+            left: 0;
+            padding: 10px 40px 10px 15px;
+            position: absolute;
+            text-decoration: none;
+            top: 43px;
+        }
+    </style>
+    <script type="text/javascript">
+        function initialize() {
+            $(function () {
+                //create map
+                var latx = document.getElementById('txtlat').value;
+                var lonx = document.getElementById('txtlon').value;
+                if (latx == '') {
+                    latx = 30.6;
+                }
+                if (lonx == '') {
+                    lonx = 76.6;
+                }
+                var myCenter = new google.maps.LatLng(latx, lonx);
+                var myOptions = {
+                    zoom: 10,
+                    center: myCenter,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                //alert(myCenter);
+                map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+                var creator = new PolygonCreator(map);
+                // Bind Fenced Vehicles
+                bindFencedVehicles();
+                bindCity();
+                //reset
+                $('#reset').click(function () {
+                    if (creator.pen.listOfDots > 3) {
+//                        alert(dataPanel);
+//                        alert(creator);
+                    }
+                    creator.destroy();
+                    creator = null;
+                    creator = new PolygonCreator(map);
+                });
+                //reset
+                $('#getCityMap').click(function () {
+                    getCityMap();
+                });
+                //show paths
+                $('#saveFence').click(function () {
+                    //Empty message panel
+                    $('#Mesasage').html("");
+                    $('#dataPanel').empty();
+                    if (null == creator.showData()) {
+                        $('#Mesasage').html('Please first create a polygon');
+                        $('#Mesasage').show();
+                    } else {
+                        $('#dataPanel').append(creator.showData());
+                        SaveFenceData();
+                    }
+                });
+            });
+        }
+    </script>
+    <script type="text/javascript" language="javascript">
+        var send;
+        function getCityMap(the_value) {
+            var latLong = new google.maps.LatLng(30.97, 76.77);
+            //alert(latLong);
+            map.setCenter(latLong);
+        }
+        // ========================== Save Geo Fence ===========================
+        function SaveFenceData() {
+            var fenceName, latLongPairs, alertson;
+            var latLongPairs = document.getElementById('dataPanel').innerHTML;
+            fenceName = document.getElementById('txtFenceName').value;
+            send = latLongPairs;
+            //alert(latLongPairs);
+            if (document.getElementById('chksms').checked == true) {
+                alertson = "SMS";
+            }
+            else if (document.getElementById('chkemail').checked == true) {
+                alertson = "EMAIL";
+            }
+            else { alertson = "NA" }
+            if (document.getElementById('chkemail').checked == true && document.getElementById('chksms').checked == true)
+            { alertson = "SMS/EMAIL" }
+            var name = send;
+            if (txtFenceName.value == '') {
+                alert('Fence Name Required');
+            }
+            else {
+                var bbid = $("#VariantName").val();
+                $.ajax({
+                    url: '/Geofence/SaveFence',
+                    type: 'post',
+                    data: { fenceName: fenceName, bbid: bbid, latLongPairs: latLongPairs, alertson: alertson },
+                    success: function (data) {
+                        //alert(data);
+                        alert('Fence successfully saved');
+                        // Clear Fence Name
+                        $('#txtFenceName').val("");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+                //hitecpoint.GeoFenceDataForMap.IGeofencingService.GetGeofencingRoute(fenceName, latLongPairs, CallBackMultiple);
+            }
+        }
+        // ========================== END Save Geo Fence ===========================
+        var markers = [];
+        function CallBackMultiple(markers) {
+            //alert(markers.length);
+            for (i = 0; i < markers.length; i++) {
+                var fenceName = markers[i].FenceName;
+                if (fenceName == "Error") {
+                    document.getElementById('resultPanel').innerHTML = '<div class="error">' + fenceName + "</div>";
+                }
+                else {
+                    document.getElementById('resultPanel').innerHTML = '<div class="success">' + fenceName + "</div>";
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function copy_data(val) {
+            var a = document.getElementById(val.id).value
+            document.getElementById("hfValue").value = a
+        }    
+    </script>
+    <script type="text/javascript">
+        function combofunction(the_value) {
+            var sParts = the_value.split(",");
+            document.getElementById('txtlat').value = sParts[0];
+            document.getElementById('txtlon').value = sParts[1];
+            //initialize();
+            //var sParts = result.split(",");
+            var latLong2 = new google.maps.LatLng(sParts[0], sParts[1]);
+            //alert(latLong);
+            map.setCenter(latLong2);
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".trigger1").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+        });
+    </script>
+</head>
+<body onload="initialize();">
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.</noscript>
+    <div id="container">
+        <div id="map_canvas" style="width: 100%; height: 550px;">
+        </div>
+        <div class="panel1" style="height: 350px; width: 302px;">
+            <div style="background: #FFFFD2; border: 1px solid #FF9E00; height: auto; padding: 1px 5px;
+                width: 280px; z-index: 99999; margin-bottom: 5px;">
+                To complete polygon, connect the end point of polygon with the starting point.
+            </div>
+            <div style="background: #FFFFD2; border: 1px solid #FF9E00; height: auto; padding: 1px 5px;
+                width: 280px; z-index: 99999; margin-bottom: 10px;">
+                Previously created fence will be over-written.
+            </div>
+            <input type="text" id="txtlat" style="display: none" />
+            <input type="text" id="txtlon" style="display: none" />
+            <div>
+                <label>
+                    Vehicle:</label><br />
+                <select id="VariantName" name="VariantName" class="ddl">
+                </select>
+            </div>
+            <br />
+            <div style="float: left;">
+                <label>
+                    City:</label><br />
+                <select name="City" id="htmlcombo" class="ddl">
+                </select>
+            </div>
+            <div style="float: left;">
+                <br />
+                <input type="button" name="combovalue" value="Get Map" onclick="combofunction(htmlcombo.value)" />
+            </div>
+            <div style="clear: both; height: 20px;">
+            </div>
+            <div>
+                <label>
+                    Fence Name:</label><br />
+                <input type="text" id="txtFenceName" style="width: 234px;" onkeyup="copy_data(this)" />
+            </div>
+            <div style="clear: both; height: 20px;">
+            </div>
+            <div>
+                <label>
+                    Alerts On:</label><br />
+                SMS:
+                <input type="checkbox" id="chksms" />
+                EMAIL:
+                <input type="checkbox" id="chkemail" />
+            </div>
+            <div style="clear: both; height: 20px;">
+            </div>
+            <div>
+                <input id="saveFence" value="Save Fence" type="button" class="button" />
+                <input id="reset" value="Reset" type="button" class="button" onclick="showDivclr()" />
+            </div>
+            <div id="Mesasage" style="display: none; color: #f21a1a; padding-top: 5px;">
+            </div>
+            <div id="dataPanel" style="display: none;">
+            </div>
+            <div id="resultPanel" style="height: 50px; font-size: small;" runat="server" clientidmode="Static">
+            </div>
+        </div>
+        <a class="trigger1" href="#">Set Geofence</a>
+    </div>
+</body>
+</html>

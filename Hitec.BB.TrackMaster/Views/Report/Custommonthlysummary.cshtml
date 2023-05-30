@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = " Monthly Detailed Data";
+    ViewBag.Report = "summary";
+}
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_MonthlyReportFilter", new { reportTitle = ViewBag.Title, report = ViewBag.Report })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    @*<th rowspan="2">Name</th>*@
+                                                    <th colspan="1">&nbsp;</th>
+
+                                                    <th colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Distance and location</th>
+                                                    <th colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                  
+                                                </tr>
+                                                <tr>
+                                                    @*<th>BBID
+                                                    </th>*@
+                                                    <th>Vehicle No
+                                                    </th>  
+                                                    
+                                                    <th>Start Location</th> 
+                                                    <th>Opening Distance</th>
+                                                    <th>Last Stop Location</th> 
+                                                    <th>Closing  Distance</th>                                                            
+                                                    <th>Total Distance (kms)
+                                                    </th>
+                                                    <th>Total Ignition Time (dd-hh:mm:ss)
+                                                    </th>
+                                                    <th>Total Driving Time (dd-hh:mm:ss)
+                                                    </th>
+                                                    <th>Total Stoppage Time (dd-hh:mm:ss)
+                                                    </th>
+                                                    @*<th>Total Overspeed Driving Duration
+                                                    </th>*@
+                                                    <th>Over Stoppage Count</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+
+@section scripts{
+    <style>
+
+        .ranges li:last-child { display: none; }
+         .ranges ui-datepicker-calendar { display: none; }
+       
+    </style>
+    <!--common js file-->
+    <script src="~/Scripts/app/CommonSummay.js"></script>
+   
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/customSummaryReport.js?")"@DateTime.Now.Ticks></script>
+}

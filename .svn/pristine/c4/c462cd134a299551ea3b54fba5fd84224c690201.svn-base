@@ -1,0 +1,127 @@
+#region LogUsers
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage LogUserLogin(string username, string Ipaddress, string browser, string website, string remarks = "")
+        {
+            StaffOtp response = customerRepositoryIF.LogUserLogin(username, Ipaddress, browser, website + remarks);
+            if (response.message != "Failed")
+            {
+                SMSSender.SmsService smsSender = new SMSSender.SmsService();
+                smsSender.SendTextSms("Login OTP", DateTime.Now.ToString(), 104, response.message, response.number, "Login OTP", "8", 0);
+                response.message = "Success";
+                return this.Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            }
+        }
+
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage VerifyUserLogin(string username, string website, string OTP)
+        {
+            StaffOtp response = customerRepositoryIF.VerifyUserLogin(username, website, OTP);
+            if (response.message != "Failed")
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.Forbidden);
+            }
+        }
+
+        [AcceptVerbs("GET")]
+        public HttpResponseMessage LogUserLogout(string username, string Ipaddress)
+        {
+            string response = customerRepositoryIF.LogUserLogout(username, Ipaddress);
+            if (response != null)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            }
+        }
+        #endregion
+
+
+======================================================REPO=======================================================================================
+
+public StaffOtp LogUserLogin(string username, string Ipaddress, string browser, string website)
+        {
+            string res = "";
+            Random rnd = new Random();
+            StaffOtp sotp = new StaffOtp();
+            string OTP = rnd.Next(1111, 9999).ToString();
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@username", username),
+                new SqlParameter("@ipaddress", Ipaddress),
+                new SqlParameter("@browser", browser),
+                new SqlParameter("@website", website),
+                new SqlParameter("@OTP", OTP),
+            };
+            try
+            {
+                string number = SqlHelper.ExecuteScalar(Utility.GetSecurityConString, CommandType.StoredProcedure, "InsertLoginTime", param).ToString();
+                string message = OTP + " is the OTP for you login request to " + website + ". Keep this OTP to yourself for the safety of your account.";
+                sotp.number = number;
+                sotp.message = message;
+            }
+            catch (Exception ee)
+            {
+                sotp.message = "Failed";
+            }
+            return sotp;
+        }
+
+        public StaffOtp VerifyUserLogin(string username, string website, string OTP)
+        {
+            StaffOtp sotp = new StaffOtp();
+            // verify otp from database
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@username", username),
+                new SqlParameter("@website", website),
+                new SqlParameter("@OTP", OTP)
+            };
+            sotp.message = SqlHelper.ExecuteScalar(Utility.GetSecurityConString, CommandType.StoredProcedure, "VerifyUserLogin", param).ToString();
+            return sotp;
+        }
+
+        public string LogUserLogout(string username, string Ipaddress)
+        {
+            string res = "";
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@username",username),
+                new SqlParameter("@ipaddress",Ipaddress)
+            };
+            try
+            {
+                SqlHelper.ExecuteNonQuery(Utility.GetSecurityConString, CommandType.StoredProcedure, "InsertLogoutTime", param);
+                res = "Success";
+            }
+            catch (Exception ee)
+            {
+                res = "Failed";
+            }
+            return res;
+        }
+
+============================================================IREPO=================================================================================
+
+StaffOtp LogUserLogin(string username, string Ipaddress, string browser, string website);
+
+        string LogUserLogout(string username, string Ipaddress);
+
+        StaffOtp VerifyUserLogin(string username, string website, string OTP);
+
+===================================================================class==============================================================================
+
+ public class StaffOtp
+    {
+        public string number { get; set; }
+        public string message { get; set; }
+    }

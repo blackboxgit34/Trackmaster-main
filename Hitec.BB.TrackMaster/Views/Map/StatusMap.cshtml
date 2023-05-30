@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = ViewBag.ReportTitle;
+}
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.ReportTitle</h5>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -40px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <p>TABLE HERE</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+

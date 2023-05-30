@@ -1,0 +1,5 @@
+﻿@{
+    ViewBag.Title = "Trip Report";
+}
+
+<h2>TripReport</h2>

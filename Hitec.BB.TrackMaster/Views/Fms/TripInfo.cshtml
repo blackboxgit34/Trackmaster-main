@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "TripInfo";
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>Trip Analysis</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                    <img onclick="exportExcel('@ViewBag.Report')" src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">
+                                    @*<img onclick="sendEmail('@ViewBag.Report')" src='/content/img/cc2.png' onmouseover="this.src='/content/img/z22.png';" onmouseout="this.src='/content/img/cc2.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">
+                                    <img onclick="exportPDF('@ViewBag.Report')" src='/content/img/cc1.png' onmouseover="this.src='/content/img/z31.png';" onmouseout="this.src='/content/img/cc3.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">*@
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row">
+                                            <form class="form-inline" id="searchform">
+                                                <div class="col-md-4 form-group padded" style="padding-left: 35px;">
+                                                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                        &nbsp;<span></span><b class="caret"></b>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 padded">
+                                                    <div class="form-group">
+                                                        <select id="vehicleList" name="vehicleList" class="form-control">
+                                                            <option value="0" selected>Select Vehicle</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select id="masterTripList" name="masterTripList" class="form-control">
+                                                            <option value="0" selected>Select Trip</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select id="DriverList" name="DriverList" class="form-control">
+                                                            <option value="0" selected>Driver List</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select id="technicianList" name="technicianList" class="form-control">
+                                                            <option value="0" selected>Technician List</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 padded">
+                                                    <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                                    <input type="button" value="Add" id="BtnAdd" class="btn btn-green" onclick="window.location.href = '../FMS/AddTrip'">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr No</th>
+                                                    <th>BBID</th>
+                                                    <th>Vehicle Name</th>
+                                                    <th>Trip Name</th>
+                                                    <th>Distance</th>
+                                                    <th>Actual Distance</th>
+                                                    <th>Driver Name</th>
+                                                    <th>Technician Name</th>
+                                                    <th>Start Location</th>
+                                                    <th>End Location</th>
+                                                    <th>Details</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/TripInfo.js?")"@DateTime.Now.Ticks></script>
+}
+
+

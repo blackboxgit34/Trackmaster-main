@@ -1,0 +1,139 @@
+﻿<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<style>
+    .bold {
+        font-weight: bold !important;
+    }
+</style>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title</h5>
+                              
+                               
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded" id="outerDiv">
+                                                        <div class="col-sm-12">
+                                                            <input type="hidden" id="renewalID" name="renewalID">
+                                                            <div class="form-group col-sm-4">
+                                                                <label class="control-label col-sm-6">Vehicle : </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="hidden" id="vehicleIdFromMain" value ="@ViewBag.VehicleId"/>
+                                                                    @Html.DropDownList("vehicleID", Enumerable.Empty<SelectListItem>(), "Select Vehicle Name", new { @class = "js-example-basic" })
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                               LATITUDE:  <input type="text" id="latval" />   LONGITUDE:  <input type="text" id="longival" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <br />
+                                                        <br />
+
+                                                        <div class="col-sm-10 ">
+                                                            <div class="form-group col-sm-3 bold">
+
+                                                            </div>
+                                                            <div class="form-group col-sm-2 bold">
+                                                               
+                                                                <button type="button" onclick="Createdata();" class="btn btn-green"><i class="fa fa-paper-plane"></i>&nbsp;Create Link</button>
+
+                                                            </div>
+                                                            <div class="form-group col-sm-2 bold">
+                                                               
+                                                            </div>
+                                                            <div class="form-group col-sm-3 bold">
+                                                               
+                                                            </div>
+                                                            <div class="form-group col-sm-3 bold">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <form data-toggle="validator" role="form">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group ">
+                                                                        <label for="inputName" class="control-label">To</label>
+                                                                        <input type="text" placeholder=" please enter Email TO  here." id="txtTo" style="height: 3.5em;" required />
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group ">
+
+                                                                        <label for="inputName" class="control-label" onkeypress="return isNumber(event)">CC <span title="Please insert comma(,) after every mobile number in mobile number box." class="pull-right badge badge-default"><i class=" fa fa-info-circle"></i></span></label>
+                                                                        <input type="text" placeholder=" please enter Email CC here." id="txtcc" style="height: 3.5em;" required />
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group ">
+
+                                                                        <label for="inputName" class="control-label" onkeypress="return isNumber(event)">BCC <span title="Please insert comma(,) after every mobile number in mobile number box." class="pull-right badge badge-default"><i class=" fa fa-info-circle"></i></span></label>
+                                                                        <input type="text" placeholder="please enter Email BCC here." id="txtbcc" style="height: 3.5em;" required />
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group ">
+                                                                        <label for="inputName" class="control-label">Message</label>
+                                                                        <textarea rows="4" maxlength="128" cols="50" id="txtMessage" name="comment" style="height: initial;"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group ">
+
+                                                                        <label for="inputName" class="control-label" onkeypress="return isNumber(event)">Send Link On Mobile NO <span title="Please insert comma(,) after every mobile number in mobile number box." class="pull-right badge badge-default"><i class=" fa fa-info-circle"></i></span></label>
+                                                                        <input type="text" placeholder="please enter Mobile No  here." id="mobno" style="height: 3.5em;" required />
+
+                                                                    </div>
+                                                                    <div class="form-group ">
+                                                                        <button type="button" onclick="submitRequest();" class="btn btn-green"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+
+                                                                        <a id="hrefwhtsapp" data-action="share/whatsapp/share"><button type="button" class="btn btn-danger">Share via Whatsapp web</button> </a>
+                                                                    </div>
+                                                                </div>
+
+                                                               
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/CreateLink.js"@DateTime.Now.Ticks></script>
+
+}

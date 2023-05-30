@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "GraphMaster";
+}
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["table"] });
+        google.charts.load("current", { packages: ["corechart"] });
+       
+        google.setOnLoadCallback(drawChart);
+
+</script>
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+ 
+              
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+
+
+<div class="flip-container">
+        <div class="flipper">
+          <div class="front">
+            <div id="chartdiv" ></div>
+          </div>
+          <div class="back">
+             <div id="table1" ></div> 
+          </div>
+        </div>
+      </div>
+                                          
+
+                                        
+<div class="flip-container">
+        <div class="flipper">
+          <div class="front">
+            <div id="chartdiv1" ></div>
+          </div>
+          <div class="back">
+             <div id="table2" ></div> 
+          </div>
+        </div>
+      </div>
+
+                                   
+
+                                        <div class="flip-container">
+        <div class="flipper">
+          <div class="front">
+            <div id="chartdiv3" ></div>
+          </div>
+          <div class="back">
+             <div id="table4" ></div> 
+          </div>
+        </div>
+      </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body--> 
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+@section css{
+    <style>
+
+      .flip-container {
+        perspective: 1000px;
+        float:left;
+        margin: 20px;
+      }
+      .flip-containerhover .flipper, .flip-container.hover .flipper {
+        transform: rotateY(180deg);
+      }
+      .flip-container, .front, .back {
+        width: 600px;
+        height: 200px;
+      }
+      .flipper {
+        transition: 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+      }
+      .front, .back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .front {
+        z-index: 2;
+        transform: rotateY(0deg);
+      }
+      .back {
+        transform: rotateY(180deg);
+      }
+      #container{
+        overflow: hidden;
+        margin: 20px;
+        left: -20px;
+      }
+      .tableDiv{
+        margin:20px;
+      }
+      .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+        padding: 6px !important;
+      }
+
+
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+
+
+
+
+        /* ---- boxes ---- */
+    .box_a {border:1px solid #ddd;background:#fff;position:relative;margin-top:97px;}
+   
+    .box_a_content.cnt_a {padding:35px}
+   
+
+
+    </style>
+}
+
+@section scripts{
+    <script>
+
+        $('.flip-container').click(function () {
+            this.classList.toggle('hover');
+        });
+    </script> 
+<script src="~/Scripts/app/common.js"></script> 
+
+  
+    
+<script src="~/Scripts/app/GraphMasterdata.js?v="@DateTime.Now.Ticks</script>
+     
+
+    
+}
+
+
+
+
+
+
+

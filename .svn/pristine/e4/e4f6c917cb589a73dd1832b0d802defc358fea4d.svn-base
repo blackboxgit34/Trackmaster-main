@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "RFID Report";
+}
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_Panicreportfilter", "CustomReport", new { reportTitle = "RFID Report" })
+
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle No</th>
+                                                    <th>Tag#
+                                                    </th>
+                                                    <th>Check-In Time
+                                                    </th>
+                                                    <th>Check In Location
+                                                    </th>
+                                                    <th>Check-Out Time
+                                                    </th>
+                                                    <th>Check-Out Location
+                                                    </th>
+                                                    <th>Duration
+                                                    </th>
+                                                    <th>Details</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+
+@section scripts{
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/RfidReport.js?")"@DateTime.Now.Ticks></script>
+}

@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+     <style>
+        #loading-img {
+	background: url("http://www.chimply.com/images/samples/classic-spinner/animatedEllipse.gif") center center no-repeat;
+    display: none;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 33%;
+    left: 1%;
+    right: 1%;
+    margin: auto;
+}
+.container{
+    height: 300px;
+    background: #000;
+    color: #fff;
+}
+.group {
+    position: relative;
+    width: 100%;
+}
+a.disabled {
+   pointer-events: none;
+   cursor: default;
+}
+    </style>
+ <script src="../Scripts/jquery-3.1.1.min.js"></script>
+      <script src="../Content/Scripts/Googlecharts.js"></script>
+    <script src="../Content/js/APIURL.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var baseURL = apiBase.apiurl;
+            var overstoppage;
+            var nonoverstoppage;
+            var MyUrl = baseURL + 'commonapi/GetMonthlyRfid';
+            google.charts.load('current', { packages: ['corechart', 'bar'] });
+            google.charts.setOnLoadCallback(drawChart);
+            $("#loading-img").css({ "display": "block" });
+            function drawChart() {
+                
+                var userId = getUrlParameter('custId');
+                $.ajax({
+
+                    url: MyUrl,
+                    data: { custid: userId },
+                    success: function (data) {
+                        var dataGraph = [['Days', 'Auth', 'Unauth']];
+                        for (var i = 0 ; i < data.length; i++)
+                        {
+
+                            if (i == 0)
+                            {
+                                $("#dfrom").html(data[i].days);
+                            }
+                            else
+                            {
+                                $("#dto").html(data[i].days);
+                            }
+                          
+                           
+                            dataGraph.push([data[i].days, data[i].auth, data[i].unauth]);
+                        }                    
+                        document.getElementById("vehicleStatus").disabled = false;
+                        $('#overStoppageGraph').attr('href', '../report/summary').attr('target', '_blank');
+
+                        var datarfid = google.visualization.arrayToDataTable(dataGraph);
+       
+                        var options = {
+                            //title: 'Monthly Detail of RFID cards Punch',
+                            legend: { position: 'top', maxLines: 3 },
+                            bar: { groupWidth: '75%' },
+                            isStacked: true,
+                            hAxis: { textPosition: 'none' },
+                            colors: ['#1A537A', '#F93154']
+                        };
+                      
+
+
+                        var chart = new google.visualization.ColumnChart(document.getElementById('donutchart'));                  
+                        chart.draw(datarfid, options);
+                    }
+
+
+
+
+                });
+            }
+        }
+    </script>
+</head> 
+<body style="overflow:hidden!important;">
+
+    <div>
+        <div class="align-center" style="color:#867f7f">
+       Monthly Details of RFID punch from <span id="dfrom"></span> To <span id="dto"></span>
+        </div>
+       
+    </div>
+    <div id="vehicleStatus" style="background-color:lightgray;">
+        <div id="loading-img"></div>
+        <a href="#" id="overStoppageGraph" title="View Full Report">
+            <div id="donutchart" style="width: 100%; height: 330px"></div>
+
+          
+        </a>
+    </div>
+
+   
+
+</body> 
+</html>

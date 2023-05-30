@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Add Service Reminder";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="float:right">
+                                      <a target="_blank" class="btn btn-primary btn-mini right sixEyeMapHeaderButton" style="color: white !important" href="@Url.Content("~/fms/SetNotificationAlert")">Set FMS SMS & Notifications</a>&nbsp;&nbsp;
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded span7">
+                                                        <form id="servSchedule" method="post">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Vehicle Name : </label>
+                                                                <div class="col-sm-6">
+                                                                    <input type="hidden" id="vehicleIdFromMain" value ="@ViewBag.VehicleId"/>
+                                                                    <input type="hidden" id="SSIDMain" value="@ViewBag.SSID" />
+
+                                                             
+                                                                    @Html.DropDownList("VehicleId", Enumerable.Empty<SelectListItem>(), "Select Vehicle Name", new { @class = "js-example-basic", @style="width: 100%; margin-bottom:1px" })
+                                                                    <span style="margin-bottom:10px" class="label label-default" id="odometer"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <br />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Services to be performed :</label>
+                                                                <div class="col-sm-6 form-group">
+                                                                    <select id="ServiceItemID" name="ServiceItemID" class="js-example-basic-multiple form" multiple="multiple" required></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Next Due Km :</label>
+                                                                <div class="col-md-1">
+                                                                    <input type="checkbox" name="KmReminder" id="KmReminder" disabled>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <div class="pull-left">
+                                                                        <input class="col-sm-6" type="text" id="NextDueKM" placeholder="(KM)" name="NextDueKM" disabled>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <div class="pull-left">
+                                                                        <input class="col-sm-6" type="text" id="NextDueOdometer" placeholder="(Odometer Reading)" name="NextDueOdometer" disabled>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-3">
+                                                                    <div class="pull-left">
+                                                                        <div id="main" style="display:none;">
+                                                                           
+                                                                            
+                                                                            (Set Multiple KM )
+                                                                             <img src="~/img/logo/plus.png" id="btAdd" class="bt" style="height:24px;" />
+                                                                            <img src="~/img/logo/x-button.png" class="bt" id="btRemove" style="height: 24px; margin-left: 125px; margin-top: -44px;" />
+
+                                                                            <img src="~/img/logo/delete.png" class="bt" id="btRemoveAll" style="height: 24px; margin-left: 152px; margin-top: -84px;" />
+                                                                          
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Next Due Date :</label>
+                                                                <div class="col-md-1">
+                                                                    <input type="checkbox" name="DateReminder" id="DateReminder" disabled>
+                                                                </div>
+                                                                <div class="col-sm-5">
+                                                                    <input type="text" id="NextDueDate" name="NextDueDate" placeholder="Select Date" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Reminder Before :</label>
+                                                                <div class="col-sm-6">
+                                                                    <div class="pull-left">
+                                                                        <input class="col-sm-10" type="text" id="ReminderValue" name="ReminderValue" disabled>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        Day(s)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group" id="statusdiv">
+                                                                <label class="control-label col-sm-4">change Service Status </label>
+                                                                <div class="col-sm-6">
+                                                                    <div class="pull-left">
+                                                                       <select id="servicestatus">
+                                                                           <option value="0"> Pending</option>
+                                                                           <option value="1"> Done</option>
+                                                                       </select>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        Day(s)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-4">Remarks :</label>
+                                                                <div class="col-sm-6">
+                                                                    <textarea rows="4" cols="50" id="Remarks" name="Remarks" required></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-sm-6">
+                                                                <input type="submit" class="btn btn-submit btn btn-green" value="Submit" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/widget-body-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+         <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/app/FMSAddUpdateServiceSchedule.js")"@DateTime.Now.Ticks></script>
+    }

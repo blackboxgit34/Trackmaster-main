@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Vehicle Log";
+}
+<div class="row-fluid">
+    <div class="widget-body ">
+
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                    <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                                   
+                                </div>
+                                <div class="checkbox pull-right">
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <form class="form-inline">
+                                                    <div class="form-group padded">
+                                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                            <i class=" fa fa-calendar"></i>
+                                                            &nbsp;<span></span><b class="caret"></b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="padding-left: 5px;">
+                                                        <input type="button" value="Search" id="BtnSearch" class="btn btn-green">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <span class="badge badge-info" data-toggle="tooltip" data-placement="left" title="Recommended Date range is between 1-7 days.Loads faster."><i class="fa fa-info-circle"></i></span>
+                                                        <select class="form-control" id="ddlCompanyName"></select>
+                                                     </div>
+                                                    
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>GateIn</th>
+                                                    <th>In Time</th>
+                                                    <th>Vehicle No</th>
+                                                    <th>Company Name </th>
+                                                    <th>Out Time</th>
+                                                 <th>Gate Out</th>
+                                                    <th>Duration</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/RouteLog.js" @DateTime.Now.Ticks></script>
+}
+
+

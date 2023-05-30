@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+     <style>
+        #loading-img {
+	background: url("http://www.chimply.com/images/samples/classic-spinner/animatedEllipse.gif") center center no-repeat;
+    display: none;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 33%;
+    left: 1%;
+    right: 1%;
+    margin: auto;
+}
+.container{
+    height: 300px;
+    background: #000;
+    color: #fff;
+}
+.group {
+    position: relative;
+    width: 100%;
+}
+a.disabled {
+   pointer-events: none;
+   cursor: default;
+}
+    </style>
+ <script src="../Scripts/jquery-3.1.1.min.js"></script>
+      <script src="../Content/Scripts/Googlecharts.js"></script>
+    <script src="../Content/js/APIURL.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var baseURL = apiBase.apiurl;
+            var overstoppage;
+            var nonoverstoppage;
+            var MyUrl = baseURL + 'AdminAPI/GetTopTenDistance';
+            //google.charts.load("current", { packages: ["corechart"] });
+            google.charts.load('current', { packages: ['corechart', 'bar'] });
+            google.charts.setOnLoadCallback(drawChart);
+            $("#loading-img").css({ "display": "block" });
+            function drawChart() {
+                
+                //getUrlParameter () is defined under APIURL.js file
+                var userId = getUrlParameter('custId');
+                $.ajax({
+
+                    url: MyUrl,
+                    data: { custid: userId },
+                    success: function (data) {
+                        var dataGraph = new google.visualization.DataTable();
+                        dataGraph.addColumn('string', 'Vehicle Name');
+                        dataGraph.addColumn('number', 'Distance(KM)');
+                      
+                        $.each(data, function (i, item) {
+                            
+                            dataGraph.addRow([item['VehicleName'], item['Distance']]);
+                        });
+                        //$("#loaderGif").css("display", "none");
+                        document.getElementById("vehicleStatus").disabled = false;
+                        $('#overStoppageGraph').attr('href', '../report/summary').attr('target', '_blank');;
+                        //IgntionON = data.IgnitionON;
+                        //Moving = data.Moving;
+                        //Parked = data.Parked;
+
+
+
+
+                        //var data = google.visualization.arrayToDataTable([
+                        //  ['Task', ''],
+                         
+                        //  ['Idling', IgntionON],
+                        //  ['Moving', Moving],
+                        //  ['Parked', Parked]
+                        //]);
+
+                        //var options = {
+                        //    title: '',
+                        //    pieHole: 0.4,
+                        //    colors: ['#DC7633', '#faa732', '#8e9d13']
+                        //};
+
+                        var options = {
+                            title: 'Top 10 Travelled Distance Vehicle',
+                            chartArea: {
+                                width: '50%',
+                                height:'50%'
+                            },
+                           
+                            //height:'100%',
+                            colors: ['#faa732'],
+                            hAxis: {
+                                title: '',
+                                minValue: 0
+                            },
+                            vAxis: {
+                                title: 'Vehicle name'
+                            },
+                            legend: { position: 'bottom' }
+                        };
+
+
+                        var chart = new google.visualization.BarChart(document.getElementById('donutchart'));
+                     //   var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                        chart.draw(dataGraph, options);
+                    }
+
+
+
+
+                });
+            }
+        }
+    </script>
+</head> 
+<body> 
+    <div id="vehicleStatus" style="background-color:lightgray;" >
+   <div id="loading-img"></div>
+     <a href="#" id="overStoppageGraph"  title="View Full Report"><div id="donutchart" style="width: 100%; height: 330px"></div> 
+ </a>
+        </div>
+
+
+
+</body> 
+</html>

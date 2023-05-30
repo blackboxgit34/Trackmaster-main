@@ -1,0 +1,1493 @@
+﻿@{
+    ViewBag.Title = "Trackmaster - Dashboard";
+}
+<div class="row-fluid" ng-controller="indexCtrl">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid">
+                <p style="color: #999; font-size: 19px; margin-bottom: -15px;">Dashboard</p>
+            </div>
+            @Html.Partial("_FMS")
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget widget-padding span4">
+                            <div class="widget-header">
+                                <i class="fa fa-truck"></i>
+                                <h5>Vehicle Status</h5>
+                            </div>
+
+                            <div class="widget-body clearfix" style="height: auto; background: #fff; text-align: center; overflow-x: auto">
+                                <div id="chartdiv" style="width: 100%; height: 332px; background-color: #FFFFFF;"></div>
+                            </div>
+                            <!-- /widget-body -->
+                        </div>
+                        <div class="widget span4">
+                            <div class="widget-header">
+                                <i class="fa fa-area-chart"></i>
+                                <h5>Fleet Usages</h5>
+                            </div>
+                            <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+                                <div id="divWoringHoursChart">
+                                    <table class="table table-striped table-bordered dataTable">
+                                        <tbody>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Machine Name</th>
+                                                <th>Working Hours</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">1</td>
+
+                                                <td style="width: 75px;">CT 40 TT Cambodia
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart0">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef1">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef1)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart0").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">2</td>
+
+                                                <td style="width: 75px;">Testing RS 485
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart1">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef2">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef2)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart1").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">3</td>
+
+                                                <td style="width: 75px;">Endurance MAKSAS
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart2">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef3">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef3)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart2").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">4</td>
+
+                                                <td style="width: 75px;">Endurance Machine
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart3">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef4">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef4)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart3").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">5</td>
+
+                                                <td style="width: 75px;">Dom 40 - PS9
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart4">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef5">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef5)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart4").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">6</td>
+
+                                                <td style="width: 75px;">Dom40TT-P05
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart5">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef6">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef6)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart5").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">7</td>
+
+                                                <td style="width: 75px;">CT40 TT with CABIN
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart6">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef7">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef7)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M42.5 56.5 L 59.5 56.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M114.5 56.5 L 131.5 56.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart6").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:50", "visible": true }, "type": "column", "data": [50] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :23:58:10", "visible": true }, "type": "column", "data": [86290] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:50", "visible": true }, "type": "column", "data": [50] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">8</td>
+
+                                                <td style="width: 75px;">D270 Proto M/C:3
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart7">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef8">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef8)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M42.5 37.5 L 59.5 37.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M66.5 43.5 L 83.5 43.5 83.5 56.5 66.5 56.5Z" stroke="#25a0da" stroke-width="1" stroke-opacity="1" fill="#25a0da" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 26.5 L 107.5 26.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M114.5 50.5 L 131.5 50.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart7").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :9:26:13", "visible": true }, "type": "column", "data": [33973] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :6:21:45", "visible": true }, "type": "column", "data": [22905] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :14:32:47", "visible": true }, "type": "column", "data": [52367] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :3:4:28", "visible": true }, "type": "column", "data": [11068] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">9</td>
+
+                                                <td style="width: 75px;">D270 Proto Torture Track 13/5 
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart8">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef9">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef9)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart8").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="alertss" class="widget span4">
+                            <div class="widget-header">
+                                <i class="fa fa-tachometer"></i>
+                                <h5>Fleet Overspeed Analysis</h5>
+                            </div>
+
+                            <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <table class="table table-striped table-bordered dataTable">
+                                        <tbody>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Alert</th>
+                                                <th>Machine</th>
+                                                <th>Date/Time</th>
+                                            </tr>
+                                            <tr>
+                                                <td>1
+            </td>
+                                                <td>Device Battery Discharged
+            </td>
+                                                <td>CT40 TT with CABIN
+            </td>
+                                                <td>9/29/2016 12:17:12 AM
+            </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1
+            </td>
+                                                <td>Device Battery Discharged
+            </td>
+                                                <td>CT40 TT with CABIN
+            </td>
+                                                <td>9/29/2016 12:17:12 AM
+            </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1
+            </td>
+                                                <td>Device Battery Discharged
+            </td>
+                                                <td>CT40 TT with CABIN
+            </td>
+                                                <td>9/29/2016 12:17:12 AM
+            </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1
+            </td>
+                                                <td>Device Battery Discharged
+            </td>
+                                                <td>CT40 TT with CABIN
+            </td>
+                                                <td>9/29/2016 12:17:12 AM
+            </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1
+            </td>
+                                                <td>Device Battery Discharged
+            </td>
+                                                <td>CT40 TT with CABIN
+            </td>
+                                                <td>9/29/2016 12:17:12 AM
+            </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- /row-fluid -->
+
+            <div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget widget-padding span4">
+                            <div class="widget-header">
+                                <i class="fa fa-sliders"></i>
+
+                                <h5>Safe Drive Analysis</h5>
+
+                            </div>
+
+                            <div class="widget-body clearfix" style="height: auto; background: #fff; height: 333px; text-align: center; overflow-x: auto">
+
+                                <table class="table table-striped table-bordered dataTable">
+                                    <tbody>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Alert</th>
+                                            <th>Machine</th>
+                                            <th>Date/Time</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- /widget-body -->
+                        </div>
+                        <div class="widget span4">
+                            <div class="widget-header">
+                                <i class="fa fa-user"></i>
+                                <h5>Driver Performance</h5>
+                            </div>
+                            <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+
+
+                                <div id="divWoringHoursChart">
+                                    <style>
+                                       
+                                    </style>
+                                    <table class="table table-striped table-bordered dataTable">
+                                        <tbody>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Machine Name</th>
+                                                <th>Working Hours</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">1</td>
+
+                                                <td style="width: 75px;">CT 40 TT Cambodia
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart0">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef1">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef1)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart0").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">2</td>
+
+                                                <td style="width: 75px;">Testing RS 485
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart1">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef2">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef2)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart1").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">3</td>
+
+                                                <td style="width: 75px;">Endurance MAKSAS
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart2">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef3">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef3)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart2").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">4</td>
+
+                                                <td style="width: 75px;">Endurance Machine
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart3">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef4">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef4)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart3").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">5</td>
+
+                                                <td style="width: 75px;">Dom 40 - PS9
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart4">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef5">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef5)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart4").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">6</td>
+
+                                                <td style="width: 75px;">Dom40TT-P05
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart5">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef6">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef6)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart5").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">7</td>
+
+                                                <td style="width: 75px;">CT40 TT with CABIN
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart6">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef7">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef7)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M42.5 56.5 L 59.5 56.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M114.5 56.5 L 131.5 56.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart6").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:50", "visible": true }, "type": "column", "data": [50] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :23:58:10", "visible": true }, "type": "column", "data": [86290] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:50", "visible": true }, "type": "column", "data": [50] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">8</td>
+
+                                                <td style="width: 75px;">D270 Proto M/C:3
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart7">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef8">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef8)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M42.5 37.5 L 59.5 37.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M66.5 43.5 L 83.5 43.5 83.5 56.5 66.5 56.5Z" stroke="#25a0da" stroke-width="1" stroke-opacity="1" fill="#25a0da" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 26.5 L 107.5 26.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g>
+                                                                                        <path d="M114.5 50.5 L 131.5 50.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart7").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :9:26:13", "visible": true }, "type": "column", "data": [33973] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :6:21:45", "visible": true }, "type": "column", "data": [22905] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :14:32:47", "visible": true }, "type": "column", "data": [52367] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :3:4:28", "visible": true }, "type": "column", "data": [11068] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 10px;">9</td>
+
+                                                <td style="width: 75px;">D270 Proto Torture Track 13/5 
+            </td>
+
+
+                                                <td style="width: 75px;">
+
+                                                    <div class="chart-wrapper">
+
+                                                        <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart8">
+                                                            <svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1">
+                                                                <defs>
+                                                                    <clipPath id="kdef9">
+                                                                        <path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path>
+                                                                    </clipPath>
+                                                                </defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path>
+                                                                    <path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path>
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                            <path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                        </g>
+                                                                        <g></g>
+                                                                        <g>
+                                                                            <g>
+                                                                                <g>
+                                                                                    <path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                    <path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                        <g clip-path="url(#kdef9)">
+                                                                            <g>
+                                                                                <g>
+                                                                                    <g>
+                                                                                        <path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                    <g></g>
+                                                                                    <g>
+                                                                                        <path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path>
+                                                                                    </g>
+                                                                                    <g></g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                    <g></g>
+                                                                </g></svg></div>
+                                                        <script>
+                                                            jQuery(function () { jQuery("#chart8").kendoChart({ "theme": "Metro", "legend": { "visible": false }, "series": [{ "name": "Total Report Time(HH:MM:SS)", "tooltip": { "template": "Total Report Time :23:59:0", "visible": true }, "type": "column", "data": [86340] }, { "name": "Engine Working Duration(HH:MM:SS)", "tooltip": { "template": "Engine Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Thresher Working Duration(HH:MM:SS)", "tooltip": { "template": "Thresher Working Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }, { "name": "Machine Idle Duration(HH:MM:SS)", "tooltip": { "template": "Machine Idle Duration :100", "visible": true }, "type": "column", "data": [86340] }, { "name": "Total Non Productive Duration(HH:MM:SS)", "tooltip": { "template": "Total Non Productive Duration :0:0:0", "visible": true }, "type": "column", "data": [0] }], "valueAxis": [{ "visible": false, "majorGridLines": { "visible": false }, "line": { "visible": false } }] }); });
+</script>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="alertss" class="widget span4">
+                            <div class="widget-header">
+                                <i class="fa fa-wpforms"></i>
+
+                                <h5>Tips for Safe Driving</h5>
+
+                            </div>
+
+                            <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+
+                                <div id="DivVehcleCounter">
+                                    <table class="table table-striped table-bordered dataTable">
+                                        <tbody>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Alert</th>
+                                                <th>Machine</th>
+                                                <th>Date/Time</th>
+                                            </tr>
+                                            <tr>
+                                                <td>1
+            </td>
+                                                <td>Device Battery Discharged
+            </td>
+                                                <td>CT40 TT with CABIN
+            </td>
+                                                <td>9/29/2016 12:17:12 AM
+            </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- /row-fluid -->
+
+            <!-- /row-fluid -->
+
+            <div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget widget-padding span4">
+                            <div class="widget-header">
+                                <i class="fa fa-inr"></i>
+
+                                <h5>Fuel Cost by Month</h5>
+
+                            </div>
+
+                            <div class="widget-body clearfix" style="height: auto; background: #fff; height: 333px; text-align: center; overflow-x: auto">
+
+                                <table class="table table-striped table-bordered dataTable">
+                                    <tbody>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Alert</th>
+                                            <th>Machine</th>
+                                            <th>Date/Time</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1
+            </td>
+                                            <td>Device Battery Discharged
+            </td>
+                                            <td>CT40 TT with CABIN
+            </td>
+                                            <td>9/29/2016 12:17:12 AM
+            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- /widget-body -->
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- /row-fluid -->
+
+
+        </div>
+        <!-- /widget --
+                </div>-->
+        <!-- /row-fluid -->
+
+    </div>
+    <!-- /Main window -->
+</div>
+@section css{
+    <style type="text/css">
+         .chart-wrapper {
+                text-align: center;
+                width: 80px;
+                height: 63px;
+                margin: 0 auto;
+                margin-top: -8px;
+            }
+
+                .chart-wrapper h3 {
+                    padding: 1em 0;
+                    font-size: 1.2em;
+                    font-weight: normal;
+                }
+
+            .k-chart.small-chart {
+                display: inline-block;
+                width: 150px;
+                height: 70px;
+                margin-left: -45px;
+            }
+    </style>
+    }
+@section scripts{
+     <script src="@Url.Content("~/app/home/indexCtrl.js")?v=1.0.00.000.0000"></script>
+    <script src="@Url.Content("~/content/Trackmaster_files/amcharts.js")"></script>
+    <script src="@Url.Content("~/content/Trackmaster_files/pie.js")"></script>
+    <script type="text/javascript">
+        var chart = AmCharts.makeChart("chartdiv", {
+            "type": "pie",
+            "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b></span>",
+            "innerRadius": 50,
+            "minRadius": 140,
+            "labelRadius": -40,
+            "labelText": "[[title]]:[[value]]",
+            "dataProvider": [{
+                "country": "Total",
+                "litres": 10
+            }, {
+                "country": "Running",
+                "litres": 8
+            }, {
+                "country": "Parked",
+                "litres": 7
+            }, {
+                "country": "Ignition On",
+                "litres": 6
+            }, {
+                "country": "Moving",
+                "litres": 8
+            },
+             {
+                 "country": "Un-reachable",
+                 "litres": 9
+             }],
+            "valueField": "litres",
+            "titleField": "country"
+        });
+	   </script>
+}

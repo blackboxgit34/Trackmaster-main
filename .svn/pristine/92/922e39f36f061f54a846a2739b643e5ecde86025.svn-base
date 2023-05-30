@@ -1,0 +1,173 @@
+﻿var table;
+function format(d) {
+
+    
+    var data = d;
+
+    if (data.objCount > 0) {
+        var tableString = '<table id="subTbl" class="table table-bordered" cellpadding="5" cellspacing="0" width="100%" ><thead ><tr"><th>Start Location</th><th>End Location</th><th>Departure Time</th><th>Arrival Time</th><th>ETT(HRS)</th><th>Start Station Detention(HH:mm:ss)</th> <th>Destination Station Detention(HH:mm:ss)</th><th>Distance Traveled</th><th>Total Time Taken(HH:mm:ss)</th><th>Driving Deviation Time Taken(HH:mm:ss)</th></tr></thead>';
+        data.objTripReport.forEach(function (element) {
+            
+            console.log(element);
+            tableString = tableString +
+           '<tr>' +
+           '<td>' + element.StartLocation + '</td>' +
+           '<td>' + element.EndLocation + '</td>' +
+           '<td>' + element.DepartTime + '</td>' +
+           '<td>' + element.ArrivalTime + '</td>' +
+           '<td>' + element.ExpectedTime + '</td>' +
+           '<td>' + element.DetentionTimeAtStartPOI + '</td>' +
+           '<td>' + element.DetentionTimeAtEndPOI + '</td>' +
+           '<td>' + element.TravelDuration + 'Km</td>' +
+           '<td>' + element.HaltTime + '</td>' +
+           '<td>' + element.DeviationTime + '</td>' +
+           '<td><button type="button" class="btn btn-info btn-sm Show"  >Trips</button></td>' +
+           '</tr>' +
+           '<tr>' +
+           '<td colspan="12">'
+            
+            tableString = tableString + '<div class="divshow" style="display:none">' +
+                                           '<table id="subTbl" class="table table-bordered" cellpadding="5" cellspacing="0" width="100%" >' +
+                                               '<thead ><tr"><th>POI Name</th><th>In Time</th><th>Out Time</th><th>Duration</th></tr></thead>';
+
+            element.objTripDrllDown.forEach(function (Innerelement) {
+
+                
+                tableString = tableString + '<tr>' +
+           '<td>' + Innerelement.POIName + '</td>' +
+           '<td>' + Innerelement.InTime + '</td>' +
+           '<td>' + Innerelement.OutTime + '</td>' +
+           '<td>' + Innerelement.Duration + '</td>' +
+           '</tr>'
+            });
+            tableString = tableString + '</table>' +
+            '</div>' +
+            '</td>' +
+            '</tr>';
+        });
+
+        tableString = tableString + '</table>';
+
+    }
+    // `d` is the original data object for the row
+
+    return tableString;
+}
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+    //$('#dt_basic_Master').empty(); // empty in case the columns change   
+};
+
+$(document).ready(function () {
+    tableName = $('#routelist').val();
+    GetTripSummaryReport(tableName, null);
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+
+    })
+
+    $("body").on("click", "button.Show", function () {
+
+        $(this).closest('tr').next().find('.divshow').toggle();
+
+    });
+
+});
+$("#BtnSearch").click(function () {
+
+    tableName = $('#routelist').val();
+    //alert(tableName);
+    GetTripSummaryReport(tableName, null);
+});
+
+$("#excelExport").click(function () {
+    var downloadType = 'Excel';
+    var url = baseUrl + "CustomAPI/TripSummaryReport";
+    DownloadData(url, downloadType);
+});
+
+$("#pdfExport").click(function () {
+    var downloadType = 'PDF';
+    var url = baseUrl + "CustomAPI/TripSummaryReport";
+    DownloadData(url, downloadType);
+});
+
+function GetTripSummaryReport(tableName, downloadType) {
+    
+    deleteTable();
+    //var $custid = '4939';
+    var $BBID = '';
+    var url = apiBase.apiurl + "CustomAPI/TripSummaryReport";
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "sAjaxSource": url,
+        "iDisplayLength": 50,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "bbid", "value": "" }, { "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "routeId", "value": tableName }, { "name": "downloadType", "value": downloadType }, { "name": "reportName", "value": '' });
+        },
+
+        "columns": [
+                { "data": "VehicleName" },
+                { "data": "objCount" },
+                {
+                    "orderable": false,
+                    "targets": 0,
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+
+        ],
+        "rowCallback": function (row, data, index) {
+            if (data.objCount == 0) {
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        }
+    });
+
+
+}
+
+function DownloadData(url, downloadType) {
+    var sEcho = 1;
+    var iDisplayStart = 0;
+    var iDisplayLength = 100000;
+    var sSearch = '';
+    var iSortCol_0 = 0;
+    var sSortDir_0 = 'asc';
+    var sdt = moment($beginDate).format("D_MMM_YYYY");
+    var edt = moment($endDate).format("D_MMM_YYYY");
+    var reportName = 'Trip_Report_' + sdt + '_TO_' + edt;
+    var $bbid = '';
+    var tableName = $('#routelist').val();
+    var url1 = url + "?beginDate=" + $beginDate + "&endDate=" + $endDate + "&bbid=" + $bbid + "&routeId=" + tableName + "&downloadType=" + downloadType + "&reportName=" + reportName + "&custId=" + $custid + "&sEcho=" + sEcho + "&iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&sSearch=" + sSearch + "&iSortCol_0=" + iSortCol_0 + "&sSortDir_0=" + sSortDir_0;
+    window.location = url1;
+}

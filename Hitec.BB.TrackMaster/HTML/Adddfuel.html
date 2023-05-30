@@ -1,0 +1,643 @@
+﻿
+
+<html>
+<head runat="server">
+    <title>Add Point of interest</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in" language="javascript" type="text/javascript"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu4NyT_yiDqc-z09IviAzDSZDxPi2LTgg&libraries=drawing,places&callback=initMap" language="javascript" type="text/javascript"></script>
+    <link href="/css/map.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <link rel="stylesheet" href="/css/mapstyle.css" type="text/css" media="screen" />
+
+
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+    <script src="/Content/js/APIURL.js"></script>
+    <script src="/Scripts/app/common.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+
+    <script type="text/javascript" src="/js/Map/LocationOnMap/label.js"></script>
+    <script type="text/javascript" src="/js/Map/LocationOnMap/Fluster2.packed.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            initialize();
+        });
+        var map;
+        var circle;
+        //var html = "<table cellpadding='5' cellspacing='5' style='width:450px;'>" +
+        //         "<tr><td>POI Name:</td> <td><input type='text' class='text' style='width:250px;' id='name'/> </td> </tr>" +
+        //         "<tr><td></td><td><input type='button' value='Save' onclick='saveData()' class='btn btn-success '/></td></tr><tr><td><span id='message'></span></td></tr>";
+
+        var html = "";
+        var marker;
+        var infowindow;
+        var geocoder;
+
+        function getUrlParameter(name) {
+
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+        function initialize() {
+
+            geocoder = new google.maps.Geocoder();
+            var lat = getUrlParameter('lat');
+            var lng = getUrlParameter('longi');
+
+
+            if (lat == "") {
+                lat = '30.724149';
+                lng = '76.76';
+            }
+
+            debugger;
+            var url = window.location.href;
+            var myVar = 'infotrac';
+
+
+
+            var latx = GET('lat');
+            var lonx = GET('longi');
+
+            if (latx == '') {
+
+
+                var url = window.location.href;
+                var myVar = 'infotrac';
+
+
+                if (url.indexOf(myVar) > -1) {
+                    latx = 25.2854;
+                    lonx = 51.5310;
+                }
+
+                else {
+                    latx = 30.6;
+                    lonx = 76.6;
+                }
+            }
+
+
+            var myCenter = new google.maps.LatLng(latx, lonx);
+
+            var myLatlng = new google.maps.LatLng(parseFloat(lat), parseFloat(lng));
+            var myOptions = {
+                zoom: 12,
+                center: myCenter,
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+                styles: [
+                  {
+                      "featureType": "poi",
+                      "stylers": [
+                        { "visibility": "on" }
+                      ]
+                  }
+                ]
+            }
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+            var pinImage = new google.maps.MarkerImage("/Content/img/POI/Dflts.png");
+            marker = new google.maps.Marker({
+                position: myCenter,
+                icon: pinImage,
+                map: map,
+                title: "Add location",
+                draggable: true
+
+            });
+            //for clearing when user search by place
+            markersCodeAddress.push(marker);
+
+            var radius = $("#poiradiusnew").val();
+
+            circle = new google.maps.Circle({
+                map: map,
+                radius: parseInt(radius),    // 10 miles in metres
+                fillColor: '#AA0000'
+            });
+            circle.bindTo('center', marker, 'position');
+            PointOfInterest();
+            // info window
+            infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, "dragend", function () {
+
+                infowindow.open(map, marker);
+                displayLocation(this.getPosition().lat(), this.getPosition().lng());
+            });
+
+
+            google.maps.event.addListener(marker, "click", function () {
+
+                infowindow.open(map, marker);
+                displayLocation(this.getPosition().lat(), this.getPosition().lng());
+            });
+
+
+            infowindow.open(map, marker);
+            displayLocation(parseFloat(lat), parseFloat(lng));
+
+            function displayLocation(latitude, longitude) {
+                var geocoder;
+                geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(latitude, longitude);
+
+                geocoder.geocode(
+                    { 'latLng': latlng },
+                    function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                var add = results[0].formatted_address;
+                                var value = add.split(",");
+
+                                $('#name').val(add);
+
+                                $('#addressPlace').val(add);
+
+                                var addresszip = results[0].address_components;
+
+                                $('#pincode').val(addresszip[addresszip.length - 1].long_name);
+                            }
+
+                        }
+
+                    }
+                );
+            }
+
+
+            document.getElementById('submit').addEventListener('click', function () {
+                geocodeLatLng(geocoder, map, infowindow);
+            });
+        }
+
+
+
+
+
+        function myfunction() {
+
+            var radius = $("#poiradiusnew").val();
+            circle.setMap(null)
+            circle = new google.maps.Circle({
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillOpacity: 0.35,
+                map: map,
+                radius: parseInt(radius)
+            });
+            circle.bindTo('center', marker, 'position');
+        };
+
+        function geocodeLatLng(geocoder, map, infowindow) {
+            var pinImage = new google.maps.MarkerImage("/Content/img/POI/Dflts.png");
+            var input = document.getElementById('latlng').value;
+            var latlngStr = input.split(',', 2);
+            var latlng = { lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1]) };
+            geocoder.geocode({ 'location': latlng }, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        map.setZoom(11);
+                        marker = new google.maps.Marker({
+                            position: latlng,
+                            icon: pinImage,
+                            map: map,
+                            draggable: true
+
+
+                        });
+
+                        infowindow.setContent(results[0].formatted_address);
+
+                      //  infowindow.setContent(html);
+                        infowindow.open(map, marker);
+                    } else {
+                        window.alert('No results found');
+                    }
+                }
+                else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+
+        function saveData() {
+            debugger;
+            
+
+            var message = "";
+
+            var lat = GET('lat');
+            var lng = GET('longi');
+
+            var name = decodeURIComponent(document.getElementById("addressPlace").value);
+            if (name == '') {
+
+                alert('Please enter location');
+                $('#errormsgloc').text("Please enter pump name!")
+                return false;
+            }
+            else {
+                var latlng = marker.getPosition();
+                lat = latlng.lat();
+                lng = latlng.lng();
+                var pumpname = $("#pumpname").val();
+                var upi = $("#upi").val();
+                var pincode = $("#pincode").val();
+
+                var rateperliter = $("#rateperliter").val();
+                var rateperkm = $("#rateperkm").val();
+                if (pumpname.length <= 0)
+                {
+                    $('#errormsg').text("Please enter pump name!")
+                    return false;
+                }
+
+                if (upi.length <= 0) {
+                    $('#errormsg').text('');
+                    $('#errormsgupi').text("Please enter UPI ID!")
+                    return false;
+                }
+                if (pincode.length <= 0) {
+                    $('#errormsg').text('');
+                    $('#errormsgupi').text("")
+                    $('#errormsgpin').text("Please enter pincode!")
+                    return false;
+                }
+
+                if (rateperliter.length <= 0) {
+                    $('#errormsg').text('');
+                    $('#errormsgupi').text("");
+                    $('#errormsgpin').text("");
+                    $('#errormsgltr').text("Please enter rate per Ltr!")
+                    return false;
+                }
+
+                if (rateperkm.length <= 0) {
+                    $('#errormsg').text('');
+                    $('#errormsgupi').text("");
+                    $('#errormsgpin').text("");
+                    $('#errormsgltr').text("");
+                    $('#errormsgkm').text("Please enter rate per km!")
+                    return false;
+                }
+                var MyUrl = apiBase.apiurl + "taxiapi/addfuelpump";
+                $.ajax({
+                    url: MyUrl,
+                    type: "GET",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: { location: name, userid: $custid, lat: lat, longi: lng, pincode: pincode, shortname: pumpname, upipin: upi, rateperliter: rateperkm, rateperkm: rateperkm},
+                    success: function (data) {
+                    
+                        alert("Fuel pump added successfully.");
+                        location.reload();
+                    }
+                });
+            }
+
+
+        }
+
+        function doNothing() { }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+
+    </script>
+    <script type="text/javascript">
+
+        function PointOfInterest() {
+
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                crossDomain: true,
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "CommonApi/GetPOI",
+                data: { custid: parseInt(localStorage.custID) },
+                success: function (data) {
+
+                    if (data.length > 0) {
+                        debugger;
+                        for (var i = 0; i < data.length; i++) {
+
+                            var lat = parseFloat(data[i]["lat"]);
+                            var lng = parseFloat(data[i]["lng"]);
+                            var details = data[i]["details"];
+                            var StandardDistance = data[i]["StandardDistance"];
+                            var POIType = data[i]["poitype"];
+
+
+                            if (POIType == null) {
+                                POIType = "Dflt"
+                            }
+                            var image = "/Content/img/POI/" + POIType + ".png";
+                            debugger;
+                            var marker = new google.maps.Marker
+                                 (
+                                 {
+                                     position: new google.maps.LatLng(lat, lng),
+                                     draggable: false,
+                                     map: map,
+                                     icon: image
+                                 });
+
+
+                            circle = new google.maps.Circle({
+                                map: map,
+                                radius: parseInt(StandardDistance),    // 10 miles in metres
+                                fillColor: '#AA0000'
+                            });
+                            circle.bindTo('center', marker, 'position');
+
+                            var label = new Label(
+                            {
+                                draggable: false,
+                                map: map
+                            });
+                            label.bindTo('position', marker, 'position');
+                            label.set('text', details);
+                        }
+                    }
+
+                }
+            });
+        }
+
+
+
+        function getupiid() {
+            debugger;
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                crossDomain: true,
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "taxiapi/Getfuelpumpdetails",
+                data: { userid: parseInt(localStorage.custID) },
+                success: function (data) {
+
+                    if (data.result.length > 0) {
+
+                        var drp = "<option value='0'>Select UPI</option>";
+                        for (var i = 0; i < data.result.length; i++) {
+
+                            drp = drp + "<option value='" + data.result[i]["Id"] + "'>" + data.result[i]["UPIPIN"] + "-<p style='color:red'>Pump Name:</p>" + data.result[i]["shortname"] + "</option>"
+                        }
+
+
+
+                        $('#upilst').html(drp);
+                    }
+
+                }
+            });
+        }
+    </script>
+    <!--<script type="text/javascript" src="~/js/Map/LocationOnMap/jquery-1.3.2.js"></script>-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".trigger").click(function () {
+
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+
+            $('input:radio[name="location"]').change(function () {
+                if ($(this).val() == '1') {
+
+
+                    document.getElementById("divlocation").style.display = "block";
+
+                    document.getElementById("divlatlong").style.display = "None";
+
+                    document.getElementById("poiradius").style.display = "block";
+                    //    document.getElementById("submit").style.display = "None";
+
+
+
+                } else {
+                    document.getElementById("poiradius").style.display = "block";
+                    document.getElementById("divlatlong").style.display = "block";
+                    document.getElementById("divlocation").style.display = "None";
+                    //   document.getElementById("submit").style.display = "block";
+
+
+                }
+            });
+
+
+            $('#submitloc').click(function () {
+                saveData();
+            });
+
+            getupiid();
+
+        });
+    </script>
+    <script>
+
+        var endLocationLat;
+        var endLocationLong;
+
+        google.maps.event.addDomListener(window, 'load', initialize1);
+        function initialize1() {
+            var input = document.getElementById('addressPlace');
+            var options = {
+            };
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
+            autocomplete.addListener('place_changed', function () {
+
+                var place = autocomplete.getPlace();
+                console.log(place.geometry['location'].lat());
+                endLocationLat = place.geometry['location'].lat();
+                endLocationLong = place.geometry['location'].lng();
+
+                console.log(place.geometry['location'].lng());
+                codeAddress();
+            });
+        }
+
+
+
+
+
+
+        var markersCodeAddress = [];
+
+        function codeAddress() {
+            //  initialize();
+            var address = document.getElementById('addressPlace').value;
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+
+                    $('#LatLng').val(results[0].geometry.location);
+                    var pinImage = new google.maps.MarkerImage("/Content/img/POI/Dflts.png");
+                    clearLocations();
+
+
+
+                    marker = new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        icon: pinImage,
+                        map: map,
+                        title: "Add location",
+                        draggable: true
+                    });
+
+
+                    debugger;
+                    var radius = $("#poiradiusnew").val();
+                    markersCodeAddress.push(marker);
+                    circle = new google.maps.Circle({
+                        map: map,
+                        radius: parseInt(radius),    // 10 miles in metres
+                        fillColor: '#AA0000'
+                    });
+                    circle.bindTo('center', marker, 'position');
+
+                    PointOfInterest();
+                    //infowindow = new google.maps.InfoWindow({
+                    //    content: html
+                    //});
+
+
+                    map.setZoom(15);
+                    google.maps.event.addListener(marker, "dragend", function () {
+                    //    infowindow.open(map, marker);
+
+                        displayLocation(this.getPosition().lat(), this.getPosition().lng());
+                    });
+
+                    google.maps.event.addListener(marker, "click", function () {
+
+                     //   infowindow.open(map, marker);
+                        displayLocation(this.getPosition().lat(), this.getPosition().lng());
+                    });
+
+                    function displayLocation(latitude, longitude) {
+                        var geocoder;
+                        geocoder = new google.maps.Geocoder();
+                        var latlng = new google.maps.LatLng(latitude, longitude);
+
+                        geocoder.geocode(
+                            { 'latLng': latlng },
+                            function (results, status) {
+                                debugger;
+
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    if (results[0]) {
+                                        var add = results[0].formatted_address;
+                                        var value = add.split(",");
+                                        $('#name').val(add);
+                                        $('#addressPlace').val(add);
+
+
+                                        var addresszip = results[0].address_components;
+
+                                        $('#pincode').val(addresszip[addresszip.length - 1].long_name);
+                                    }
+
+                                }
+
+                            }
+                        );
+                    }
+                    google.maps.event.addDomListener(window, 'load', initialize);
+                }
+                else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+
+
+        }
+
+        function clearLocations() {
+            for (var i = 0; i < markersCodeAddress.length; i++) {
+                markersCodeAddress[i].setMap(null);
+            }
+            markersCodeAddress.length = 0;
+        }
+    </script>
+</head>
+<body>
+
+    <div id="map_canvas">
+
+    </div>
+    <div id="container">
+        <div class="panel" style="width: 500px; height: 650px; overflow: auto;margin-top: -79px;">
+            <form onsubmit="return false;">
+                <div id="data" style="padding: 25px 0 5px 5px; background-color: white;">
+
+                  
+                    <div id="divlocation" >
+
+                        <span style="font-weight:bold;"> Search fuel Location </span> <input type="text" class="form-control" id="addressPlace" placeholder="Search Location" style="height:5%;">
+                        <span id="errormsgloc" style="color:red;font-size:15px;"></span>
+                        
+
+                        <br />
+
+                        <span style="font-weight:bold;"> Pump Name</span> <input type="text" class="form-control" id="pumpname" placeholder="set Pump Name" style="height:5%;">
+                        <span  id="errormsg" style="color:red;font-size:15px;" ></span>
+                        <br />
+                        <span style="font-weight:bold;"> Select UPI</span> <select   class="form-control" id="upilst" placeholder="set Pump Name" style="height:7%;"></select>
+                    
+                        <br />
+                        <span style="font-weight:bold;">Set UPI</span> <input type="text" class="form-control" id="upi" placeholder="set UPI Id" style="height:5%;">
+                        <span id="errormsgupi" style="color:red;font-size:15px;"></span>
+                        <br />
+                        <span style="font-weight:bold;"> Set Pin-code </span> <input type="text" class="form-control" id="pincode" placeholder="set pin code" style="height:5%;">
+                        <span id="errormsgpin" style="color:red;font-size:15px;"></span>
+                        <br />
+                        <span style="font-weight:bold;"> set rate per Ltr</span> <input type="text" class="form-control" id="rateperliter" placeholder="Search rate per Ltr" style="height:5%;">
+                        <span id="errormsgltr" style="color:red;font-size:15px;"></span>
+                        <br />
+                        <span style="font-weight:bold;"> set rate per km </span> <input type="text" class="form-control" id="rateperkm" placeholder="Search rate per km" style="height:5%;">
+
+                        <span id="errormsgkm" style="color:red;font-size:15px;"></span>
+                       
+                        <br />
+                        <input id="submitloc" type="button" value="SUBMIT" class="btn btn-primary" />
+                    </div>
+
+
+
+                    <div id="divlatlong" style="display:none;">
+
+
+                        <span style="font-weight:bold;"> Search  with  Lat-Long (with comma seprated) </span>      <input id="latlng" type="text" placeholder="Search Lat & Long" style="height:8%;" class="form-control">
+
+                        <br />
+                        <input id="submit" type="button" value="Search" class="btn btn-primary" />
+                    </div>
+
+                    
+
+                </div>
+            </form>
+        </div>
+
+        <a class="trigger" href="#" style="width: 120px; text-decoration: none;display:none;">Edit POI</a>
+    </div>
+
+</body>
+</html>

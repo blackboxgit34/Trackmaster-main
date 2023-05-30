@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Route Playback</title>
+    <link rel="Stylesheet" type="text/css" href="../css/Map/Map/LocationOnmapCSS/map.css" />
+
+     <link rel="stylesheet"  href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css" media="screen" />
+      <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" language="javascript"
+        type="text/javascript"></script>
+     <script type="text/javascript" src="../js/Map/LocationOnMap/label.js"></script>
+     <script type="text/javascript" src="../js/Map/LocationOnMap/Fluster2.packed.js"></script>
+    
+    <script type="text/javascript">
+        var india = new google.maps.LatLng(30.701844, 76.821849);
+        var markers = [];
+        var iterator = 0;
+        var map;
+        var n = 0;
+        var j = 0; var neighborhoods = [];
+        var html = [];
+        var infoWin = [];
+        var sideInfoWin = [];
+        var sidebar = [];
+        var gmarkers = [];
+        var side_bar_html = "";
+        var timerA;
+        var timerB;
+        var timersAA = new Array();
+        var timersBB = new Array();
+        var icon_type = [];
+        timer1 = 500;
+        timer2 = 1000;
+
+        //******************* BEGIN INITIALIZE MAP **************************/
+        function initialize() {
+            var mapOptions = {
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                center: india
+            };
+            document.getElementById("map_canvas").style.backgroundImage = "url(../images/515-500loading.jpg)";
+            document.getElementById('startEndPos').innerHTML = "Loading...";
+            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+            readData();
+            try {
+                POI(map);
+            }
+           catch (ex) { //alert(ex.Message); }
+            try {
+                GeoFence();
+            } catch (ex) { }
+        }
+
+        //******************* END INITIALIZE MAP **************************/
+
+        //******************* BEGIN DROP **************************/
+        var flightPlanCoordinates = [];
+        function drop() {
+            if (j == 0) {
+                var mapCenter = neighborhoods[0];
+                map.setCenter(mapCenter);
+                j = 1;
+
+            }
+            for (var i = 0; i < neighborhoods.length - 15; i = i + 15) {
+                timerA = setTimeout(function () {
+                    addMarker();
+                }, i * timer2);
+                timersAA.push(timerA);
+            }
+            for (var i = 0; i < neighborhoods.length - 2; i++) {
+
+                timerB = setTimeout(function () {
+                    addLine();
+                }, i * timer1);
+                timersBB.push(timerB);
+            }
+        }
+        //******************* END DROP **************************/
+
+
+        //******************* BEGIN ADD MARKER **************************/
+        var image = "../images/beachflag.png";
+        function addMarker() {
+            if (icon_type[iterator] == 1) {
+                //alert("1");
+                image = "../images/legends/moving.png";
+            }
+            else if (icon_type[iterator] == 4) {
+                //alert("4");
+                image = "../images/legends/moving.png";
+            }
+            else if (icon_type[iterator] == 2) {
+                //alert("2");
+                image = "../images/legends/stop.png";
+            }
+            else if (icon_type[iterator] == 6) {
+                //alert("6");
+                image = "../images/legends/stop.png";
+            }
+            else {
+                image = "../images/marker-map-blue.png";
+            }
+            if (iterator < neighborhoods.length - 2) {
+                map.panTo(neighborhoods[iterator]);
+            }
+            var marker = new google.maps.Marker({
+                position: neighborhoods[iterator],
+                map: map,
+                draggable: false,
+                icon: image
+            });
+            var infowindow = new google.maps.InfoWindow(
+      { content: html[iterator],
+          size: new google.maps.Size(48, 48)
+      });
+            google.maps.event.addListener(marker, 'click', function () {
+                clearOverlays();
+                infowindow.open(map, marker);
+            });
+            infoWin.push(infowindow);
+        }
+
+        //******************* END ADD MARKER **************************/
+
+
+        //******************* BEGIN ADD LINE **************************/
+        function addLine() {
+            if (iterator < neighborhoods.length - 3) {
+                var data = "<div>Playing route...[" + (iterator).toString() + "] Total waypoints:" + neighborhoods.length.toString() + "</div>";
+                document.getElementById('playing').innerHTML = data;
+            }
+            else {
+                document.getElementById('playing').innerHTML = "Playback stopped...";
+            }
+            var flightPlanCoordinates = [
+    neighborhoods[iterator], neighborhoods[iterator + 1]
+  ];
+            var flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                strokeColor: "#0000FF",
+                strokeOpacity: 0.4,
+                strokeWeight: 4
+            });
+            flightPath.setMap(map);
+
+            document.getElementById('side_bar').innerHTML = sidebar[iterator] + document.getElementById('side_bar').innerHTML;
+            iterator++;
+        }
+        //******************* END ADD LINE **************************/
+
+        //******************* BEGIN CLEAR MARKERS **************************/
+        function clearOverlays() {
+            if (infoWin) {
+                for (i in infoWin) {
+                    infoWin[i].setMap(null);
+                }
+            }
+            if (sideInfoWin) {
+                for (i in sideInfoWin) {
+                    sideInfoWin[i].setMap(null);
+                }
+            }
+        }
+        //******************* END CLEAR MARKERS **************************/
+
+        //******************* BEGIN CHANGE SPEED **************************/
+        function changeSpeed() {
+            clearTimeout(timerA);
+            clearTimeout(timerB);
+            var theContents = document.getElementById('speed')[document.getElementById('speed').selectedIndex].value;
+            timer1 = theContents;
+            timer2 = theContents + 100;
+            drop();
+        }
+        //******************* END CHANGE SPEED **************************/
+
+        //******************* BEGIN RE CENTER **************************/
+        function reCenter() {
+            var bound = new google.maps.LatLngBounds();
+            for (var i in gmarkers) {
+                bound.extend(gmarkers[i].getPosition());
+            }
+            map.fitBounds(bound);
+            zoomToExtents = 1;
+        }
+        //******************* END RE CENTER **************************/
+
+        //******************* BEGIN PAUSE **************************/
+        function pause() {
+            for (var i in timersAA) {
+                clearTimeout(timersAA[i]);
+            }
+            for (var j in timersBB) {
+                clearTimeout(timersBB[j]);
+            }
+        }
+        //******************* END PAUSE **************************/
+
+        //******************* BEGIN MY CLICK **************************/
+        function myclick(i) {
+            var infowindow = new google.maps.InfoWindow(
+        { content: html[i],
+            size: new google.maps.Size(50, 50)
+        });
+            sideInfoWin.push(infowindow);
+            clearOverlays();
+            infowindow.open(map, gmarkers[i]);
+        }
+        //******************* END MY CLICK **************************/
+
+        //******************* BEGIN READ DATA **************************/
+        function readData() {
+            // Request
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "../AJAXOutput/NewPlayback.aspx?dummy=" + Math.random() * 5, false);
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+
+            // obtain the array of markers and loop through it
+            var markers = xmlDoc.documentElement.getElementsByTagName("point");
+            if (markers.length == 0) {
+                document.getElementById('startEndPos').innerHTML = "No data available...";
+            }
+            for (var i = 0; i < markers.length; i++) {
+                var dDate = markers[i].getAttribute("dDate");
+                var speed = markers[i].getAttribute("speed");
+                var lat = parseFloat(markers[i].getAttribute("lat"));
+                var lng = parseFloat(markers[i].getAttribute("lng"));
+                var point = new google.maps.LatLng(lat, lng);
+                var loc = markers[i].getAttribute("loc");
+
+                html[i] = "<font size=2>Speed: " + speed + "<br/>DateTime: " + dDate + "<br/>Location:" + loc + "</b></font>";
+                neighborhoods[i] = new google.maps.LatLng(lat, lng);
+                icon_type[i] = parseFloat(markers[i].getAttribute("type"));
+                if (i == 0) {
+                    document.getElementById('startEndPos').innerHTML = '<p><img src="../images/legends/start1.gif"><a href="javascript:myclick(' + i + ')">' + loc + '</a> - <span class="date_label">' + dDate + '</p>';
+                    var hiddenMarker = new google.maps.Marker({
+                        position: neighborhoods[i],
+                        map: map,
+                        visible: false,
+                        draggable: false
+                    });
+                    gmarkers[i] = hiddenMarker;
+                    var reCenter = new google.maps.LatLng(lat, lng);
+                    map.setCenter(reCenter);
+                }
+
+                if (i == markers.length - 1) {
+                    document.getElementById('startEndPos').innerHTML += '<p><img src="../images/legends/end1.gif"><a href="javascript:myclick(' + i + ')">' + loc + '</a> - <span class="date_label">' + dDate + '</p>';
+                }
+
+                var hiddenMarker = new google.maps.Marker({
+                    position: neighborhoods[i],
+                    map: map,
+                    visible: false
+                });
+                side_bar_html = '<p><a href="javascript:myclick(' + i + ')">' + loc + '</a> - <span class="date_label">' + dDate + '</p>';
+                sidebar[i] = side_bar_html;
+                gmarkers[i] = hiddenMarker;
+            }
+        }
+        //******************* END READ DATA **************************/
+
+        //******************* BEGIN GEOFENCE **************************/
+        function GeoFence() {
+            var theFence;
+            var triangleCoords = new Array();
+
+            // Request
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "../geooutput.aspx?dummy=" + Math.random() * 5, false);
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+
+            var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+
+            for (var i = 0; i < markers.length; i++) {
+                var lat = parseFloat(markers[i].getAttribute("lat"));
+                var lng = parseFloat(markers[i].getAttribute("lng"));
+                triangleCoords[i] = new google.maps.LatLng(lat, lng);
+                if (i == 1) {
+                    var reCenter = new google.maps.LatLng(lat, lng);
+                    map.setCenter(reCenter);
+                }
+            } // end for
+
+            //*************** Show Geofence **************/
+            theFence = new google.maps.Polygon({
+                paths: triangleCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.6,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35
+            });
+            theFence.setMap(map);
+        }
+        //******************* END GEOFENCE **************************/
+
+        //***************** BEGIN POI CLUSTERED ********************/
+        function POI(map) {
+            var fluster = new Fluster2(map);
+
+            // Request
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "../POIOutput.aspx?dummy=" + Math.random() * 5, false);
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+
+            var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+
+            for (var i = 0; i < markers.length; i++) {
+                var lat = parseFloat(markers[i].getAttribute("lat"));
+                var lng = parseFloat(markers[i].getAttribute("lng"));
+                var details = markers[i].getAttribute("details");
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    draggable: false,
+                    map: map
+                });
+                // Add the marker to the Fluster
+                fluster.addMarker(marker);
+
+                // Set styles
+                // These are the same styles as default, assignment is only for demonstration ...
+                fluster.styles = {
+                    // This style will be used for clusters with more than 0 markers
+                    0: {
+                        image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                        //image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                        textColor: '#FFFFFF',
+                        width: 53,
+                        height: 52
+                    },
+                    // This style will be used for clusters with more than 10 markers
+                    10: {
+                        image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m2.png',
+                        //image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                        textColor: '#FFFFFF',
+                        width: 56,
+                        height: 55
+                    },
+                    20: {
+                        image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m3.png',
+                        //image: 'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png',
+                        textColor: '#FFFFFF',
+                        width: 66,
+                        height: 65
+                    }
+                };
+
+                // Initialize Fluster
+                // This will set event handlers on the map and calculate clusters the first time.
+                fluster.initialize();
+
+                var label = new Label({
+                    draggable: false,
+                    map: map
+                });
+                label.bindTo('position', marker, 'position');
+                label.set('text', details);
+            } //end for                
+        }
+        //***************** END POI CLUSTERED ********************/
+    </script>
+
+     <script type="text/javascript" src="../js/Map/LocationOnMap/jquery-1.3.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".trigger").click(function () {
+                $(".panelRB").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+        });
+    </script>
+</head>
+<body onload="javascript:initialize();">
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.</noscript><div
+            id="map_canvas" style="width: 100%; height: 575px; float: left;">
+            Loading map...</div>
+    <div class="panel">
+        <table width="310px" cellpadding="0" cellspacing="0">
+            <tr>
+                <td style="height: 25px; padding: 10px 10px 5px 10px; width: 40px;">
+                    <img alt="Play Route"  height="26px"  src="/images/play.png" onclick="javascript:drop();"
+                        style="cursor: pointer;" />
+                </td>
+                <td style="height: 25px; padding: 15px 10px 5px 10px; width: 40px;">
+                    <img alt="Pause" height="37px" src="/images/pause.png" onclick="javascript:pause();"
+                        style="cursor: pointer;" />
+                </td>
+                <td style="text-align: left;">
+                    <span id="playing" style="color: Green"></span><span id="Span1" style="color: Green">
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="height: 25px; padding: 5px 10px 5px 10px; text-align: left;
+                    border-bottom: solid 1px #c1c1c1;">
+                    <div id="startEndPos">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding: 3px;">
+                    <div id="side_bar" style="height: 300px; overflow: auto;">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <a class="trigger" href="#" style="width: 90px;">Route Playback</a><div style="clear: both;">
+    </div>
+</body>
+</html>

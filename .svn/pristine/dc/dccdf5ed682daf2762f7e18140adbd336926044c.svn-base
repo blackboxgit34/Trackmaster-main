@@ -1,0 +1,156 @@
+﻿var table;
+
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+ 
+};
+$(document).ready(function () {
+  GetPoidetails();
+  $('#dt_basic_Master tbody').on('click', 'button', function () {
+
+
+ 
+        debugger;
+        var data = table.row($(this).parents('tr')).data();
+        var bbidArray = table.row($(this).closest('tr').find('.js-example-basic-multiple').select2("val"));
+      
+        var PL = bbidArray.selector.rows;
+        if (PL == null) {
+            PL = "";
+        }
+        $.ajax({
+            dataType: "json", type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "AdminAPI/UpdateManagePOIforeach",
+            data: { poiIds: data.ID, bbidList:PL.toString(), custId: $custid },
+            success: function (data) {
+                debugger;
+                toastr.success('successfully Done!');
+            }
+        });
+    });
+ 
+
+  
+
+  $('#dt_basic_Master').on('draw.dt', function () {
+      //This will get called when data table data gets redrawn to the      table.
+      $(".js-example-basic-multiple").select2({
+          placeholder: "Select an Option",
+      });
+  });
+    
+
+
+    
+
+});
+
+
+function Deletepoi(id) {
+    debugger;
+    if (confirm("Do you really want to delete this poi?")) {
+
+        $.ajax({
+
+            url: apiBase.apiurl + "Commonapi/deletepoi",
+            type: "GET",
+            data: { id: id },
+
+
+            //contentType: 'application/json',
+
+            success: function (data) {
+                debugger;
+                if (data == "1") {
+                    GetPoidetails();
+
+                }
+            }
+
+        });
+    }
+    return false;
+
+}
+
+
+function GetPoidetails() {
+
+  
+    deleteTable();
+  
+    var url = apiBase.apiurl + "Commonapi/GetManagePOIDetails";
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push( { "name": "CustId", "value": $custid },{ "name": "poiid", "value": "" });
+        },
+
+        "columns": [
+                { "data": "Location", "orderable": false },
+           
+            {
+                
+                "render": function (data, type, full, meta) {
+                    debugger;
+                   
+                  
+                
+                    var list = full.ListVehicles;
+                    var selectnew = $("<select class='js-example-basic-multiple'  multiple='multiple'></select>");
+                    if (list.length > 0) {
+                        $.each(list, function (j, item) {
+                          
+                            if (item.Selected) {
+
+                                selectnew.append($('<option selected="selected" ></option>').val(item.Value).html(item.Text));
+                            }
+
+                            else {
+                                selectnew.append($('<option></option>').val(item.Value).html(item.Text));
+                            }
+                        });
+                    }
+                 
+                
+                    return selectnew.prop("outerHTML");
+
+                  
+                    
+
+                    }
+             
+            },
+                  {
+                          "targets": -1,
+                          "data": null,
+                          "defaultContent": "<button class='button button1' id='1' name='1' value='1'>Save</button>"
+                  },
+                      
+
+                  
+               
+        ]
+
+
+    });
+
+    //table.on('draw', function () {
+
+    //    $(".button").attr('disabled', 'disabled');
+
+    //});
+}

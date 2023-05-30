@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = ViewBag.ReportTitle;
+}
+<style>
+    .zoom {
+        transition: transform .5s;
+  transform: scale(1.0);
+    }
+
+    .zoom:hover {
+        transform: scale(4.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+
+      /*width: 200px;*/
+        /*height: 200px;*/
+         /*margin-left: 300px;*/
+  /*margin-right: auto;*/
+    }
+</style>
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            @Html.Action("_DcmReportFilter", "CustomReport", new { reportTitle = ViewBag.ReportTitle })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <div>
+                                            @*<img class="parent " src="http://112.196.27.98:124\images\a637431411806769123.jpg"  data-pos='0' style="width:100px;"/>
+                                            <div  >
+                                                <img class="img" style="display:none;width:100px;" src="http://112.196.27.98:124\images\a637431411806769123.jpg" />
+                                                <img class="img" style="display:none;width:100px;" src="http://112.196.27.98:124\images\a637431411806769123.jpg" />
+                                                <img class="img" style="display:none;width:100px;" src="http://112.196.27.98:124\images\a637431411806769123.jpg" />
+                                                <img class="img" style="display:none;width:100px;" src="http://112.196.27.98:124\images\a637431411806769123.jpg" />
+                                                <img class="img" style="display:none;width:100px;" src="http://112.196.27.98:124\images\a637431411806769123.jpg" />
+                                            </div>*@
+                                            <div>
+                                                <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>CabNo</th>
+                                                            <th>From</th>
+                                                            <th>To</th>
+                                                            <th>Request Date</th>
+                                                            <th>Hire date</th>                                                       
+                                                            <th>Book For</th>
+                                                            <th>Username</th>
+                                                            <th>Driver Name</th>
+                                                            <th>Odometer-Image on Trip Start</th>
+                                                            <th>Odometer-Image on Trip End</th>
+                                                            <th>Odometer Reading on Trip Start</th>
+                                                            <th>Odometer Reading on Trip End</th>
+                                                            <th>Fuel reading</th>
+                                                            <th>Fuel price/Liter</th>
+                                                            <th>fuel receipt</th>
+                                                            <th>Trip start date</th>
+                                                            <th>Trip end date</th>
+                                                            <th>Trip status</th>
+                                                            @* <th>Cab Status</th>*@
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/DCMReport.js"@DateTime.Now.Ticks></script>
+}
+
+

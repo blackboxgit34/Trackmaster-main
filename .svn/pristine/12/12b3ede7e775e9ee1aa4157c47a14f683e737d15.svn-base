@@ -1,0 +1,466 @@
+﻿@{
+    ViewBag.Title = "FeedBack";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/progressTimeLine.css" rel="stylesheet" />
+<style>
+    .table_cell {
+        padding-left: 100px;
+    }
+
+
+    .horizontal {
+        display: inline;
+        width: 200px;
+        margin-left: inherit;
+    }
+
+    .tmtimeline:before {
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-color: #AFDCF8;
+        background-image: none;
+        background-origin: padding-box;
+        background-position: 0 0;
+        background-repeat: repeat;
+        background-size: auto auto;
+        bottom: 0;
+        content: "";
+        left: -22px;
+        margin-left: 46px;
+        position: absolute;
+        top: 0;
+        width: 10px;
+    }
+
+    .wide {
+        width: 100%;
+    }
+
+    .appBackground {
+        position: relative;
+        background-color: rgba(236, 189, 148, 0.85) !important;
+        /*background-image: url("../../Content/img/feedback.jpg");*/
+        background-repeat: no-repeat;
+        background-size: 100% 100vh;
+    }
+</style>
+
+<div class="row-fluid" style="background-color:rgba(236, 189, 148, 0.85);">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div class="widget span12">
+                <div class="widget-header">
+                    <i class="fa fa-comments-o"></i>
+                    <h5>Feedback</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="widget-body" style="border: 0">
+            <div class="widget col-md-6">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div class="row-fluid">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#1" data-toggle="tab">Appreciation</a>
+                            </li>
+                            <li>
+                                <a href="#2" data-toggle="tab">Complaint</a>
+                            </li>
+                            <li>
+                                <a href="#3" data-toggle="tab">Suggestions</a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content ">
+                            <div class="tab-pane active" id="1">
+                                <div class="widget-body padded clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <div class="col-md-12">
+                                                <form id="feedAppe">
+                                                    <div id="userError"></div>
+                                                    <div style="background: #fff; padding: 20px!important; height: 500px; overflow: auto;">
+                                                        Do you want to enter personal Detail?
+                                                        <input type="checkbox" name="chkPersonalDetail" id="chkPersonalDetail1" size="10" />
+                                                        <br />
+                                                        <div class="hidden" id="divPersonalDetail1">
+                                                            Name:
+                                    <input type="text" name="username" id="username1" size="10" /><br>
+                                                            <div id="EmailError"></div>
+
+                                                            Email:
+                                    <input type="text" name="Email" id="Email1" size="10" /><br>
+                                                            <div id="mobError"></div>
+                                                            Mobile Number:
+                                    <input type="text" name="MobileNumber" id="mobnmbr1" size="10" /><br>
+                                                        </div>
+                                                        <br />
+
+                                                        <div id="tab1"></div>
+                                                        <div id="MessageError"></div>
+                                                        Message:
+                                    <input type="text" name="Message" id="Message1" size="10" /><br>
+
+                                                        <input type="submit" name="submit" value="Submit" id="btnAppe" class="btn btn-warning" />
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="2">
+                                <div class="widget-body padded clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <div class="col-md-12">
+                                                <form id="formComp">
+                                                    <div id="userError"></div>
+                                                    <div style="background: #fff; padding: 20px!important; height: 500px; overflow: auto;">
+                                                        Do you want to enter personal Detail?
+                                    <input type="checkbox" name="chkPersonalDetail" id="chkPersonalDetail2" size="10" />
+                                                          <br />
+                                                        <div class="hidden" id="divPersonalDetail2">
+                                                            Name:
+                                    <input type="text" name="username" id="username2" size="10" /><br>
+                                                            <div id="EmailError"></div>
+
+                                                            Email:
+                                    <input type="text" name="Email" id="Email2" size="10" /><br>
+                                                            <div id="mobError"></div>
+                                                            Mobile Number:
+                                    <input type="text" name="MobileNumber2" id="mobnmbr2" size="10" /><br>
+                                                        </div>
+                                                        <br />
+                                                        <div id="tab2">
+                                                        </div>
+                                                        <div id="MessageError"></div>
+                                                        Message:
+                                    <input type="text" name="Message" id="Message2" size="10" /><br>
+
+                                                        <input type="submit" name="submit" value="Submit" id="btnComp" class="btn btn-warning" />
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="3">
+                                <div class="widget-body padded clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <div class="col-md-12">
+                                                <form id="formSugg>
+                                                    <div id="userError"></div>
+                                                    <div style="background: #fff; padding: 20px!important; height: 500px; overflow: auto;">
+                                                        Do you want to enter personal Detail?
+                                    <input type="checkbox" name="chkPersonalDetail" id="chkPersonalDetail3" size="10" />
+                                                        <br />
+                                                        <div class="hidden" id="divPersonalDetail3">
+                                                            Name:
+                                    <input type="text" name="username" id="username3" size="10" /><br>
+                                                            <div id="EmailError"></div>
+
+                                                            Email:
+                                    <input type="text" name="Email" id="Email3" size="10" /><br>
+                                                            <div id="mobError"></div>
+                                                            Mobile Number:
+                                    <input type="text" name="MobileNumber" id="mobnmbr3" size="10" /><br>
+                                                        </div>
+                                                        <br />
+                                                        <div id="tab3">
+                                                        </div>
+                                                        <div id="MessageError"></div>
+                                                        Message:
+                                    <input type="text" name="Message" id="Message3" size="10" /><br>
+
+                                                        <input type="submit" name="submit" value="Submit" id="btnSugg" class="btn btn-warning" />
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-md-offset-1">
+                <div style="background-color: #403d3d; height: 80px;">
+                    <h3 style="color: white">Please Help us to improve Our services.<br />
+                        Give Us Your
+                    </h3>
+                </div>
+                <img src="~/Content/img/feedback2.jpg" width="600px;" />
+            </div>
+</div>
+    </div>
+<script src="~/Scripts/app/_layoutCustId.js"></script>
+<script src="~/Content/js/APIURL.js"></script>
+<script>
+
+    $(function () {
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "AdminAPI/FeedbackQuestions",
+            success: function (data) {
+                var questionId;
+                var category;
+                var statusFlag = false;
+                for (var i = 0; i < data.length; i++) {
+
+                    if (data[i].CategoryId == 1) {
+                        // if (data[i].feedbackQueId == 1) {
+                        if (!statusFlag) {
+                            questionId = data[i].feedbackQueId;
+                            var Questions = "<div>" +
+                           "<b name='Q" + data[i].feedbackQueId + "' id=Q" + data[i].feedbackQueId + ">Q: " + data[i].Question + "</b></br> " +
+                           "</div>";
+                            $("#tab1").append(Questions);
+                            statusFlag = true;
+                        }
+                        if (statusFlag) {
+                            if (data[i].feedbackQueId != questionId) {
+                                var Questions = "<div>" +
+                        "<b  name='" + data[i].feedbackQueId + "' id=Q" + data[i].feedbackQueId + ">Q: " + data[i].Question + "</b></br> " +
+                        "</div>";
+                                $("#tab1").append(Questions);
+                                statusFlag = true;
+                                questionId = data[i].feedbackQueId;
+                            }
+                            var Questions = "<div>" +
+                                // "<p>" + data[i].Answer + "</p>
+                              "<p name='" + data[i].Answer + "^" + data[i].feedbackQueId + "'>" + data[i].Answer + "&nbsp<input type='checkbox' id='ignitionOn' class='checkBox' name='" + data[i].FeedbackAnswerId + "^" + data[i].feedbackQueId + "'  /></p>"
+                                + "</div>";
+
+                            $("#tab1").append(Questions);
+                        }
+                        //}
+
+                    }
+                    else if (data[i].CategoryId == 2) {
+                        //if (!statusFlag) {
+                        //    questionId = data[i].feedbackQueId;
+                        //    var Questions = "<div>" +
+                        //   "<b id=" + data[i].feedbackQueId + ">Q: " + data[i].Question + "</b></br> " +
+                        //   "<div>";
+                        //    $("#tab1").append(Questions);
+                        //    statusFlag = true;
+                        //}
+                        if (statusFlag) {
+                            if (data[i].feedbackQueId != questionId) {
+                                var Questions = "<div>" +
+                        "<b id=Q" + data[i].feedbackQueId + ">Q: " + data[i].Question + "</b></br> " +
+                        "</div>";
+                                $("#tab2").append(Questions);
+                                statusFlag = true;
+                                questionId = data[i].feedbackQueId;
+                            }
+                            var Questions = "<div>" +
+                                // "<p>" + data[i].Answer + "</p>
+                               "<p name='" + data[i].Answer + "^" + data[i].feedbackQueId + "'>" + data[i].Answer + "&nbsp<input type='checkbox' id='ignitionOn' class='checkBox' name='" + data[i].FeedbackAnswerId + "^" + data[i].feedbackQueId + "'  /></p>"
+                                + "</div>";
+
+                            $("#tab2").append(Questions);
+                        }
+
+                    }
+                    else if (data[i].CategoryId == 4) {
+                        if (!statusFlag) {
+                            questionId = data[i].feedbackQueId;
+                            var Questions = "<div>" +
+                           "<b id=Q" + data[i].feedbackQueId + ">Q: " + data[i].Question + "</b></br> " +
+                           "</div>";
+                            $("#tab3").append(Questions);
+                            statusFlag = true;
+                        }
+                        if (statusFlag) {
+                            if (data[i].feedbackQueId != questionId) {
+                                var Questions = "<div>" +
+                        "<b id=Q" + data[i].feedbackQueId + ">Q: " + data[i].Question + "</b></br> " +
+                        "</div>";
+                                $("#tab3").append(Questions);
+                                statusFlag = true;
+                                questionId = data[i].feedbackQueId;
+                            }
+                            var Questions = "<div>" +
+                                // "<p>" + data[i].Answer + "</p>
+                              "<p name='" + data[i].Answer + "^" + data[i].feedbackQueId + "'>" + data[i].Answer + "&nbsp<input type='checkbox' id='ignitionOn' class='checkBox' name='" + data[i].FeedbackAnswerId + "^" + data[i].feedbackQueId + "'  /></p>"
+                                + "</div>";
+
+                            $("#tab3").append(Questions);
+                        }
+                    }
+                };
+            },
+            error: function (error) {
+                toastr.error("something went wrong!");
+            }
+        });
+    });
+
+    $('#chkPersonalDetail1').click(function () {
+        if (!$(this).is(':checked')) {
+            $("#divPersonalDetail1").addClass("hidden");
+        }
+        else {
+            $("#divPersonalDetail1").removeClass("hidden");
+        }
+    });
+
+    $('#chkPersonalDetail2').click(function () {
+        if (!$(this).is(':checked')) {
+            $("#divPersonalDetail2").addClass("hidden");
+        }
+        else {
+            $("#divPersonalDetail2").removeClass("hidden");
+        }
+    });
+
+    $('#chkPersonalDetail3').click(function () {
+        if (!$(this).is(':checked')) {
+            $("#divPersonalDetail3").addClass("hidden");
+        }
+        else {
+            $("#divPersonalDetail3").removeClass("hidden");
+        }
+    });
+    $("#btnAppe").click(function () {
+        debugger;
+
+        var name = $("#username1").val();
+        var email = $("#Email1").val();
+        var mobNo = $("#mobnmbr1").val();
+        var message = $("#Message1").val();
+        var selectedAnswer = [];
+        $('#feedAppe input:checked').each(function () {
+            selectedAnswer.push($(this).attr('name'));
+        });
+
+        var data = $("#feedAppe").serializeArray();
+        console.log(data);
+        data.push({ name: 'CustID', value: $custid });
+        var VehUrl = apiBase.apiurl + 'AdminAPI/FeedbackInsert';
+
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: VehUrl,
+            data: { custID: $custid, selectedAnswer: selectedAnswer.toString(), category: 1, message: message,name:name,email:email,mobileNo:mobNo },
+            success: function (data) {
+                toastr.success("Successfully Updated");
+            },
+            error: function (error) {
+                toastr.error("something went wrong!");
+            }
+        });
+
+
+
+
+
+        //$.post(VehUrl, $.param({ custID: $custid, selectedAnswer: selectedAnswer }), function (result) {
+        //    if (result > 0) {
+        //        toastr.success("Thanks For your Feedback");
+        //        form.closest('form').find("input[type=text], textarea").prop("disabled", true);;
+        //    }
+        //    else
+        //        toastr.error("Failed!!!")
+        //});
+
+
+    });
+
+    $("#btnComp").click(function () {
+        debugger;
+
+
+        var name = $("#username1").val();
+        var email = $("#Email1").val();
+        var mobNo = $("#mobnmbr1").val();
+        var message = $("#Message1").val();
+        var selectedAnswer = [];
+        $('#formComp input:checked').each(function () {
+            selectedAnswer.push($(this).attr('name'));
+        });
+        
+        var data = $("#formComp").serializeArray();
+        console.log(data);
+        data.push({ name: 'CustID', value: $custid });
+        var VehUrl = apiBase.apiurl + 'AdminAPI/FeedbackInsert';
+
+
+
+
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: VehUrl,
+            data: { custID: $custid, selectedAnswer: selectedAnswer.toString(), category: 2, message: message, name: name, email: email, mobileNo: mobNo },
+
+            success: function (data) {
+                toastr.success("Successfully Updated");
+            },
+            error: function (error) {
+                toastr.error("something went wrong!");
+            }
+        });
+
+
+    });
+
+
+    $("#btnSugg").click(function () {
+        debugger;
+
+        var name = $("#username1").val();
+        var email = $("#Email1").val();
+        var mobNo = $("#mobnmbr1").val();
+        var message = $("#Message1").val();
+        var selectedAnswer = [];
+        $('#feedAppe input:checked').each(function () {
+            selectedAnswer.push($(this).attr('name'));
+        });
+
+        var data = $("#feedAppe").serializeArray();
+        console.log(data);
+        data.push({ name: 'CustID', value: $custid });
+        var VehUrl = apiBase.apiurl + 'AdminAPI/FeedbackInsert';
+
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: VehUrl,
+            data: { custID: $custid, selectedAnswer: selectedAnswer.toString(), category: 4, message: message, name: name, email: email, mobileNo: mobNo },
+
+            success: function (data) {
+                toastr.success("Successfully Updated");
+            },
+            error: function (error) {
+                toastr.error("something went wrong!");
+            }
+        });
+
+
+    });
+
+
+
+
+
+
+</script>

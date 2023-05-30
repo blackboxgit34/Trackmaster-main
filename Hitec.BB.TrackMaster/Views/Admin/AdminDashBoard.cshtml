@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "AdminDashBoard";
+}
+@*<style> 
+/*body {
+    background-image: url("../../Content/img/vehicle-leasing-hero.jpg");
+    background-color: #cccccc;
+}*/
+</style>*@
+@*<style>
+.Testsd {
+    width: 100%;
+    height: 400px;
+    background-image: url(../../Content/img/vehicle-leasing-hero.jpg);
+    background-size: cover;
+    opacity: 0.8;
+    filter: alpha(opacity=70);
+    background-size:100% auto;
+   /*border: 1px solid black;*/
+
+    
+    background-color: #ffffff;
+    opacity: 0.3;
+    filter: alpha(opacity=30); /* For IE8 and earlier */
+}
+
+div.transbox h1 {
+    
+    font-weight: bold;
+    color: orangered;
+    margin-left:27%;
+    padding:15px;
+   
+}
+</style>*@
+
+@*<div class="" style="background-image:url(../../Content/img/vehicle-leasing-hero.jpg); height:300px;" >
+    xcvcxvc
+</div>*@
+@*<div class="Testsd">
+    <div class="transbox">
+    <h1>Welcome to Driver Behavior Section .</h1>
+  </div>
+</div>*@
+<style>
+    .col-md-2 {
+            background: transparent !important;
+    }
+</style>
+<link href="~/Content/css/driver.css" rel="stylesheet" />
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+<div id="Fade" class="w3-container city w3-animate-zoom" >
+    <section class="inds">
+        <div class="inds_contant" id="bgImage" style="background-image: url(../../Content/img/customTemplateImages/driverBehavior.jpg); background-position: 0% 36%;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 style="color: white;" id="dashboardTitle">Welcome to Driver behavior</h1>
+                        @*<h1>Fleet management software for <br>construction fleets</h1>*@
+                        <h4 class='h3 text-light text-muted' id="dashboardContent">Update your vehicle info through blackbox system.</h4>
+                  @*      <div style="text-align: center; padding-top: 15px;">
+                            <button href="#" class="banner_btn">Watch the Overview Video</button>
+                        </div>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+@*  <main role='main'>
+      <main class='industry-lp' role='main'>
+        <div class='jumbotron jumbotron-cover-image' style='background-image: url(../../Content/img/vehicle-leasing-hero.jpg)'>
+          <div class='container container-sm text-center'>
+            <h1 style="color:white;">Welcome to Driver behavior</h1>
+            <h2 class='h3 text-light text-muted' style="color:lightgray">Update your vehicle info through blackbox system.</h2>
+            <br>
+            <div class='popover=true popoverContent=link wistia_async_3d12xvsy5x wistia_embed' style='display:inline'>
+              <a class="btn btn-white btn-lg js-overview-video" title="Watch the Overview Video" href="#"><i class='material-icons md-play_arrow'></i>
+              Watch the Overview Video
+              </a>
+            </div>
+          </div>
+        </div>
+          </main>
+      </main>*@
+<div id="divDrvBeh" >
+    <div class="col-md-12">
+         <div class='container container-sm text-center'>
+           
+            <br>
+          </div>
+
+    <div class="col-md-2">
+        <a href="../admin/UpDateSettings" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/wrench.png"  style="height:75px;" />
+        <div class='container container-sm text-center'>
+            <h3>Driver Settings</h3>
+          </div>
+             </a>
+    </div>
+    <div class="col-md-2">
+        <a href="../admin/AverageSpeedReport" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/ensure-safety.png"  style="height:75px;" />
+           
+        <div class='container container-sm text-center'>
+            <h3>Average Report</h3>
+          </div>
+       </a>
+    </div>
+    <div class="col-md-2" >
+         <a href="../admin/overspeedreport" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/ensure-safety.png" style="height:75px;" />
+       <div class='container container-sm text-center'>
+            <h3>OverSpeed Report</h3>
+          </div>
+                </a>
+    </div>
+    <div class="col-md-2" >
+         <a href="../admin/AccelerationReport" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/ensure-safety.png" style="height:75px;" />
+       <div class='container container-sm text-center'>
+            <h3>Acceleration Report</h3>
+          </div>
+                </a>
+    </div>
+    <div class="col-md-2" >
+         <a href="../admin/HarshBrakingReport" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/ensure-safety.png" style="height:75px;" />
+       <div class='container container-sm text-center'>
+            <h3>Harsh Braking Report</h3>
+          </div>
+                </a>
+    </div>
+    <div class="col-md-2" >
+         <a href="../report/GetTimeSlotsReportDriverBehavior" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/ensure-safety.png" style="height:75px;" />
+       <div class='container container-sm text-center'>
+            <h3>Time Slots Reports</h3>
+          </div>
+                </a>
+    </div>
+
+
+    
+</div>
+    <div class="col-md-12">
+        <div class="col-md-2" >
+         <a href="../admin/ConsDrvrPrfrmnce" target="_blank">
+        <img class="center-block img-responsive" src="../../Content/img/ensure-safety.png" style="height:75px;" />
+       <div class='container container-sm text-center'>
+            <h3>Driver Performance Report</h3>
+          </div>
+                </a>
+    </div>
+        </div>
+
+    
+
+    </div>
+    <div id="divSubscriptionAlert"  class="col-md-12 hidden">
+        <br />
+         <div class='container container-sm text-center'>
+          <b style="color:indianred">Please Upgrade your subscription plan to Standard. Right now you are using basic plan.
+              @*<a href="@Url.Action("SubscriptionPlans","subscription")"> Click here to Upgrade</a>*@</b> 
+            <br>
+          </div>
+        </div>
+<script src="~/Scripts/app/_layoutCustId.js"></script>
+<script>
+    $(document).ready(function () { 
+    //$.ajax({
+    //    dataType: "json",
+    //    type: "GET",
+    //    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+    //    url: apiBase.apiurl + "AdminAPI/CheckSubscriptionPlan",
+    //    data: { custId: $custid },
+    //    async: false,
+    //    success: function (data) {
+    //        
+    //        if (data != "2" && data != "3") {
+    //            $("#divDrvBeh").addClass("hidden");
+    //            $("#divSubscriptionAlert").removeClass("hidden");
+    //        }
+    //    }
+    //});
+
+
+    var reportName = document.location.pathname.match(/[^\/]+$/)[0];
+    var url = apiBase.apiurl + "adminapi/CheckForAdOnReports";
+    $.ajax({
+        url: url,
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        data: { custid: $custid, reportName: reportName },
+        async: false,
+        success: function (data) {
+            if (data.length == 0) {
+                $("#divDrvBeh").addClass("hidden");
+                $("#divSubscriptionAlert").removeClass("hidden");
+                 }
+             },
+            error: function (err) {
+                $.unblockUI();
+                toastr.warning('something went wrong!');
+            }
+
+        });
+
+    });
+
+</script>

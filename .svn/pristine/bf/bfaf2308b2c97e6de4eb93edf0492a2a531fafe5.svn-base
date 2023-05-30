@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Overspeed Report";
+}
+
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+<<<<<<< HEAD
+            @Html.Action("_ReportFilter", new { reportTitle = "Overspeed Report" })
+=======
+            <!-- <div class="row-fluid">
+				<p style="color: #999; font-size: 19px;margin-bottom: -15px;">Dashboard</p>
+                </div>-->
+            
+            @Html.Action("_ReportFilter", new { reportTitle = "Overspeed Report" })
+
+>>>>>>> 488522cbbcd37527934c41d7484d6c1ff1cd554a
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-header">
+                                <i class="icon-lightbulb"></i>
+                                <h5>Report Content</h5>
+                            </div>
+
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box_a_content">
+                                        <table id="dt_basic_Master" class="dataTables_full table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>BBID                                                    
+                                                    </th>
+                                                    <th>Vehicle Name
+                                                    </th>
+                                                    <th>Overspeed Count
+                                                    </th>
+                                                    <th>Overspeed Limit
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/content/js/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/content/js/bootstrap-timepicker.min.js")"></script>
+    <script>
+        $(function () {
+            $('.datepicker').datepicker();
+
+            $('#timepicker1').timepicker();
+            $('#timepicker2').timepicker();
+        });
+
+        @*$(document).ready(
+        //Function to get vehicles list
+        function () {
+            var baseUrl= '@System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"]';
+            var url = baseUrl + 'api/AdminAPI/GetVehicles?custid=1619';
+            console.log('Calling URL: ' + url + ' to get vehicles list.');
+
+            $.getJSON(url, function (Data) {
+                var $select = $('#VehiclesList');
+                $('<option>', {
+                    value: ''
+                }).html('--Select Vehicle--').appendTo($select);
+
+                $.each(Data, function (i, datum) {
+                    $('<option>', {
+                        value: datum.Value
+                    }).html(datum.Text).appendTo($select);
+                });
+            })
+            .fail(
+                function (jqXHR, textStatus, err) {
+                    alert('Error: ' + err);
+                })
+        });*@
+
+        $("#BtnSearch").click(function() { 
+            //var e = document.getElementById("VehiclesList");
+            //var $selectedVehicle = e.options[e.selectedIndex].value;
+
+            var $beginDate = $('#beginDate').val();
+            var $beginTime = $('#timepicker1').val();
+
+            alert($beginDate);
+            //$beginDate = $beginDate + ' ' + $beginTime;
+
+            var $endDate = $('#endDate').val();
+            var $endTime = $('#timepicker2').val();
+
+            alert($endDate);
+
+
+            //$endDate = $endDate + ' ' + $endTime;
+            var $custid = '1619';
+
+            var baseUrl = '@System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"]';
+             //int iDisplayStart, int iDisplayLength, string sSearch, int iSortCol_0, string sSortDir_0
+             //var url = baseUrl + "api/Reportsapi/GetOverSpeedReport?beginDate=" + $beginDate + "&endDate=" + $endDate + "&bbid=" + null + "&custid=" + $custid;
+             var url = baseUrl + "api/LiveStatus/LiveStatus";
+            console.log('Calling URL: ' + url + ' to get Report data.');
+
+            var table = $('#dt_basic_Master').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "iDisplayLength": 20,
+                "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+                "ajax":
+                    {
+                        "url": url,
+                        "dataSrc": "vehicleList"
+                    },
+                "columns": [
+                    { "data": "bbid" },
+                    { "data": "vehname" },
+                    { "data": "overspeedCount" },
+                    { "data": "overspeedLimit" }
+
+                ]
+            });
+            table.destroy();
+        });
+    </script>
+}

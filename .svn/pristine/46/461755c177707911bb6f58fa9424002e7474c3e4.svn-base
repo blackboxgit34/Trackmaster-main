@@ -1,0 +1,98 @@
+﻿$(".js-example-basic").select2({})
+$(document).ready(function () {
+    $('#Date').datepicker();
+    var VehicleUrl = apiBase.apiurl + 'FmsAPI/GetFmsVehicles';
+    $.get(VehicleUrl, { custid: $custid }, function (data) {
+        $.each(data, function (key, value) {
+            $("#VehicleId").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+        });
+    }).done(function () {
+        var vid = $('#vehicleIdFromMain').val();
+        if (vid != 0) {
+            $("#VehicleId").select2().select2('val', vid);
+        }
+    }).done(function () {
+        bindData();
+    });
+
+    $('form').on('keydown', '#Liters, #AmountPaid', function (e) {
+        -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault()
+    });
+
+});
+
+function bindData()
+{
+    var slid = getUrlParameter("fuelid");
+    var vehid = getUrlParameter("vehid");
+    if (slid && vehid) {
+        $("#statusText").text("Update Fuel");
+        var url = apiBase.apiurl + "FmsApi/GetFuelByFuelId";
+        $.get(url, { custid: $custid, fuelid: slid, vehid: vehid }, function (data) {
+            console.log(data);
+            $.each(data, function (item, value) {
+                if (item == "Payment") {
+
+                    $('[name=Payment][value="' + value + '"]').prop('checked', true);
+                    // $("#" + item).val(value).prop('checked', true);
+                    // $('#Payment [value=' + value + ']').prop('checked', true);
+                    //$('#Payment [value=' + value + ']').attr("checked", "checked");
+                }
+                else if (item == "Date") {
+                    var dt = moment(value).format("MM/DD/YYYY");
+                    $("#" + item).val(dt);
+                }
+                else if (item == "VehicleId")
+                {
+                     $("#VehicleId").select2().select2('val', value);
+                }
+                else
+                    $("#" + item).val(value);
+            });
+
+        });
+    }
+}
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+$('#fuelForm').submit(function () {
+    
+    var slid = getUrlParameter("fuelid");
+    var sid = (!slid && slid > 0) ? 0 : slid;
+    var data = $('#fuelForm').serializeArray();
+    data.push(
+        { name: 'CustID', value: $custid },
+        { name: 'ID', value: sid }
+        );
+    console.log(data);
+    var url = apiBase.apiurl + 'FmsAPI/AddUpdateFuelInfo';
+    $.post(url, $.param(data), function (result) {
+        if (result > 0) {
+            if (result == 1) {
+                toastr.success("Fuel created successfully.")
+            }
+            else {
+                toastr.success("Fuel updated successfully.")
+            }
+            window.setTimeout(function () {
+                window.location.href = '/Fms/ManageFuel';
+            }, 1000);
+        }
+        else
+            toastr.error("Failed!!!")
+    });
+});

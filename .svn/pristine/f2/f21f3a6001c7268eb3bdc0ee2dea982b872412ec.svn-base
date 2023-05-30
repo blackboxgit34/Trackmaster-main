@@ -1,0 +1,50 @@
+﻿<nav class="navbar navbar-top navbar-inverse navbar-static-top" role="navigation" style="height: 70px; margin-top: -20px; padding-top: 8px; padding-bottom: 5px;">
+    <div class="navbar-header" style="height: 40px; position: relative;">
+        <div>
+            <img src="~/content/Trackmaster_files/bb.png" style="position: relative; top: 16px; left: 24px;">
+            <!--<a class="navbar-brand" href="#">
+                <span style="color: #fff; font-size: 120%; font-family:Arial"></span>
+            </a>-->
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle Top Navigation</span>
+            <i class="icon-list"></i>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" style="height: 40px;" id="navbar-collapse">
+        <ul class="nav pull-right navbar-nav">
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    <i class="fa fa-file-archive-o"></i>
+                    <br />
+                    Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/rfid")"><span style="padding-left: 8px">RFID Report</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/EmployeeRFIDReport")"><span style="padding-left: 8px">Employee RFID</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/DriverRFIDReport")"><span style="padding-left: 8px">Driver RFID</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="@Url.Content("~/AddOn/VehicleRFIDReport")"><span style="padding-left: 8px">Vehicle RFID</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li style="text-align: center; padding-bottom: 10px">
+
+                @*<a class="height" id="goto_logout" href="~/Home/Login" title="Log out">*@
+
+                <a class="height" id="goto_logout" href="javascript:;" ng-click="logout()" title="Log out">
+
+                    <i class="icon-signout" style="font-size: 15px"></i>
+                    <br />
+                    <div>Log Out</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

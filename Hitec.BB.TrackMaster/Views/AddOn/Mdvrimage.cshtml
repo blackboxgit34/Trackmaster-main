@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Live image Capture";
+   // ViewBag.Report = "CameraImages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/imageViewCss.css" rel="stylesheet" />
+<div class="row-fluid body">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilterWithVehicleList", "Report", new { reportTitle = "Live image Capture", report = ViewBag.Report })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                   
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                           
+                                    <div class="box-content padded">
+                                        <iframe src="" id="MDVrImage" width="100%" style=" height: 600px;  background-color: #FFFFFF; border: aliceblue; "></iframe>
+                                    </div>
+                           
+                            </div>
+                     
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+<!-- The Modal -->
+<div id="myModal" class="modal" style=" margin-left: 10%;    height: 117%;    width: 75%;">
+  <span onclick="modalPopUpClose();" class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section scripts{
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/common.js"></script>
+    <script>
+     
+        var cameraId;
+        $(document).ready(function () {
+
+            document.getElementById("reportrange").style.display = "none";
+        $("#vehicleslist").select2();
+        
+        var baseurl = apiBase.apiurl;
+         
+        var url = baseurl + 'adminapi/BindMDvrimage?custid=' + $custid;
+    $.getJSON(url, function (data) {   
+        $.each(data, function (i, item) {
+            $('#vehicleslist').append($('<option></option>').val(item.Value).html(item.Text));
+            if (!cameraId) {
+                cameraId = $('#vehicleslist').val();
+            }
+        });
+        var datas = $('#vehicleslist').val();
+        $('#MDVrImage').attr('src', datas);
+    })
+
+    $("#BtnSearch").click(function () {
+        var data = $('#vehicleslist').val();
+        $('#MDVrImage').attr('src', data);
+    });
+
+        });
+
+
+
+ 
+
+        </script>
+    @*<script src="~/Scripts/app/cameraImages.js"></script>*@
+        }

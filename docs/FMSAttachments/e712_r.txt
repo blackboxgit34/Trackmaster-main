@@ -1,0 +1,12 @@
+      <table style="margin-bottom: 10px; width:100%">
+              <tr>
+             <td style="font-size:20px; text-align:center;padding-bottom: 10px;"><b><span id="txtvehname"></span></b><br /></td>
+            </tr>
+            <tr>
+             <td style="font-size:12px; text-align:center;padding-bottom: 10px"><span id="txtfromdate"></span> <b style="color:black; font-size:16px">To</b> <span id="txttodate"></span></td>
+            </tr>
+        </table>
+
+  $('#txtvehname').text(localStorage.getItem("vehicleName"));
+            $('#txtfromdate').text(localStorage.getItem("fromDate"));
+            $('#txttodate').text(localStorage.getItem("toDate"));

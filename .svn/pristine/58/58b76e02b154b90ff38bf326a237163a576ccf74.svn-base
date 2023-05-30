@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "TermAndConditions";
+    Layout = null;
+}
+<div class="widget widget-padding ">
+    <div class="widget-header">
+        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+        <h5>Terms and Conditions</h5>
+    </div>
+
+    <div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+        <div class="widget-body" style="border: 0">
+            <div class="row-fluid">
+                <div class="widget span12">
+                    <div class="widget-body clearfix" style="overflow-x: auto">
+                        <div id="ReportTotal">
+                            <div class="box">
+                                <div class="box-content padded" style="background: white;">
+                                    <form class="row-fluid">
+                                        <div class="col-md-12">
+                                            BlackBox GPS Technology OPC Pvt Ltd. is hereinafter collectivity referred to as “BGTOPL”.
+2. The service offerings are under the full discretion of BGTOPL. Need to do the technical feasibility before providing the service.
+3. Customer acknowledges that the BlackBox Fleet Management System/Smart Car Security System Black Box (hereinafter referred to as “service”) are rendered by BGTOPL
+hereunder is based on wireless data technology. The availability, accuracy and quality of the services may be affected by various factors not within the control of BGTOPL
+including but not limited to physical obstruction, availability or performance of network, geographic condition, radio signal interference, non availability of power, fault or
+modification in other telecommunication network to which BGTOPL network is connected, non receipt or delay in receipt of suitable right of way, equipment damages,
+modification of equipment or infrastructure or any other reasons not within the control of BGTOPL. In connection with the foregoing, BGTOPL does not guarantee for an
+uninterrupted or fault‐free service and shall not be responsible for any delays and errors in the transmission of service.
+4. Service is provided in India to Indian citizen residing in India aged 18 years and above (c) entitled to enter into a legally valid and enforceable contract and not under any legal
+disability.
+5. This information is to be used for “guiding purpose only” and the same shall not be used for any detection, claim, damage, dispute or illegal purpose. BGTOPL shall not be
+responsible for any claim of any nature other than the claim relating to any disruption in services due to any act or omission of BGTOPL.
+6. Customer shall be solely responsible to protect the tracking device, two way communication and all other sensors provided by BGTOPL from any misuse, theft or any damages. In
+the event of any damage to any such equipment, customer shall approach the equipment manufacturer or its authorized service center for repairs.
+7. BGTOPL shall not be responsible for any breach of privacy obligations between the customer and any other person being tracked/ viewed/ filmed/ recorded/ through the
+service. Customer shall indemnify and keep BGTOPL, its officer, employees, directors, affiliates, contractors, agents, vendors fully indemnified and harmless against any such
+claims and obligations.
+8. It shall be the responsibility of the customer to provide correct inputs and data to BGTOPL for availing the service. Customer shall be required to provide correct, accurate and
+updated details of himself/herself including details relating to age, address, identity, ownership of vehicle and must submit all necessary proof for authenticating the details
+provided for availing services. BGTOPL shall not be under any obligation but shall be entitled to verify details provided by the customer and incase of any discrepancy found in the
+details provided by the customer. BGTOPL shall be entitled to immediately discontinue offering service to such customer.
+9. BGTOPL reserves the right to discontinue providing service to any customer if such customer violates any of the terms and conditions of the service. Any customer providing any
+incorrect information or concealing/withholding any information from BGTOPL with an intent to avail the service will automatically be disqualified from availing the service,
+such act of providing incorrect information or concealing/withholding any information will also include but not limited to incorrect declaration of information of relating to
+name, age, identity, address, mobile connection, ownership of vehicle, domicile any other information provided by the customer/withholding of information by the customer.
+10. Customer indulgence in any activity which is untoward/illegal/antisocial or criminal in nature or any attempt to do any such activity which may be construed or result/ imply/
+culminate in an untoward illegal, antisocial or criminal activity such activity will result in immediate discontinuation of service and disassociation of BGTOPL from the customer
+and may invite criminal proceedings against the customer.
+11. For queries related to usage, validity and connectivity, customers must contact the customer care.
+12. BGTOPL reserves the right to terminate the services in the event of non‐payment of outstanding bills issued by BGTOPL in accordance with the tariff plans opted by the customer
+and the extend of usage or any default on the part of the customers.
+13. Billing with respect to the subscription and usage of this service will be done separately.
+14. BGTOPL shall not be responsible for any actions taken by its customers or others as a result of its services.
+15. The customer shall be required to purchase the equipment from the direct sales associate and authorized dealers by BGTOPL for sale of equipment. BGTOPL shall not be under
+any obligation of providing any service to the customer, if the equipment is purchased by the customer from the entity other than the direct sales associate and authorized
+dealers by BGTOPL for selling the equipment.
+16. All charges and tariff for the service other than the equipment would be as per the choices made by the customer or as per the company's subscription plan.
+17. The customer shall be solely responsible for an illegal use of the equipment and/ or service and shall defend, indemnify and hold harmless BGTOPL and its directors, officers and
+employees, (or any of them) against any claim, liability, demand, loss, damage, judgment or other obligation or right of action etc. which may arise out of such illegal use of the
+equipment and/or the services.
+18. The customer shall be liable to duly honor all the payments relating to the equipment and services without any delay or default. BGTOPL reserves the absolute right to take
+appropriate legal action against the customer in the event the customer delays or defaults in making the payments of any amounts due and payable by the customer. Customer
+shall be solely responsible and liable for sanctity and management of web and mobile access, username and password provided by BGTOPL. BGTOPL shall not be responsible for
+any cost, expense, damage, claim, demand, suit, prosecution, arising due to mismanagement breach of requisite security level, hacking of web and mobile access, username
+and password or similar incidences.
+19. The customers understands and agrees that the accuracy/ latency of service depends on various factors, considering the involvement of a range of technologies such as cellular
+network and internet at source device as well as access device ( customer laptop/desktop/mobile). Hence the customer agrees and undertakes to use this service for tracking/
+security purpose only.
+20. BGTOPL agrees to provide the service on best effort basis, but do not take any responsibility of the accuracy/ latency of the input feed and the same should not be used for any
+detection, claim, damage, dispute or legal purpose by the customer or any one acting for or on behalf of the customer. No third party claim of any nature will be entertain by
+BGTOPL in this regard.
+21. The customer shall have to access our website “trackmaster.in” and set his/her username and password for portal access to track his or her vehicle registered under the service
+on “trackmaster.in”.
+22. The customer is responsible for preservation of the web and mobile username password and BGTOPL shall not be responsible for any mismanagement or confidentiality breach
+of username and password.
+23. The customer shall at his sole costs and consequences, be free to share his/her web and mobile username and password to any number of third parties at his/her discretion. The
+customer shall be free to allow any third party to track him/her on web portal with username and password. However, BGTOPL shall not be responsible for any misuse of mobile
+username and password and any claim, demand, damage, suit, cost; expense in this regard will not be entertained by BGTOPL.
+24. BGTOPL shall not be responsible for any breach of privacy obligations between third parties or whosoever, who are being tracked through the equipment and it shall be sole and
+exclusive responsibility of the customer to inform all concerned of the fact that the vehicle is under surveillance and equipment is installed in his/her vehicle for tracking the
+vehicle.
+25. BGTOPL shall not be responsible for any default, failure, deficiency, inaccuracy in the service due to any reason not within the control of BGTOPL. The customer undertakes not to
+raise any claim, demand, damage, cost, expense against BGTOPL.
+26. BGTOPL reserves the right to change/modify/terminate the service any time at its own discretion by giving prior notice but without assigning reasons to customer.
+27. The right to use the service is subject at all times to the terms and conditions of the service as specified www.trackmaster.in
+28. BGTOPL may temporarily deactivate/stop/discontinue this service, for maintenance purpose with prior notice to customer.
+29. BGTOPL shall be entitled to change, alter, modify, cancel, suspend the service as it may deem fit either consequent to any statutory or regulatory order/ direction, etc or on
+account of any other reason.
+30. Service is non endorsable, not transferable and non substitutable.
+31. BGTOPL shall not be liable for any failure to comply with its obligation caused by fire, flood, strike, hurricane, industrial dispute, war, hostilities, political unrest, riots, civil
+commotion, terror attack, inevitable accidents, acts of god or any other circumstances amounting to force majeure.
+32. BGTOPL shall not be responsible for any loss or damage if it has to discontinue or cancel this service in compliance with any law, ruling, order, regulation, circular, notification,
+requirement or instruction of any central/state government or for any other unavoidable reasons beyond its control. The customer shall be informed of such discontinuance/
+cancellation as soon as possible.
+33. The decision of detail as to the interpretation of any of these terms and condition shall be final and binding on the customer.
+34. BGTOPL shall not be responsible for any loss, damage, cost, expense, claim, demand raised by the customer or any other person acting for or on behalf of the customer due to
+any of following reasons
+a. Customer is unable to use the service due to any reason not within the control of BGTOPL.
+b. Customer is unable to subscribe the service for reasons due to any other reason beyond the control of BGTOPL.
+c. Customer is unable to understand the terms and conditions of the service.
+d. Customer is unable to understand the process of activation of service or is unable to activate the service.
+e. Customer is not complying with any of the terms and conditions of the service.
+f. Customer has violated any of the terms and conditions of the service.
+g. Customer default in making payment to BGTOPL with respect to the equipment purchased and/or services availed by the customer.
+h. Any other reasons not within the control of BGTOPL.
+35. In order to avail the service from BGTOPL, the customer shall be required to furnish the request application form, photograph and other information and documents as may be
+specified by BGTOPL and relationship between BGTOPL and the customer with respect to the service shall be governed as per the provisions of the said applications and other
+applicable document submitted/furnished by the customer or issued by BGTOPL.
+36. The courts in the terms/city where HTTPLs circle office (whose address is mentioned in the service enrollment form), shall have the sole and exclusive jurisdiction to decide any
+dispute under the service enrollment form.
+37. A part from these terms and condition, there are no oral or implied agreements and no oral and implied warranties or understanding between the BGTOPL and the customer
+with respect to the subject matter hereof.
+38. Black Box fitted with mobile SIM no. mentioned on the warranty card will be exclusively used for vehicle tracking system only. Misuse of the SIM‐card other than the
+tracking system thereby creating any problems will be responsibility of the customer, and is liable to legal consequences at the cost of the user.
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+        <div class="widget-body" style="border: 0">
+            <div class="row-fluid">
+                <div class="widget span12">
+                    <div class="widget-body clearfix" style="overflow-x: auto">
+                        <div id="ReportTotal">
+                            <div class="box">
+                                <div class="box-content padded" style="background: white;">
+                                    <form class="row-fluid">
+                                        <div class="col-md-12" style="background-color: darkslategrey; color: white;">
+                                            <b>BLACKBOX GPS TECHNOLOGY OPC (P) LTD. SCO 96‐97, SECTOR 34‐A, CHANDIGARH</b>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,923 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Route with Arrow Direction</title>
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+        media="screen" />
+   
+    <!-- Map has been localized to show the names, wherever available in ENGLISH (en) and country/region as INDIA -->
+
+  <!--  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdsMp_TiMpmLDoDw8jtVSKMvpiSBAY1EY&libraries=geometry" language="javascript" type="text/javascript"></script>-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3-rDdPQuUqt3j4EE1yIZu2X1TlSnZ7GM" language="javascript"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="../js/Map/LocationOnMap/label.js"></script>
+    <script type="text/javascript" src="../js/Map/LocationOnMap/Fluster2.packed.js"></script>
+    <!--<script  type="text/javascript" src="../js/Map/jquery-1.4.2.min.js"></script>-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/Map/polygon.min.js"></script>
+    <script src="../Content/js/APIURL.js" type="text/javascript"></script>
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCITh4LYqVNyaJ_YDiYgRxv29dhPJnU-5o&libraries=geometry" language="javascript"    type="text/javascript"></script>-->
+
+    <link href="../Content/css/CssCustom.css" rel="stylesheet" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js" type="text/javascript"></script>
+    <!-- Initialize timer script -->
+    <script language="JavaScript" type="text/javascript">
+        var timerID = null;
+        var timerRunning = false;
+        var delay = (90 * 1000); // 1 sec = 1000 ms
+        var zoomToExtents = 0;
+        var openedInfoWindow = null;
+        var lastListFlag = false;
+        var lastCountFlag = false;
+        function initializeTimer() {
+            //zoomToExtents = 0;
+            initializeMap();
+          
+            if (document.getElementById("checkPOI1").checked == true) {
+                PointOfInterestActive();
+            }
+            if (document.getElementById("checkPOI2").checked == true) {
+                PointOfInterestInactive();
+            }
+
+        }
+
+
+
+
+
+
+        function reCenter() {
+            var bound = new google.maps.LatLngBounds();
+            for (var i in gmarkers) {
+                bound.extend(gmarkers[i].getPosition());
+            }
+            //map.fitBounds(bound);
+            //zoomToExtents = 1;
+        }
+
+        // ================ read mapData ================
+        function readMapData() {
+            var i = 0;
+            var lat;
+            var lng;
+            var name;
+            var drname;
+            var DriMob;
+            var speed;
+            var lstdate;
+            var icon_type;
+            var loc;
+            var LastDateIgnOnOff;
+            var Duration;
+            // clear side bar list
+            side_bar_html = "";
+
+            // clear markers
+            if (gmarkers) {
+                for (i in gmarkers) {
+                    gmarkers[i].setMap(null);
+                }
+                gmarkers.length = 0;
+            }
+
+            // clear VehicleName labels
+            if (glabels) {
+                for (i in glabels) {
+                    glabels[i].setMap(null);
+                }
+                glabels.length = 0;
+            }
+            GetDataToMapAJax("1", "40")
+        }
+
+
+
+        // ================ create marker ================
+        var side_bar_html = "";
+        var gmarkers = [];
+        var vehmarkers = [];
+        var vmarkers = [];
+        var htmls = [];
+        var glabels = [];
+        var plabels = [];
+        var i = 0;
+
+        var icons = [];
+        icons[1] = new google.maps.MarkerImage("../img/legends/stop.png");
+        icons[2] = new google.maps.MarkerImage("../img/legends/moving.png");
+        icons[3] = new google.maps.MarkerImage("../img/legends/hispeed.png"); //GreenIcon;   // Moving
+        icons[4] = new google.maps.MarkerImage("../img/legends/ignion.png"); //ErrorIcon;   // Unknown (Moving without Ignition On)
+        icons[5] = new google.maps.MarkerImage("../img/legends/stop.png");
+        icons[6] = new google.maps.MarkerImage("../img/legends/towed.png");
+        icons[7] = new google.maps.MarkerImage("../img/legends/moving.png");
+        icons[8] = new google.maps.MarkerImage("../img/legends/hispeed.png");
+        icons[9] = new google.maps.MarkerImage("../img/legends/unreach.png");
+        icons[10] = new google.maps.MarkerImage("../img/legends/fenced.png");
+
+        // ================ This function creates marker and associates info-window with it ================
+        function createMarker(myLatlng, name, html, icon_type) {
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+                icon: icons[icon_type]
+
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+
+            vmarkers[i] = marker;
+            htmls[i] = html;
+            side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+            if (j == 1) {
+                document.getElementById('side_bar').innerHTML = side_bar_html;
+            }
+            i++;
+            return marker;
+        }
+
+        // ================ This function picks up the click and opens the corresponding info window ================
+        var marker = new Array();
+        function myclick(i) {
+            var infowindow = new google.maps.InfoWindow({
+                content: htmls[i]
+            });
+            if (openedInfoWindow != null) openedInfoWindow.close();
+            infowindow.open(map, vmarkers[i]);
+            openedInfoWindow = infowindow;
+        }
+    </script>
+    <!-- Initialize map here -->
+    <script type="text/javascript">
+        var map;
+        var j = 0;
+        function initializeMap() {
+            document.getElementById("map_canvas").style.backgroundImage = "url(../img/maploading.jpg)";
+            var myOptions = {
+                zoom: 7,
+                center: new google.maps.LatLng(13.0827, 80.2707),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+            j = 1;
+        }
+        // Asynchronous call
+        google.maps.event.addDomListener(window, 'load', initializeTimer);
+    </script>
+
+
+
+
+    <script type="text/javascript">
+        function PointOfInterest() {
+          
+                $.ajax({
+                    url: '/LocationOnMap/GetPOIOutput',
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        debugger;
+                        for (var i = 0; i < data.length; i++) {
+                            var lat = parseFloat(data[i].lat);
+                            var lng = parseFloat(data[i].lng);
+                            var details = data[i].details;
+                            var poistat = data[i].status
+                            var marker;
+                            if (poistat == true) {
+                                marker = new google.maps.Marker
+                               ({
+                                   position: new google.maps.LatLng(lat, lng),
+                                   draggable: false,
+                                   map: map,
+                                   //label: 'A', //my label
+                                   icon: pinSymbol('green')
+                               });
+                            }
+                            else {
+                                marker = new google.maps.Marker
+                               ({
+                                   position: new google.maps.LatLng(lat, lng),
+                                   draggable: false,
+                                   map: map,
+                                   //label: 'A', //my label
+                                   icon: pinSymbol('red')
+                               });
+                            }
+
+                            var label = new Label(
+                            {
+                                draggable: false,
+                                map: map
+                            });
+                            if (poistat == true) {
+                                details = "<span style='color:#008800'>" + details + "</span>";
+                            }
+                            else {
+                                details = "<span style='color:#ff0000'>" + details + "</span>";
+                            }
+                            label.bindTo('position', marker, 'position');
+                            label.set('text', details);
+                            plabels.push(label);
+                        }
+
+                        var bound = new google.maps.LatLngBounds();
+                        for (var i in plabels) {
+                            bound.extend(plabels[i].getPosition());
+                            if (i == 0) {
+                                map.setCenter(plabels[i].getPosition());
+                            }
+                        }
+                        map.fitBounds(bound);
+                    }
+                });
+                POIRoute();
+           
+        };
+
+        //  ................................ for active poi...........................
+        function PointOfInterestActive() {
+
+
+            if (document.getElementById("checkPOI1").checked == false && document.getElementById("checkPOI2").checked == false) {
+
+                POIRoute();
+            }
+
+         if (document.getElementById("checkPOI1").checked == true && document.getElementById("checkPOI2").checked == true) {
+
+            PointOfInterest();
+        }
+         else if (document.getElementById("checkPOI1").checked == true) {
+
+                $.ajax({
+                    url: '/LocationOnMap/GetPOIOutputActive',
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        debugger;
+                        for (var i = 0; i < data.length; i++) {
+                            var lat = parseFloat(data[i].lat);
+                            var lng = parseFloat(data[i].lng);
+                            var details = data[i].details;
+                            var marker = new google.maps.Marker
+                            ({
+                                position: new google.maps.LatLng(lat, lng),
+                                draggable: false,
+                                map: map,
+                                //label: 'A', //my label
+                                icon: pinSymbol('green')
+                            });
+
+                            var label = new Label(
+                            {
+                                draggable: false,
+                                map: map,
+                                textcolor: '#0000ff'
+                            });
+                            details = "<span style='color:#008800'>" + details + "</span>";
+                            label.bindTo('position', marker, 'position');
+                            label.set('text', details);
+                            plabels.push(label);
+                        }
+
+                        var bound = new google.maps.LatLngBounds();
+                        for (var i in plabels) {
+                            bound.extend(plabels[i].getPosition());
+                            if (i == 0) {
+                                map.setCenter(plabels[i].getPosition());
+                            }
+                        }
+                        map.fitBounds(bound);
+                    }
+                });
+                POIRoute();
+            }
+
+           
+
+         else if (document.getElementById("checkPOI1").checked == false) {
+
+             if (document.getElementById("checkPOI2").checked == true) {
+                 PointOfInterestInactive();
+             }
+             else {
+                 initializeTimer();
+               
+                 POIRoute();
+             }
+         }
+
+        };
+
+        //.................................inactive poi ....................
+        function PointOfInterestInactive() {
+
+
+            if (document.getElementById("checkPOI1").checked == false && document.getElementById("checkPOI2").checked == false) {
+
+                POIRoute();
+            }
+         if (document.getElementById("checkPOI1").checked == true && document.getElementById("checkPOI2").checked == true) {
+            
+            PointOfInterest();
+        }
+         else if (document.getElementById("checkPOI2").checked == true) {
+                $.ajax({
+                    url: '/LocationOnMap/GetPOIOutputInactive',
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        debugger;
+                        for (var i = 0; i < data.length; i++) {
+                            var lat = parseFloat(data[i].lat);
+                            var lng = parseFloat(data[i].lng);
+                            var details = data[i].details;
+                            var marker = new google.maps.Marker
+                            ({
+                                position: new google.maps.LatLng(lat, lng),
+                                draggable: false,
+                                map: map,
+                                //label: 'I', //my label
+                                icon: pinSymbol('red')
+                            });
+
+                            var label = new Label(
+                            {
+                                draggable: false,
+                                map: map
+                            });
+                            details = "<span style='color:#ff0000'>" + details + "</span>";
+                            label.bindTo('position', marker, 'position');
+                            label.set('text', details);
+                            plabels.push(label);
+                        }
+
+                        var bound = new google.maps.LatLngBounds();
+                        for (var i in plabels) {
+                            bound.extend(plabels[i].getPosition());
+                            if (i == 0) {
+                                map.setCenter(plabels[i].getPosition());
+                            }
+                        }
+                        map.fitBounds(bound);
+                    }
+                });
+                POIRoute();
+            }
+
+       
+
+         
+         else if (document.getElementById("checkPOI2").checked == false) {
+
+             if (document.getElementById("checkPOI1").checked == true) {
+                 PointOfInterestActive();
+             }
+             else {
+                 initializeTimer();
+
+                 POIRoute();
+             }
+            }
+
+        };
+
+        function pinSymbol(color) {
+            return {
+                path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+                fillColor: color,
+                fillOpacity: 0.6,
+                strokeColor: '#fff',
+                strokeWeight: 1,
+                scale: 0.60,
+                labelOrigin: new google.maps.Point(0, -29)
+            };
+        }
+
+    </script>
+
+  
+    <script type="text/javascript" src="../js/Map/LocationOnMap/jquery-1.3.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".trigger").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        function POIRoute() {
+            var xmlhttp = null;
+            var lat = "";
+            var lng = "";
+            var lat1;
+            var lng1;
+            var latipt;
+            var lngipt;
+            var veh;
+            var acg;
+            var spd;
+            var dt;
+            var typ;
+            var sp = [];
+            var image;
+            var loct;
+            var xmlDoc;
+            var icons = [];
+            var infowindow;
+            var points = [];
+            var info;
+            var xDoc;
+            var dist;
+            var stopp;
+            var markers = new Array();
+            var bType = navigator.appName;
+            icons[1] = "../img/legends/moving11.png";
+            icons[2] = "../img/legends/stop11.png";
+            icons[3] = "../img/legends/towed11.png";  //GreenIcon;   // Moving
+            icons[4] = "../img/legends/start11.GIF";  //ErrorIcon;   // Unknown (Moving without Ignition On)
+            icons[5] = "../img/legends/unreach11.png";
+            icons[6] = "../img/legends/end11.gif";
+
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var latlng;
+            if (xmlhttp != null) {
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        switch (bType) {
+                            case "Microsoft Internet Explorer":
+                                // This actually calls into a function that returns a DOMDocument 
+                                // on the basis of the MSXML version installed.
+                                xDoc = new ActiveXObject("MSXML2.DOMDocument")
+                                xDoc.async = false;
+                                xDoc.loadXML(xmlhttp.responseText);
+                                break;
+                            default:
+                                var dp = new DOMParser();
+                                xDoc = dp.parseFromString(xmlhttp.responseText, "text/xml");
+                                break;
+                        }
+                        xmlDoc = xDoc;
+                        //                  xmlDoc = xmlhttp.responseXML;
+                    }
+                }
+            }
+
+            xmlhttp.open("GET", "../AJAXOutput/Rplay1.aspx", false);
+            xmlhttp.send();
+
+            var vehno = xmlDoc.getElementsByTagName("vehno");
+            var date = xmlDoc.getElementsByTagName("datadate");
+            var speed = xmlDoc.getElementsByTagName("speed");
+            var loc = xmlDoc.getElementsByTagName("location");
+            var acignition = xmlDoc.getElementsByTagName("acignition");
+            var lati = xmlDoc.getElementsByTagName("rowlat");
+            var longi = xmlDoc.getElementsByTagName("rowlng");
+            var type = xmlDoc.getElementsByTagName("Type");
+            var distance = xmlDoc.getElementsByTagName("distance");
+            //var stoppage = xmlDoc.getElementsByTagName("stoppage");
+
+            lat = lati[0].childNodes[0].nodeValue;
+            lng = longi[0].childNodes[0].nodeValue;
+
+            var latlng = new google.maps.LatLng(lat, lng);
+
+            var myOptions =
+            {
+                zoom: 10,
+                center: latlng,
+
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            document.getElementById("map_canvas").style.backgroundImage = "url(../img/515-500loading.jpg)";
+            //            google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+            //                map.setZoom(10);
+            //            });
+
+            function createMarker(image, latlng1, info) {
+                var marker = new google.maps.Marker({
+                    position: latlng1,
+                    map: map,
+                    icon: image,
+                    html: info
+                });
+                infowindow = new google.maps.InfoWindow({
+                    content: "holding....",
+                    size: new google.maps.Size(50, 50)
+                });
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    infowindow.setContent(this.html);
+                    infowindow.open(map, this);
+                });
+                gmarkers.push(marker);
+            }
+            // Draw Line
+            var a = 0;
+            var latpt = xmlDoc.getElementsByTagName("latpt");
+            var lngpt = xmlDoc.getElementsByTagName("lngpt");
+            var speedy = xmlDoc.getElementsByTagName("speedy");
+            for (var j = 0; j <= (latpt.length - 1) ; j++) {
+                latipt = latpt[j].childNodes[0].nodeValue;
+                lngipt = lngpt[j].childNodes[0].nodeValue;
+                sp[j] = speedy[j].childNodes[0].nodeValue;
+                points[j] = new google.maps.LatLng(latipt, lngipt);
+            }
+            createPoly(points, sp, "midline");
+
+            // Draw Markers 
+            for (var i = 0; i <= (lati.length - 1) ; i++) {
+
+                veh = vehno[i].childNodes[0].nodeValue;
+                spd = speed[i].childNodes[0].nodeValue;
+                dt = date[i].childNodes[0].nodeValue;
+                loct = loc[i].childNodes[0].nodeValue;
+                acg = acignition[i].childNodes[0].nodeValue;
+                lat1 = lati[i].childNodes[0].nodeValue;
+                lng1 = longi[i].childNodes[0].nodeValue;
+                typ = type[i].childNodes[0].nodeValue;
+                dist = distance[i].childNodes[0].nodeValue;
+                //stopp = stoppage[i].childNodes[0].nodeValue;
+
+                var latlng1 = new google.maps.LatLng(lat1, lng1);
+                map.setCenter(latlng1);
+                info = "<div class='veh_label'>Vehicle No: " + veh + "<br/>Speed: " + spd + "<br/>DateTime: " + dt + "<br/>Location:" + loct + "<br/>Distance:" + dist + " km" + "</div>";
+                //createPoly(points, "midline");
+                if (typ == 1) {
+                    image = icons[1];
+                    markers = createMarker(image, latlng1, info);
+                    a = 0;
+
+                }
+                    //                else if (typ == 2 & a == 0) {
+                    //                    image = icons[2];
+                    //                    markers = createMarker(image, latlng1, info);
+                    //                    a = 1;
+                    //                }
+                else if (typ == 3) {
+                    image = icons[3];
+                    markers = createMarker(image, latlng1, info);
+                    a = 0;
+                }
+                else if (typ == 4) {
+                    image = icons[4];
+                    markers = createMarker(image, latlng1, info);
+                    a = 0;
+                }
+                else if (typ == 5) {
+                    image = icons[5];
+                    markers = createMarker(image, latlng1, info);
+                    a = 0;
+                }
+                else if (typ == 6) {
+                    image = icons[6];
+                    markers = createMarker(image, latlng1, info);
+                    a = 0;
+                }
+                else {
+                }
+
+            }
+            //alert(gmarkers.length);
+            var bound = new google.maps.LatLngBounds();
+            for (var i in gmarkers) {
+                bound.extend(gmarkers[i].getPosition());
+                if (i == 0) {
+                    map.setCenter(gmarkers[i].getPosition());
+                }
+            }
+            map.fitBounds(bound);
+            map.zoomToMaxExtent();
+          //  PointOfInterest();
+        }
+    </script>
+</head>
+<body>
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.</noscript>
+    <div id="container">
+        <div id="map_canvas" style="width: 100%; height:919px">
+        </div>
+        <script type="text/javascript">
+            var zoomToExtents = 0;
+            var map;
+            var gmarkers = new Array();
+            var arrow = [];
+            for (var k = 0; k <= 117; k = k + 3) {
+                arrow[k] = "../img/Arrows/dir_" + k + ".png";
+            }
+            // Returns the icon object
+            function addIcon(file) {
+                var g = google.maps;
+                var icon = new g.MarkerImage(file,
+        new g.Size(24, 24), null, new g.Point(12, 12));
+                return icon;
+            }
+            var setArrows = {
+
+                // Creates markers with corresponding triangle icons
+                create: function (p1, p2, mode) {
+                    var markerpos;
+                    var g = google.maps;
+                    if (mode == "onset") markerpos = p1;
+                    else if (mode == "head") markerpos = p2;
+                    else if (mode == "midline") markerpos = g.geometry.spherical.interpolate(p1, p2, .5);
+
+                    // Compute the bearing of the line in degrees
+                    var dir = g.geometry.spherical.computeHeading(p1, p2).toFixed(1);
+                    // round it to a multiple of 3 and correct unusable numbers
+                    dir = Math.round(dir / 3) * 3;
+                    if (dir < 0) dir += 240;
+                    if (dir > 117) dir -= 120;
+                    // use the corresponding icon
+                    //images/Arrows/dir_" + dir + ".png
+                    var icon = addIcon(arrow[dir]);
+                    new g.Marker({
+                        position: markerpos,
+                        map: map, icon: icon, clickable: false
+                    });
+                },
+
+                calc: function (points, sp, mode) {
+                    var p1, p2;
+                    // 'Head' arrow will only appear at the last line point
+                    if (mode == "head") {
+                        p1 = points[points.length - 1];
+                        p2 = points[points.length - 2];
+                        this.create(p1, p2, mode);
+                    }
+                    else {
+                        for (var i = 0; i < points.length - 1; i = i + 10) {
+                            p1 = points[i];
+                            p2 = points[i + 1];
+                            if (sp[i] > 2) {
+                                this.create(p1, p2, mode);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Draws a polyline with accordant arrow heads
+            function createPoly(path, sp, mode) {
+                var poly = new google.maps.Polyline({
+                    strokeColor: "#000abc",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 5,
+                    map: map,
+                    path: path
+                });
+                setArrows.calc(path, sp, mode);
+                return poly;
+            }
+
+            // Create the map
+            window.onload = function () {
+                var xmlhttp = null;
+                var lat = "";
+                var lng = "";
+                var lat1;
+                var lng1;
+                var latipt;
+                var lngipt;
+                var veh;
+                var acg;
+                var spd;
+                var dt;
+                var typ;
+                var sp = [];
+                var image;
+                var loct;
+                var xmlDoc;
+                var icons = [];
+                var infowindow;
+                var points = [];
+                var info;
+                var xDoc;
+                var dist;
+                var stopp;
+                var markers = new Array();
+                var bType = navigator.appName;
+                icons[1] = "../img/legends/moving1.png";
+                icons[2] = "../img/legends/stop1.png";
+                icons[3] = "../img/legends/towed1.png";  //GreenIcon;   // Moving
+                icons[4] = "../img/legends/start1.GIF";  //ErrorIcon;   // Unknown (Moving without Ignition On)
+                icons[5] = "../img/legends/unreach1.png";
+                icons[6] = "../img/legends/end1.gif";
+
+                if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                var latlng;
+                if (xmlhttp != null) {
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            switch (bType) {
+                                case "Microsoft Internet Explorer":
+                                    // This actually calls into a function that returns a DOMDocument 
+                                    // on the basis of the MSXML version installed.
+                                    xDoc = new ActiveXObject("MSXML2.DOMDocument")
+                                    xDoc.async = false;
+                                    xDoc.loadXML(xmlhttp.responseText);
+                                    break;
+                                default:
+                                    var dp = new DOMParser();
+                                    xDoc = dp.parseFromString(xmlhttp.responseText, "text/xml");
+                                    break;
+                            }
+                            xmlDoc = xDoc;
+                            //                  xmlDoc = xmlhttp.responseXML;
+                        }
+                    }
+                }
+
+                xmlhttp.open("GET", "../AJAXOutput/Rplay1.aspx", false);
+                xmlhttp.send();
+
+                var vehno = xmlDoc.getElementsByTagName("vehno");
+                var date = xmlDoc.getElementsByTagName("datadate");
+                var speed = xmlDoc.getElementsByTagName("speed");
+                var loc = xmlDoc.getElementsByTagName("location");
+                var acignition = xmlDoc.getElementsByTagName("acignition");
+                var lati = xmlDoc.getElementsByTagName("rowlat");
+                var longi = xmlDoc.getElementsByTagName("rowlng");
+                var type = xmlDoc.getElementsByTagName("Type");
+                var distance = xmlDoc.getElementsByTagName("distance");
+                //var stoppage = xmlDoc.getElementsByTagName("stoppage");
+
+                lat = lati[0].childNodes[0].nodeValue;
+                lng = longi[0].childNodes[0].nodeValue;
+
+                var latlng = new google.maps.LatLng(lat, lng);
+
+                var myOptions =
+                {
+                    zoom: 10,
+                    center: latlng,
+
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                document.getElementById("map_canvas").style.backgroundImage = "url(../img/515-500loading.jpg)";
+                //            google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+                //                map.setZoom(10);
+                //            });
+
+                function createMarker(image, latlng1, info) {
+                    var marker = new google.maps.Marker({
+                        position: latlng1,
+                        map: map,
+                        icon: image,
+                        html: info
+                    });
+                    infowindow = new google.maps.InfoWindow({
+                        content: "holding....",
+                        size: new google.maps.Size(50, 50)
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        infowindow.setContent(this.html);
+                        infowindow.open(map, this);
+                    });
+                    gmarkers.push(marker);
+                }
+                // Draw Line
+                var a = 0;
+                var latpt = xmlDoc.getElementsByTagName("latpt");
+                var lngpt = xmlDoc.getElementsByTagName("lngpt");
+                var speedy = xmlDoc.getElementsByTagName("speedy");
+                for (var j = 0; j <= (latpt.length - 1) ; j++) {
+                    latipt = latpt[j].childNodes[0].nodeValue;
+                    lngipt = lngpt[j].childNodes[0].nodeValue;
+                    sp[j] = speedy[j].childNodes[0].nodeValue;
+                    points[j] = new google.maps.LatLng(latipt, lngipt);
+                }
+                createPoly(points, sp, "midline");
+
+                // Draw Markers 
+                for (var i = 0; i <= (lati.length - 1) ; i++) {
+
+                    veh = vehno[i].childNodes[0].nodeValue;
+                    spd = speed[i].childNodes[0].nodeValue;
+                    dt = date[i].childNodes[0].nodeValue;
+                    loct = loc[i].childNodes[0].nodeValue;
+                    acg = acignition[i].childNodes[0].nodeValue;
+                    lat1 = lati[i].childNodes[0].nodeValue;
+                    lng1 = longi[i].childNodes[0].nodeValue;
+                    typ = type[i].childNodes[0].nodeValue;
+                    dist = distance[i].childNodes[0].nodeValue;
+                    //stopp = stoppage[i].childNodes[0].nodeValue;
+
+                    var latlng1 = new google.maps.LatLng(lat1, lng1);
+                    map.setCenter(latlng1);
+                    info = "<div class='veh_label'>Vehicle No: " + veh + "<br/>Speed: " + spd + "<br/>DateTime: " + dt + "<br/>Location:" + loct + "<br/>Distance:" + dist + " km" + "</div>";
+                    //createPoly(points, "midline");
+                    if (typ == 1) {
+                        image = icons[1];
+                        markers = createMarker(image, latlng1, info);
+                        a = 0;
+
+                    }
+                        
+                    else if (typ == 3) {
+                        image = icons[3];
+                        markers = createMarker(image, latlng1, info);
+                        a = 0;
+                    }
+                    else if (typ == 4) {
+                        image = icons[4];
+                        markers = createMarker(image, latlng1, info);
+                        a = 0;
+                    }
+                    else if (typ == 5) {
+                        image = icons[5];
+                        markers = createMarker(image, latlng1, info);
+                        a = 0;
+                    }
+                    else if (typ == 6) {
+                        image = icons[6];
+                        markers = createMarker(image, latlng1, info);
+                        a = 0;
+                    }
+                    else {
+                    }
+
+                }
+                //alert(gmarkers.length);
+                var bound = new google.maps.LatLngBounds();
+                for (var i in gmarkers) {
+                    bound.extend(gmarkers[i].getPosition());
+                    if (i == 0) {
+                        map.setCenter(gmarkers[i].getPosition());
+                    }
+                }
+                map.fitBounds(bound);
+                map.zoomToMaxExtent();
+                PointOfInterest();
+            }
+    </script>
+        <div style="width:220px !important;" class="panel"  >
+       
+            <div id="settings" style="border-top: dashed 1px #777;">
+                <a onclick="reCenter();" href="#" style="color: #0000B7; font-weight: normal;">Reset
+                    Map</a>&nbsp;<br />
+                &nbsp; <a href="#" style="color: #0000B7; font-weight: normal;" onclick="InitializeTimer()">
+                    Refresh</a>
+            <!--    <p>
+                    Show All POI
+                    <input type="checkbox" id="checkPOI"  checked="checked" onclick="PointOfInterest()" />
+                </p>-->
+                    <p>
+                    Active POI
+                    <input type="checkbox" id="checkPOI1"  onclick="PointOfInterestActive()" />
+                </p>
+                    <p>
+                    Inactive POI
+                    <input type="checkbox" id="checkPOI2"  onclick="PointOfInterestInactive()" />
+                </p>
+            </div>
+        </div>
+        <a class="trigger" href="#">Vehicles</a></div>
+</body>
+</html>

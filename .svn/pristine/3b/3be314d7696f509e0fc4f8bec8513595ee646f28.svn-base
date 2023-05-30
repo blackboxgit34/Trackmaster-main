@@ -1,0 +1,251 @@
+﻿$(document).ready(function () {
+    var start = moment().startOf('month').startOf('day');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+        $beginDate = start.format('MMM D YYYY h:mm:ss a');
+        $endDate = end.format('MMM D YYYY h:mm:ss a');
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        opens: "right",
+        timePicker: true,
+        ranges: {
+            'Today': [moment().subtract(0, 'days').startOf('day'), moment()],
+            'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment()],
+            //'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment()],
+            'This Month': [moment().startOf('month').startOf('day'), moment()],
+            'Last Month': [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month')]
+        },
+    }, cb);
+
+    cb(start, end);
+
+    GetOrders(null);
+
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        bbid = tr[0].lastChild.innerHTML;
+        var row = table.row(tr);
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+    });
+});
+
+var BookingId;
+
+$('#DivVehcleCounter').on('keydown', '.cost', function (e) {
+    -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault()
+});
+
+function GetOrders(downloadType) {
+
+    // clear tables contents
+    deleteTable();
+
+    var OrderId = $("#OrderTypeList").val();
+    var url = baseUrl + "FmsAPI/GetOrders";
+
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "orderType", "value": OrderId }, { "name": "CustId", "value": $custid }, { "name": "downloadType", "value": downloadType }, { "name": "reportName", "value": '' });
+        },
+
+        "columns": [
+                {
+                    "data": "vehicleName",
+                    "bSortable": false
+                },
+                {
+                    "data": "orderBookingCount",
+                    "bSortable": false
+                },
+                {
+                    "data": "TotalCost",
+                    "bSortable": false
+                },
+                {
+                    "data": "TotalExpenditure",
+                    "bSortable": false
+                },
+                {
+                    "orderable": false,
+                    "bSortable": false,
+                    "targets": 0,
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                }
+        ],
+        "rowCallback": function (row, data, index) {
+            if (data.orderBookingCount == 0) {
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        },
+        "initComplete": function (settings, json) {
+            var url = apiBase.apiurl + "fmsapi/GetTotalOrdersData";
+            $.ajax({
+                url: url,
+                data: {
+                    "CustID": $custid
+                },
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $('#TotalOrderCount').text(data.TotalOrderCount);
+                    $('#TotalCost').text(data.TotalCost);
+                    $('#TotalExpenditure').text(data.TotalExpenditure);
+                }
+            });
+            $('th').removeClass('sorting_asc');
+        }
+    });
+}
+
+function format(d) {
+    var data = d;
+
+    if (data.orderBookingCount > 0) {
+        var a = data.orderbooking;
+        var tableString = '<table id="subTbl" cellpadding="5" class="table table-hover" cellspacing="0" width="100%"' +
+            'style="outline-style: solid; outline-width: thin; outline-color: lightgray; "><thead><tr><th>Gr No</th>' +
+            '<th>Dispatch Date Time</th><th>Customer Name</th><th>Freight Deviation</th><th>Expenditure</th><th>Status (To complete Order <br/>Enter Actual cost)</th><th>Actions</th></tr></thead>';
+        a.forEach(function (element) {
+            var print;
+            tableString = tableString +
+                '<tr>' +
+            '<td>' + element.GrNo + '</td>' +
+            '<td>' + moment(element.DispatchDateMod).format("MMM D YYYY, hh:mm:ss a") + '</td>' +
+            '<td>' + element.CustomerName + '</td>' +
+            '<td><b>Billing Amount: </b>' + element.BillingAmount + '<br/><b>Amount Received: </b>' + element.AmountReceived + '<br/><b>Deviation: </b>' + element.DeviationCost + '</td>' +
+            '<td>' + element.DriverExpenditure + '</td>' +
+            '<td><div style="display:none" id=' + element.BookingId + ' class="actualCost"><input type="text" id=c' + element.BookingId + ' class="cost"/><button type="button" onclick="UpdateCost(' + element.BookingId + ')" class="CostSubmit">Submit</button></div>';
+            if (element.AmountReceived > 0) {
+                debugger;
+                tableString += '<span class="label label-success">Done</span>';
+                print = true;
+            }
+            else {
+                tableString += '<a href="javascript:UpdateOrder(' + element.BookingId + ');" id=U' + element.BookingId + ' class="editor_remove">In progress</a>';
+                print = false;
+            }
+            tableString += '</td><td>' +
+                //'<a href="/fms/AddUpdateOrders?BookingId=' + element.BookingId + '" class="editor_edit">Edit</a> / <a href="javascript:DeleteOrder(' + element.BookingId + ');"  class="editor_remove">Delete</a>';
+            '<div class="dropdown">' +
+            '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Action' +
+            '<span class="caret"></span></button>' +
+            '<ul class="dropdown-menu">' +
+            '<li><a target = "_blank" href="/fms/AddUpdateOrders?BookingId=' + element.BookingId + '" class="editor_edit">Edit</a></li>' +
+            '<li><a href="javascript:DeleteOrder(' + element.BookingId + ');"  class="editor_remove">Delete</a></li>' +
+            '</ul>' +
+            '</div>'
+            if (print == true) {
+                tableString += ' / <a href="/HTML/OrderBill.htm?BookingId=' + element.BookingId + '" target="_blank" class="editor_edit">Print Bill</a>';
+            }
+            tableString += '</td>' +
+            '</tr>'
+        });
+        tableString = tableString + '</table>';
+    }
+    // `d` is the original data object for the row
+    return tableString;
+}
+
+$("#BtnSearch").click(function () {
+    GetOrders(null);
+});
+
+$("#excelExport").click(function () {
+    var downloadType = 'Excel';
+    var url = baseUrl + "FmsAPI/GetOrders";
+    DownloadData(url, downloadType);
+});
+
+$("#pdfExport").click(function () {
+    var downloadType = 'PDF';
+    var url = baseUrl + "FmsAPI/GetOrders";
+    DownloadData(url, downloadType);
+});
+
+function DownloadData(url, downloadType) {
+    var sEcho = 1;
+    var iDisplayStart = 0;
+    var iDisplayLength = 100000;
+    var sSearch = $('input[type=search]').val();
+    var iSortCol_0 = 0;
+    var sSortDir_0 = 'asc';
+    var reportName = 'Document_Orders_Report_' + $beginDate + '_TO_' + $endDate;
+    var $bbid = '';
+    var renewalId = 0;
+    var url1 = url + "?beginDate=" + $beginDate + "&endDate=" + $endDate + "&orderType=" + $("#OrderTypeList").val() + "&downloadType=" + downloadType + "&reportName=" + reportName + "&custid=" + $custid + "&sEcho=" + sEcho + "&iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&sSearch=" + sSearch + "&iSortCol_0=" + iSortCol_0 + "&sSortDir_0=" + sSortDir_0;
+    window.location = url1;
+}
+
+function DeleteOrder(Bookingid) {
+    if (confirm("Do you want to delete selected order?")) {
+        var url = apiBase.apiurl + 'FmsAPI/RemoveBookingOrder?bookingID=' + Bookingid;
+
+        $.post(url, function (result) {
+            if (result > 0) {
+
+                toastr.success("Record deleted successfully")
+            }
+            else
+                toastr.error("Failed!!!")
+        }).done(function (data) {
+            GetOrders(null);
+        });
+
+    }
+    else
+        return false;
+}
+
+function UpdateOrder(Bookingid) {
+    BookingId = Bookingid;
+    $('#' + Bookingid).show();
+    $('#U' + Bookingid).hide();
+}
+
+function UpdateCost(Bookingid) {
+    //alert($('#c' + Bookingid).val());
+    var url = apiBase.apiurl + 'FmsAPI/UpdateFreightCost?BookingId=' + Bookingid + '&Cost=' + $('#c' + Bookingid).val();
+
+    $.post(url, function (result) {
+        if (result > 0) {
+
+            toastr.success("Cost updated successfully.")
+        }
+        else
+            toastr.error("Failed!!!")
+    }).done(function (data) {
+        GetOrders(null);
+    });
+}

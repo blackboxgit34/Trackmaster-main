@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Google Map V3 Polygon Creator</title>
+    <meta name="keywords" content="polygon,creator,google map,v3,draw,paint" />
+    <meta name="description" content="Google Map V3 Polygon Creator" />
+    <link rel="stylesheet" type="text/css" href="../css/Map/GeoFence/fenceMap.css" />
+    <link rel="stylesheet" type="text/css" href="../css/Map/GeoFence/style_full.css"/>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="../js/Map/GeoFence/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../js/Map/GeoFence/polygon.min.js"></script>
+    <script type="text/javascript">
+          function initialize() {
+              $(function () {
+                  //create map
+                  var latx = document.getElementById('txtlat').value;
+                  var lonx = document.getElementById('txtlon').value;
+                  var myCenter = new google.maps.LatLng(lonx, latx);
+                  var myOptions = {
+                      zoom: 10,
+                      center: myCenter,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                  }
+                  map = new google.maps.Map(document.getElementById('main-map'), myOptions);
+                  var creator = new PolygonCreator(map);
+                  //reset
+                  $('#reset').click(function () {
+                      creator.destroy();
+                      creator = null;
+
+                      creator = new PolygonCreator(map);
+                  });
+                  //reset
+                  $('#getCityMap').click(function () {
+                      getCityMap();
+                  });
+                  //show paths
+                  $('#saveFence').click(function () {
+                      $('#dataPanel').empty();
+                      if (null == creator.showData()) {
+                          document.getElementById('Mesasage').style.display = "block";
+                          $('#dataPanel').append('Please first create a polygon');
+                      } else {
+                          $('#dataPanel').append(creator.showData());
+                          CallSingle();
+                      }
+                  });
+              });
+          }
+    </script>
+    <script type="text/javascript" language="javascript">
+        var send;
+        function getCityMap(the_value) {
+            var latLong = new google.maps.LatLng(30.97, 76.77);
+            //alert(latLong);
+            map.setCenter(latLong);
+        }
+        function CallSingle() {
+            var fenceName, latLongPairs;
+
+            var latLongPairs = document.getElementById('dataPanel').innerHTML;
+            fenceName = document.getElementById('txtFenceName').value;
+            send = latLongPairs;
+
+            var name = send;
+            if (txtFenceName.value == '') {
+                alert('Fence Name Required');
+                document.getElementById('Mesasage').style.display = "block";
+            }
+            else {
+                PageMethods.GetCurrentDate(name, fenceName);
+                alert('Geofence successfully Added');
+                hitecpoint.GeoFenceDataForMap.IGeofencingService.GetGeofencingRoute(fenceName, latLongPairs, CallBackMultiple);
+            }
+        }
+        var markers = [];
+        function CallBackMultiple(markers) {
+            //alert(markers.length);
+            for (i = 0; i < markers.length; i++) {
+                var fenceName = markers[i].FenceName;
+                if (fenceName == "Error") {
+                    document.getElementById('resultPanel').innerHTML = '<div class="error">' + fenceName + "</div>";
+                }
+                else {
+                    document.getElementById('resultPanel').innerHTML = '<div class="success">' + fenceName + "</div>";
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function copy_data(val) {
+            var a = document.getElementById(val.id).value
+            document.getElementById("hfValue").value = a
+        }    
+    </script>
+    <style type="text/css">
+        body
+        {
+            font-family: "Helvetica Neue" , Helvetica, Arial, sans-serif;
+            font-size: 13px; /* for demo only */
+            margin: 8px;
+        }
+        
+        h1, h2, h3, h4, h5, h6
+        {
+            margin: 0;
+            font-family: inherit;
+            font-weight: bold;
+            color: inherit;
+            text-rendering: optimizelegibility;
+        }
+        h4
+        {
+            font-size: 14px;
+        }
+        h4, h5, h6
+        {
+            line-height: 18px;
+        }
+        
+        p
+        {
+            margin: 0 0 9px;
+            font-family: "Helvetica Neue" , Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            line-height: 18px;
+        }
+        
+        .close
+        {
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 18px;
+            color: #000000;
+            text-shadow: 0 1px 0 #ffffff;
+            opacity: 0.2;
+            filter: alpha(opacity=20);
+        }
+        .close:hover
+        {
+            color: #000000;
+            text-decoration: none;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+            cursor: pointer;
+        }
+        
+        .alert
+        {
+            padding: 8px 35px 8px 14px;
+            margin-bottom: 18px;
+            margin-right: 18px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            background-color: #fcf8e3;
+            border: 1px solid #fbeed5;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            color: #c09853;
+        }
+        .alert-heading
+        {
+            color: inherit;
+        }
+        .alert .close
+        {
+            position: relative;
+            top: -2px;
+            right: -21px;
+            line-height: 18px;
+        }
+        .alert-success
+        {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #468847;
+        }
+        .alert-danger, .alert-error
+        {
+            background-color: #f2dede;
+            border-color: #eed3d7;
+            color: #b94a48;
+        }
+        .alert-info
+        {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #3a87ad;
+        }
+        .alert-block
+        {
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+        .alert-block > p, .alert-block > ul
+        {
+            margin-bottom: 0;
+        }
+        .alert-block p + p
+        {
+            margin-top: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        function showDiv() {
+            //            document.getElementById('Mesasage').style.display = "block";
+            //            document.getElementById('txtFenceName').value = "";
+
+        }
+        function showDivclr() {
+            document.getElementById('txtFenceName').value = "";
+        }
+    </script>
+    <script type="text/javascript">
+        function combofunction(the_value) {
+            var sParts = the_value.split(",");
+            //   alert(sParts);
+            document.getElementById('txtlat').value = sParts[0];
+            document.getElementById('txtlon').value = sParts[1];
+            initialize();
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+  
+    </form>
+    <div id="main-map">
+    </div>
+    
+    <div id="side">
+        <input type="text" id="txtlat" style="display: none" />
+        <input type="text" id="txtlon" style="display: none" />
+        <label>
+            Select City:</label>
+        <br />
+        <select name="City" id="htmlcombo" style="width: 205px">
+            <option selected="selected">---Select---</option>
+            <option value="76.76816940307617,30.726490399164">Chandigarh</option>
+            <option value="76.8631,30.699 ">Panchkula</option>
+      
+            <option value="75.8455,30.9087">Ludhiana</option>
+            <option value="76.3948,30.3219">Patiala</option>
+            <option value="74.9404,30.2029">Bhathinda</option>
+            <option value="76.8329,30.3507">Ambala</option>
+            <option value="77.2885,30.1335">Yamuna Nagar</option>
+            <option value="79.089203,21.14279">Nagpur</option>
+            <option value="72.56813,23.03993">Ahmedabad</option>
+           
+            <option value="3.37841216666667,6.5024205">Nigeria</option>
+            <option value="36.7549281666667,-1.29411283333333">Kenya</option>
+        </select>
+        <br />
+        <br />
+        <input type="button" style="width: 100px;" name="combovalue" class="buttons" value="Get City Map"
+            onclick="combofunction(htmlcombo.value)" /><br />
+        <label>
+            Fence Name:</label>
+        <p>
+            <input type="text" id="txtFenceName" onkeyup="copy_data(this)" />
+        </p>
+        <p>
+            <input id="reset" value="Reset" type="button" class="button" onclick="showDivclr()" />
+        </p>
+        <p>
+            <input id="saveFence" value="Save Fence" type="button" class="button" onclick="showDiv()" />
+        </p>
+        <div id="Mesasage" style="display: none">
+         
+        </div>
+        <div id="dataPanel" runat="server" clientidmode="Static" style="display: none;">
+        </div>
+        <div id="resultPanel" style="height: 50px; font-size: small;" runat="server" clientidmode="Static">
+        </div>
+    </div>
+</body>
+</html>

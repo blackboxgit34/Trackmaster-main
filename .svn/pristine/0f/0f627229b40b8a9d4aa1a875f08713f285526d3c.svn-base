@@ -1,0 +1,38 @@
+﻿<div class="row-fluid" style="margin-bottom: 25px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-header">
+                    <i class="fa fa-file-archive-o"></i>
+                    <h5>@ViewBag.ReportTitle </h5>
+                </div>
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div class="box" style="background: #fdfdfd;">
+                        <div class="box-content padded">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <form class="form-inline">
+                                        <div class="form-group padded">
+                                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                &nbsp;<span></span><b class="caret"></b>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="padding-left: 5px;">
+                                            <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                        </div>
+                                    </form>
+                                </div>
+                              @*  <div class="col-md4">
+                                    <a id="excelDown" href="javascript:;">Download</a>
+                                </div>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>

@@ -1,0 +1,242 @@
+﻿function format(d) {
+    var data = d;
+
+    if (data.countRepairMaint > 0) {
+        var a = data.repairMaintData;
+        var tableString = '<table id="subTbl" cellpadding="5" class="table table-hover" cellspacing="0" width="100%"   style = "outline-style: solid; outline-width: thin; outline-color: lightgray; "><thead><th>Service Type</th><th>Service Date Time</th><th>Services Performed</th><th>Actual Cost</th><th>Service Station</th><th>Accidental</th><th>Remarks</th><th><span>Actions</span></th></tr></thead>';
+        a.forEach(function (element) {
+            tableString = tableString +
+                '<tr>' +
+            '<td>' + element.serviceCategory + '</td>' +
+            '<td>' + moment(element.ServiceDate).format("MMM D YYYY") + '</td>' +
+            '<td style="max-width: 20px;">' + element.TopXServicesPerformed + '</td>' +
+            '<td>' + element.ActualExpenses + '</td>' +
+            '<td>' + element.ServiceStation + '</td>' +
+            '<td>' + element.serviceType + '</td>' +
+            '<td>' + element.Remarks + '</td>' +
+            //'<td>' + '<a href="/Fms/AddUpdateRepairMaintenance?servicelogid=' + element.ServiceLogID + '" class="editor_edit">Edit</a> / <a href="javascript:DeleteRapairMaint(' + element.ServiceLogID + ');"  class="editor_remove">Delete</a>' + '</td>'
+            '<td>' +
+            '<div class="dropdown">' +
+            '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Action' +
+            '<span class="caret"></span></button>' +
+            '<ul class="dropdown-menu">';
+
+            if (element.DocPath)
+            {
+                tableString = tableString +
+                    '<li><a href="' + element.DocPath.replace(',', '') + '" download="Bill.png">Download Invoice/Bill</a></li>' +
+                    '<li><a target = "_blank" href="/Fms/AddUpdateRepairMaintenance?servicelogid=' + element.ServiceLogID + '" class="editor_edit">Edit</a></li>' +
+                    '<li><a href="javascript:DeleteRapairMaint(' + element.ServiceLogID + ');"  class="editor_remove">Delete</a></li>' +
+                    '</ul>' +
+                    '</div>'
+                    + '</td>' +
+                    '</tr>'
+            }
+            else
+            {
+                tableString = tableString +
+                '<li><a target = "_blank" href="/Fms/AddUpdateRepairMaintenance?servicelogid=' + element.ServiceLogID + '" class="editor_edit">Edit</a></li>' +
+                '<li><a href="javascript:DeleteRapairMaint(' + element.ServiceLogID + ');"  class="editor_remove">Delete</a></li>' +
+                '</ul>' +
+                '</div>'
+                + '</td>' +
+                '</tr>'
+            }
+        });
+
+        tableString = tableString + '</table>';
+    }
+    // `d` is the original data object for the row
+    return tableString;
+}
+
+
+$(document).ready(function () {
+
+    var start = moment().startOf('month').startOf('day');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+        $beginDate = start.format('MMM D YYYY h:mm:ss a');
+        $endDate = end.format('MMM D YYYY h:mm:ss a');
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        opens: "right",
+        timePicker: true,
+        ranges: {
+            'Today': [moment().subtract(0, 'days').startOf('day'), moment()],
+            'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment()],
+            //'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment()],
+            'This Month': [moment().startOf('month').startOf('day'), moment()],
+            'Last Month': [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month')]
+        },
+    }, cb);
+
+    cb(start, end);
+
+    GetRepairMaintData(null);
+    // Add event listener for opening and closing details
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+
+        var tr = $(this).closest('tr');
+        //for getting bbid from datatable
+        bbid = tr[0].lastChild.innerHTML;
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+
+
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+    })
+
+});
+
+$("#BtnSearch").click(function () {
+    GetRepairMaintData(null);
+});
+
+$("#excelExport").click(function () {
+    var downloadType = 'Excel';
+    var url = baseUrl + "FmsApi/GetRepairMaintenance";
+    DownloadData(url, downloadType);
+});
+
+$("#pdfExport").click(function () {
+    var downloadType = 'PDF';
+    var url = baseUrl + "FmsApi/GetRepairMaintenance";
+    DownloadData(url, downloadType);
+});
+
+function GetRepairMaintData(downloadType) {
+    // clear tables contents
+    deleteTable();
+    
+    var url = baseUrl + "FmsApi/GetRepairMaintenance";
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "custid", "value": $custid }, { "name": "downloadType", "value": downloadType }, { "name": "reportName", "value": '' });
+        },
+
+        "columns": [
+                {
+                    "data": "VehicleName",
+                    "bSortable": false
+                },
+                {
+                    "data": "DriverName",
+                    "bSortable": false
+                },
+                {
+                    "data": "totalCost",
+                    "bSortable": false
+                },
+                {
+                    "data": "repairCount",
+                    "bSortable": false
+                },
+                {
+                    "data": "serviceCount",
+                    "bSortable": false
+                },
+                {
+                    "orderable": false,
+                    "targets": 0,
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                {
+                    "data": "VehicleId",
+                    "class": "hidden"
+                }
+        ],
+        "rowCallback": function (row, data, index) {
+            if (data.countRepairMaint == 0) {
+
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        },
+        "initComplete": function (settings, json) {
+            var url = apiBase.apiurl + "fmsapi/GetTotalRepairMaintData";
+            $.ajax({
+                url: url,
+                data: {
+                    "CustID": $custid
+                },
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $('#totalRepairCount').text(data.TotalRepairCount);
+                    $('#totalRepairCost').text(data.TotalRepairCost);
+                    $('#totalServiceCount').text(data.TotalServiceCount);
+                    $('#totalServiceCost').text(data.TotalServiceCost);
+                }
+            });
+            $('th').removeClass('sorting_asc');
+        }
+    });
+}
+
+function DeleteRapairMaint(ServiceLogID) {
+      if (confirm("Do you want to delete selected record?")) {
+        var url = apiBase.apiurl + 'FmsAPI/RemoveRepairMaintRecord?ServiceLogID=' + ServiceLogID;
+        $.post(url, function (result) {
+            if (result > 0) {
+                toastr.success("Record deleted successfully.")
+            }
+            else
+                toastr.error("Failed!!!")
+        });
+
+        GetRepairMaintData(null);
+    }
+    else
+          return false;
+}
+
+function DownloadData(url, downloadType) {
+    var sEcho = 1;
+    var iDisplayStart = 0;
+    var iDisplayLength = 100000;
+    var sSearch = $('input[type=search]').val();
+    var iSortCol_0 = 0;
+    var sSortDir_0 = 'asc';
+    var reportName = 'Repair_Maintenance_Report_' + $beginDate + '_TO_' + $endDate;
+    var $bbid = '';
+    var url1 = url + "?beginDate=" + $beginDate + "&endDate=" + $endDate + "&downloadType=" + downloadType + "&reportName=" + reportName + "&custid=" + $custid + "&sEcho=" + sEcho + "&iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&sSearch=" + sSearch + "&iSortCol_0=" + iSortCol_0 + "&sSortDir_0=" + sSortDir_0;
+    window.location = url1;
+}
+
+
+
+

@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Set Geo-fence</title>
+    <meta name="keywords" content="blackbox,google map,v3,geofence" />
+    <meta name="description" content="BlackBox Geofence Creator" />
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+        media="screen" />
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" language="javascript"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="../js/Map/GeoFence/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../js/Map/GeoFence/polygon.min.js"></script>
+    <script type="text/javascript">
+        function getParameterByName(name) {
+
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        function GETSTRING() {
+            var data = [];
+            var param;
+            for (x = 0; x < arguments.length; ++x) {
+                param = location.href.match(new RegExp("/\?".concat(arguments[x], "=", "([^\n&]*)")));
+                if (param == null) {
+                    data.push("");
+                } else {
+                    data.push(param[1]);
+                }
+            }
+            return data;
+        }
+        function initialize() {
+            $(function () {
+                //create map
+                lat1 = GETSTRING('lat');
+                long1 = getParameterByName('longi');
+                Id = getParameterByName('Id');
+             
+                var latx =lat1; //document.getElementById('txtlat').value;
+                var lonx = long1;//document.getElementById('txtlon').value;
+               
+                if (latx == '') {
+                    latx = 30.6;
+                }
+                if (lonx == '') {
+                    lonx = 76.6;
+                }
+
+                var myCenter = new google.maps.LatLng(latx, lonx);
+                var myOptions = {
+                    zoom: 10,
+                    center: myCenter,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                //alert(myCenter);
+                map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+                var creator = new PolygonCreator(map);
+
+                // Bind Fenced Vehicles
+                bindFencedVehicles();
+                bindCity();
+
+                //reset
+                $('#reset').click(function () {
+                    creator.destroy();
+                    creator = null;
+
+                    creator = new PolygonCreator(map);
+                });
+                //reset
+                $('#getCityMap').click(function () {
+                    getCityMap();
+                });
+                //show paths
+                $('#saveFence').click(function () {
+                    //Empty message panel
+                    $('#Mesasage').html("");
+                 
+                    $('#dataPanel').empty();
+                    if (null == creator.showData()) {
+
+                        //alert("bhanu11");
+                        $('#Mesasage').html('Please first create a polygon');
+                        $('#Mesasage').show();
+                    } else {
+                       
+                        $('#dataPanel').append(creator.showData());
+                      
+                        SaveFenceData();
+                    }
+                });
+            });
+        }
+    </script>
+    <script type="text/javascript" language="javascript">
+        var send;
+        function getCityMap(the_value) {
+            var latLong = new google.maps.LatLng(30.97, 76.77);
+            //alert(latLong);
+
+            map.setCenter(latLong);
+        }
+
+        // ========================== Save Geo Fence ===========================
+        function SaveFenceData() {
+          
+            var fenceName, latLongPairs, alertson;
+            Id = getParameterByName('Id');
+            var latLongPairs = document.getElementById('dataPanel').innerHTML;
+            fenceName = document.getElementById('txtFenceName').value;
+            send = latLongPairs;
+            
+            //if (document.getElementById('chksms').checked == true) {
+            //    alertson = "SMS";
+            //}
+        
+            //else if (document.getElementById('chkemail').checked == true) {
+            //    alertson = "EMAIL";
+             
+            //}
+            //else { alertson = "NA" }
+
+            //if (document.getElementById('chkemail').checked == true && document.getElementById('chksms').checked == true)
+            //{ alertson = "SMS/EMAIL" }
+
+
+          
+            var name = send;
+          
+            if (txtFenceName.value == '') {
+                alert('Fence Name Required');
+            }
+            else {
+             
+                var bbid = $("#VariantName").val();
+           
+                $.ajax({
+                    //  url: '/Geofence/SaveFence',
+                    url: '/Geofence/AddRouteFence1',
+                    type: 'post',
+                    data: { fenceName: fenceName, bbid: bbid, latLongPairs: latLongPairs, alertson: alertson,Id:Id },
+                    success: function (data) {
+                        //alert(data);
+                        alert('Fence successfully saved');
+                        // Clear Fence Name
+                        $('#txtFenceName').val("");
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+                //hitecpoint.GeoFenceDataForMap.IGeofencingService.GetGeofencingRoute(fenceName, latLongPairs, CallBackMultiple);
+            }
+        }
+        // ========================== END Save Geo Fence ===========================
+        var markers = [];
+        function CallBackMultiple(markers) {
+            //alert(markers.length);
+            for (i = 0; i < markers.length; i++) {
+                var fenceName = markers[i].FenceName;
+                if (fenceName == "Error") {
+                    document.getElementById('resultPanel').innerHTML = '<div class="error">' + fenceName + "</div>";
+                }
+                else {
+                    document.getElementById('resultPanel').innerHTML = '<div class="success">' + fenceName + "</div>";
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function copy_data(val) {
+            var a = document.getElementById(val.id).value
+            document.getElementById("hfValue").value = a
+        }
+    </script>
+    <script type="text/javascript">
+        function combofunction(the_value) {
+            var sParts = the_value.split(",");
+            //   alert(sParts);
+            document.getElementById('txtlat').value = sParts[0];
+            document.getElementById('txtlon').value = sParts[1];
+            //initialize();
+            //var sParts = result.split(",");
+            var latLong2 = new google.maps.LatLng(sParts[0], sParts[1]);
+            //alert(latLong);
+
+            map.setCenter(latLong2);
+        }
+    </script>
+    <!--<script type="text/javascript" src="../js/Map/LocationOnMap/jquery-1.3.2.js"></script>-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".trigger").click(function () {
+                $(".panel").toggle("fast");
+                $(this).toggleClass("active");
+                return false;
+            });
+
+
+        });
+    </script>
+    <script type="text/javascript">
+        function bindFencedVehicles() {
+            var variantDropDown = $('#VariantName');
+            $.ajax({
+                url: '/Geofence/GetFencedVehicles',
+                type: 'post',
+
+                //data: { productId: $("#ProductName").data("tDropDownList").val() },
+                success: function (data) {
+                    $.each(data.data, function (i, variant) {
+                        variantDropDown.append($('<option/>').text(variant.VehicleName).attr('value', variant.BBID));
+                    });
+                },
+                error: function () {
+                    alert('Error');
+                }
+
+
+            });
+
+
+        }
+
+        function bindCity() {
+            var comboDropDown = $('#htmlcombo');
+            $.ajax({
+                url: '/Geofence/GetFencedCustomerCity',
+                type: 'post',
+
+                //data: { productId: $("#ProductName").data("tDropDownList").val() },
+                success: function (data) {
+
+                    $.each(data.data, function (i, variant) {
+
+                        comboDropDown.append($('<option/>').text(variant.CityName).attr('value', variant.Latlng));
+                    });
+
+                    var result = $('#htmlcombo option[value!=""]:first').val();
+                    //alert(result);
+                    //combofunction(result)
+                    var sParts = result.split(",");
+                    var latLong1 = new google.maps.LatLng(sParts[0], sParts[1]);
+                    //alert(latLong);
+
+                    map.setCenter(latLong1);
+
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+
+
+        }
+    </script>
+</head>
+<body onload="initialize();">
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.
+    </noscript>
+    <div id="container22">
+        <div id="map_canvas" style="width: 100%; height:450px;">
+        </div>
+
+        <div class="panel" style="height:200px; width:auto;display:none">
+            <div style="background: #FFFFD2; border: 1px solid #FF9E00; height: auto; padding: 1px 5px; width: 280px; z-index: 99999; margin-bottom: 5px;">
+                To complete polygon, connect the end point of polygon with the starting point.
+            </div>
+            <div style="background: #FFFFD2; border: 1px solid #FF9E00; height: auto; padding: 1px 5px; width: 280px; z-index: 99999; margin-bottom: 10px;">
+                Previously created fence will be over-written.
+            </div>
+            <input type="text" id="txtlat" style="display: none" />
+            <input type="text" id="txtlon" style="display: none" />
+
+            <div style="clear: both; height: 20px;">
+            </div>
+            <div>
+                <label>
+                    Fence Name:</label><br />
+                <input type="text" id="txtFenceName" style="width: 180px;" onkeyup="copy_data(this)" />
+            </div>
+            <div style="clear: both; height: 20px;">
+            </div>
+            <div>
+                <input id="saveFence" value="Save Fence" type="button" class="button" />
+                <input id="reset" value="Reset" type="button" class="button" onclick="showDivclr()" />
+            </div>
+            <div id="Mesasage" style="display: none; color: #f21a1a; padding-top: 5px;">
+            </div>
+            <div id="dataPanel" style="display: none;">
+            </div>
+            <div id="resultPanel" style="height: 50px; font-size: small;" runat="server" clientidmode="Static">
+            </div>
+        </div>
+        <a class="trigger active" href="#">Set Geofence</a>
+    </div>
+</body>
+</html>

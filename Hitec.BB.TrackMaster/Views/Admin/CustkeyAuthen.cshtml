@@ -1,0 +1,2 @@
+﻿@{    ViewBag.Title = "CustkeyAuthen";}<h2>CustkeyAuthen</h2>
+<script>$(document).ready(function () { $.ajax({ url: apiBase.apiurl + "customapi/LogMissCall", type: "GET", data: { custkey: getUrlParameter('custkey') }, contentType: 'application/json', success: function (data) {  localStorage.setItem("custID", data); window.location.href = '/Report/LiveStatus'; } }); });</script>

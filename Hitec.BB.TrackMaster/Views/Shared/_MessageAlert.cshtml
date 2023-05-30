@@ -1,0 +1,35 @@
+﻿@*////////////////////////////////////////////////////////
+
+1.Make By Name :            Vishal nagra.
+2.variable Req:             TempData["Sucess"],TempData["Error"].
+3.Type:                     Partile View (Alert).
+4.Use:                      Shared (Any where in Project).
+5.Reference add Tage:       @{Html.RenderPartial("_MessageAlert");}
+
+///////////////////////////////////////////////////*@
+@{      if (TempData["Sucess"] != null)
+        {
+            <div class="alert alert-success" id="adminPass1" style="display: block">
+                <a class="close" data-dismiss="alert">×</a> <strong></strong>@Html.Raw(TempData["Sucess"])
+            </div>
+        }
+        if (TempData["Error"] != null)
+        {
+            <div class="alert alert-Error" id="adminPass2" style="display: block">
+                <a class="close" data-dismiss="alert">×</a> <strong>Error !</strong> @Html.Raw(TempData["Error"])
+            </div>
+        }
+        if (TempData["Warning"] != null)
+        {
+            <div class="alert">
+                <a class="close" data-dismiss="alert">×</a> <strong>!</strong>@Html.Raw(TempData["Warning"])
+            </div>
+        }
+        if (TempData["info"] != null)
+        {
+            <div class="alert alert-info">
+                <a class="close" data-dismiss="alert">×</a> <strong>Info! </strong>@Html.Raw(TempData["info"])
+            </div>
+        }
+}
+@*<br />*@

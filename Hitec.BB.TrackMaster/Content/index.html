@@ -1,0 +1,2189 @@
+﻿<!DOCTYPE html>
+<html class="k-ff k-ff30" lang="en"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trackmaster</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://claas.trackmaster.in/content/res/images/favicon.ico">
+    <link href="Trackmaster_files/font-awesome.css" rel="stylesheet">
+    <link href="Trackmaster_files/stylesad15.css" rel="stylesheet">
+	      <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="Trackmaster_files/CssCustom.css" rel="stylesheet">
+
+    
+    <!--Kendo CSS-->
+    <link href="Trackmaster_files/kendo_003.css" rel="stylesheet">
+    <link href="Trackmaster_files/kendo.css" rel="stylesheet">
+    <link href="Trackmaster_files/kendo_004.css" rel="stylesheet">
+    <link href="Trackmaster_files/kendo_002.css" rel="stylesheet">
+    <script src="Trackmaster_files/amcharts.js"></script>
+	<script src="Trackmaster_files/pie.js"></script>
+		<script type="text/javascript">
+var chart = AmCharts.makeChart("chartdiv", {
+  "type": "pie",
+  "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b></span>",
+  "innerRadius": 50,
+  "minRadius": 140,
+ 	"labelRadius": -40,
+  "labelText": "[[title]]:[[value]]",
+  "dataProvider": [{
+    "country": "Total",
+    "litres": 10
+  }, {
+    "country": "Running",
+    "litres": 8
+  }, {
+    "country": "Parked",
+    "litres": 7
+  }, {
+    "country": "Ignition On",
+    "litres": 6
+  }, {
+    "country": "Moving",
+    "litres": 8
+  },
+   {
+    "country": "Un-reachable",
+    "litres": 9
+  }],
+  "valueField": "litres",
+  "titleField": "country"
+});
+										</script>
+	
+	
+   <style>
+   @media (max-width: 480px)
+   {
+   .navbar .nav.pull-right {
+    float: none;
+    background: #2b2b2e  !important;
+    z-index: 1;
+	width: 100%;
+}
+   }
+   
+    @media (max-width: 767px)
+   {
+   .navbar .nav.pull-right {
+    float: none;
+    background: #2b2b2e  !important;
+    z-index: 1;
+	width: 100%;
+}
+   }
+   
+      @media (max-width: 991px)
+   {
+   .navbar .nav.pull-right {
+    float: none;
+    background: #2b2b2e  !important;
+    z-index: 1;
+	width: 100%;
+}
+   }
+@media (max-width: 767px)
+{
+.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+    margin-left: -20px;
+    margin-right: 0px;
+}
+}
+@media (max-width: 767px)
+{
+#alertss
+{
+margin-top:20px;
+}
+}
+@media (max-width: 767px)
+{
+#alertss
+{
+margin-top:20px;
+}
+}
+@media (max-width: 767px)
+{
+.navbar-static-top .navbar-collapse {
+    padding-left: 20px;
+    padding-right: 0px !important;
+    margin-top: 20px !important;
+}
+}
+@media (max-width: 767px)
+{
+.navbar .nav > li {
+    float: none;
+}
+}
+@media (max-width: 767px)
+{
+.navbar .nav > li {
+    float: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.37);
+}
+}
+@media (min-width: 992px)
+{
+.col-md-2 {
+    width: 23.66667%;
+    margin-right: 0px;
+    margin-left: 6px;
+	background: #fff;
+	text-align:right;
+}
+}
+.icon-truck:before {
+    content: "\f0d1";
+    background: #ff8c3e;
+    padding: 5px;
+    color: white;
+    border-radius: 100px;
+}
+@media only screen and (max-width: 500px)
+{
+.col-md-2 {
+    width: 100%;
+    margin-right: 9px;
+    margin-left: 0px;
+	margin-top:20px;
+	background: #fff;
+}
+}
+@media only screen and (max-width: 767px)
+{
+.col-md-2 {
+    width: 100%;
+    margin-right: 9px;
+    margin-left: 0px;
+	margin-top:20px;
+	background: #fff;
+}
+}
+@media only screen and (max-width: 1100px)
+{
+.col-md-2 {
+    width: 100%;
+    margin-right: 9px;
+    margin-left: 0px;
+	margin-top:20px;
+	background: #fff;
+	
+}
+}
+.box {
+    background: #dddcdc none repeat scroll 0 0;
+    border: 0px solid #cdcdcd;
+    border-radius: 3px;
+    box-shadow: none;
+    margin-bottom: 5px;
+}
+@media (min-width: 1200px)
+{
+
+.row-fluid .span3 {
+    width: 27.076923%;
+}
+}
+@media (max-width: 767px)
+{
+#alertss {
+    margin-top: 20px;
+	margin-left:0px !important;
+	    width: 100%;
+}
+}
+@media (max-width: 979px) and (min-width: 768px)
+{
+.row-fluid .span3 {
+    width: 22.92817679558011%;
+	margin-left:0px !important;
+}
+}
+@media (max-width: 767px)
+{
+#hidden {
+  
+}
+}
+@media (max-width: 1200px)
+{
+.row-fluid .span3 {
+    width: 22.92817679558011%;
+	margin-left:0px !important;
+}
+}
+@media (max-width: 1200px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+    float: none!important;
+    background: black;
+    z-index: 1;
+}
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+}
+.gm-style .place-card-large {
+    padding: 0px 4px 0px 11px;
+    display: none !important;
+}
+@media (max-width: 767px)
+{
+.box-content{
+      margin: 0 -11px 0 -23px !important;
+}
+}
+
+@media (max-width: 767px)
+{
+.box{
+      padding:0px !important;
+}
+}
+@media only screen and (min-width: 900px)
+{
+#MainContent_cvehicles {
+    position: relative;
+     left: 200px;
+}
+}
+.label-important, .badge-important {
+    background-color: #fdfdfd;
+    border: 1px solid #12699e !important;
+    color: #12699e !important;
+}
+@media (min-width: 1200px)
+{
+.row-fluid .span6 {
+    width: 48.717948717948715%;
+   
+}
+}
+@media (min-width: 1200px)
+{
+.row-fluid .span4 {
+    width: 32.623932%;
+    margin-left: 13px;
+}
+}
+.widget-header {
+    background: #fdfdfd;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi�pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+    background-size: 100%;
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -moz-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -o-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: linear-gradient(top, #fdfdfd, #eaeaea);
+    text-shadow: 0 1px white;
+    border-bottom: 1px solid #CDCDCD;
+    color: #636363;
+    font-weight: 600;
+    min-height: 40px;
+    /* text-align: center; */
+    margin-bottom: 0px !important;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #ff9500 !important;
+}
+.navbar-inverse .navbar-nav > .dropdown > a .caret:hover {
+    border-bottom-color: #fc9711 !important;
+    border-top-color: #fd970f !important;
+}
+.navbar-inverse .nav li.dropdown > a:hover .caret, .navbar-inverse .nav li.dropdown > a:focus .caret {
+    border-bottom-color: #b35406 !important;
+    border-top-color: #ca6914 !important;
+}
+@media (min-width: 992px)
+{
+.col-md-3 {
+    width: 15%;
+}
+}
+@media (max-width: 767px)
+{
+.row{
+    margin-right: 0px !important;
+}
+}
+.navbar-inverse {
+    border-bottom: 1px solid rgba(10, 13, 14, 0.8);
+    background: #11161a;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…dpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #1b2329), color-stop(100%, #11161a));
+    background-image: -webkit-linear-gradient(top, #1b2329, #11161a);
+    background-image: -moz-linear-gradient(top, #1b2329, #11161a);
+    background-image: -o-linear-gradient(top, #1b2329, #11161a);
+    background-image: linear-gradient(top, #1b2329, #11161a);
+    border-left: 0;
+    border-right: 0;
+    border-bottom-color: #fea86d;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    background-image: linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -o-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -moz-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -ms-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -webkit-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+}
+
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+    background-color: rgba(43, 43, 45, 0) !important;
+ color:#fb9505 !important;
+}
+   </style>
+</head>
+<body onload="display_ct();">
+    
+<nav class="navbar navbar-top navbar-inverse navbar-static-top" role="navigation" style="height: 70px; margin-top: -20px; padding-top: 8px; padding-bottom: 5px;">
+
+    <div class="navbar-header" style="height: 40px; position: relative;">
+        <div>
+		<img src="Trackmaster_files/bb.png"/ style="position: relative;top: 16px;left: 24px;">
+            <!--<a class="navbar-brand" href="#">
+                <span style="color: #fff; font-size: 120%; font-family:Arial"></span>
+				
+            </a>-->
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle Top Navigation</span>
+			<i class="icon-list"></i>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" style="height: 40px;" id="navbar-collapse">
+     
+        <ul class="nav pull-right navbar-nav">
+                  
+            
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="http://claas.trackmaster.in/Dashboard/Live-Status" "="" title="Live Status">
+                   <i class="fa fa-wifi"></i> 
+                    <br>
+                    <div>Live Status</div>
+                </a>
+            </li>
+            <li id="dropdown_Maps" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Maps" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Map">
+                    <i class="fa fa-map" style="font-size: 15px"></i>
+                    <br>
+                    Map <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Map</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a href="#"><span>Old Map</span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a href="#"><span>Four Eye Map</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Route Playback</span></a></a>
+                    </li>
+					<li style="text-align: left;">
+                       <a href="#"><span>Alerts on Map</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Consginee Map</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Search Vehicles</span></a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                   
+                     
+                     <i class="fa fa-file-archive-o"></i>   
+                                    
+                    <br>
+                    Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">                   
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Over Stoppage</span></a>
+                    </li> 
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Daily Report</span></a>
+                    </li> 					
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>All Stoppage Report</span></a>
+                    </li>   
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Monthly Report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Trip Summary</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Vehicle All Report</span></a>
+                    </li>  
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Combined Report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Ignition</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Over Speed</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Idling</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>AC Report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>AC Report While Speed Zero</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Stationary report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Detailed Trip summary</span></a>
+                    </li>   
+  
+                </ul>
+            </li>
+            
+            <li id="dropdown_Training" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Training" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Training">
+                    <i class="fa fa-map-marker"></i>         
+                    <br>
+                    Geo Fencing <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Set Geofence</span></a>
+                    </li>
+				    <li style="text-align: left;">
+                        <a href="#"><span>Manage Geofence</span></a>
+                    </li>
+					    <li style="text-align: left;">
+                        <a href="#"><span>View Geofence</span></a>
+                    </li>
+					    <li style="text-align: left;">
+                        <a href="#"><span>Geofence Violation</span></a>
+                    </li>
+   
+                </ul>
+            </li>
+			            <!--<li id="dropdown_CustomerCare" class="dropdown" style="text-align: center; padding-bottom: 10px">-->
+				<li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="#" title="Alert">
+                   <i class="icon-bell-alt"></i> 
+                    <br>
+                    <div>Alert</div>
+                </a>
+                <!--<ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>BlackBox info</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>BlackBox Details</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Features</span></a>
+                    </li><li style="text-align: left;">
+                        <a href="#"><span>SMS Reports</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Push Notification Report</span></a>
+                    </li><li style="text-align: left;">
+                        <a href="#"><span>Download Manual</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Manage POI</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>All Alerts</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Set SMS Time</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Add Service Request</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>View Service Request</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>AddConsginee Details</span></a>
+                    </li>
+
+                </ul>-->
+            </li>
+			
+			 <li id="dropdown_Profile" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Profile" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Profile">
+                    <i class="fa fa-sliders" style="font-size: 15px"></i>
+                    <br>
+                    Customization <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Entry Exit Report</span></a>
+                    </li>
+					 <li style="text-align: left;">
+                        <a href="#"><span>Monthly Drill Down Report</span></a>
+                    </li>
+					 <li style="text-align: left;">
+                        <a href="#"><span>Monthly Distance Report</span></a>
+                    </li>
+					 <li style="text-align: left;">
+                        <a href="#"><span>Camera Images</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Distance</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Speed</span></a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li id="dropdown_MyBill" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_MyBill" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="My Bill">
+                    <i class="icon-file" style="font-size: 15px"></i>
+                    <br>
+                    My Bills <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Account Summary</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Payment Options</span></a>
+                    </li>
+                  
+                </ul>
+            </li>
+            
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="fa fa-comments" style="font-size: 15px"></i>
+                    <br>
+                    <div>Feedback</div>
+                </a>
+            </li>
+		    <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="icon-list-ul" style="font-size: 15px"></i>
+                    <br>
+                    <div>About us</div>
+                </a>
+            </li>
+				<li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="icon-signout" style="font-size: 15px"></i>
+                    <br>
+                    <div>Log Out</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="container-fluid" style="background:#fff; padding:0px 10px;">
+   
+        <div class="row" style="padding:11px 0px 0px 26px;    margin-right: -67px;">
+		
+            <div class="col-md-6">
+              <!-- <img src="Trackmaster_files/logo-2x.png" style="width:150px;" class="TopStrip">-->
+               
+            </div>
+            <div class="col-md-3" id="CurrDate">
+                <label>Thu Sep 29 2016</label>
+            </div>
+
+			<div class="col-md-3" id="CurrDate">
+                <div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            </div>
+			
+            <div class="col-md-3">
+			 <form action="/Admin/AdvanceSearch" class="search_form" id="login_form" method="post" style="height:20px;"><input id="txtsrch" name="txtsrch" type="text" value="" style="margin-top: -2px; float:right;width: 150px;">
+			</form> 
+            </div>
+          </div> 
+            
+</div>
+
+<!--<div style="width: 100%; background: #fff;  display: block;">
+    <div style="padding: 10px 7px 34px 12px; position: relative; left: 0px; background: #fff;"  id="hidden" >
+       <div style="position: absolute;">
+           <img src="Trackmaster_files/logo-2x.png" style="width:150px;position: relative;left: 10px;" class="TopStrip">
+        </div>
+		<div style="float: right;  margin-right: 40px;" class="TopStrip"><form action="/Admin/AdvanceSearch" class="search_form" id="login_form" method="post" style="float:right;height:20px;"><input id="txtsrch" name="txtsrch" type="text" value="" style="margin-top: -2px;">
+</form></div>
+		<div style="float: right; margin-right: 40px;" class="TopStrip">
+		<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
+		</div>
+        <div style="float: right;  margin-right: 40px;" id="CurrDate" class="TopStrip">Thu Sep 29 2016 14:47pm</div>
+        <div style="float: right; position: relative; margin-right: 30px; " class="TopStrip">        
+            Welcome : CLAAS India Private Limited        
+        </div>
+    </div>
+</div>-->
+
+<script type="text/javascript">
+    function setDate() {
+        var d = new Date();
+        //var d = new Date(),
+        minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+        hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+        ampm = d.getHours() >= 12 ? 'pm' : 'am',
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        //return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+        var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+        document.getElementById("CurrDate").innerHTML = s;
+
+    }
+
+    function display_ct() {
+        var strcount
+        setDate()
+        tt = display_c();
+    }
+    function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout('display_ct()', refresh)
+    }
+</script>
+
+    
+    <script src="Trackmaster_files/jquery.js"></script>
+    <div class="main_container" id="tables_page">
+        
+
+<div class="container-fluid">
+    <!-- Side menu -->
+
+    <!-- /Side menu -->
+
+    <!-- Main window -->
+    <div class="row-fluid">
+        <div class="widget-body">
+            <!-- Side menu -->
+            <!-- /Side menu -->
+            <!-- Main window -->
+            <div class="main_container" id="tables_page">
+                <div class="row-fluid">
+				<p style="color: #999; font-size: 19px;margin-bottom: -15px;">Dashboard</p>
+                </div>
+                <div class="row-fluid">
+				<div class="widget-body" style="border: 0">
+				
+                        <div class="row-fluid">
+                            <div class="widget widget-padding span6">
+                                <div class="widget-header">
+                                    <i class="icon-cogs"></i>
+                                    <h5>FMS</h5>
+                                    <div class="widget-buttons">
+                                        <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body" style="min-height: auto;">
+                                    <div class="box" style="padding-bottom: 0px;">
+    <div class="box-content padded" style="margin:0 -11px 0 9px;">
+        <div class="row"  style="margin-top:-14px;">
+
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding:14px ;">
+			  
+               <div style="text-align:center;">
+			    <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			    <!--<img src="Trackmaster_files/icc1.jpg"/ style="margin-left: -17px;">-->
+				<img src='Trackmaster_files/1.png' onmouseover="this.src='Trackmaster_files/icc21.jpg';" onmouseout="this.src='Trackmaster_files/1.png';" / style="margin-left: -17px;">
+			   </div>
+			    
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Vehicles</span><br/>
+			  </div>
+            </div>
+			
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding:14px ;">
+			
+                 <div  style="text-align:center;">
+			   <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+				<img src='Trackmaster_files/2.png' onmouseover="this.src='Trackmaster_files/a12.png';" onmouseout="this.src='Trackmaster_files/2.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Service Reminders</span>
+
+			   </div>
+            </div>
+
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding:14px ;">
+
+                <div  style="text-align:center;">
+			    <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+				<img src='Trackmaster_files/3.png' onmouseover="this.src='Trackmaster_files/a1.png';" onmouseout="this.src='Trackmaster_files/3.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Renewal Reminders</span>
+			  
+			   </div>
+            </div>
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding:14px 4px;">
+
+               <div  style="text-align:center;">
+			   <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			  
+				<img src='/Trackmaster_files/4.png' onmouseover="this.src='/Trackmaster_files/a3.png';" onmouseout="this.src='/Trackmaster_files/4.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Repair and Maintenance</span>
+			  
+			   </div>
+            </div>
+            <!--<div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;      padding:  0px 14px 14px 14px ;">
+						<span id="MainContent_cvehicles" class="badge badge-info" style=" position: relative;top: 19px;left: 72px;">72</span>
+                <div  style="text-align:center;">
+			    <img src="Trackmaster_files/ic5.jpg"/>
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Parts Purchase Info</span>
+			   </div>
+            </div>
+			 <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;      padding:  0px 14px 14px 14px ;">
+			 			<span id="MainContent_cvehicles" class="badge badge-info" style=" position: relative;top: 19px;left: 72px;">72</span>
+                <div  style="text-align:center;">
+			    <img src="Trackmaster_files/ic6.jpg"/>
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Add Trip Master</span>
+			  
+			   </div>
+            </div>-->
+                    </div> <!-- end -->
+					
+					
+				<div class="row"  style="margin-top:6px;">
+
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px;">
+               
+               <div style="text-align:center;">
+			  <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			  
+				<img src='Trackmaster_files/10.png' onmouseover="this.src='Trackmaster_files/a13.png';" onmouseout="this.src='Trackmaster_files/10.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Tyre Management</span><br/>
+			  
+			   </div>
+            </div>
+			
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px;">
+                 <div  style="text-align:center;">
+			   <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			    
+				<img src='Trackmaster_files/7.png' onmouseover="this.src='Trackmaster_files/a5.png';" onmouseout="this.src='Trackmaster_files/7.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Fuel Management</span>
+
+			   </div>
+            </div>
+
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px 0px;">
+                <div  style="text-align:center;">
+			  <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+				<img src='Trackmaster_files/8.png' onmouseover="this.src='Trackmaster_files/a6.png';" onmouseout="this.src='Trackmaster_files/8.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Parts Purchase Info</span>
+			  
+			   </div>
+            </div>
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px 0px;">
+               <div  style="text-align:center;">
+			  <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+				<img src='Trackmaster_files/6.png' onmouseover="this.src='Trackmaster_files/a4.png';" onmouseout="this.src='Trackmaster_files/6.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;"> 
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Employees</span>
+			  
+			   </div>
+            </div>
+           <!-- <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;      padding: 14px;">
+                <div  style="text-align:center;">
+			  <img src="Trackmaster_files/ic11.jpg"/>
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Manage Booking</span>
+			   </div>
+            </div>
+			 <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;      padding: 14px;">
+                <div  style="text-align:center;">
+			   <img src="Trackmaster_files/ic12.jpg"/>
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Fuel Management</span>
+			  
+			   </div>
+            </div>-->
+                    </div> <!-- end -->
+					
+					<div class="row"  style="margin-top:6px;">
+
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px;">
+               
+               <div style="text-align:center;">
+			   <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			    
+				<img src='Trackmaster_files/9.png' onmouseover="this.src='Trackmaster_files/a7.png';" onmouseout="this.src='Trackmaster_files/9.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Customer</span><br/>
+			  
+			   </div>
+            </div>
+			
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px 0px;">
+                 <div  style="text-align:center;">
+			  <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+		
+				<img src='Trackmaster_files/11.png' onmouseover="this.src='Trackmaster_files/a11.png';" onmouseout="this.src='Trackmaster_files/11.png';" / style="margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Manage Booking Order</span>
+
+			   </div>
+            </div>
+
+         <!--   <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px;">
+                <div  style="text-align:center;">
+			   <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			    <img src="Trackmaster_files/icc11.jpg"/  style="    margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Vehicle Extra Info</span>
+			  
+			   </div>
+            </div>
+            <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;     padding: 14px 0px;">
+               <div  style="text-align:center;">
+			   <span id="MainContent_cvehicles" class="badge badge-important" style="position: relative;left: -6px;">9</span>
+			    <img src="Trackmaster_files/icc12.jpg"/  style="    margin-left: -17px;">
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">My Bill</span>
+			  
+			   </div>
+            </div>-->
+            <!--<div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;      padding: 14px;">
+                <div  style="text-align:center;">
+			   <img src="Trackmaster_files/ic17.jpg"/>
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">App Payment</span>
+			   </div>
+            </div>
+			 <div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;      padding: 14px;">
+                <div  style="text-align:center;">
+			   <img src="Trackmaster_files/ic18.jpg"/>
+			   </div>
+			   <div  style="text-align:center;">
+			  <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">Vehicle Status</span>
+			  
+			   </div>
+            </div>-->
+                    </div> <!-- end -->
+				
+				
+				</div>
+		</div>
+                                    <!-- /row-fluid -->
+                                </div>
+                                <!-- /widget-body -->
+                            </div>
+                        							
+                            <div id="alertss" class="widget span6">
+							<div class="widget-header">
+                                    <i class="icon-map-marker"></i>
+                                    <h5>Location On Map</h5>
+                                    <div class="widget-buttons">
+                                        <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="widget-body" style="min-height: 333px;">
+								
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d109750.91902756316!2d76.69637378276995!3d30.72637729725028!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fed0be66ec96b%3A0xa5ff67f9527319fe!2sChandigarh!5e0!3m2!1sen!2sin!4v1475746744402" width="100%" height="333px" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    <!-- /row-fluid -->
+                                </div>
+                               <!-- <div class="widget-header">
+                                    <i class="icon-pushpin"></i>
+                                    
+                                    <h5>Vehicle Status</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="height: auto; background: #fff;text-align: center; overflow-x: auto">
+                                     
+									 	<div id="chartdiv" style="width: 100%; height: 332px; background-color: #FFFFFF;" ></div>
+																		 
+                              </div>-->
+                            </div>
+
+                        </div>
+
+                    </div>
+			</div>	
+				
+				<br/>
+				 <div class="row-fluid" style="margin-bottom: 12px;    margin-top: -37px;">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                            <div class="widget widget-padding span4">
+                                 <div class="widget-header">
+                                    <i class="fa fa-truck"></i>
+                                    
+                                    <h5>Vehicle Status</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="height: auto; background: #fff;text-align: center; overflow-x: auto">
+                                     
+									 	<div id="chartdiv" style="width: 100%; height: 332px; background-color: #FFFFFF;" ></div>
+																		 
+                              </div>
+                                <!-- /widget-body -->
+                            </div>
+                            <div class="widget span4">
+                                <div class="widget-header">
+                                    <i class="fa fa-area-chart"></i>
+                                    <h5>Fleet Usages</h5>
+                                </div>
+                                <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+                                  
+                                    
+                                    <div id="divWoringHoursChart"><style>
+    .chart-wrapper {
+        text-align: center;
+        width: 80px;
+        height: 63px;
+        margin: 0 auto;
+        margin-top: -8px;
+    }
+
+        .chart-wrapper h3 {
+            padding: 1em 0;
+            font-size: 1.2em;
+            font-weight: normal;
+        }
+
+    .k-chart.small-chart {
+        display: inline-block;
+        width: 150px;
+        height: 70px;
+        margin-left:-45px;
+    }
+</style>
+<table class="table table-striped table-bordered dataTable">
+    <tbody><tr>
+        <th>#</th>
+        <th>Machine Name</th>
+        <th>Working Hours</th>
+    </tr>
+        <tr>
+            <td style="width: 10px;">1</td>
+
+            <td style="width: 75px;">
+
+                CT 40 TT Cambodia
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart0"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef1"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef1)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart0").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">2</td>
+
+            <td style="width: 75px;">
+
+                Testing RS 485
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart1"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef2"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef2)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart1").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">3</td>
+
+            <td style="width: 75px;">
+
+                Endurance MAKSAS
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart2"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef3"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef3)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart2").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">4</td>
+
+            <td style="width: 75px;">
+
+                Endurance Machine
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart3"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef4"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef4)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart3").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">5</td>
+
+            <td style="width: 75px;">
+
+                Dom 40 - PS9
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart4"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef5"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef5)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart4").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">6</td>
+
+            <td style="width: 75px;">
+
+                Dom40TT-P05
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart5"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef6"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef6)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart5").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">7</td>
+
+            <td style="width: 75px;">
+
+                CT40 TT with CABIN
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart6"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef7"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef7)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g><path d="M42.5 56.5 L 59.5 56.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g><path d="M114.5 56.5 L 131.5 56.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart6").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:50","visible":true},"type":"column","data":[50]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :23:58:10","visible":true},"type":"column","data":[86290]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:50","visible":true},"type":"column","data":[50]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">8</td>
+
+            <td style="width: 75px;">
+
+                D270 Proto M/C:3
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart7"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef8"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef8)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g><path d="M42.5 37.5 L 59.5 37.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path></g><g><path d="M66.5 43.5 L 83.5 43.5 83.5 56.5 66.5 56.5Z" stroke="#25a0da" stroke-width="1" stroke-opacity="1" fill="#25a0da" fill-opacity="1"></path></g><g><path d="M90.5 26.5 L 107.5 26.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g><path d="M114.5 50.5 L 131.5 50.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart7").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :9:26:13","visible":true},"type":"column","data":[33973]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :6:21:45","visible":true},"type":"column","data":[22905]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :14:32:47","visible":true},"type":"column","data":[52367]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :3:4:28","visible":true},"type":"column","data":[11068]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">9</td>
+
+            <td style="width: 75px;">
+
+                D270 Proto Torture Track 13/5 
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart8"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef9"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef9)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart8").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+
+</tbody></table>
+
+
+
+
+</div>
+                                </div>
+                            </div>
+							
+                            <div id="alertss" class="widget span4">
+                                <div class="widget-header">
+                                    <i class="fa fa-tachometer"></i>
+                                    
+                                    <h5>Fleet Overspeed Analysis</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+                                     
+                                    <div id="DivVehcleCounter">
+
+
+
+<table class="table table-striped table-bordered dataTable">
+    <tbody><tr>
+        <th>#</th>
+        <th>Alert</th>
+        <th>Machine</th>
+        <th>Date/Time</th>
+    </tr>
+ <tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+</tbody></table>
+</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>
+                <!-- /row-fluid -->
+				
+				 <div class="row-fluid">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                            <div class="widget widget-padding span4">
+                                 <div class="widget-header">
+                                    <i class="fa fa-sliders"></i>
+                                    
+                                    <h5>Safe Drive Analysis</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="height: auto; background: #fff; height: 333px;text-align: center; overflow-x: auto">
+                                     
+									 <table class="table table-striped table-bordered dataTable">
+    <tbody><tr>
+        <th>#</th>
+        <th>Alert</th>
+        <th>Machine</th>
+        <th>Date/Time</th>
+    </tr>
+ <tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+</tbody></table>
+																		 
+                              </div>
+                                <!-- /widget-body -->
+                            </div>
+                            <div class="widget span4">
+                                <div class="widget-header">
+                                    <i class="fa fa-user"></i>
+                                    <h5>Driver Performance</h5>
+                                </div>
+                                <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+                                  
+                                    
+                                    <div id="divWoringHoursChart"><style>
+    .chart-wrapper {
+        text-align: center;
+        width: 80px;
+        height: 63px;
+        margin: 0 auto;
+        margin-top: -8px;
+    }
+
+        .chart-wrapper h3 {
+            padding: 1em 0;
+            font-size: 1.2em;
+            font-weight: normal;
+        }
+
+    .k-chart.small-chart {
+        display: inline-block;
+        width: 150px;
+        height: 70px;
+        margin-left:-45px;
+    }
+</style>
+<table class="table table-striped table-bordered dataTable">
+    <tbody><tr>
+        <th>#</th>
+        <th>Machine Name</th>
+        <th>Working Hours</th>
+    </tr>
+        <tr>
+            <td style="width: 10px;">1</td>
+
+            <td style="width: 75px;">
+
+                CT 40 TT Cambodia
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart0"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef1"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef1)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart0").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">2</td>
+
+            <td style="width: 75px;">
+
+                Testing RS 485
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart1"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef2"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef2)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart1").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">3</td>
+
+            <td style="width: 75px;">
+
+                Endurance MAKSAS
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart2"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef3"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef3)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart2").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">4</td>
+
+            <td style="width: 75px;">
+
+                Endurance Machine
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart3"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef4"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef4)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart3").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">5</td>
+
+            <td style="width: 75px;">
+
+                Dom 40 - PS9
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart4"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.149994px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef5"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef5)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart4").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">6</td>
+
+            <td style="width: 75px;">
+
+                Dom40TT-P05
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart5"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef6"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef6)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart5").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">7</td>
+
+            <td style="width: 75px;">
+
+                CT40 TT with CABIN
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart6"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef7"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef7)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g><path d="M42.5 56.5 L 59.5 56.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g><path d="M114.5 56.5 L 131.5 56.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-linejoin="round" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart6").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:50","visible":true},"type":"column","data":[50]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :23:58:10","visible":true},"type":"column","data":[86290]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:50","visible":true},"type":"column","data":[50]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">8</td>
+
+            <td style="width: 75px;">
+
+                D270 Proto M/C:3
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart7"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef8"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef8)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g><path d="M42.5 37.5 L 59.5 37.5 59.5 56.5 42.5 56.5Z" stroke="#309b46" stroke-width="1" stroke-opacity="1" fill="#309b46" fill-opacity="1"></path></g><g><path d="M66.5 43.5 L 83.5 43.5 83.5 56.5 66.5 56.5Z" stroke="#25a0da" stroke-width="1" stroke-opacity="1" fill="#25a0da" fill-opacity="1"></path></g><g><path d="M90.5 26.5 L 107.5 26.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g><path d="M114.5 50.5 L 131.5 50.5 131.5 56.5 114.5 56.5Z" stroke="#e61e26" stroke-width="1" stroke-opacity="1" fill="#e61e26" fill-opacity="1"></path></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart7").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :9:26:13","visible":true},"type":"column","data":[33973]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :6:21:45","visible":true},"type":"column","data":[22905]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :14:32:47","visible":true},"type":"column","data":[52367]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :3:4:28","visible":true},"type":"column","data":[11068]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10px;">9</td>
+
+            <td style="width: 75px;">
+
+                D270 Proto Torture Track 13/5 
+            </td>
+
+
+            <td style="width: 75px;">
+
+                <div class="chart-wrapper">
+                    
+                    <div style="position: relative;" data-role="chart" class="k-chart small-chart" id="chart8"><svg style="width: 100%; height: 100%; overflow: hidden; left: -0.849976px; top: -0.150024px;" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" version="1.1"><defs><clipPath id="kdef9"><path d="M5 5 L 144 5 144 56 5 56Z" stroke="#000" stroke-linejoin="miter" fill="none"></path></clipPath></defs><g><path d="M0 0 L 150 0 150 70 0 70Z" stroke="none" fill="#fff"></path><path d="M5 5 L 144 5 144 56 5 56Z" stroke="none" fill="#fff" fill-opacity="0"></path><g><g><path d="M5.5 5.5 L 5.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 5.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g><g></g><g><g><g><path d="M5.5 56.5 L 144.5 56.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M5.5 56.5 L 5.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path><path d="M144.5 56.5 L 144.5 60.5" stroke="#c7c7c7" stroke-width="1" fill="none"></path></g></g></g><g clip-path="url(#kdef9)"><g><g><g><path d="M18.5 7.5 L 35.5 7.5 35.5 56.5 18.5 56.5Z" stroke="#8ebc00" stroke-width="1" stroke-opacity="1" fill="#8ebc00" fill-opacity="1"></path></g><g></g><g></g><g><path d="M90.5 7.5 L 107.5 7.5 107.5 56.5 90.5 56.5Z" stroke="#ff6900" stroke-width="1" stroke-opacity="1" fill="#ff6900" fill-opacity="1"></path></g><g></g></g></g></g></g><g></g></g></svg></div><script>
+	jQuery(function(){jQuery("#chart8").kendoChart({"theme":"Metro","legend":{"visible":false},"series":[{"name":"Total Report Time(HH:MM:SS)","tooltip":{"template":"Total Report Time :23:59:0","visible":true},"type":"column","data":[86340]},{"name":"Engine Working Duration(HH:MM:SS)","tooltip":{"template":"Engine Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Thresher Working Duration(HH:MM:SS)","tooltip":{"template":"Thresher Working Duration :0:0:0","visible":true},"type":"column","data":[0]},{"name":"Machine Idle Duration(HH:MM:SS)","tooltip":{"template":"Machine Idle Duration :100","visible":true},"type":"column","data":[86340]},{"name":"Total Non Productive Duration(HH:MM:SS)","tooltip":{"template":"Total Non Productive Duration :0:0:0","visible":true},"type":"column","data":[0]}],"valueAxis":[{"visible":false,"majorGridLines":{"visible":false},"line":{"visible":false}}]});});
+</script>
+                </div>
+            </td>
+        </tr>
+
+</tbody></table>
+
+
+
+
+</div>
+                                </div>
+                            </div>
+							
+                            <div id="alertss" class="widget span4">
+                                <div class="widget-header">
+                                    <i class="fa fa-wpforms"></i>
+                                    
+                                    <h5>Tips for Safe Driving</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="height: 333px; background: #fff; overflow-x: auto">
+                                     
+                                    <div id="DivVehcleCounter">
+
+
+
+<table class="table table-striped table-bordered dataTable">
+    <tbody><tr>
+        <th>#</th>
+        <th>Alert</th>
+        <th>Machine</th>
+        <th>Date/Time</th>
+    </tr>
+ <tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+</tbody></table>
+</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>
+                <!-- /row-fluid -->
+				
+				 <!-- /row-fluid -->
+				
+				 <div class="row-fluid">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                            <div class="widget widget-padding span4">
+                                 <div class="widget-header">
+                                    <i class="fa fa-inr"></i>
+                                    
+                                    <h5>Fuel Cost by Month</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="height: auto; background: #fff; height: 333px;text-align: center; overflow-x: auto">
+                                     
+									 <table class="table table-striped table-bordered dataTable">
+    <tbody><tr>
+        <th>#</th>
+        <th>Alert</th>
+        <th>Machine</th>
+        <th>Date/Time</th>
+    </tr>
+ <tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+		<tr>
+            <td>
+                1
+            </td>
+            <td>
+                Device Battery Discharged
+            </td>
+            <td>
+                CT40 TT with CABIN
+            </td>
+            <td>
+                9/29/2016 12:17:12 AM
+            </td>
+        </tr>
+</tbody></table>
+																		 
+                              </div>
+                                <!-- /widget-body -->
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>
+                <!-- /row-fluid -->
+				
+               <!-- <div class="row-fluid">
+                    <div class="widget widget-padding span14">
+                        <div class="widget-body">
+                             <div class="widget-header">
+    <i class="icon-bullhorn"></i> 
+    <h5>Live Status</h5>
+</div>
+
+<div class="widget-body">
+
+    
+</div>
+<div class="row-fluid" style="padding-top: 15px;">
+    
+<div class="box">
+    <div class="box-content padded" style="margin:0 15px 0 15px;">
+        <div class="row">
+            <div class="col-md-2" style="margin-left:0px;">
+                 Parked&nbsp;<img alt="Parked" title="Parked" src="Trackmaster_files/stop.png">
+               
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Ignition On&nbsp;<img alt="Ignition On" title="Ignition On" src="Trackmaster_files/hispeed.png">
+            </div>
+
+            <div class="col-md-2" style="margin-left:0px;">
+                Engine Working&nbsp;<img alt="Engine Working" title=" Engine Working" src="Trackmaster_files/ignion_002.png">
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Thresher Working&nbsp;<img alt="Thresher Working" title="Thresher Working" src="Trackmaster_files/moving.png">
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Parked With Batt Cut-Off&nbsp;<img alt="Parked With Batt Cut-Off" title="Parked With Batt Cut-Off" src="Trackmaster_files/towed.png">
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Unreachable&nbsp;<img alt="Unreachable" title="Unreachable" src="Trackmaster_files/unreach.png">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+    //$("#containing-div").load("[url of page with onload function]");
+    $('.dynamicValues').each(function () {
+        //var t = $(this).children('p').last().text();
+        //$(this).next('.product-qty-dt').text(t);
+        // var checked = $(ele).is(':checked');
+        var md = $(this).attr("store-mode");
+       // alert(md);
+    })
+</script>
+  
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <!-- /widget --
+                </div>-->
+                <!-- /row-fluid -->
+
+            </div>
+            <!-- /Main window -->
+        </div>
+        <!--/.fluid-container-->
+    </div>
+    <!-- wrap ends-->
+
+</div>
+
+<!--Kendo UI js-->
+
+
+
+    </div>
+    
+    <script type="text/javascript" src="Trackmaster_files/bootstrap.js"></script>  
+    
+
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+
+    <script>
+        var hiderow = null;
+        var idbbid = null;
+        $(document).ready(function () {
+
+            MyUrl = '/DashBoard/BindAlerts';
+            data = { MyStr: null };
+           // $('#ajax_loader_Graph').show();
+            $("#DivVehcleCounter").load(MyUrl, data, function (response, status, xhr) {
+               // $('#ajax_loader_working').hide();
+            });
+            
+           // $('#ajax_loader_Alerts').show();
+          var UrlWorkingHrs = '/DashBoard/BindMacineHours';
+            $("#divWoringHoursChart").load(UrlWorkingHrs, data, function (response, status, xhr) {
+                //$('#ajax_loader_Alerts').hide();
+            });
+           // var refreshId = setInterval(function () {
+                //RefreshGrid();
+          //  }, 60000);
+            // RefreshGrid();
+          
+        });
+        function RefreshGrid() {
+            $("#LiveGrid").data("kendoGrid").dataSource.read();
+            $("#LiveGrid").data("kendoGrid").dataSource.page(1);
+            $("#LiveGrid").data("kendoGrid").refresh();
+            // $("#refresh").html('refreshing...');
+        }
+        $(function () {
+            $('.hidden').hide();
+        });
+ 
+        $("#Live").find('.detailveh').click(function () {
+
+            $("#showdata").removeData("<table></table>");
+
+            if ($(this).find("i").hasClass("icon-arrow-down")) {
+                // get clicked row 
+                var row = $(this).index();
+                //get bbid of that row
+                //     var bbid = $(this).find('td:eq(1)').html();
+                var bbid = $(this).attr("data-index")
+                //  var bbid=     $(this).parent().siblings(":first").text()
+                // change icon image
+                $(this).find("i").removeClass("icon-arrow-down").addClass("icon-arrow-up");
+                var url ='/Dashboard/GetBoxDetails';
+                // Using the core $.ajax() method
+                $.ajax({
+                    // The URL for the request
+                    url: url,
+                    // The data to send (will be converted to a query string)
+                    data: {
+                        "bbid": bbid
+                    },
+                    // Whether this is a POST or GET request
+                    type: "GET",
+                    // The type of data we expect back
+                    dataType: "json",
+                    // Code to run if the request succeeds;
+                    // the response is passed to the function
+                    success: function (val) {
+                        //$.each(data, function (key, val) {
+                        idbbid = val.BBID;
+
+                        $("#" + idbbid).replaceWith("<table class='table table-striped table-bordered dataTable' style='color:green; float:left; width:100%; margin-left:5px; margin-right:5px;' >" +
+
+                            "<tr>" +
+                                  "<td style='color:black;'>Machine Sr No:</td>" +
+                            "<td>" + val.MachineSrNo + "</td>" +
+                             "<td style='color:black;'>Machine Name:</td>" +
+                            "<td>" + val.MachineName + "</td>" +
+
+                             "<td style='color:black;'>Device Id:</td>" +
+                            "<td>" + val.BBID + "</td>" +
+                             "<td style='color:black;'>GPS Signal:</td>" +
+                            "<td>" + val.GPSVal + "</td>" +
+                            " </tr>" +
+
+
+                            "<tr>" +
+                            //"<td style='color:black;'>Device Type:</td>" +
+                            //"<td>" + val.box + "</td>" +
+                            "<td style='color:black;'>Current Ignition Status</td>" +
+                            "<td>" + val.IgnitionStatus + "</td>" +
+                            "<td style='color:black;'>Current Engine Status:</td>" +
+                            "<td>" + val.EngineStatus + "</td>" +
+                            "<td style='color:black;'>Current Thresher Status</td>" +
+                            "<td>" + val.ThresherStatus + "</td>" +
+                             "<td style='color:black;'>GSM Signal :</td>" +
+                            "<td>" + val.GSMVal + "</td>" +
+                            "</tr>" +
+
+                            "<tr>" +
+                             "<td style='color:black;'>Today's Engine Hr:</td>" +
+                            "<td>" + val.TodaysEngineHr + "</td>" +
+                            "<td style='color:black;'>Today's Thresher Hr:</td>" +
+                            "<td>" + val.TodaysThreshingHr + "</td>" +
+                              "<td style='color:black;'>Mobile Number For Alerts</td>" +
+                              "<td>" + val.MobileNoAlerts + "</td>" +
+                              "<td style='color:black;'>Box Battery  Level</td>" +
+                              "<td>" + val.BoxBatterylevel + "</td>" +
+                              " </tr>" +
+
+
+                              "<tr>" +
+                                 "<td style='color:black;'>Activation Status</td>" +
+                             "<td>" + val.ActiveStatus + "</td>" +
+                        //     "<td style='color:black;'>Installation Date:</td>" +
+                        //"<td>" + val.VehicleRegNo + "</td>" +
+                        "<td style='color:black;'>Installation Date</td>" +
+                        "<td>" + val.Installdate + "</td>" +
+                         "<td style='color:black;'>Location:</td>" +
+                         "<td>" + val.EndLocation + "</td>" +
+                        "<td style='color:black;'>Last Date:</td>" +
+                        "<td>" + val.LastdataDate + "</td>" +
+                        " </tr>" +
+
+
+                            "</table>"
+                       )
+                        // });
+                    },
+
+                    // Code to run if the request fails; the raw request and
+                    // status codes are passed to the function
+                    error: function (xhr, status, errorThrown) {
+                        alert("Sorry, there was a problem!");
+                        console.log("Error: " + errorThrown);
+                        console.log("Status: " + status);
+                        console.dir(xhr);
+                    },
+
+                    // Code to run regardless of success or failure
+                    complete: function (xhr, status) {
+                        // alert("The request is complete!");
+                    }
+                });
+
+                $(this).closest("tr").next().slideToggle("slow");
+                hiderow = $(this).closest("tr").next().index();
+            }
+            else {
+
+                $("#" + idbbid).replaceWith("<div></div>");
+                $(this).closest("tr").next().slideToggle("slow");
+                //  $("#Live tr:eq("+hiderow+")").hide();
+                $(this).find("i").removeClass("icon-arrow-up").addClass("icon-arrow-down");
+            }
+        });
+    </script>
+
+    
+    <script src="Trackmaster_files/jquery.js"></script>
+    <script src="Trackmaster_files/kendo_002.js"></script>
+    <script src="Trackmaster_files/kendo_003.js"></script>
+    <script src="Trackmaster_files/kendo.js"></script>
+
+    <script type="text/javascript">
+        var logErrorUrl = '/Error/LogJavaScriptError';
+    </script>
+    <script src="Trackmaster_files/errorhandler.js" type="text/javascript"></script>
+    
+
+<div id="ChangePasswordModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="col-md-5">Old Password</div>
+                    <div class="col-md-7">
+                        <input id="OldPassword" name="OldPassword" type="password">
+                    </div>
+                    <div class="col-md-5">New Password</div>
+                    <div class="col-md-7">
+                        <input id="NewPassword" name="NewPassword" type="password">
+                    </div>
+                    <div class="col-md-5">Confirn New Password</div>
+                    <div class="col-md-7">
+                        <input id="ConfirmPassword" name="ConfirmPassword" type="password">
+                    </div>
+                    <div class="col-md-9" style="height: 30px">&nbsp;</div>
+                    <div class="col-md-3" style="height: 30px">&nbsp;</div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9">
+                        <input value="Change Password" class="btn btn-green" id="BtnChangePass" type="button">
+                    </div>
+                </div>
+                <div class="col-md-12" style="padding-top: 10px; text-align: center">
+                    <span id="ValidateMsg" style="color:red"></span>
+                    <div id="SendRes" style="display: none">
+                        
+                    </div>
+                </div>
+                <div class="col-md-12" style="height: 10px; text-align: center; color: green">
+                    <h5><span id="Result"></span></h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- /row-fluid -->
+				
+				
+                <div class="row-fluid">
+                    <div class="widget widget-padding span12" style="background:#333333;">
+                        <div class="widget-body" style="background:#333333;">
+                            
+					<div class="box" style="background:#333333;padding: 0px 115px; border-top: 4px solid orange;    margin-bottom: 0px;">
+    <div class="box-content padded" style="margin:0 15px 0 15px;">
+        <div class="row">
+            <div class="col-md-3" style="margin-left:0px;">
+                 <ul style="list-style:none; color:white;">
+				    <li style="line-height: 29px; font-size:17px;"><b>Navigate</b></li>
+					
+					<li style="line-height: 20px; font-size:15px; color:#999;">About</li>
+					
+					<li style="line-height: 20px; font-size:15px; color:#999;">Contact Us</li>
+				 </ul>
+               
+            </div>
+            <div class="col-md-9" style="margin-left:0px;">
+                <ul  style="list-style:none; color:white;">
+				<li style="line-height: 29px; font-size:17px;"><b>DISCLAIMERS </b></li>
+					<span style="color:#999;">The distance travelled reported here may not be absolutely correct as the website takes the distance based upon the GPS fixes it has received from the tracking device installed in your vehicle.</span>
+				 </ul>
+            </div>
+
+            
+                  </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //$("#containing-div").load("[url of page with onload function]");
+    $('.dynamicValues').each(function () {
+        //var t = $(this).children('p').last().text();
+        //$(this).next('.product-qty-dt').text(t);
+        // var checked = $(ele).is(':checked');
+        var md = $(this).attr("store-mode");
+       // alert(md);
+    })
+</script>
+  
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <!-- /widget --
+                </div>
+                <!-- /row-fluid -->
+
+				
+				
+				   <div class="row-fluid">
+                    <div class="widget widget-padding span12" style="background:#000;">
+                        <div class="widget-body" style="background:#000;">
+                            
+					<div class="box" style="background:#232121;padding: 4px 115px; border:none !important;">
+    <div class="box-content padded" style="margin:0 15px 0 15px; padding: 0px 47px !important;">
+        <div class="row">
+            <p style="color:#fff;     position: relative;
+    top: 7px;">© Blackbox Technology OPC Pvt Ltd2016</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //$("#containing-div").load("[url of page with onload function]");
+    $('.dynamicValues').each(function () {
+        //var t = $(this).children('p').last().text();
+        //$(this).next('.product-qty-dt').text(t);
+        // var checked = $(ele).is(':checked');
+        var md = $(this).attr("store-mode");
+       // alert(md);
+    })
+</script>
+  
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <!-- /widget --
+                </div>
+                <!-- /row-fluid -->
+<script type="text/javascript">
+    $('#BtnChangePass').click(function f() {
+        var OldPassword = $('#OldPassword').val();
+        OldPassword = OldPassword.trim();
+        var NewPassword = $('#NewPassword').val();
+        NewPassword = NewPassword.trim();
+        var ConfirmNewPassword = $('#ConfirmPassword').val();
+        ConfirmNewPassword = ConfirmNewPassword.trim();
+        var MyUrl = '/Login/ChangePassword';
+        if (NewPassword != '' && OldPassword != '' && ConfirmNewPassword != '') {
+            if (ConfirmNewPassword == NewPassword) {
+                $("#ValidateMsg").html('');
+                $.ajax({
+                    url: MyUrl, data: { OldPassword: OldPassword, ConfirmNewPassword: ConfirmNewPassword },
+                    success: function (data) {
+                        $("#ValidateMsg").html(data);
+                        $("#ValidateMsg").css('color', 'green');
+                    }
+                });
+            }
+            else {
+                $('#ValidateMsg').html("Password doesn't match");
+                $("#ValidateMsg").css('color', 'red');
+            }
+        }
+        else {
+            $('#ValidateMsg').html("Please fill all the fields");
+            $("#ValidateMsg").css('color', 'red');
+        }
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    
+    
+
+
+</body></html>

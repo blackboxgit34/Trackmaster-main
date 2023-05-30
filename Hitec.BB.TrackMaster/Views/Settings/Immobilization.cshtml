@@ -1,0 +1,249 @@
+﻿@{
+    ViewBag.Title = "Immobilization";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="widget-body" style="border: 0">
+    <div class="row-fluid">
+        <div class="widget span12">
+            <div class="widget-header">
+                <i class="fa fa-exclamation-triangle"></i>
+                <h5>Immobilization</h5>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="box_a_content">
+                <div class="row-fluid">
+                                        <div class="grid_item grid_space" style="width: 100%; height: 100%">
+                        <h2 class="heading_a">
+                            Immobilizer Settings
+                           
+                        </h2>
+                         @using (Html.BeginForm("Imobiliser", "Admin", FormMethod.Post, new { Id = "myform" }))
+                        {
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Select Vehicle:
+                                            </td>
+                                            <td>
+                                                @*@Html.DropDownList("veh", (IEnumerable<SelectListItem>)Session["veh"], new { @onchange = "document.getElementById('myform').submit();" })*@
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                           
+                      
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class=" sort-header">
+                                            Request For
+                                        </th>
+                                        <th class=" sort-header">
+                                            Speed Meter
+                                        </th>
+                                        <th class=" sort-header">
+                                            Description
+                                        </th>
+                                        <th class=" sort-header">
+                                            Save
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="todo">
+                                    <tr>
+                                        <td>
+                                            1.
+                                        </td>
+                                        <td>
+                                            <div class="progress progress-danger progress-small">
+                                                <div style="width: 5%" class="bar">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            Immobilization at zero speed
+                                        </td>
+                                        <td>
+                                            @*@Html.CheckBoxFor(m => m.PointZero, new { id = "employmentType" })*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2.
+                                        </td>
+                                        <td>
+                                            <div class="progress progress-info progress-small">
+                                                <div style="width: 20%" class="bar">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            Immobilization at speed &lt; 10
+                                        </td>
+                                        <td>
+                                            @*@Html.CheckBoxFor(m => m.UnderTen, new { id = "employmentType" })*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3.
+                                        </td>
+                                        <td>
+                                            <div class="progress progress-warning progress-small">
+                                                <div style="width: 20%" class="bar">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            Immobilization at any speed
+                                        </td>
+                                        <td>
+                                            @*@Html.CheckBoxFor(m => m.AnyPoint, new { id = "employmentType" })*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4.
+                                        </td>
+                                        <td>
+                                            <div class="progress progress-success progress-small">
+                                                <div style="width: 20%" class="bar">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            Demobilization
+                                        </td>
+                                        <td>
+                                            @*@Html.CheckBoxFor(m => m.DeImobilize, new { id = "employmentType" })*@
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           // <input type="submit" id="Save" name="Save" value="Save" class="btn btn-info" />
+                            @Html.Hidden("hdn")
+                    
+                        }
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row-fluid" id="alertMessage" style="margin-bottom: 12px; margin-top: 5px;">
+                        <div class="widget-body" style="border: 0">
+                            <div class="row-fluid">
+                                <div class="widget span12">
+                                    <div class="widget-body clearfix" style="overflow-x: auto">
+                                        <div id="ReportTotal">
+                                            <div class="box">
+                                                <div class="box-content padded" style="background: white;">
+                                                    How to immobilize vehicle through your Mobile phone?</h2>
+                                                    <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class=" sort-header">Request For
+                                            </th>
+                                            <th class=" sort-header">Speed Meter
+                                            </th>
+                                            <th class=" sort-header">Format
+                                            </th>
+                                            <th class=" sort-header">Example
+                                            </th>
+                                            <th class=" sort-header">Description
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="todo">
+                                        <tr>
+                                            <td>1.
+                                            </td>
+                                            <td>
+                                                <div class="progress progress-danger progress-small">
+                                                    <div style="width: 5%" class="bar">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 180px">IMOB < code >< Vehicle Reg No>
+                                            </td>
+                                            <td style="width: 130px">
+                                                <b>IMOB</b><b style="color: #e61c1c;">1</b><b style="color: #008000;">CHO4T004</b><br />
+                                            </td>
+                                            <td>1 - Immobilization at zero speed
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.
+                                            </td>
+                                            <td>
+                                                <div class="progress progress-info progress-small">
+                                                    <div style="width: 20%" class="bar">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>IMOB < code >< Vehicle Reg No>
+                                            </td>
+                                            <td>
+                                                <b>IMOB</b><b style="color: #e61c1c;">2</b><b style="color: #008000;">CHO4T004</b><br />
+                                            </td>
+                                            <td>2 - Immobilization at speed &lt; 10
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3.
+                                            </td>
+                                            <td>
+                                                <div class="progress progress-warning progress-small">
+                                                    <div style="width: 20%" class="bar">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>IMOB < code >< Vehicle Reg No>
+                                            </td>
+                                            <td>
+                                                <b>IMOB</b><b style="color: #e61c1c;">3</b><b style="color: #008000;">CHO4T004</b><br />
+                                            </td>
+                                            <td>3 - Immobilization at any speed
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4.
+                                            </td>
+                                            <td>
+                                                <div class="progress progress-success progress-small">
+                                                    <div style="width: 20%" class="bar">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>IMOB < code >< Vehicle Reg No>
+                                            </td>
+                                            <td>
+                                                <b>IMOB</b><b style="color: #e61c1c;">0</b><b style="color: #008000;">CHO4T004</b><br />
+                                            </td>
+                                            <td>0 - Demobilization
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                                    <strong>Vehicle Reg No</strong> - Registration No of Vehicle<br />
+                                                    MOBILE NO FOR SENDING REQUEST: <span style="color: Red;"><strong>+91-9876046232</strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>

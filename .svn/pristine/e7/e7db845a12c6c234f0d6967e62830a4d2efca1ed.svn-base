@@ -1,0 +1,74 @@
+﻿using Hitec.BB.TrackMaster.Helpers;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Hitec.BB.TrackMaster.Controllers
+{
+    public class SettingsController : Controller
+    {
+        //
+        // GET: /Settings/
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult SetSmsTime()
+        {
+            return View();
+        }
+
+        public ActionResult SetEmailTime()
+        {
+            return View();
+        }
+        public ActionResult SetNotificationAlert()
+        {
+            return View();
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        public ActionResult UpdateTripSettings()
+        {
+            return View();
+        }
+
+    public  PartialViewResult _changePassword ()
+    {
+        return PartialView("_changePassword");
+    }
+
+    public PartialViewResult _adminLogin()
+    {
+        return PartialView("_adminLogin");
+    }
+
+    public ActionResult Profile()
+    {
+        return View();
+    }
+
+
+    public ActionResult ManageRoute()
+    {
+        return View();
+    }
+
+    public ActionResult AddRoute()
+    {
+        return View();
+    }
+
+
+    }
+}

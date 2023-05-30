@@ -1,0 +1,479 @@
+﻿$(".js-example-basic").select2({})
+var imageCount = 1;
+var spanId = 0;
+var f = [];
+$(document).ready(function () {
+    $('#HireDate').datepicker();
+    $('#AttachmentDiv').hide();
+    $('#LicenseExpiryDate').datepicker();
+    $('form').on('keydown', '#EmployeeCTC, #Mobile, #OfficePhone, #EmergencyContactInfo', function (e) {
+        -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault()
+    });
+    bindEmployeeTypes();
+
+    bindData();
+
+    var removeFlag = false;
+
+    if (window.File && window.FileList && window.FileReader) {
+        $("#files").on("change", function (e) {
+
+            files = e.target.files,
+              filesLength = files.length;
+            imageCount = imageCount + filesLength - 1;
+            var file_size = $('#files')[0].files[0].size;
+            if (imageCount < 2) {
+                //extension check
+                var ext = $('#files').val().split('.').pop().toLowerCase();
+                if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                    alert('Invalid File Type! Please upload an image file only.');
+                }
+                else if (file_size > 100000) {
+                    alert("File size greater than 100kb is not allowed");
+                }
+                else {
+                    imageCount = imageCount - filesLength + 1;
+                    //alert(filesLength)
+                    if (filesLength < 2) {
+                        for (var i = 0; i < filesLength; i++) {
+                            imageCount = imageCount + 1;
+
+                            f.push(files[i]);
+                            var fileReader = new FileReader();
+                            fileReader.onload = (function (e) {
+
+                                spanId = spanId + 1;
+                                var file = e.target;
+                                $("<span class=\"pip\" id='pip" + spanId + "'>" +
+                                  "<img id=\"Image" + (spanId) + "\" class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + files[i - 1].name + "\"/>" +
+                                  "<br/><span  class=\"remove\" onClick='UpdateImageRemove(this.id);' id='" + spanId + "' >Remove</span>" +
+                                  "</span>").insertAfter("#files");
+                            });
+                            fileReader.readAsDataURL(files[i]);
+                        }
+                    }
+                    else {
+                        alert('You can upload 1 image only!');
+                        return false;
+                    }
+                }
+            }
+            else {
+
+                imageCount = imageCount - filesLength + 1;
+                alert('You can upload 1 image only!');
+                return false;
+            }
+
+        });
+    } else {
+        alert("Your browser doesn't support to File API")
+    }
+
+});
+$("#files").on("change", ".remove", function () {
+    //$(".remove").click(function () {
+
+    removeFlag = true;
+    $(this).parent(".pip").remove();
+    var imageId = $(this).parent(".pip")[0].childNodes[0].id;
+
+    var appendId = $(this).attr('data-id');
+    filecollection.splice(filecollection.indexOf(filecollection[appendId]), 1);
+    $('#' + appendId).remove();
+    console.log(filecollection);
+
+    // });
+});
+
+function UpdateImageRemove(id) {
+
+    id = parseInt(id);
+    var imageName = $("#Image" + id + "")[0].title;
+    //for removing image from array 
+    for (var i = f.length - 1; i >= 0; i--) {
+        if (f[i].name === imageName) {
+            f.splice(i, 1);
+        }
+    }
+
+    $("#pip" + id + "").remove();
+    imageCount = imageCount - 1;
+
+}
+
+function UploadImageDocuments() {
+    var imagesPath = '';
+    var imagesFileName = '';
+    var files = $("#files").get(0).files;
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        data.append(files[i].name, files[i]);
+    }
+    if (files.length > 0) {
+        $.ajax({
+            url: "/Fms/UploadMyFiles",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (result) {
+                var ImagePathList = "";
+                var ImageNames = "";
+                var i = 0;
+                $.each(result, function (key, value) {
+
+                    var img = "../../" + value.fullPath + ',';//+ "\\" + value.Name + ',';
+                    ImagePathList += img;
+                    ImageNames += value.Name + ',';
+
+                });
+                //already have images list
+                var ExisitingImageList = $("#ImagePath").val();
+                $("#ImagePath").val(ImagePathList);
+                $("#ImageFileName").val(ImageNames);
+                return true;
+            },
+            error: function (er) {
+                console.log(er);
+                return false;
+            }
+        }).done(function () {
+            saveData();
+        });
+    }
+    else {
+        saveData();
+    }
+}
+
+function bindEmployeeTypes() {
+    var EmpTypeUrl = apiBase.apiurl + 'FmsAPI/GetFmsEmployeeType';
+    $('#EmployeeTypeId').find('option:not(:first)').remove();
+    $.get(EmpTypeUrl, function (data) {
+        $("#EmployeeTypeId").append($("<option selected='selected'></option>").val(17).html("Driver"));
+        //$.each(data, function (key, value) {
+
+        //    if (value.Value == "17")
+        //        $("#EmployeeTypeId").append($("<option></option>").val(value.Value).html(value.Name));
+        //});
+    }).done(function (data) {
+        //bindStatesList();
+    });
+}
+
+function bindStatesList() {
+    var StateUrl = apiBase.apiurl + 'FmsAPI/GetFmsStates';
+    $('#StateId').find('option:not(:first)').remove();
+    $('#PermanentStateId').find('option:not(:first)').remove();
+
+    $.get(StateUrl, function (data) {
+        $.each(data, function (key, value) {
+            $("#StateId").append($("<option></option>").val(value.Value).html(value.Name));
+            $("#PermanentStateId").append($("<option></option>").val(value.Value).html(value.Name));
+        });
+    }).done(function (data) {
+        window.setTimeout(function () {
+        }, 1000);
+        bindCitiesList();
+    });
+}
+
+function bindCitiesList() {
+    var $stateid = $("#StateId").val();
+    var $Permanentstateid = $("#PermanentStateId").val();
+
+    if ($stateid.length > 0) {
+        bindcities($stateid);
+    }
+
+    if ($Permanentstateid.length > 0) {
+        bindpermanentcities($Permanentstateid);
+    }
+}
+
+function bindData() {
+    bindStatesList();
+    var empid = getUrlParameter("empid");
+    if (empid != null && empid > 0) {
+        $("#statusText").text("Update Employee");
+        var url = apiBase.apiurl + "FmsApi/GetEmployeeByEmpId";
+        $.get(url, { custid: $custid, empid: empid }, function (data) {
+            console.log(data);
+
+            $("#StateId option:contains(" + data.State + ")").attr('selected', 'selected');
+            $("#PermanentStateId option:contains(" + data.PermanentState + ")").attr('selected', 'selected');
+            var stateId = $("#StateId option:selected").val();
+            var Permanentstateid = $("#PermanentStateId").val();
+            if (stateId.length > 0) {
+                bindcities(stateId);
+            }
+            if (Permanentstateid.length > 0) {
+                bindpermanentcities(Permanentstateid);
+            }
+            $.each(data, function (item, value) {
+
+                if (item == "IdProof") {
+                    var arr = value.split('/');
+                    $("#IdProofType").val(arr[0]);
+                    $("#IdProofNo").val(arr[1]);
+                }
+                else if (item == "City") {
+                    window.setTimeout(function () {
+                        $("#CityId option:contains(" + value + ")").attr('selected', 'selected');
+                    }, 1000);
+                }
+                else if (item == "PermanentCity") {
+                    window.setTimeout(function () {
+                        $("#PermanentCityId option:contains(" + value + ")").attr('selected', 'selected');
+                    }, 1000);
+                }
+                else if (item == "HireDate") {
+                    //var HireDate = moment(value).format("MM/DD/YYYY");
+                    $("#" + item).val(value);
+
+                }
+                else if (item == "EmployeeType") {
+                    $("#" + item).val(value).trigger("change");
+                }
+                else if (item == "LicenseExpiryDate") {
+                    var dt = moment(value).format("MM/DD/YYYY");
+
+                    if (dt == "Invalid date") {
+                        dt = "";
+                    }
+                    else {
+                        $("#" + item).val(dt);
+                    }
+                }
+                else if (item == "EmployeeTypeId") {
+                    if (value == 17) {
+                        $('#driverdetails').show();
+                    }
+                    else
+                        $('#driverdetails').hide();
+                    $("#" + item).val(value);
+
+                }
+                else if (item == "ImagePath") {
+
+                    if (value.length > 0) {
+                        var arr = value.split(',');
+                        var count = 0;
+                        $.each(arr, function () {
+
+                            var fpath = this;
+
+                            fpath = fpath.replace(/\\/g, '/');
+
+                            var fname = fpath.substring(fpath.lastIndexOf('/') + 1, fpath.lastIndexOf('.'));
+
+
+                            if (this.length > 0) {
+                                //for restrict images to upload
+                                imageCount = imageCount + 1;
+
+                                $("<span class=\"pip\" id='" + fname + "'>" +
+                          "<img id=\"Image" + (this.length--) + "\" class=\"imageThumb\" src=\"" + this + "\" title=\"" + this + "\"/>" +
+                          "<br/><span class=\"remove\" onClick='DeleteImage(this.id);' id='" + this + "'  >Remove</span>" +
+                          "</span>").insertAfter("#files");
+                            }
+                        });
+                    }
+                }
+                else if (item == "AttachmentName") {
+                    if (value.length > 0) {
+
+                        console.log("AttachmentName" + value);
+                        var arr = value.split('_');
+                        $("#AttachmentName").text(arr[1]);
+                        $("#AttachmentDiv").show();
+                    }
+                    else {
+                        $("#AttachmentDiv").hide();
+                    }
+                }
+                else if (item == "AttachmentPath") {
+                    console.log("AttachmentPath" + value);
+                    $("#" + item).val(value);
+                    $("#Attachment_Path").attr("href", value);
+                }
+                else
+                    $("#" + item).val(value);
+            });
+        });
+    }
+}
+
+function DeleteImage(id) {
+
+    var empid = getUrlParameter("empid");
+    var fileNameIndex = id.lastIndexOf("/") + 1;
+    var imagename = id.substr(fileNameIndex);
+    var fpath = id;
+
+    fpath = fpath.replace(/\\/g, '/');
+
+    var fname = fpath.substring(fpath.lastIndexOf('/') + 1, fpath.lastIndexOf('.'));
+
+    console.log(imagename);
+    var res = confirm("Do you want to delete this file?");
+    if (res) {
+        var ApiUrl = apiBase.apiurl + "FmsAPI/RemoveEmployeeAttachment?custid=" + $custid + "&empid=" + empid + "&imagename=" + imagename;
+        $.post(ApiUrl, function (result) {
+            if (result > 0) {
+                //after deleting success message and also image count-1
+                $("#" + fname + "").remove();
+                toastr.success("File Deleted successfully!");
+                imageCount = imageCount - 1;
+            }
+            else {
+                toastr.error("File Failed to Delete!");
+            }
+        });
+    }
+}
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+$('#AddNewEmployee').on('change', '#StateId', function () {
+    var stateid = $(this).val();
+    bindcities(stateid);
+});
+
+$('#AddNewEmployee').on('change', '#PermanentStateId', function () {
+    var stateid = $(this).val();
+    bindpermanentcities(stateid);
+});
+
+$('#AddNewEmployee').on('change', '#EmployeeType', function () {
+    var empType = $(this).val();
+
+    if (empType == 'Contract Based') {
+        $("#contractDuration").prop("disabled", false);
+    }
+    else //Regular
+    {
+
+        $("#contractDuration").val('0');
+        $("#contractDuration").prop("disabled", true);
+    }
+
+});
+
+//Bind Cities wrt States
+function bindcities(stateid) {
+    var CityUrl = apiBase.apiurl + 'FmsAPI/GetFmsCity?stateid=' + stateid;
+    $('#CityId').find('option:not(:first)').remove();
+    $.get(CityUrl, function (data) {
+        $.each(data, function (key, value) {
+            $("#CityId").append($("<option></option>").val(value.Value).html(value.Name));
+        });
+    });
+
+}
+
+function bindpermanentcities(stateid) {
+    var CityUrl = apiBase.apiurl + 'FmsAPI/GetFmsCity?stateid=' + stateid;
+    $('#PermanentCityId').find('option:not(:first)').remove();
+    $.get(CityUrl, function (data) {
+        $.each(data, function (key, value) {
+            $("#PermanentCityId").append($("<option></option>").val(value.Value).html(value.Name));
+        });
+    });
+}
+
+//Driver Details
+$('#EmployeeTypeId').on('change', function () {
+    var empType = $(this).find(":selected").val();
+    if (empType == 17) {
+        $('#driverdetails').show();
+    }
+    else
+        $('#driverdetails').hide();
+});
+
+//Add Employee
+$('#AddNewEmployee').submit(function () {
+
+    UploadImageDocuments();
+});
+
+function saveData() {
+
+    var State = $("#StateId option:selected").text();
+    var City = $("#CityId option:selected").text();
+
+    var PermanentState = $("#PermanentStateId option:selected").text();
+    var PermanentCity = $("#PermanentCityId option:selected").text();
+
+    var prooftype = $("#IdProofType option:selected").text();
+    var IdProofNo = $("#IdProofNo").val();
+    var ETMNo = $("#ETMNo").val();
+    
+    var IdProof = prooftype + '/' + IdProofNo;
+
+    var IdProofNo = $("#IdProofNo").val();
+
+    var data = $('#AddNewEmployee').serializeArray();
+    data.push({ name: 'Custid', value: $custid },
+            { name: 'IdProof', value: IdProof },
+            { name: 'State', value: State },
+            { name: 'City', value: City },
+            { name: 'PermanentState', value: PermanentState },
+            { name: 'PermanentCity', value: PermanentCity },
+              { name: 'ETMNo', value: ETMNo }
+            
+    );
+    console.log(data);
+
+    var EmpUrl = apiBase.apiurl + 'FmsAPI/AddUpdateEmployee';
+    $.post(EmpUrl, $.param(data), function (result) {
+        if (result > 0) {
+
+            toastr.success("Record Entered Successfuly")
+            window.setTimeout(function () {
+                window.location.href = '/Fms/NTMManageVehicles';
+            }, 1000);
+
+        }
+        else
+            toastr.error("Failed!!!")
+    });
+}
+
+$("#fileAttachmentsPath").bind("click change", function () {
+    var data = new FormData();
+    var files = $("#fileAttachmentsPath").get(0).files;
+    if (files.length > 0) {
+        data.append("MyImages", files[0]);
+    }
+    $.ajax({
+        url: "/Fms/UploadFile",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function (result) {
+
+            $("#AttachmentsFileName").val(result.imgName);
+            $("#AttachmentName").val(result.imgName);
+            $("#AttachmentPath").val(result.imgPath);
+            $("#Attachment_Path").attr("href", result.imgPath);
+        },
+        error: function (er) {
+            alert(er);
+        }
+    });
+});

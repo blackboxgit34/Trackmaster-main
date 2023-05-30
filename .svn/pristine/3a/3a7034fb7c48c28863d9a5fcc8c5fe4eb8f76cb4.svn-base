@@ -1,0 +1,272 @@
+﻿var table;
+var baseUrl;
+var $beginDate;
+var $endDate;
+var $custid;
+var beginDateString;
+var endDateString;
+var bbid;
+
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+};
+
+
+baseUrl = apiBase.apiurl;
+
+$(function () {
+
+   
+
+    var logindata;
+    //if (JSON.parse(localStorage.getItem("GroupSelectedUser")) != true) {
+    //    if (JSON.parse(localStorage.getItem("cid")) != null) {
+    //        logindata = JSON.parse(localStorage.getItem(45));
+    //        //console.log(logindata);
+    //        // $custid = logindata.data.CustId;
+    //        $custid = 45;
+    //localStorage.setItem('cid', '45');
+    //localStorage.setItem('custID', '45');
+
+    //    }
+    //    else if (JSON.parse(localStorage.getItem("custID")) != null) {
+    //        //$custid = JSON.parse(localStorage.getItem("custID"));
+    //        $custid = 45;
+    //    }
+    //}
+    //else if (JSON.parse(localStorage.getItem("GroupSelectedUser")) == true) {
+    //   // debugger;
+    //    if (localStorage.getItem("custId") != null) {
+    //        //$custid = JSON.parse(localStorage.getItem("custId"));
+    //        $custid = 45;
+    //    }
+    //    else {
+            //when user did not select any subuser
+            //$custid = (logindata) ? logindata.data.CustId : JSON.parse(localStorage.getItem("custID"));
+            $custid = 45;
+            //var logindata = JSON.parse(localStorage.getItem("cid"));
+            $custid
+       // }
+        //logindata = JSON.parse(localStorage.getItem("cid"));
+
+  //  }
+    //else {
+    //    window.location.href = "/home/login?logout=y";
+    //}
+
+
+    var start = moment().subtract(0, 'days').startOf('day');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+        $beginDate = start.format('MMM D YYYY h:mm:ss a');
+        $endDate = end.format('MMM D YYYY h:mm:ss a');
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: moment().subtract(30, 'days').startOf('day'),
+        endDate: end,
+        opens: "right",
+        timePicker: true,
+        ranges: {
+            'Today': [moment().subtract(0, 'days').startOf('day'), moment()],
+            'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment()]
+            //'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment()],
+            //'This Month': [moment().startOf('month').startOf('day'), moment()],
+            //'Last Month': [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month')]
+        },
+    }, cb);
+
+    cb(start, end);
+});
+
+
+function showMapWindow(bbid, vehname, lat, longi, location, status) {
+   // debugger;
+    $("#ShowLocationOnMap").dialog({
+        autoOpen: true,
+        position: { my: "center", at: "200", of: window },
+        width: 750,
+        height: 500,
+        resizable: true,
+        title: 'Location On Map',
+        modal: true,
+        open: function () {
+
+            var url = "../report/GetLocationPartialView?vehname=" + (vehname) + "&lat=" + lat + "&longi=" + longi + "&location=" + (location) + "&status=" + status;
+            $(this).load(url);
+            $(".ui-dialog-titlebar-close").hide();
+        },
+        buttons: {
+            Close: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    return false;
+}
+
+function showMapWindowWithData(bbid, vehname, lat, longi, location, driverName, driverNumber, speed, dateTime, Status) {
+
+    $("#ShowLocationOnMap").dialog({
+        autoOpen: true,
+        position: { my: "center", at: "200", of: window },
+        width: 750,
+        height: 500,
+        resizable: true,
+        title: 'Location On Map',
+        modal: true,
+        open: function () {
+
+            var url = "../report/GetLocationPartialViewWithData?vehname=" + (vehname) + "&lat=" + lat + "&longi=" + longi + "&location=" + (location) + "&driverName=" + driverName + "&driverNumber=" + driverNumber + "&speed=" + speed + "&dateTime=" + dateTime + "&status=" + Status;
+            $(this).load(url);
+            $(".ui-dialog-titlebar-close").hide();
+        },
+        buttons: {
+            Close: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    return false;
+}
+
+//// Export to Excel
+//function exportExcel(report)
+//{
+//    report = reportName;
+//   // debugger;
+//    getExcel($beginDate, $endDate, report, $custid);
+//   // $('.body').unblock();
+//}
+
+//Export to excel for specific Vehcile
+window.insideExportExcel = function () {
+    $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+    //var reportName = "InsideSpeed";
+    var url = baseUrl + "test/InsideExportToExcel?beginDate=" + $beginDate + "&endDate=" + $endDate + "&reportName=" + reportName + "&BBID=" + bbid;
+    window.location = url;
+    $.unblockUI();
+}
+// Send Email
+function sendEmail(report) {
+    alert(report);
+}
+
+// Export to PDF
+function exportPDF(report) {
+
+    $('.body').block({
+        message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>',
+        centerX: true,
+        centerY: true,
+        css: {
+            width: '300px',
+            height: '300px',
+            // border: '3px solid #FF9900',
+            //  backgroundColor: '#000',
+            color: 'black',
+            padding: '25px'
+        }
+    });
+    var custId = "45";
+    var exurl = baseUrl + "test/ExportToPdf?beginDate=" + $beginDate + "&endDate=" + $endDate + "&reportName=" + reportName + "&custId=" + custId;
+    $.ajax({
+        url: exurl,
+        // context: document.body
+    }).done(function (response) {
+
+        if (response != null) {
+
+            //if (response.success == "true") {
+            $('.body').unblock();
+            toastr.success("", 'File successfully created');
+            var url = baseUrl + "test/testDownload";
+            var str = "?link=" + response;
+            var location = url + str;
+
+            window.location.href = location;
+            //}
+            // else { toastr.error("", 'Something went wrong'); }
+        }
+        else {
+            toastr.error("", "something went wrong");
+        }
+    });
+}
+//Export to PDF for specific Vehcile
+window.insideExportPdf = function () {
+
+    var url = baseUrl + "test/InsideExportToPdf?beginDate=" + $beginDate + "&endDate=" + $endDate + "&reportName=" + reportName + "&BBID=" + bbid;
+    $.ajax({
+        url: url,
+        // context: document.body
+    }).done(function (response) {
+
+        if (response != null) {
+
+            //if (response.success == "true") {
+            toastr.success("", 'File successfully created');
+            var url = baseUrl + "test/testDownload";
+            var str = "?link=" + response;
+            var location = url + str;
+
+            window.location.href = location;
+            //}
+            // else { toastr.error("", 'Something went wrong'); }
+        }
+        else {
+            toastr.error("", "something went wrong");
+        }
+    });
+}
+
+//function getExcel(beginDate, endDate, reportName, custId) {
+//   // debugger;
+//    var url = baseUrl + "test/ExportToExcel?beginDate=" + beginDate + "&endDate=" + endDate + "&reportName=" + reportName + "&custId=" + custId;
+//    window.location = url;
+
+
+//    window.onbeforeunload = function () {
+//        $('.body').block({
+//            message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>',
+//            centerX: true,
+//            centerY: true,
+//            css: {
+//                width: '300px',
+//                height: '300px',
+//                // border: '3px solid #FF9900',
+//                //  backgroundColor: '#000',
+//                color: 'black',
+//                padding: '25px'
+//            }
+//        });
+//        return null;
+//    }
+
+
+
+
+//}
+
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+

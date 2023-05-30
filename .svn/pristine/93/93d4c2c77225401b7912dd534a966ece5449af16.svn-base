@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Notifications Settings";
+}
+<link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>@ViewBag.Title</h5>
+            </div>
+        </div>
+    </div>
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div class="widget span12">
+                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                    <div class="row-fluid">
+
+
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#1" data-toggle="tab">SMS Alert</a>
+                            </li>
+                            <li>
+                                <a href="#2" data-toggle="tab">Notification Alert</a>
+                            </li>
+                            <li>
+                                <a href="#3" data-toggle="tab">Email Alert</a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content ">
+                            <div class="tab-pane active" id="1">
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <div class="col-md-12">
+                                                <table id="dt_basic_Master1" class="table table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Vehicle Name</th>
+                                                            <th class="hidden">BBID</th>
+                                                            <th class="hidden">VehicleId</th>
+                                                            <th>Service Reminders</th>
+                                                            <th>Vehicle Document Reminders</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                </table>
+                                                
+                                                <label for="EmployeeDocumentReminders">Employee Document Reminders: 
+                                                    <input type="checkbox" value="10" id="EmployeeDocumentRemindersSms" name="EmployeeDocumentReminders" checked="">
+                                                </label>
+                                                <label for="DriverDocRenewalReminders">Driver DocRenewal Reminders:
+                                                    <input type="checkbox" value="11" id="DriverDocRenewalRemindersSms" name="EmployeeDocumentReminders" checked="">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="2">
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div class="box-content padded">
+                                        <div class="col-md-12">
+                                            <table id="dt_basic_Master2" class="table table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Vehicle Name</th>
+                                                        <th class="hidden">BBID</th>
+                                                        <th class="hidden">VehicleId</th>
+                                                        <th>Service Reminders</th>
+                                                        <th>Vehicle Document Reminders</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+
+                                            <label for="EmployeeDocumentReminders">
+                                                Employee Document Reminders:
+                                                <input type="checkbox" value="10" id="EmployeeDocumentRemindersNoti" name="EmployeeDocumentReminders" checked="">
+                                            </label>
+                                            <label for="DriverDocRenewalReminders">
+                                                Driver DocRenewal Reminders:
+                                                <input type="checkbox" value="11" id="DriverDocRenewalRemindersNoti" name="EmployeeDocumentReminders" checked="">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="3">
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                    <div class="box-content padded">
+                                        <div class="col-md-12">
+                                            <table id="dt_basic_Master3" class="table table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Vehicle Name</th>
+                                                        <th class="hidden">BBID</th>
+                                                        <th class="hidden">VehicleId</th>
+                                                        <th>Service Reminders</th>
+                                                        <th>Vehicle Document Reminders</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+
+                                            <label for="EmployeeDocumentReminders">
+                                                Employee Document Reminders:
+                                                <input type="checkbox" value="10" id="EmployeeDocumentRemindersMail" name="EmployeeDocumentReminders" checked="">
+                                            </label>
+                                            <label for="DriverDocRenewalReminders">
+                                                Driver DocRenewal Reminders:
+                                                <input type="checkbox" value="11" id="DriverDocRenewalRemindersMail" name="EmployeeDocumentReminders" checked="">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+@section scripts{
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+    <script src="~/Scripts/app/_layoutCustId.js"></script>
+    @*<script src="~/Scripts/app/common.js"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/app/FMSSMSAlert.js")" v1.0></script>
+
+
+}

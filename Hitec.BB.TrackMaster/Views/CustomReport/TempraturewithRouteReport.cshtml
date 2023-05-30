@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Temperature Variation on Route Report";
+}
+@*<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>*@
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+ 
+                @Html.Action("_partialroute", "CustomReport", new { reportTitle = "Temperature Variation on Route Report" })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                     
+
+                                                   
+                                                    <th>
+                                                        Sr. No
+                                                    </th>
+                                                    <th>
+                                                        SHIMPENT NO.
+                                                    </th>
+                                                    <th>
+                                                        VEHICLES.NO
+                                                    </th>
+
+                                                    <th>
+                                                        TRANSPORTER NAME
+                                                    </th>
+                                                 
+                                                    <th>
+                                                        TRIP START TIME & DATE
+                                                    </th>
+                                                    <th>
+                                                        TRIP END TIME & DATE
+                                                    </th>
+                                                    <th>
+                                                        TRIP START STATION
+                                                    </th>
+                                                    <th>
+                                                        TRIP END STATION
+                                                    </th>
+                                                    <th>
+                                                        TOTAL COUNT OF TEMP.READING
+                                                    </th>
+                                                    <th>
+                                                        TOTAL COUNT OF TEMP.READING BELOW -18 C	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL  Percentage OF TEMP.READING BELOW -18 C	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL COUNT OF TEMP.READING -17.99 to -17.0	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL Percentage OF TEMP.READING -17.99 to -17.0	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL COUNT OF TEMP.READING -16.99 to-13.0	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL Percentage OF TEMP.READING -16.99 to-13.0	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL COUNT OF TEMP.READING --12.99 to-10	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL Percentage OF TEMP.READING --12.99 to-10	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL COUNT OF TEMP.READING >=-9.99	
+                                                    </th>
+                                                    <th>
+                                                        TOTAL Percentage OF TEMP.READING >=-9.99
+                                                    </th>
+                                                    <th>
+                                                        GRADE	
+                                                        </th>
+<th>
+                                                        
+                                                        COMP. ON COUNT(%)
+                                                    </th>
+                                                    <th>
+                                                        COMP.OFF COUNT(%)
+                                                    </th>
+
+                                                    <th>   
+                                                    AVERAGE TEMPERATURE
+                                                    </th>
+</tr>
+
+
+                                              
+
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body--> 
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+
+@section scripts{
+
+    <script src="~/Scripts/app/common.js"@DateTime.Now.Ticks></script>
+    <script>
+
+        $(document).ready(
+
+    function () {
+        
+     
+        var baseurl = apiBase.apiurl;
+        //var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+         var url = baseurl + 'CustomAPI/GetRoute?type=1';
+         console.log('calling url: ' + url + ' to get vehicles list.');
+         $.ajax({
+             url: url,
+             dataType: "json",
+             type: "GET",
+             data: { custid: $custid },
+             contentType: 'application/x-www-form-urlencoded; charset=utf-8',    //replace /json to the urlenoded
+             async: false,            
+             success: function (data) {
+
+                 var $select = $('#routelist');
+                 $('#routelist').append($('<option></option>').val(0).html("Select Route"));
+
+                 $.each(data, function (i, item) {
+                     $('#routelist').append($('<option></option>').val(item.Value).html(item.Text));
+
+                 });
+             }
+         });
+         $("#routelist").select2();
+
+     });
+
+    </script>
+    <script src="~/Scripts/app/RoutewithTemperature.js?v=0.00.000" @DateTime.Now.Ticks></script>
+     
+
+    
+}
+
+
+

@@ -1,0 +1,263 @@
+﻿@{
+    ViewBag.Title = ViewBag.ReportTitle;
+}
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.ReportTitle</h5>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -40px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <style>
+                                        .info-win {
+                                            padding: 5px;
+                                            width: 350px;
+                                            overflow: hidden;
+                                            line-height: 1.8;
+                                            font-weight: bold;
+                                        }
+                                    </style>
+                                    <!-- Map has been localized to show the names, wherever available in ENGLISH (en) and country/region as INDIA -->
+                                    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdsMp_TiMpmLDoDw8jtVSKMvpiSBAY1EY&amp;language=en&amp;region=in&amp;libraries=geometry"></script>
+                                    <script type="text/javascript" src="/scripts/custom.js"></script>
+                                    <!-- Initialize timer script -->
+                                    <script type="text/javascript">
+                                        function GetParameterValues(param) {
+                                            var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                                            for (var i = 0; i < url.length; i++) {
+                                                var urlparam = url[i].split('=');
+                                                if (urlparam[0] == param) {
+                                                    return urlparam[1];
+                                                }
+                                            }
+                                        }
+                                    </script>
+                                    <script language="javascript" type="text/javascript">
+                                        var timerID = null;
+                                        var timerRunning = false;
+                                        var delay = 60000; // refresh every 30 seconds
+                                        var zoomToExtents = 0;
+                                        var openedInfoWindow = null;
+                                        // Initialize Timer
+                                        function initializeTimer() {
+                                            initializeMap();
+                                            StopTheClock();
+                                            //document.getElementById('side_bar').innerHTML = "Loading vehicles...";
+                                            StartTheTimer();
+                                        }
+                                        function StopTheClock() {
+                                            if (timerRunning)
+                                                clearTimeout(timerID)
+                                            timerRunning = false;
+                                        }
+                                        function StartTracking() {
+                                            StartTheTimer();
+                                        }
+                                        function StartTheTimer() {
+                                            readMapData();
+                                            timerRunning = true;
+                                            timerID = self.setTimeout("StartTracking()", delay)
+                                        }
+                                        //function reCenter() {
+                                        //    var bound = new google.maps.LatLngBounds();
+                                        //    for (var i in gmarkers) {
+                                        //        bound.extend(gmarkers[i].getPosition());
+                                        //    }
+                                        //    map.fitBounds(bound);
+                                        //    zoomToExtents = 1;
+                                        //}
+
+                                        // ================ read mapData ================
+
+                                        function readMapData() {
+
+                                            //document.getElementById("side_bar").innerHTML = "refreshing data...";
+
+                                            var i = 0;
+                                            var lat;
+                                            var lng;
+                                            var name;
+                                            var drname;
+                                            var speed;
+                                            var lstdate;
+                                            var icon_type;
+                                            var loc;
+
+                                            // clear side bar list
+                                            side_bar_html = "";
+
+                                            // clear markers
+                                            if (gmarkers) {
+                                                for (i in gmarkers) {
+                                                    gmarkers[i].setMap(null);
+                                                }
+                                                gmarkers.length = 0;
+                                            }
+                                            var name = GetParameterValues('vehl');
+                                            //var vehicleid = GETSTRING('vehl');
+                                            //alert(name);
+                                            // Get Map Data
+                                            $.ajax({
+                                                dataType: "json",
+                                                url: '/Map/bind-single-vehicle?Vehicles=' + name,
+                                                type: 'get',
+                                                async: false,
+                                                success: function (data) {
+                                                    //$.each(data, function (i, variant) {
+                                                    var dateString = data.DataDate.substr(6);
+                                                    var currentTime = new Date(parseInt(dateString));
+                                                    var month = currentTime.getMonth() + 1;
+                                                    var day = currentTime.getDate();
+                                                    var year = currentTime.getFullYear();
+                                                    var hours = currentTime.getHours();
+                                                    var min = currentTime.getMinutes();
+                                                    var sec = currentTime.getSeconds();
+                                                    var date = day + "/" + month + "/" + year + "  " + hours + ":" + min + ":" + sec;
+                                                    var html = String.format('<div class="info-win"><span><p style="background:#CCDF31;padding:3px 5px;color:#fff;">{0}</p><b>LastUpdated:<b> {1}<br/><b>Location:<b> {2}</span></div>',
+                                                        data.VehicleName, date, data.Location);
+
+
+                                                    var myOptionss = {
+                                                        zoom: 16,
+                                                        center: new google.maps.LatLng(data.Latitude, data.Longitude),
+                                                        mapTypeId: google.maps.MapTypeId.HYBRID
+                                                    };
+                                                    map = new google.maps.Map(document.getElementById('map_canvas'), myOptionss);
+
+                                                    // define lat-long for positioning Marker
+                                                    var myLatlng = new google.maps.LatLng(data.Latitude, data.Longitude);
+                                                    var icon_type = 5;
+                                                    // call function to create Marker
+
+                                                    var marker = createMarker(myLatlng, data.VehicleName, html, data.StatusImage);
+                                                    gmarkers.push(marker);
+
+                                                    //document.getElementById("map_canvas").style.backgroundImage = "url(../images/maploading.jpg)";
+
+                                                    //  fit map to accomodate all markers (only for first time)
+                                                    //if (zoomToExtents == 0) {
+                                                    //    if (i == data.length - 1) {
+                                                    //        var bound = new google.maps.LatLngBounds();
+                                                    //        for (var k in gmarkers) {
+                                                    //            bound.extend(gmarkers[k].getPosition());
+                                                    //        }
+                                                    //        map.fitBounds(bound);
+                                                    //        zoomToExtents = 1;
+                                                    //    }
+                                                    //}
+                                                    // });
+                                                },
+                                                error: function () {
+                                                    //alert('Error');
+                                                }
+                                            });
+                                        }
+
+                                        // ================ create marker ================
+                                        var side_bar_html = "";
+                                        var gmarkers = [];
+                                        var vehmarkers = [];
+                                        var vmarkers = [];
+                                        var htmls = [];
+                                        var i = 0;
+
+                                        // ================ This function creates marker and associates info-window with it ================
+                                        function createMarker(myLatlng, name, html, icon_type) {
+
+                                            var customIcon = new google.maps.MarkerImage(icon_type);
+
+                                            var marker = new google.maps.Marker({
+                                                position: myLatlng,
+                                                map: map,
+                                                title: name,
+                                                //icon: icons[icon_type]
+                                                icon: customIcon
+                                            });
+                                            var infowindow = new google.maps.InfoWindow({
+                                                content: html
+                                            });
+                                            google.maps.event.addListener(marker, 'mouseover', function () {
+                                                infowindow.open(map, marker);
+                                            });
+                                            google.maps.event.addListener(marker, 'mouseout', function () {
+                                                infowindow.close(map, marker);
+                                            });
+
+                                            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                                                openedInfoWindow = null;
+                                            });
+
+                                            vmarkers[i] = marker;
+                                            htmls[i] = html;
+                                            side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+                                            if (j == 1) {
+                                                //document.getElementById('side_bar').innerHTML = side_bar_html;
+                                            }
+                                            i++;
+                                            return marker;
+                                        }
+
+                                        // ================ This function picks up the click and opens the corresponding info window ================
+                                        var marker = new Array();
+                                        function myclick(i) {
+                                            var infowindow = new google.maps.InfoWindow({
+                                                content: htmls[i]
+                                            });
+                                            if (openedInfoWindow != null) openedInfoWindow.close();
+                                            infowindow.open(map, vmarkers[i]);
+                                            openedInfoWindow = infowindow;
+                                        }
+                                    </script>
+                                    <!-- Initialize map here -->
+                                    <script type="text/javascript">
+                                        var map;
+                                        var j = 0;
+                                        function initializeMap() {
+                                            document.getElementById("map_canvas").style.backgroundImage = "url(../resources/images/maploading.jpg)";
+                                            var myOptions = {
+                                                zoom: 16,
+                                                center: new google.maps.LatLng(28.00, 77.77),
+                                                mapTypeId: google.maps.MapTypeId.HYBRID
+                                            };
+                                            map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+                                            j = 1;
+                                        }
+                                        // Asynchronous call
+                                        google.maps.event.addDomListener(window, 'load', initializeTimer);
+                                    </script>
+                                    <div id="map_canvas" style="width: 100%; height: 503px; background-image: url(&quot;../resources/images/maploading.jpg&quot;); position: relative; background-color: rgb(229, 227, 223); overflow: hidden;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+

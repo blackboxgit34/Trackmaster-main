@@ -1,0 +1,828 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>Drawing Tools (B)</title>
+
+
+
+    
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu4NyT_yiDqc-z09IviAzDSZDxPi2LTgg&language=en&region=in&amp;libraries=geometry,drawing,places" language="javascript"
+        type="text/javascript"></script>
+
+
+
+    <script type="text/javascript" src="../scripts/jquery-1.7.1.min.js"></script>
+    <!--<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>-->
+    <script src="../Scripts/app/common.js"></script>
+    <script src="../Content/js/APIURL.js"></script>
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <!--<link href="/css/lib/bootstrap.min.css" rel="stylesheet" />-->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!--<script src="/js/smljs/bootstrap.min.js"></script>-->
+    <script src="../Content/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        #map, html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        #panel {
+            width: 230px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            float: right;
+            margin: 10px;
+        }
+
+        #color-palette {
+            clear: both;
+        }
+
+        .color-button {
+            width: 14px;
+            height: 14px;
+            font-size: 0;
+            margin: 2px;
+            float: left;
+            cursor: pointer;
+        }
+
+        #deletebuttons {
+            margin-top: 5px;
+        }
+
+
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 200px;
+        }
+
+        select {
+            width: 100%;
+            padding: 2px 10px;
+            margin: 3px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 122px;
+        }
+
+        input[type=button] {
+            background-color: orange;
+            color: white;
+            padding: 7px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .table th {
+            font-size: 15px !important;
+            color: #ffc107 !important;
+            vertical-align: inherit !important;
+        }
+
+        .table td {
+            font-size: 14px !important;
+            color: black !important;
+            vertical-align: inherit !important;
+        }
+
+        .wrapper {
+            overflow-x: scroll;
+            max-width: 100px;
+        }
+
+            .wrapper table {
+                white-space: nowrap;
+            }
+    </style>
+    <style>
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #description {
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 60px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            font-family: Roboto;
+            left: 10px !important;
+            width: 30%;
+            height: auto;
+        }
+
+        #pac-container {
+            padding-bottom: 12px;
+            margin-right: 12px;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+            .pac-controls label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+
+        /*#pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 13px;
+            text-overflow: ellipsis;
+            height:40px;
+            width:170px;
+        }*/
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+        #title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+    </style>
+
+
+    <script>
+        var geocoder;
+        var haz_custid;
+        $(document).ready(function () {
+            haz_custid = getUrlParameter('custid');
+            $('#importradio').attr('checked', 'checked').trigger('click');
+            setTimeout(function () { plotpoints(getUrlParameter("id")); }, 200);
+        });
+
+
+        var start = moment().subtract(0, 'days').startOf('day');
+        var end = moment();
+
+        function cb(start, end) {
+            $('#rangetime').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+            $beginDate = start.format('MMM D YYYY h:mm:ss a');
+            $endDate = end.format('MMM D YYYY h:mm:ss a');
+        }
+        $(function () {
+            $('#rangetime').daterangepicker({
+                timePicker: true,
+                startDate: moment().startOf('hour'),
+                endDate: moment().startOf('hour').add(32, 'hour'),
+                locale: {
+                    format: 'M/DD hh:mm A'
+                }
+            }, cb);
+            cb(start, end);
+        });
+
+    </script>
+
+
+    <script>
+
+
+
+
+
+
+
+    </script>
+
+
+    <script type="text/javascript">
+
+
+
+        var BoxID;
+        var VehName;
+        var Location;
+        var Longitude;
+        var Latitude;
+        var Speed;
+        var angle;
+        var DataDate;
+        var Icontype;
+        var Status;
+
+        var map;
+        var flightPlanCoordinates = [];
+        var gmarkers = [];
+        var flightPath;
+        var delay = 15000;
+        var timerRunning = false;
+        var timerID;
+        var zoomToExtents = 0;
+        var autoZoom = true;
+        var showTrail = true;
+
+        var zoomToExtents = 0;
+        var drawingManager;
+        var selectedShape;
+        var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+        var selectedColor;
+        var colorButtons = {};
+        
+
+        var map;
+        var placeMarkers = [];
+        var input;
+        var busStops;
+        var btnFinishRounting;
+        var searchBox;
+        var curposdiv;
+        var curseldiv;
+        var placeList = [];
+        var markerArray = [];
+
+        var PolygonPathcoordinates = [];
+
+
+        var stopLocationList = [];
+        var _counter = 1; var route = 0;
+        var stopInforWindow;
+        var waypoints=[];
+        var directionsService;
+        var directionsRenderer;
+        var liveRouteLat;
+        var liveRouteLng;
+        function initialize() {
+
+
+
+            map = new google.maps.Map(document.getElementById('map'), { //var
+                zoom: 15,//10,
+                center: new google.maps.LatLng(30.7333, 76.7794),//(20.5937, 78.9629),
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                disableDefaultUI: false,
+                zoomControl: true,
+                clickableIcons: false,
+                gestureHandling: 'greedy'
+            });
+            var card = document.getElementById('pac-card');
+            var input = document.getElementById('pac-input');
+            var types = document.getElementById('type-selector');
+            var strictBounds = document.getElementById('strict-bounds-selector');
+
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(card);
+            curposdiv = document.getElementById('curpos');
+            curseldiv = document.getElementById('cursel');
+            var polyOptions = {
+                strokeWeight: 2,
+                fillOpacity: 0,
+                strokeColor: "#FF8C00",
+                editable: true
+            };
+	        haz_map = map;
+
+	        haz_plotHazards();
+
+
+          
+
+            
+        }
+        function reCenter() {
+            var bound = new google.maps.LatLngBounds();
+            for (var i in haz_markers) {
+                bound.extend(haz_markers[i].getPosition());
+            }
+            haz_map.fitBounds(bound);
+            if (haz_map.getZoom() > 13) {
+                haz_map.setZoom(13);
+            }
+        }
+
+
+
+        // ================ create marker ================
+        var side_bar_html = "";
+        var gmarkers = [];
+        var vehmarkers = [];
+        var vmarkers = [];
+        var htmls = [];
+        var i = 0;
+
+        // ================ This function creates marker and associates info-window with it ================
+        function createMarker(myLatlng, name, html, icon_type, stext) {
+            ;
+
+
+            var customIcon = new google.maps.MarkerImage(icon_type);
+
+             marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+                //icon: icons[icon_type]
+                icon: customIcon
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+
+            vmarkers[i] = marker;
+            htmls[i] = html;
+
+            i++;
+            return marker;
+        }
+
+        // ================ This function picks up the click and opens the corresponding info window ================
+         marker = new Array();
+        function myclick(i) {
+            var infowindow = new google.maps.InfoWindow({
+                content: htmls[i]
+            });
+            if (openedInfoWindow != null) openedInfoWindow.close();
+            infowindow.open(map, vmarkers[i]);
+            openedInfoWindow = infowindow;
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+
+    <script>
+    // In the following example, markers appear when the user clicks on the map.
+    // The markers are stored in an array.
+    // The user can then click an option to hide, show or delete the markers.
+    let haz_map;
+    let haz_markers = [];
+    let haz_circles = [];
+    let haz_counter = 0;
+    let haz_stopInforWindow = '';
+    let haz_mainList = [];
+		var baseUrl='https://api1.trackmaster.in/api/';
+
+        let haz_mainList_ = [];
+        let haz_mainexlList = [];
+        let haz_mainexlList_ = [{"name":"Testing", 'type': 0, "radius": 100, 'lat': 30.734861, 'lng': 76.7764102},
+      {"name":"Testing", 'type': 1, "radius": 500, 'lat': 30.733976, 'lng': 76.7721154},
+      {"name":"Testing", 'type': 0, "radius": 300, 'lat': 30.736816, 'lng': 76.7738353},
+      {"name":"Testing", 'type': 1, "radius": 600, 'lat': 30.727668, 'lng': 76.7849074}];
+
+        function initMap() {
+            const haightAshbury = { lat: 30.7333, lng: 76.7794 };
+            haz_map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: haightAshbury,
+                mapTypeId: "terrain",
+                clickableIcons: false
+            });
+
+            haz_plotHazards();
+        }
+
+        function plotpoints(id) {
+            var url = baseUrl + "ReportsAPI/GetRoutes";
+            //var url = "http://localhost:3970/api/ReportsAPI/GetRoutes";
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { custid: haz_custid, downloadType: '', reportName: '', sEcho: 0, iDisplayStart: 0, iDisplayLength: 1, sSearch: id, iSortCol_0: 0, sSortDir_0: 0 },
+                contentType: "application/x-www-form-urlencoded",
+                crossDomain: true,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    
+                    data.aaData[0].pointList.forEach(function (item, index) {
+						console.log(item);
+                        var obj = { "name": item.name, 'type': item.type, "radius": item.radius, 'lat': item.lat, 'lng': item.lng };
+                        haz_mainexlList.push(obj);
+                    });
+                    haz_plotHazards();
+                    reCenter();
+                    $('#dvPlaces').show();
+                },
+
+                error: function (jqXHR, status) {
+                    console.log(jqXHR);
+                }
+            });
+        }
+
+        function haz_plotHazards() {
+            if (haz_mainexlList.length > 0) {
+                haz_mainexlList.forEach(function (item, index) {
+                    haz_addMarkerstart(new google.maps.LatLng(item.lat, item.lng), item.radius);
+                    var table = document.getElementById('hazardList');
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                    var colCount = table.rows[0].cells.length;
+                    var newcell = row.insertCell(0); newcell.innerHTML = haz_counter;
+                    var newcell = row.insertCell(1); newcell.innerHTML = '<a id="btn' + haz_counter + '" onclick="haz_activate(' + haz_counter + ')" style="cursor:pointer !important;color:dodgerblue">' + item.name + '</a>';
+                    var newcell = row.insertCell(2); newcell.innerHTML = item.type;
+                    var newcell = row.insertCell(3); newcell.innerHTML = item.typeid; newcell.style.display = 'none';
+                    var newcell = row.insertCell(4); newcell.innerHTML = item.radius;
+
+                    haz_mainList.push(item);
+                })
+                haz_mainexlList = [];
+            }
+        }
+
+        function haz_add(lat, lng) {
+            var loc = document.getElementById('loc').value;
+            var radius = document.getElementById('radius').value;
+
+            var x = document.getElementById("ddlTime").selectedIndex;
+            var y = document.getElementById("ddlTime").options;
+            var z = document.getElementById("ddlTime").value;
+
+            if (loc != '') {
+
+                var table = document.getElementById('hazardList');
+                var rowCount = table.rows.length;
+                var row = table.insertRow(rowCount);
+                var colCount = table.rows[0].cells.length;
+
+                var newcell = row.insertCell(0); newcell.innerHTML = haz_counter;
+                var newcell = row.insertCell(1); newcell.innerHTML = '<a id="btn' + haz_counter + '" onclick="haz_activate(' + haz_counter + ')" style="cursor:pointer;color:dodgerblue">' + loc + '</a>';
+                var newcell = row.insertCell(2); newcell.innerHTML = y[x].text;
+                var newcell = row.insertCell(3); newcell.innerHTML = y[x].value; newcell.style.display = 'none';
+                var newcell = row.insertCell(4); newcell.innerHTML = radius;
+
+                haz_stopInforWindow.open(null, null);
+                haz_stopInforWindow = '';
+                haz_markers[haz_counter - 1].setDraggable(false);
+            }
+            else {
+                alert('Please enter name');
+            }
+        }
+
+        function haz_handleEvent(event) {
+            haz_remove(haz_counter);
+            haz_addMarker(new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()));
+        }
+
+        function haz_activate(haz_counter) {
+            haz_markers[haz_counter - 1].setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function () { haz_markers[haz_counter - 1].setAnimation(null); }, 2000);
+        }
+
+        function haz_setradius(haz_counter, obj) {
+            haz_circles[haz_counter - 1].setRadius(parseInt(obj.value));
+        }
+
+        function haz_removeRow(e) {
+            haz_remove(e.id.replace('btn', ''));
+            document.getElementById("hazardList").deleteRow(e.parentNode.parentNode.rowIndex);
+        }
+
+        function haz_remove(haz_counter) {
+            haz_markers[haz_counter - 1].setMap(null);
+            haz_circles[haz_counter - 1].setMap(null);
+            haz_stopInforWindow = '';
+        }
+
+        function haz_addMarkerstart(location, radius) {
+            haz_counter++;
+            const marker = new google.maps.Marker({
+                position: location,
+                map: haz_map,
+                label: {
+                    color: '#FFF', fontSize: '12px', fontWeight: '600',
+                    text: haz_counter.toString()
+                }
+            });
+            haz_markers.push(marker);
+            haz_addCircle(location, radius);
+        }
+
+        function haz_addCircle(location, radius) {
+            const cityCircle = new google.maps.Circle({
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                map: haz_map,
+                center: location,
+                radius: radius,
+            });
+            haz_circles.push(cityCircle);
+        }
+
+        function haz_InportData() {
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+
+            if (regex.test($("#excelfile").val().toLowerCase())) {
+                var xlsxflag = false;
+                if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+                    xlsxflag = true;
+                }
+                /*Checks whether the browser supports HTML5*/
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        /*Converts the excel data in to object*/
+                        if (xlsxflag) {
+                            var workbook = XLSX.read(data, { type: 'binary' });
+                        }
+                        else {
+                            var workbook = XLS.read(data, { type: 'binary' });
+                        }
+                        /*Gets all the sheetnames of excel in to a variable*/
+                        var sheet_name_list = workbook.SheetNames;
+
+                        var cnt = 0;
+                        sheet_name_list.forEach(function (y) {
+                            if (xlsxflag) {
+                                var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                            }
+                            else {
+                                var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                            }
+                            if (exceljson.length > 0 && cnt == 0) {
+                                haz_BindJqurery(exceljson, '#selectOption');
+                                cnt++;
+                            }
+                        });
+                        $('#exceltable').show();
+                    }
+                    if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                        reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+                    }
+                    else {
+                        reader.readAsBinaryString($("#excelfile")[0].files[0]);
+                    }
+                }
+                else {
+                    alert("Sorry! Your browser does not support HTML5!");
+                }
+            }
+            else {
+                alert("Please upload a valid Excel file!");
+            }
+        }
+
+        function haz_BindJqurery(jsondata, dropid) {
+            $.each(jsondata, function (key, value) {
+                var obj = { "name": value["name"], 'type': value["type"], "radius": parseInt(value["radius"]), 'lat': value["lat"], 'lng': value["lng"] };
+                haz_mainexlList.push(obj);
+            });
+            haz_plotHazards();
+        }
+
+        function handleRadio(myRadio) {
+            if (document.getElementById('createradio').checked) {
+                $('.import').hide();
+                $('.create').show();
+            }
+            else if (document.getElementById('importradio').checked) {
+                $('.import').show();
+                $('.create').hide();
+            }
+        }
+
+        function SaveRouteAndStopData() {
+            var convertedIntoArray = [];
+            $("#hazardList tr").each(function () {
+                var rowDataArray = [];
+                var actualData = $(this).find('td');
+                if (actualData.length > 0) {
+                    actualData.each(function () {
+                        rowDataArray.push($(this).text());
+                    });
+                    convertedIntoArray.push(rowDataArray);
+                }
+            });
+            var data = {};
+            data.name = $('#routedetail').val();
+            data.custid = haz_custid;
+            data.pointList = [];
+            convertedIntoArray.forEach(function (item, index) {
+                console.log(item);
+                var obj = { 'name': item[1], 'type': item[2], 'typeid': item[3], 'radius': item[4], 'lat': item[6], 'lng': item[7] };
+                data.pointList.push(obj);
+            });
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "/ReportsAPI/AddRoute",
+                data: data, // get file and post in API
+                contentType: "application/x-www-form-urlencoded",
+                crossDomain: true,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    toastr.success("Hazard detail updated");
+                    setTimeout(function () { location.reload(); }, 1000);
+                },
+
+                error: function (jqXHR, status) {
+                    toastr.error("Something went wrong.");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <div id="map"></div>
+    <div class="pac-card" id="pac-card">
+        <div>
+
+            <div id="dvPlaces" style="padding:20px ;overflow-y: scroll;height: 80vh; display:none">
+                <h5>Route points</h5>
+                <table id="tblPlaces" class="table" style="width:100%">
+                    <thead class="tabletitle">
+                        <tr>
+                            <td colspan="2" class="wrapper" style="padding:0">
+                                <table class="table table-striped" id="hazardList">
+                                    <tr>
+                                        <th>S No</th>
+                                        <th>Name</th>
+                                        <th>Hazard Type</th>
+                                        <th style="display:none">Typeid</th>
+                                        <th>Radius (mtrs)</th>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    <tbody>
+                </table>
+            </div>
+
+        </div>
+        <div>
+
+            <div id="type-selector" class="pac-controls" style="display:none">
+                <input type="radio" name="type" id="changetype-all" checked="checked">
+                <label for="changetype-all">All</label>
+
+                <input type="radio" name="type" id="changetype-establishment">
+                <label for="changetype-establishment">Establishments</label>
+
+                <input type="radio" name="type" id="changetype-address">
+                <label for="changetype-address">Addresses</label>
+
+                <input type="radio" name="type" id="changetype-geocode">
+                <label for="changetype-geocode">Geocodes</label>
+            </div>
+            <div id="strict-bounds-selector" class="pac-controls" style="display:none">
+                <input type="checkbox" id="use-strict-bounds" value="">
+                <label for="use-strict-bounds">Strict Bounds</label>
+            </div>
+        </div>
+    </div>
+
+    <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon">
+        <span id="place-name" class="title"></span><br>
+        <span id="place-address"></span>
+        <span id="Place-time"></span>
+
+    </div>
+
+
+    <div id="curpos" style="display:none;"></div>
+    <div id="cursel" style="display:none;"></div>
+    <div id="note" style="display:none;"><small>Note: markers can be selected, but are not graphically indicated; can be deleted, but cannot have their color changed.</small></div>
+
+
+    <input type="hidden" id="hdnResultValue" />
+
+    </div>
+
+
+    <div class="modal" id="AddRouteModal" role="dialog">
+        <div class="modal-dialog" style="height:70%;width: 27%;">
+
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <ul id="ulDays" class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#" style="background-color:white">Please Enter BusStop Details</a></li>
+
+
+                        <li>
+                            Route Name <input id="txtRouteName" type="text" class="form-control " placeholder="" style="width:200px" required>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success " style="margin-right: 23px;" onclick="SaveRouteAndStopData()" type="button">Submit</button>        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="AssignStudentToBus" role="dialog">
+        <div class="modal-dialog" style="height:70%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#9EA2A2;font-weight: bold;color: white;border-bottom:none !important;padding:6px">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <h4 class="modal-title" style="background-color:#9EA2A2;font-weight: bold;color: white;text-align: center;">Add Student</h4>
+                </div>
+                <div class="modal-body">
+
+                    <input type="text" id="searchtbl" placeholder="Search" style="width: 127px;padding: 3px;margin-left: 78%;" autocomplete="off" />
+                    <span style="position: relative;top: -32px;"> Total Student : <span id="spTotalStudentInBus"></span></span>
+                    <div class="table-responsive" style="margin-top: -26px;">
+                        <table id="tblAssignStudent" class="table table-hover"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="ShowBusRouteByBusName" role="dialog">
+        <div class="modal-dialog" style="height:70%;">
+
+            <div class="modal-content">
+                <div class="modal-header SMLRedColor" style="border-bottom:none !important;padding:6px">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title SMLRedColor" style="text-align: center;"><span class="SMLRedColor">Bus Route</span></h4>
+                </div>
+                <div class="modal-body">
+
+                    <div id="dvBusRouteMap" style="width: 100%; height: 500px">
+
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+</body>
+</html>

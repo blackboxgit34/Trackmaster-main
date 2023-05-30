@@ -1,0 +1,412 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html ng-app="blackbox">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/content/css/toastr.css" rel="stylesheet" />
+
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/content/css/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Content/CustomCSS.css" rel="stylesheet" />
+
+    <script src="~/js/jquery-1.9.1.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#SendPasswordtoemail').click(function (e) {
+                document.getElementById("demo").innerHTML = "";
+                e.preventDefault();
+                var emailValue = $("#txtEmail").val();
+                if (emailValue) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "CommonApi/VerifyUser",
+                        data: { username: emailValue, website: "trackmaster.in" },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+                            debugger;
+                            if (data.message == "Success") {
+                                document.getElementById('SendPasswordtoemail').style.display = 'none';
+                                document.getElementById('ConfirmOTP').style.display = 'block';
+                                document.getElementById('txtEmail').style.display = 'none';
+                                document.getElementById('txtOTP').style.display = 'block';
+
+
+                                document.getElementById("demo").innerHTML = "You will receive OTP on  register No  " + data.number + " .Kindly wait for 2 min In case of delay";
+
+                                custid = data.custid;
+                                $("#txtEmail").val("");
+                            }
+                            else {
+                                document.getElementById("demo").innerHTML = "Please enter correct username or email .";
+                            }
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("error");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email or Username to the textbox");
+                    return false;
+                }
+            })
+
+            $('#ConfirmOTP').click(function (e) {
+                document.getElementById("demo").innerHTML = "";
+                e.preventDefault();
+                var OTP = $("#txtOTP").val();
+
+                if (OTP) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "CommonApi/VerifyUserOtp",
+                        data: { custid: custid, website: "trackmaster.in", OTP: OTP },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+
+                            if (data.message == "Verified") {
+                                document.getElementById('getotp').style.display = 'none';
+                                document.getElementById('updpassword').style.display = 'block';
+                            }
+                            else {
+                                alert("Please enter correct OTP");
+                            }
+
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("Please enter correct OTP");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email or Username to textbox");
+                    return false;
+                }
+            })
+
+            $('#chgpsd').click(function (e) {
+
+
+                var Newpsd = $("#txtpassword").val();
+                var Confirmpsd = $("#txtConfirmpassword").val();
+
+                if (Newpsd != Confirmpsd) {
+                    alert("Please match new password and  confirm password.");
+                    return false;
+                }
+                if (Newpsd) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "AdminApi/OTPChangePassword",
+                        data: { custid: custid, NewPassword: Newpsd, CurrentPassword: Confirmpsd },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+                            debugger
+                            if (data == "success") {
+
+
+                                alert("Your password is changed");
+                                window.location = "https://trackmaster.in/";
+                            }
+
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("Please Refresh and start again");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email to text box");
+                    return false;
+                }
+            })
+            $("#BtnAdd").click(function () {
+
+                $('#newpsd').modal('show');
+            });
+
+            var url = window.location.href;
+            var myVar = 'infotrac';
+
+
+            if (url.indexOf(myVar) > -1) {
+
+                $("#phone").text("+974 70570607");
+                $("#email").text("abhinandh@infotracqatar.com");
+
+                $("#add1").text("Office no 5, First Floor, Street No 340, Zone 56, Ain Khalid, Doha, Qatar");
+            } else {
+
+                $("#phone").text("+91-0172-2665610");
+                $("#email").text("info@blackboxgps.net");
+
+                $("#add1").text("96-97, Sector 34-A, Chandigarh (UT), India");
+
+            }
+
+
+        });
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-93165722-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+
+
+    <link href="~/css/stylebb.css" rel="stylesheet" />
+
+
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="@Url.Content("~/scripts/jquery-3.1.1.min.js")?v=0.00.000"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+</head>
+<body ng-controller="rootCtrl">
+
+
+
+
+
+    <div ng-controller="loginCtrl" style="visibility:hidden;">
+        <form name="loginform" id="loginform" method="post" enctype="application/x-www-form-urlencoded">
+
+            <div class="d">
+                <img src="../images/logo.png" />
+            </div>
+            <div class="login_panel">
+                <h1 class="login_head">Login</h1>
+
+                <div class="fields">
+                    <img src="../images/label_side_bar.png" class="a" />
+                    <label>USERNAME</label>
+                    <img src="../images/arw.png" class="b" />
+                    <input type="text" name="username" ng-model="user.username" id="username" placeholder="User Name" />
+                    <img src="../images/input_side_bar.png" class="c" />
+                </div><!--FIELDS -->
+
+
+                <div class="fields">
+                    <img src="../images/label_side_bar.png" class="a" />
+                    <label>PASSWORD</label>
+                    <img src="../images/arw.png" class="b" />
+
+                    <input type="password" id="txtPassword" ng-model="user.password" name="password" placeholder="Password " />
+
+                    <img src="../images/input_side_bar.png" class="c" />
+                </div><!--FIELDS -->
+
+                <div class="remebr">
+                    <input type="checkbox" class="chk" /><span>Remeber Me </span>
+                    <a href="#" class="forgot" id="BtnAdd">Forgot Password</a>
+                </div><!--remebr -->
+
+                <button class="btns" ng-click="loginnew()" id="btnSubmit" type="button" ng-disabled="disableSubmit">
+                    Sign in
+                </button>
+            </div>
+
+
+
+
+        </form>
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="newpsd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="height:420px">
+        <div class="modal-dialog" id="newpsd">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form class="form-signin" id="getotp">
+
+
+                        <label for="inputEmail" class="sr-only">Email address</label>
+                        <input type="text" class="form-control" id="txtEmail" placeholder="Enter Email or Username" required=required autofocus= autofocus autofocus= autofocus />
+                        <input type="text" class="form-control" id="txtOTP" placeholder="Enter your OTP" required=required autofocus= autofocus autofocus= autofocus style="display:none;" />
+                        <br />
+                        <a class="btn btn-warning " href="https://trackmaster.in">Close</a>
+                        <button class="btn btn-success" id="SendPasswordtoemail"><i class="fa fa-key"></i>&nbsp;Get OTP</button>
+
+                        <button class="btn btn-success" id="ConfirmOTP" onclick="ConfirmOTP();" style="display: none; margin-left: 75px; margin-top: -31px;"><i class="fa fa-key"></i>&nbsp;Confirm OTP</button>
+
+                    </form>
+                    <table class="table" id="updpassword" style="display:none;">
+
+                        <tr>
+                            <td>New Password</td>
+                            <td><input type="password" class="form-control" id="txtpassword" placeholder="Enter new Password" required=required autofocus= autofocus autofocus= autofocus /></td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td><input type="password" class="form-control" id="txtConfirmpassword" placeholder="Enter Confirm Password" required=required autofocus= autofocus autofocus= autofocus /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-success" id="chgpsd"><i class="fa fa-key"></i>&nbsp;Chnage Password</button>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+
+                    <p id="demo"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade " data-keyboard="false" id="modalOuterDiv" tabindex="-1" role="dialog" aria-hidden="true" style="overflow-y: hidden;width: 100%;">
+        <div class="modal-dialog" style="width: 90%; height:400px;">
+            <div id="modalInnerContain"></div>
+        </div>
+    </div>
+    <script>
+
+        var baseurl = 'https://api1.trackmaster.in/api/commonapi/';
+    </script>
+    <script src="@Url.Content("~/scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/scripts/angular.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-cookies.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-route.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-base64.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-validator.min.js")?v=0.00.000"></script>
+
+    <script src="@Url.Content("~/app/app.js")?v=@DateTime.Now.Ticks"></script>
+    <script src="@Url.Content("~/app/modules/common.core.js")?v=0.00.007"></script>
+    <script src="@Url.Content("~/app/modules/common.ui.js")?v=0.00.002"></script>
+    <script src="@Url.Content("~/app/rootCtrl.js")"></script>
+
+    <script src="~/Scripts/CryptoJSv3.1.2/components/core.js"></script>
+    <script src="~/Scripts/CryptoJSv3.1.2/components/sha1.js"></script>
+
+    <script src="@Url.Content("~/app/services/apiService.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/notificationService.js")"></script>
+    <script src="@Url.Content("~/app/services/membershipService.js")?v=@DateTime.Now.Ticks"></script>
+    <script type="text/javascript" src="~/content/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/app/home/loginCtrl.js")?v=@DateTime.Now.Ticks"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        $(function () {
+            localStorage.removeItem("cid");
+            localStorage.removeItem("custID");
+
+
+            localStorage.removeItem("customMenuList");
+
+            localStorage.removeItem("custId");
+            //for group user
+            localStorage.removeItem("GroupSelectedUser");
+            localStorage.removeItem("SubUsers");
+            localStorage.removeItem('IsVerified');
+            localStorage.removeItem('IsCustomMenu');
+
+
+            $("#txtPassword").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $('#btnSubmit').click();
+                }
+            });
+
+            var MyUrl = baseurl + 'AlertOnLoginPage';
+            //alert(MyUrl);
+            ;
+            $.ajax({
+                url: MyUrl,
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { ID: "11" },
+                success: function (data) {
+                    if (data == "No msg") {
+                        $("#divOuterAlert").css("display", "none");
+                        $("#pSetAlertText").html("");
+                    }
+                    else {
+                        $("#divOuterAlert").css("display", "block");
+                        $("#pSetAlertText").html(data);
+                    }
+
+                }
+            });
+
+        });
+        $(window).load(function () {
+
+            var key = getUrlParameter("key");
+
+            $.ajax({
+                url: 'https://api1.trackmaster.in/api/commonapi/' + 'GetLogindetails',
+                data: { ID: key },
+                success: function (data) {
+                    debugger;
+                    if (data.length > 0) {
+                        $("#username").val(data[0].username);
+                        $("#txtPassword").val("123456");
+
+
+
+                        $('#btnSubmit').click();
+                    }
+                    else {
+
+                    }
+
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>

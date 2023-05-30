@@ -1,0 +1,53 @@
+﻿<div class="row-fluid" style="margin-bottom: 25px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-header">
+                    <i class="fa fa-file-archive-o"></i>
+                    <h5>@ViewBag.ReportTitle</h5>
+                   <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                        <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">
+                        @*<img onclick="sendEmail('@ViewBag.Report')" src='/content/img/cc2.png' onmouseover="this.src='/content/img/z22.png';" onmouseout="this.src='/content/img/cc2.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">*@
+                        @*<img id="pdfExport" src='/content/img/cc3.png' onmouseover="this.src='/content/img/z31.png';" onmouseout="this.src='/content/img/cc3.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">*@
+                    </div>
+                </div>
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div class="box" style="background: #fdfdfd;">
+                        <div class="box-content padded">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <form class="form-inline">
+                                        <div class="col-md-6">
+                                            <div class="form-group padded">
+                                                <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%; margin-top: -5%;">
+                                                    <i class="fa fa-calendar"></i>
+                                                    &nbsp;<span></span><b class="caret"></b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            @*  <div class="form-group padded">*@
+                                         @*   <label>Route list</label>*@
+                                            <select class="form-control" id="routelist" style="margin-left:55px;"></select>
+
+                                            @* </div>*@
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                             <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                               
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>

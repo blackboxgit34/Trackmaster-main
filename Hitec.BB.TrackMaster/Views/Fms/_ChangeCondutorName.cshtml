@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <title>&nbsp;</title>
+    <script>
+
+        $('document').ready(function () {
+
+
+
+
+            GetDriverNames();
+            GetEtmNo();
+        });
+
+        function GetDriverNames() {
+            var VehicleTypeUrl = apiBase.apiurl + 'fmsapi/GetConductorNames';
+            $('#DriverId').find('option:not(:first)').remove();
+            $.get(VehicleTypeUrl, { custid: $custid }, function (data) {
+                $.each(data, function (key, value) {
+                    $("#DriverId").append($("<option></option>").val(value.Value).html(value.Name));
+                });
+                $("#DriverId").select2({
+                    dropdownParent: $("#DriverChangeDialog")
+                });
+            });
+        }
+
+        function GetEtmNo() {            
+            var VehicleTypeUrl = apiBase.apiurl + 'fmsapi/GetEMTNumbers';
+            $('#EtmNo').find('option:not(:first)').remove();
+            $.get(VehicleTypeUrl, { custid: $custid }, function (data) {
+                $.each(data, function (key, value) {
+                    $("#EtmNo").append($("<option></option>").val(value.Value).html(value.Name));
+                });
+                $("#EtmNo").select2({
+                    dropdownParent: $("#DriverChangeDialog")
+                });
+            });
+        }
+
+        $('#DriverChangeform').submit(function () {
+            
+            var bbid = $("#bbid").val();
+            var VehicleId = $("#VehicleId").val();
+            var custid = $("#custid").val();
+            var EtmNumber = $("#EtmNo").val();
+
+            var data = $('#DriverChangeform').serializeArray();
+
+            data.push(
+                { name: 'bbid', value: bbid },
+                { name: 'VehicleId', value: VehicleId },
+                { name: 'custid', value: custid },
+                { name: 'EtmNumber', value: EtmNumber }
+                );
+            var url = apiBase.apiurl + 'FmsAPI/GetUpdateConductorName';
+            console.log('data[0].value = ' + data[0].value);
+            $.get(url, { DriverId: data[0].value, bbid: bbid, custid: custid, VehicleId: VehicleId, EtmNumber: EtmNumber }, function (result) {
+                if (result > 0) {
+                    if (result == 1) {
+                        toastr.success("Conductor name updated successfully")
+                    }
+
+                    location.reload();
+                }
+                else
+                    toastr.error("Failed!!!")
+            });
+        });
+
+    </script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <form id="DriverChangeform" method="post">
+        <input type="hidden" id="bbid" value='@ViewBag.bbid' />
+        <input type="hidden" id="VehicleId" value='@ViewBag.VehicleId' />
+        <input type="hidden" id="vehicleName" value='@ViewBag.vehicleName' />
+        <input type="hidden" id="custid" value='@ViewBag.custid' />
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Vehicle Name </label>
+            <div class="col-sm-6">
+                <input type="text" id="VehName" name="VehName" class="form-control" value='@ViewBag.vehicleName' disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Conductor</label>
+            <div class="col-sm-6">
+                @Html.DropDownList("DriverId", Enumerable.Empty<SelectListItem>(), "Select Conductor Name", new { @class = "js-example-basic form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">ETM Number</label>
+            <div class="col-sm-6">
+                @Html.DropDownList("EtmNo", Enumerable.Empty<SelectListItem>(), "Select ETM Number", new { @class = "js-example-basic form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4"></label>
+            <div class="col-sm-6">
+                <input type="submit" value="submit" id="btnsubmit" class="btn btn-green" style="float: right;">
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>

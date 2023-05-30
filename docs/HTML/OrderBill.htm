@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Print Order Bill</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+        td 
+        { 
+            width: 25%; 
+            border: none !important;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../Content/js/APIURL.js" type="text/javascript"></script>
+    <script src="../scripts/app/common.js"></script>
+      <style>
+        td { width: 25%;  
+              
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            HideAll();
+            getDetails();
+        });
+
+        function HideAll() {
+            $('.load').css('display', 'none');
+            $('.quantity').css('display', 'none');
+            $('.kilometer').css('display', 'none');
+            $('.trip').css('display', 'none');
+            $('.lease').css('display', 'none');
+        }
+
+        function getDetails() {
+            var BookingId = getUrlParameter("BookingId");
+            if (BookingId != null) {
+                OrderId = BookingId;
+                var BookingUrl = apiBase.apiurl + 'fmsapi/GetBookingDetails';
+                $.get(BookingUrl, { BookingId: BookingId }, function (data) {
+                    console.log(data);
+                    $('#VehicleId').text(data.VehicleName);
+                    $('#CustomerName').text(data.CustomerName);
+                    $('#GrNo').text(data.GrNo);
+                    $('#MaterialType').text(data.MaterialType);
+                    $('#DispatchDate').text(data.DispatchDateMod.replace('T', ' '));
+                    $('#OrderType').text(data.OrderTypeName);
+                    $('#TripFrom').text(data.TripFrom);
+                    $('#TripTo').text(data.TripTo);
+                    $('#DriverName').text(data.DriverName);
+                    $('#TechnicianName').text(data.TechnicianName);
+
+                    $('#PricePerLoadPerKilometer').text(data.PricePerLoadPerKilometer);
+                    $('#TotalWeight').text(data.TotalWeight);
+                    $('#TotalQuantity').text(data.TotalQuantity);
+                    $('#PricePerQuantityPerKilometer').text(data.PricePerQuantityPerKilometer);
+                    $('#UnitKilometerCharge').text(data.UnitKilometerCharge);
+                    $('#PerTripCost').text(data.PerTripCost);
+                    $('#TripRound').text(data.TripRound);
+                    $('#LeasePerDay').text(data.LeasePerDay);
+                    $('#LeaseMonths').text(data.LeaseMonths);
+                    $('#LeaseDays').text(data.LeaseDays);
+
+                    $('#LoadKm').text(data.TotalDistanceKilometer);
+                    $('#QuantityKm').text(data.TotalDistanceKilometer);
+                    $('#KilometerKm').text(data.TotalDistanceKilometer);
+
+                    $('#AmountReceived').text(data.AmountReceived);
+                    SetOrderType(data.OrderTypeName);
+                });
+            }
+        }
+
+        function SetOrderType(type) {
+            HideAll();
+            if (type == "Load Based") $('.load').css('display', 'table-row');
+            else if (type == "Quantity Based") $('.quantity').css('display', 'table-row');
+            else if (type == "Kilometer Based") $('.kilometer').css('display', 'table-row');
+            else if (type == "Trip Based") $('.trip').css('display', 'table-row');
+            else if (type == "Lease Based") $('.lease').css('display', 'table-row');
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container" style="margin:100px auto 0 auto; width:960px">
+
+        <table class="table  table-striped">
+            <tbody class="table-bordered">
+
+                <tr>
+                    <td><b>Vehicle No</b></td>
+                    <td id="VehicleId"></td>
+                    <td><b>Consignee Name</b></td>
+                    <td id="CustomerName"></td>
+                </tr>
+                <tr>
+                    <td><b>Gr No</b></td>
+                    <td id="GrNo"></td>
+                    <td><b>Material type</b></td>
+                    <td id="MaterialType"></td>
+                </tr>
+                <tr>
+                    <td><b>Dispatch Date Time</b></td>
+                    <td id="DispatchDate"></td>
+                    <td><b>Order Type</b></td>
+                    <td id="OrderType"></td>
+                </tr>
+                <tr>
+                    <td><b>Start Location</b></td>
+                    <td id="TripFrom"></td>
+                    <td><b>End Location</b></td>
+                    <td id="TripTo"></td>
+                </tr>
+                <tr>
+                    <td><b>Driver Name</b></td>
+                    <td id="DriverName"></td>
+                    <td><b>Cleaner Name</b></td>
+                    <td id="TechnicianName"></td>
+                </tr>
+                <tr class="load">
+                    <td><b>Total weight</b></td>
+                    <td id="TotalWeight"></td>
+                    <td><b>Price/Load/Km</b></td>
+                    <td id="PricePerLoadPerKilometer"></td>
+                </tr>
+                <tr class="load">
+                    <td><b>Total Kilometer</b></td>
+                    <td id ="LoadKm"></td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="quantity">
+                    <td><b>Total Quantity</b></td>
+                    <td id="TotalQuantity"></td>
+                    <td><b>Price/Qty/Km</b></td>
+                    <td id="PricePerQuantityPerKilometer"></td>
+                </tr>
+                <tr class="quantity">
+                    <td><b>Total Kilometer</b></td>
+                    <td id="QuantityKm"></td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="kilometer">
+                    <td><b>Per Km Charge</b></td>
+                    <td id="UnitKilometerCharge"></td>
+                    <td><b>Total Km</b></td>
+                    <td id="KilometerKm"></td>
+                </tr>
+                <tr class="trip">
+                    <td><b>Per Trip Cost</b></td>
+                    <td id="PerTripCost"></td>
+                    <td><b>No. Trip Round</b></td>
+                    <td id="TripRound"></td>
+                </tr>
+                <tr class="lease">
+                    <td><b>No of Months</b></td>
+                    <td id="LeaseMonths"></td>
+                    <td><b>Price/Month</b></td>
+                    <td id="LeasePerDay"></td>
+                </tr>
+                <tr class="total">
+                    <td colspan="2"><b>Total Cost</b></td>
+                    <td colspan="2" id="AmountReceived"></td>
+                </tr>
+                <tr id="trBtnPrint" ><td colspan="4"><button onclick="btnPrintBill();" >Print</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function btnPrintBill() {
+            document.getElementById('trBtnPrint').style.visibility = 'hidden'
+        window.print();
+        };
+    </script>
+</body>
+    
+</html>

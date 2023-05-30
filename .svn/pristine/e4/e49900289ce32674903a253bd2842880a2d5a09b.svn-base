@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hitec.BB.TrackMaster", "Hitec.BB.TrackMaster\Hitec.BB.TrackMaster.csproj", "{77EDF6D0-4FB1-4F80-A333-7929BCCDC972}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{261CAB7A-DD71-4B0C-9DAD-239EED871047}"
+	ProjectSection(SolutionItems) = preProject
+		WE-settings.xml = WE-settings.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77EDF6D0-4FB1-4F80-A333-7929BCCDC972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77EDF6D0-4FB1-4F80-A333-7929BCCDC972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77EDF6D0-4FB1-4F80-A333-7929BCCDC972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77EDF6D0-4FB1-4F80-A333-7929BCCDC972}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

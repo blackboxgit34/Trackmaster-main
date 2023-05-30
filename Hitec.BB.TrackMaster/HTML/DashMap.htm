@@ -1,0 +1,388 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../Content/Scripts/Googlecharts.js"></script>
+
+
+
+    <link href="../css/Map/Map/LocationOnmapCSS/map.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css" media="screen" />
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7FrIbSaKh9Gl-pONrMtXF83rCovaQizM&libraries=drawing" language="javascript" type="text/javascript"></script>
+
+    <script type="text/javascript" src="../js/Map/LocationOnMap/label.js"></script>
+
+
+
+
+    <script src="../Content/js/APIURL.js"></script>
+
+    <!-- Css for custom loader -->
+    <style>
+        #loading-img {
+            background: url("http://www.chimply.com/images/samples/classic-spinner/animatedEllipse.gif") center center no-repeat;
+            display: none;
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            top: 33%;
+            left: 1%;
+            right: 1%;
+            margin: auto;
+        }
+
+        .container {
+            height: 400px;
+            background: #000;
+            color: #fff;
+        }
+
+        .group {
+            position: relative;
+            width: 100%;
+        }
+
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        #donutchart {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 95%;
+            height: 100%;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+
+        // ================ create marker ================
+        var side_bar_html = "";
+        var gmarkers = [];
+        var vehmarkers = [];
+        var vmarkers = [];
+        var htmls = [];
+        var glabels = [];
+        var i = 0;
+        var icons = [];
+        icons[1] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+        icons[2] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+        icons[3] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png"); //GreenIcon;   // Moving
+        icons[4] = new google.maps.MarkerImage("../Content/map/legends/ignion.png"); //ErrorIcon;   // Unknown (Moving without Ignition On)
+        icons[5] = new google.maps.MarkerImage("../Content/map/legends/stop.png");
+        icons[6] = new google.maps.MarkerImage("../Content/map/legends/towed.png");
+        icons[7] = new google.maps.MarkerImage("../Content/map/legends/moving.png");
+        icons[8] = new google.maps.MarkerImage("../Content/map/legends/hispeed.png");
+        icons[9] = new google.maps.MarkerImage("../Content/map/legends/unreach.png");
+        icons[10] = new google.maps.MarkerImage("../Content/map/legends/fenced.png");
+
+        // ================ This function creates marker and associates info-window with it ================
+        function createMarker(myLatlng, name, html, icon_type) {
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: name,
+                icon: icons[icon_type]
+
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: html
+            });
+            google.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(map, marker);
+            });
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                openedInfoWindow = null;
+            });
+            vmarkers[i] = marker;
+            htmls[i] = html;
+            side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br/><div style="height:5px;border-top:dashed 1px #ccc;margin-top:5px;"></div>';
+            if (j == 1) {
+                document.getElementById('side_bar').innerHTML = side_bar_html;
+            }
+            i++;
+            return marker;
+        }
+        // ================ This function picks up the click and opens the corresponding info window ================
+        var marker = new Array();
+        function myclick(i) {
+            var infowindow = new google.maps.InfoWindow({
+                content: htmls[i]
+            });
+            if (openedInfoWindow != null) openedInfoWindow.close();
+            infowindow.open(map, vmarkers[i]);
+            openedInfoWindow = infowindow;
+        }
+        function GetDataToMapAJax(startLength, endLength) {
+            
+            var srch = null;
+            var vehicletype = "0";
+            //getUrlParameter () is defined under APIURL.js file
+            var userId = getUrlParameter('custId');
+
+            var url = apiBase.apiurl + "MapAPI/ListVehiclesInfoOnMap";
+
+
+            $.ajax({
+                dataType: "json",
+
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: url,
+                data: {
+                    type: vehicletype,
+                    userId: userId,
+                    startLength: startLength,
+                    endLength: endLength,
+                    search: srch
+                },
+                success: function (data) {
+                    var count = data.ListLength;
+                    var data = data.vehicleMapList;
+                    for (i = 0; i < data.length; i++) {
+                        lat = data[i].lat;
+                        lng = data[i].lng;
+                        name = data[i].name;
+                        drname = data[i].drname;
+                        speed = data[i].speed;
+                        lstdate = data[i].lstdate;
+                        icon_type = parseFloat(data[i].type);
+                        loc = data[i].loc;
+                        Duration = data[i].Duration;
+                        DriMob = data[i].DriMobNo;
+                        LastDateIgnOnOff = data[i].LastDateIgnOnOff;
+                        var html = "<span>" + name + " <br/>Speed - " + speed + "<br/>Driver Name - " + drname + "<br/>Driver Mobile No - " + DriMob + "<br/>DateTime - " + lstdate + "<br/>Location - " + loc + "<br/></span>";
+                        // define lat-long for positioning Marker
+                        var myLatlng = new google.maps.LatLng(lat, lng);
+                        // call function to create Marker
+                        var marker = createMarker(myLatlng, name, html, icon_type);
+
+                        var label = new Label(
+                          {
+                              draggable: false,
+                              map: map
+                          });
+                        var hh = name;
+                        var htmlXX = '<span class="Newla">' + hh + '</span>';
+
+                        label.bindTo('position', marker, 'position');
+                        label.set('text', htmlXX);
+                        gmarkers.push(marker);
+                        glabels.push(label);
+                        //gmarkers.push(marker);
+
+                        // fit map to accomodate all markers (only for first time)
+                    }
+                    var bound = new google.maps.LatLngBounds();
+                    for (var i in gmarkers) {
+                        bound.extend(gmarkers[i].getPosition());
+                        if (i == 0) {
+                            map.setCenter(gmarkers[i].getPosition());
+                        }
+                    }
+                    map.fitBounds(bound);
+
+                    if (lastListFlag == false) {
+
+                        if (count < 40) {
+                            lastListFlag = true;
+                        }
+                        else {
+                            if (endLength <= count) {
+
+                                var startlength = parseInt(endLength) + 1;
+                                var endlength = parseInt(endLength) + 40;
+                                if (endlength > count) {
+                                    lastCountFlag = true;
+                                }
+                                GetDataToMapAJax(startlength, endlength)
+                            }
+                            else {
+
+                                if (lastCountFlag == false) {
+
+                                    var startlength = parseInt(endLength) - 40;
+                                    var preEndlength = count - startlength;
+                                    var endlength = startlength + preEndlength;
+                                    GetDataToMapAJax(startlength, endlength)
+                                }
+                                lastListFlag = true;
+                                //$('#searchVehicle').prop("disabled", false);
+                                //$('#searchVehicle').attr("placeholder", "Search Vehicle");
+                            }
+
+                        }
+
+                    }
+                }
+            });
+
+
+
+
+        };
+        function StopTheClock() {
+            if (timerRunning)
+                clearTimeout(timerID)
+            timerRunning = false;
+        }
+        //here we can create auto refresh
+        function StartTracking() {
+
+            //this is used to check whether auto refresh is on or off
+            //if (localStorage['autoRefresh'] == "true") {
+            StartTheTimer();
+            //}
+        }
+        function StartTheTimer() {
+            
+            //this flag is used to start the ajax
+            lastListFlag = false
+            readMapData();
+            timerRunning = true;
+            timerID = self.setTimeout("StartTracking()", delay)
+        }
+        function reCenter() {
+            var bound = new google.maps.LatLngBounds();
+            for (var i in gmarkers) {
+                bound.extend(gmarkers[i].getPosition());
+            }
+            map.fitBounds(bound);
+            zoomToExtents = 1;
+        }
+        function readMapData() {
+            
+            var i = 0;
+            var lat;
+            var lng;
+            var name;
+            var drname;
+            var DriMob;
+            var speed;
+            var lstdate;
+            var icon_type;
+            var loc;
+            var LastDateIgnOnOff;
+            var Duration;
+            // clear side bar list
+            side_bar_html = "";
+
+            if (gmarkers) {
+                for (i in gmarkers) {
+                    gmarkers[i].setMap(null);
+                }
+                gmarkers.length = 0;
+            }
+            if (glabels) {
+                for (i in glabels) {
+                    glabels[i].setMap(null);
+                }
+                glabels.length = 0;
+            }
+
+            GetDataToMapAJax("1", "40")
+            // clear markers
+        }
+        window.onload = function () {
+
+
+
+            initializeTimer();
+
+
+
+
+
+        }
+
+
+        var timerID = null;
+        var timerRunning = false;
+        var delay = (90 * 1000);
+        var lastListFlag = false;
+        var lastCountFlag = false;
+
+        var zoomToExtents = 0;
+        var openedInfoWindow = null;
+        function initializeTimer() {
+
+
+            
+            zoomToExtents = 0;
+            initializeMap();
+
+            StopTheClock();
+            document.getElementById('side_bar').innerHTML = "Loading vehicles...";
+            StartTheTimer();
+        }
+
+
+        var map;
+        var j = 0;
+        function initializeMap() {
+            
+            document.getElementById("map_canvas").style.backgroundImage = "url(../Content/map/MapImages/maploading.jpg)";
+            var myOptions = {
+                zoom: 8,
+                center: new google.maps.LatLng(30.97, 76.77),
+
+                //mapTypeId: google.maps.MapTypeId.ROADMAP,
+                //mapTypeId: google.maps.MapTypeId.ROADMAP,
+                styles: [
+              {
+                  "featureType": "poi",
+                  "stylers": [
+                    { "visibility": "on" }
+                  ]
+              },
+
+                ]
+            };
+            map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+            j = 1;
+        }
+        // Asynchronous call
+
+
+    </script>
+</head>
+<body style="height:333px !important;">
+    <noscript>
+        <b>JavaScript must be enabled in order for you to use Google Maps.</b> However,
+        it seems JavaScript is either disabled or not supported by your browser. To view
+        Google Maps, enable JavaScript by changing your browser options, and then try again.
+    </noscript>
+    <div id="container">
+        <div id="map_canvas" style="width: 100%; height: 333px;">
+        </div>
+        <div style="display:none; width:222px !important;" class="panel">
+            <div id="side_bar" style=" display:none; padding : 25px 0px 10px 7px; height: 450px; overflow: auto;">
+            </div>
+            <div id="settings" style="display:none; border-top: dashed 1px #777;">
+                <a onclick="reCenter();" href="#" style="color: #0000B7; font-weight: normal;">
+                    Reset
+                    Map
+                </a>&nbsp;<br />
+                &nbsp; <a href="#" style="color: #0000B7; font-weight: normal;" onclick="InitializeTimer()">
+                    Refresh
+                </a>
+                <p>
+                    Show POI
+                    <input type="checkbox" id="checkPOI" checked="checked" onclick="PointOfInterest()" />
+                </p>
+            </div>
+        </div>
+        <a class="trigger" style="display:none;" href="#">Vehicles</a>
+    </div>
+
+</body>
+</html>

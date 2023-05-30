@@ -1,0 +1,95 @@
+/* 
+	author: istockphp.com
+*/
+#backgroundPopup { 
+	z-index:1;
+	position: fixed;
+	display:none;
+	height:100%;
+	width:100%;
+	background:#000000;	
+	top:0px;  
+	left:0px;
+}
+#toPopup {
+	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 10px solid #ccc;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    display: none;
+	font-size: 14px;
+    left: 50%;
+    margin-left: -402px;
+    position: fixed;
+    top: 25%;
+    width: 800px;
+    z-index: 2;
+}
+
+div.loader {
+    background: url("loading.gif") no-repeat scroll 0 0 transparent;
+    height: 32px;
+    width: 32px;
+	display: none;
+	z-index: 9999;
+	top: 40%;
+	left: 50%;
+	position: absolute;
+	margin-left: -10px;
+}
+div.close {
+    background: url("closebox.png") no-repeat scroll 0 0 transparent;
+    bottom: 24px;
+    cursor: pointer;
+    float: right;
+    height: 30px;
+    left: 27px;
+    position: relative;
+    width: 30px;
+}
+span.ecs_tooltip {
+    background: none repeat scroll 0 0 #000000;
+    border-radius: 2px 2px 2px 2px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 11px;
+    height: 16px;
+    opacity: 0.7;
+    padding: 4px 3px 2px 5px;
+    position: absolute;
+    right: -62px;
+    text-align: center;
+    top: -51px;
+    width: 93px;
+}
+span.arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #000000;
+    display: block;
+    height: 1px;
+    left: 40px;
+    position: relative;
+    top: 3px;
+    width: 1px;
+}
+div#popup_content {
+    margin: 4px 7px;
+}
+.topopup
+{
+    color:#5475A5;
+    text-decoration:none;
+    }
+    
+    .search-reports { } .search-reports tr td { padding: 5px 7px 5px 7px; vertical-align: top; } .search-reports tr td input.text { height: 20px; padding: 1px 2px 1px 4px; width: 90px; }
+    
+    .g-button-submit { border: 1px solid #3079ed; color: #fff; text-shadow: 0 1px rgba(0,0,0,0.1); background-color: #4d90fe; background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#4787ed)); background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed); background-image: -moz-linear-gradient(top,#4d90fe,#4787ed); background-image: -ms-linear-gradient(top,#4d90fe,#4787ed); background-image: -o-linear-gradient(top,#4d90fe,#4787ed); background-image: linear-gradient(top,#4d90fe,#4787ed); } .g-button-submit:hover { border: 1px solid #2f5bb7; color: #fff; text-shadow: 0 1px rgba(0,0,0,0.3); background-color: #357ae8; background-image: -webkit-gradient(linear,left top,left bottom,from(#4d90fe),to(#357ae8)); background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8); background-image: -moz-linear-gradient(top,#4d90fe,#357ae8); background-image: -ms-linear-gradient(top,#4d90fe,#357ae8); background-image: -o-linear-gradient(top,#4d90fe,#357ae8); background-image: linear-gradient(top,#4d90fe,#357ae8); } .g-button-submit:active { -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); box-shadow: inset 0 1px 2px rgba(0,0,0,0.3); } 
+    
+    .cls
+    {background: url(../../img/icons/excel4.png) no-repeat;
+     display: block;
+     width: 55px;
+     height: 38px;margin-left:1200px;
+     text-indent: -9999px; }

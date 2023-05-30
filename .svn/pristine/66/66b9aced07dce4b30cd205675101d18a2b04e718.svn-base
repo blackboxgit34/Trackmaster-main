@@ -1,0 +1,438 @@
+﻿@{
+    ViewBag.Title = "SubscriptionPlans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+<link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />    
+
+<link href="~/Content/css/subscriptionPlanCSS.css" rel="stylesheet" />
+<div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+    <div id="DivVehcleCounter">
+        <div class="box-content padded">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                               <h1 class="panel-heading">  <i class="fa fa-desktop"></i></h1>
+                                <h3 class="panel-title">Basic</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="the-price">
+                                    <h1>
+                                        <i class="fa fa-inr" aria-hidden="true"></i>250<span class="subscript">/mo/veh</span></h1>
+                                    <small>Full Pacakage</small>
+                                </div>
+                                <table class="table table-stripped" id="tblBasic">
+                                    <tr>
+                                        <td>Live Status
+                            </td>
+                                    </tr>
+                                    <tr >
+                                        <td>Map
+                            </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Distance
+                            </td>
+                                    </tr>
+                                    <tr >
+                                        <td>100MB Storage
+                            </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Custom Cloud Services
+                            </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weekly Reports
+                            </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="panel-footer">
+                                   <a href="http://www.jquery2dotnet.com" class="btn btn-success" disabled role="button">Purchased</a>
+                                By Default Activated
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-4">
+                        <div class="panel panel-success">
+                            <div class="cnrflash">
+                                <div class="cnrflash-inner">
+                                    <span class="cnrflash-label">MOST
+                           
+                                        <br>
+                                        POPULAR</span>
+                                </div>
+                            </div>
+                            <div class="panel-heading">
+                                 <h1 class="panel-heading">  <i class="fa fa-desktop"></i></h1>
+                                <h3 class="panel-title">Standard</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="the-price">
+                                    <h1>
+                                        <i class="fa fa-inr" aria-hidden="true"></i>350<span class="subscript">/mo/veh</span></h1>
+                                   <small class="pull-left">Including Basic Plan </small> <small>Full Pacakage <input type="checkbox" id="chkStandard"/><a href="#" onclick="UnSubPlan(this.id);" id="2" class="hidden ">UnSubscribe plan</a> </small>
+                                </div>
+                                <table class="table" id="tblStandard">
+                                   
+                                </table>
+                            </div>
+                            <div class="panel-footer">
+                                <br />
+                                <br />
+                                <button onclick="ActSlctdStdReports();" class="btn btn-success" role="button">Purchase</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-4">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                 <h1 class="panel-heading"><i class="fa fa-desktop"></i></h1>
+                                <h3 class="panel-title">Premium</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="the-price">
+                                    <h1>
+                                        <i class="fa fa-inr" aria-hidden="true"></i>450<span class="subscript">/mo/veh</span><span class="pull-right"></span></h1>
+                                  <small class="pull-left">Including Basic  + Standard Plan </small> <small>Full Pacakage  <input type="checkbox" id="chkPremium"/><a href="#" onclick="UnSubPlan(this.id);" id="3" class="hidden">UnSubscribe plan</a></small>
+                                </div>
+                                <table class="table" id="tblPremium">
+                                   
+                                </table>
+                            </div>
+                            <div class="panel-footer">
+                                <button onclick="ActSlctedPrmReports();" class="btn btn-success" role="button">Purchase</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row-fluid" id="alertMessage" style="margin-bottom: 12px; margin-top: 5px;">
+        <div class="widget-body" style="border: 0">
+            <div class="row-fluid">
+                <div class="widget span12">
+                    <div class="widget-body clearfix" style="overflow-x: auto">
+                        <div id="ReportTotal">
+                            <div class="box">
+                                <div class="box-content padded" style="background: white;">
+                                    <form class="row-fluid">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <h4>Note</h4>
+                                            </div>
+                                            <div class="col-md-9"><b>(*)</b> Indicates that you need additional Hardware. Please Contact Our Marketing Executive.</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+@section scripts{
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+    <script src="~/Scripts/app/_layoutCustId.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script>
+        var baseurl = apiBase.apiurl;
+      //  var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        $(document).ready(function () {
+          
+            var url = baseurl + "CommonApi/GetReportsForSubPlan";
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+                data: { custId: $custid },
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+
+                    $.each(data, function (i, item) {
+                        debugger;
+                           
+                 
+
+
+                       var selected = '<input  type="checkbox" value="' + item.Id + '">';
+                        var unsub = '';
+                        if (item.IsActive) {
+                            selected = '<input type="checkbox" value="' + item.Id + '" checked disabled>';
+                            unsub = '<a  href="#" onClick="UnSubReport(this.id)" id="' + item.Id + '"  class="pull-right">Unsubscribe</a>';
+
+                        }
+                        if (item.PlanId == 3) {
+                            if (item.Details) {
+                                $('#tblPremium').append("<tr><td><i>" + item.Name + "<i>&nbsp;" +
+                                 "<i style='color:green;'  class='fa fa-info-circle'  data-toggle='tooltip'   data-placement='top' title='" + item.Details + " your concerned Marketing Executive.'></i>" +
+                                    "<small class='pull-right hidden'>Rs." + item.Price + "</small></td>" +
+                             "<td class='hidden'>" + selected + "</td>" +
+                             +"</tr>");
+                            }
+                            else {
+                                $('#tblPremium').append("<tr><td>" + item.Name + "<small class='pull-right hidden'>Rs." + item.Price + "</small></td>" +
+                                    "<td class='hidden'>" + selected + "</td>" +
+                                    "<td class='hidden'>" + "item.VideoURL" + ' ' + unsub + "</td>" +
+
+                                +"</tr>");
+                            }
+                        }
+                        else if (item.PlanId == 2) {
+                            if (item.Details) {
+                                $('#tblStandard').append("<tr><td><i>" + item.Name + "<i>&nbsp;" +
+                                 "<i style='color:green;'  class='fa fa-info-circle'  data-toggle='tooltip'   data-placement='top' title='" + item.Details + " your concerned marketing executive'></i>" +
+                                    "<small class='pull-right hidden'>Rs." + item.Price + "</small></td>" +
+                             "<td class='hidden'>" + selected + "</td>" +
+                             +"</tr>");
+                            }
+                            else {
+                                $('#tblStandard').append("<tr><td>" + item.Name + "<small class='pull-right hidden'>Rs." + item.Price + "</small></td>" +
+                                  "<td class='hidden'>" + selected + "</td>" +
+                                  "<td class='hidden'>" + "item.VideoURL" + ' ' + unsub + "</td>" +
+
+                              +"</tr>");
+                            }
+                        }
+                        else if (item.PlanId == 1) {
+                            var selected = '<input  type="checkbox" checked disabled value="' + item.Id + '">';
+                            if (item.Details) {
+                                $('#tblBasic').append("<tr><td><i>" + item.Name + "<i>&nbsp;" +
+                                 "<i style='color:green;'  class='fa fa-info-circle'  data-toggle='tooltip'   data-placement='top' title='" + item.Details + "  your concerned marketing executive'></i>" +
+                                    "<small class='pull-right hidden'>Rs." + item.Price + "</small></td>" +
+                             "<td class='hidden'>" + selected + "</td>" +
+                             +"</tr>");
+                            }
+                            else {
+                                $('#tblBasic').append("<tr><td>" + item.Name + "<small class='pull-right hidden'>Rs." + item.Price + "</small></td>" +
+                            "<td class='hidden'>" + selected + "</td>" +
+                            +"</tr>");
+                            }
+
+
+                        }
+
+                        if (item.IsFullActivated && item.PlanId == 2) {
+                            $("#chkStandard").prop("disabled", true).prop("checked", true);
+                            $("#2").removeClass("hidden");
+                            $("#tblStandard a").addClass("hidden");
+
+                        }
+                        if (item.IsFullActivated && item.PlanId == 3) {
+                            $("#chkPremium").prop("disabled", true).prop("checked", true);
+                            $("#3").removeClass("hidden");
+                            $("#tblPremium a").addClass("hidden");
+                        }
+                    });
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
+                error: function (err) {
+                    toastr.warning('something went wrong!');
+                }
+
+            });
+
+
+
+        });
+
+        //activation of reports for standard and premium reports
+        function ActSlctedPrmReports() {
+
+            var planId = 0;
+            var isfullactiavate = false;
+
+            var checks;
+            checks= $('#tblPremium input[type="checkbox"]:checked').map(function () {
+                return $(this).val();
+            }).get()
+
+            var slctdRpts;
+            slctdRpts= checks.toString();
+
+            if ($("#chkPremium").prop("checked") == true) {
+                debugger;
+                isfullactiavate = true;
+                planId = 3;//2 for standard
+                checks = $('#tblPremium  input[type="checkbox"]:checked').map(function () {
+                    return $(this).val();
+                }).get();
+          checks=checks+','+(  $('#tblStandard  input[type="checkbox"]:checked').map(function () {
+                    return $(this).val();
+                }).get());
+                
+                slctdRpts = checks.toString();
+            }
+
+            alertify.confirm(" Do you want to proceed?", function (e) {
+                if (e) {
+                    ajaxActivateReports(slctdRpts, isfullactiavate, planId);
+                   return true;
+                } else {
+                    alertify.error("You've clicked Cancel");
+                    return false;
+                }
+            });
+           
+        }
+
+        function ActSlctdStdReports() {
+          
+            var planId = 0;
+            var isfullactiavate = false;
+            var checks = $('#tblStandard input[type="checkbox"]:checked').map(function () {
+                return $(this).val();
+            }).get()
+            var slctdRpts = checks.toString();
+
+            //var executeFun = ajaxActivateReports(slctdRpts, isfullactiavate, planId);
+
+            if ($("#chkStandard").prop("checked") == true) {
+            
+                isfullactiavate=true;
+                planId = 2;//2 for standard
+               // executeFun = ajaxActivateReports(slctdRpts, isfullactiavate, planId);
+            }
+
+
+            alertify.confirm("Do you want to proceed?", function (e) {
+                if (e) {
+                    ajaxActivateReports(slctdRpts, isfullactiavate, planId);
+                    return true;
+                } else {
+                    alertify.error("You've clicked Cancel");
+                    return false;
+                }
+            });
+        }
+
+        function ajaxActivateReports(reports, isfullactiavate, planId) {
+            debugger;
+            debugger;
+            var url = baseurl + "CommonApi/ActivateReportsAccordingToPlan";
+            
+            $.ajax({
+                url: url,
+                dataType: "json",
+                data: { custId: $custid, reportId: reports,planId:planId, IsFullActivate:isfullactiavate },
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    toastr.success("Succefully updated");
+
+                },
+                error: function () {
+                    toastr.warning("something went wrong");
+                }
+            });
+
+        }
+
+        //Unsubscribing report
+
+        function UnSubReport(id) {
+            debugger;
+
+            alertify.confirm(" Do you want to proceed?", function (e) {
+                if (e) {
+                    ajaxUnSubscrbeReport(id);
+                    return true;
+                } else {
+                    alertify.error("You've clicked Cancel");
+                    return false;
+                }
+            });
+
+        }
+
+        //Unsubscribing PlanId
+        function UnSubPlan(id) {
+
+            alertify.confirm(" Do you want to proceed?", function (e) {
+                if (e) {
+                    ajaxUnSubscrbePlan(id);
+                    return true;
+                } else {
+                    alertify.error("You've clicked Cancel");
+                    return false;
+                }
+            });
+
+        }
+
+
+
+        //for specific reports
+        function ajaxUnSubscrbeReport(id) {
+            var url = baseurl + "api/CommonApi/UnSubscrbeReport";
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+                data: { custId: $custid, reportId: id },
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    toastr.success("Succefully updated");
+
+                },
+                error: function () {
+                    toastr.warning("something went wrong");
+                }
+            });
+
+        }
+
+        //for specific plan
+        function ajaxUnSubscrbePlan(id) {
+            var url = baseurl + "CommonApi/UnSubscrbePlan";
+
+            $.ajax({
+                url: url,
+                dataType: "json",
+                data: { custId: $custid, planId: id },
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                success: function (data) {
+                    toastr.success("Succefully updated");
+
+                },
+                error: function () {
+                    toastr.warning("something went wrong");
+                }
+            });
+
+        }
+
+        //select All for premium and standard reports
+        $('#chkPremium').change(function () {
+            var all = this;
+            $('#tblPremium input[type="checkbox"]').prop('checked', all.checked);
+            $('#tblStandard input[type="checkbox"]').prop('checked', all.checked);
+            $('#chkStandard').prop('checked', all.checked);
+        });
+
+        $('#chkStandard').change(function () {
+            var all = this;
+            $('#tblStandard input[type="checkbox"]').prop('checked', all.checked);
+        });
+    </script>
+    
+    }

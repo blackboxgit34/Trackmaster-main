@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="k-ff k-ff30 ng-scope" ng-app="blackbox" lang="en">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>Live Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://claas.trackmaster.in/content/res/images/favicon.ico">
+    <link href="css/bootstrap-timepicker.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/stylesad15.css" rel="stylesheet">
+    <!--<link href="css/angucomplete-alt.css" rel="stylesheet">-->
+    <link href="css/toastr.css" rel="stylesheet">
+    <link href="css/jquery.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables_002.css" rel="stylesheet">
+    <link href="css/jquery_002.css" rel="stylesheet">
+    <link href="css/jquery_003.css" rel="stylesheet">
+    <link href="css/bootstrap_002.css" rel="stylesheet">
+    <link href="css/dataTables.css" rel="stylesheet">
+    <link href="css/buttons.css" rel="stylesheet">
+    <link href="css/select.css" rel="stylesheet">
+    <link href="css/CustomCSS.css" rel="stylesheet">
+	<link href="css/NewStyle.css" rel="stylesheet">
+	<link href="css/small-business.css" rel="stylesheet">
+
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="css/Site.css" rel="stylesheet">
+	<style>
+	body
+		{
+		background-image: url("image/vehicle.jpg");
+		    background-position: 2% 23%;
+		}
+	   #footer-bottom
+	   {
+            text-align: center;
+            color: #585858;
+            font-size: 10px;
+            background: #f4f4f4;
+            margin-bottom: 0;
+            position: relative;
+            bottom: 0;
+        }
+		.col-md-2 
+		{
+			width: 17% !important;
+			/* margin-right: 0px; */
+			/* margin-left: 6px; */
+			background: none !important;
+			text-align: left;
+		}
+    </style>
+</head>
+<body>
+<div class="row">  
+    <nav class="navbar navbar-fixed-top">
+       <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img src="image/Web%2520page%2520blackbox-2.png" alt="">
+                </a>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+</div>
+	<section style="margin-top:15%">
+    <div class="container">
+        <!-- Heading Row -->
+    <div class="row">
+	<!--<div class="row">
+                <div id="test" style="z-index: 999; display: none;" class="val-message val-error"></div>
+
+            </div>-->
+            <div class="col-md-3" style="width:25%">
+               <a href="#">
+                    <img src="image/bb-login.png" alt="pro2"></a>
+                   
+
+            </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-5" style="padding:20px">
+                <h4 style="line-height: 30px;font-weight:bold;">
+                    Do you know you are logging in to the website of india's only patented product in GPS Technology Category?
+                </h4>
+                <p>
+                    BlackBox is proud to be india's first and only product to get patent from government
+                    of india. This makes us all the more commited to render best-in-class services to
+                    our esteemed patrons like you.
+                </p>
+            </div>
+           
+        <div class="col-md-4" style="margin-top:-60px">
+            <div id="form">
+					   <form action="/" id="login_form" method="post">
+					   <input name="__RequestVerificationToken" value="" type="hidden">                    
+							<div class="head-section text-center  wow bounceIn" data-wow-delay="0.4s">
+								<img src="image/Web%2520page%2520blackbox-2.png" title="name" >
+								<br>
+								<span style="font-size:14px; font-weight:600">Sign in to your account</span>
+							</div> <br>
+						   <!--<div class="loginform" style="text-align:center">-->
+						   <div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-user" aria-hidden="true"></i>
+								</span>
+								<input type="text" name="username" class="form-control" id="username" placeholder="User Name"style="padding-left: 45px;">
+							</div>
+							<div class="input-group" style="margin-top:20px">
+								<span class="input-group-addon">
+									<i class="fa fa-unlock-alt" aria-hidden="true"></i>
+								</span>
+								<input type="text" class="form-control"  name="password" placeholder="Password " aria-describedby="basic-addon1" style="padding-left: 45px;">
+								
+							</div>
+								<div class="form-check" style="margin-top:12px">
+									<label class="form-check-label">
+										<input type="checkbox" class="form-check-input">
+										Check me out
+									</label>
+								</div>                             
+								 <div class="clearfix"></div>              
+								<button class="button" align="right" type="submit" style="margin-top:10px">
+								 Sign in</button>
+												 <br>
+								<div class="register">
+									 <a href="#pass_form" class="form_toggle" style="color: #f26b34;">Can't access your account?</a><br>                      
+								</div>
+						  <!-- </div>   -->      
+						</form> 
+									
+					<div >	
+						<form action="/Login/ForgotPassword" id="pass_form" method="post" style="display: none">
+							<div class="head-section text-center  wow bounceIn" data-wow-delay="0.4s">
+								<img src="image/Web%2520page%2520blackbox-2.png" title="name">
+								  <br>
+								<span style="font-size:14px; font-weight:600">Can't Sign In?</span>
+							</div> <br>                
+						   <div class="loginform" id="forgetFrm" style="min-height: 150px">
+								<div class="input-group">
+								<span class="input-group-addon">
+									<i class="fa fa-user" aria-hidden="true"></i>
+								</span>
+								<input type="text" name="username" class="form-control" id="username" placeholder="User Name"style="padding-left: 45px;">
+							</div>
+								<br>
+								<div>
+									<button class="button" align="right" type="submit">Request Password</button>
+								</div>                       
+								<div class="box_footer text-center clearfix minor_text" style="padding-top: 10px;">
+									 Never mind, <a href="javascript:;" onclick="window.location.reload()">Send Back</a>
+								</div>                           
+							</div>
+						</form>  					
+					</div>
+                           
+			</div>
+        </div>
+    </div>
+        <!-- /.row -->
+        <div class="row" style="margin-top: 0px;">
+			<div class="col-md-2"></div>
+			<div class="col-md-2">
+					
+			</div>
+			<div class="col-md-2">
+			  <span style="margin-top:11px; color:#000; margin-bottom:9px;">Trial version for 30 Days!</span>
+				<a href="https://itunes.apple.com/us/app/blackbox-fms/id937229552?ls=1&amp;mt=8" target="_blank">
+				<img src="image/apple_store_en.png" alt="apple_store_app" class="btn_img" style="padding-left:10px"></a>
+			</div>
+			<div class="col-md-2" style="width:18%">
+			<a href="http://trackmaster.in/downloads/" target="_blank" class="btn_img"><span style="color:#333">Download older version of App</span></a>
+				 <a href="https://play.google.com/store/apps/details?id=com.humbhi.blackbox" target="_blank">
+				 <img src="image/google_play_en.png" alt="apple_store_app" class="btn_img"></a>
+			</div>
+			<div class="col-md-2">
+				
+			</div>
+		</div>
+	</div>
+    </div>
+</section>
+	
+    <footer class="footer">
+        <div>
+            <p style="font-size:11px; font-weight:600;text-align:center">SCO 96-97, Sector 34-A, Chandigarh (UT), India &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Phone:
+            91-172 5016501, Email: info@hitecpoint.in</p>
+        </div>
+        <div>
+            <p style="font-size:11px; font-weight:600;text-align:center">This Site is Optimized for FireFox 28.0<sup>™</sup> &amp; higher | Google
+            Chrome 34.0<sup>™</sup> &amp; higher | IE 9.0<sup>™</sup> and higher
+            | Last updated : Nov <span>-</span> 2016
+            | Current Time: 10:23:02.8749498</p>
+        </div>
+        <div id="footer-bottom">
+            <a href="http://www.hitecpoint.in/" target="_blank">www.hitecpoint.in</a>
+        </div>
+    </footer>
+    
+    <script type="text/javascript" src="js/jquery_002.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javescript">
+        $(document).ready(function () {
+            $(".form_toggle").click(function () {
+                $("#login_form").hide();
+                $("#pass_form").show();
+            });
+            $("#btnRequest").click(function () {
+                submitDemoRequest();
+            });
+
+            var MyUrl = '/Login/BannerData';
+
+            $.ajax({
+                url: MyUrl,
+                data: { ID: 11 },
+                success: function (data) {
+                    debugger;
+                    if (data == "No msg") {
+                        $("#test").css("display", "none");
+                        $("#test").html("");
+                    }
+                    else {
+                        $("#test").css("display", "block");
+                        $("#test").html(data);
+                    }
+                }
+            });
+        });
+
+        function submitDemoRequest() {
+            var url = '/login/CameraDemo';
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var phone = $("#phone").val();
+            if (name == '') {
+                alert('Please enter Name');
+                return;
+            }
+            if (email == '') {
+                alert('Please enter Email');
+                return;
+            }
+            else {
+                if (!validateEmail(email)) {
+                    alert('Invalid email');
+                    return;
+                }
+            }
+            if (phone == '') {
+                alert('Please enter Phone');
+                return;
+            }
+            var dataToSend = JSON.stringify({ name: name, email: email, phone: phone });
+
+            $.ajax({
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Accept", "application/json");
+                },
+                type: "POST",
+                url: url,
+                data: dataToSend,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    onSuccess(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    onError(XMLHttpRequest, textStatus, errorThrown);
+                }
+            });
+        }
+
+        function onSuccess(data) {
+            alert(data);
+            alert('Thank you for contacting us. We will get back to you soon!');
+        }
+
+        function onError(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest);
+            alert(textStatus);
+            alert(errorThrown);
+        }
+
+        // Function that validates email address through a regular expression.
+        function validateEmail(sEmail) {
+            var filter = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+            if (filter.test(sEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+
+
+</body>
+</html>

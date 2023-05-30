@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "Payment Option";
+    var modeList = (ViewBag.ModeList) == null ? Enumerable.Empty<SelectListItem>() : ViewBag.ModeList;
+    var bankList = (ViewBag.BankList) == null ? Enumerable.Empty<SelectListItem>() : ViewBag.BankList;
+}
+<div class="row-fluid" style="margin-bottom: 25px;">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-header">
+                    <i class="fa fa-file-archive-o"></i>
+                    <h5>Payment Option</h5>
+                    
+                        <a href="@Url.Action("account-summary", "Billing")" class="pull-right btn-group "><h5>Pay Online Bill</h5></a>
+                    
+                </div>
+                <div class="widget-body clearfix" style="overflow-x: auto">
+                    <div class="box" style="background: #fdfdfd;">
+                        <div class="box-content padded">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <form class="form-inline">
+                                        <div class="form-group padded">
+
+                                            <div class="tabbable tabbable-bordered">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a data-toggle="tab" href="#tb1_b">ON LINE PAYMENT</a></li>
+                                                    <li><a data-toggle="tab" href="#tb1_a">OFF LINE PAYMENT</a></li>
+
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div id="tb1_b" class="tab-pane active">
+                                                        <div>
+                                                            <p>
+                                                            </p>
+                                                            <h5>We accept all major credit cards and bank cards.</h5>
+                                                        </div>
+                                                        <div class="box_a">
+                                                            <p>
+                                                                <h3>Credit Cards</h3>
+                                                                <table class="veh-info">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/amex_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/amexezeclick_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/dinersclub_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/discover_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/jcb_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/mastercard_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/visa_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </p>
+                                                        </div>
+                                                        <div class="box_a">
+                                                            <p>
+                                                                <h3>Debit Cards</h3>
+                                                                <table class="veh-info">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/rupay_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/visadebitcardall_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/mastercardall_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/mastercard_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/creditcards/visa_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </p>
+                                                        </div>
+                                                        <div class="box_a">
+                                                            <p>
+                                                                <h3>ATM-cum Debit Cards</h3>
+                                                                <table class="veh-info">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/citibank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/pnb_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/sbi_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/uninonbank_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/canarabank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/iob_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/andhrabandk_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </p>
+                                                        </div>
+                                                        <div class="box_a">
+                                                            <p>
+                                                                <h3>Net Banking</h3>
+                                                                <table class="veh-info">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/axisbank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/bankofbaroda_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/bankofindia_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/bankofmaharashtra_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/canarabank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/citibank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/iob_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/yesbank_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/kvb_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/rbs_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/kotak_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/sbi_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/vijayabank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/karnatakabankltd_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/jkbank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/pnb_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/uninonbank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/citibank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/canarabank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/debitcards/andhrabandk_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/idbibank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/ing_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/icicibank_logo.jpg")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <img src="@Url.Content("/images/internetbanking/hdfcbank_logo.jpg")" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div id="tb1_a" class="tab-pane">
+                                                        <div>
+                                                            <h5>We Offer Various Options To Make Your Subscription Payment. The Payment Options With Bank Details Are Given Below</h5>
+                                                        </div>
+                                                        <br />
+                                                        <div>
+                                                            <strong>Cheque / Demand Draft / Money Order / Cash Deposit / RTGS
+                                                            </strong>
+                                                        </div>
+                                                        <div class="box_a">
+                                                            <p>
+                                                                <img src="/images/internetbanking/axisbank_logo.jpg" alt="sbi" />
+                                                            </p>
+                                                     
+                                                                <ul style="list-style-image: none; line-height: 2.0; list-style-type: none;">
+                                                                    <li>&raquo;&nbsp;<strong> Bank Name </strong>: AXIS BANK LTD
+                                                                    </li>
+                                                                    <li>&raquo;&nbsp;<strong>Drawn in favour of</strong>: BLACK BOX GPS TECHNOLOGY OPC (P) Ltd, Chandigarh </li>
+                                                                    <li>&raquo;&nbsp;<strong>Current Account No</strong>: # 916020053190923 </li>
+                                                                    <li>&raquo;&nbsp;<strong>Address</strong>: BLACK BOX GPS TECHNOLOGY OPC (P) Ltd,
+                                        SCO 96-97,Sector 34-A, Chandigarh (UT) </li>
+                                                                    <li>&raquo;&nbsp;<strong>IFSC/RTGS CODE</strong>: UTIB0000041
+                                                                    </li>
+                                                                </ul>
+                                                          
+                                                        </div>
+                                                        <br />
+                                                     
+
+                                                     
+                        <div>
+                            <strong>Note</strong> : As soon as you make a payment using one of these options,
+                            please write to us:
+                        </div>
+                                                        <div class="box_a_content">
+                                                            @using (Html.BeginForm("SendEmail", "Billing", FormMethod.Post, new { Id = "myform" }))
+                                                            {
+                                                                <table id="dt_table_tools" class="table table-striped table-condensed">
+                                                                    <tr>
+                                                                        <td style="width: 120px;">Amount Deposited
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox("txtamount", null, new { style = "margin-bottom:0px;" })
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Mode Of Payment
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownList("paymode",(IEnumerable<SelectListItem>) modeList, new { @onchange = "getmodetext();" })
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Cheque/ DD No:
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox("txtChequeNo", null, new { style = "margin-bottom:0px;" })
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Paid In Bank
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownList("bank",  (IEnumerable<SelectListItem>)bankList, new { @onchange = "getbanktext();" })
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Date Of Payment:
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox("txtdate", DateTime.Now.Date.ToString("MM/dd/yyyy"), new { style = "margin-bottom:0px;" })
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Remarks
+                                                                        </td>
+                                                                        <td style="margin-left: 40px">
+                                                                            @Html.TextBox("txtRemarks", null, new { style = "margin-bottom:0px;" })
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td>
+                                                                            <input type="submit" id="Send" name="Send" value="Send" class="btn btn-default" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>@Html.Hidden("modetext")
+                                                                        </td>
+                                                                        <td>@Html.Hidden("banktext")
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/widget-body-->
+</div>
+
+<script type="text/javascript">
+    $('#txtdate').datepicker();
+</script>
+<script type="text/javascript">
+    function getmodetext() {
+        var mode = $('#paymode option:selected').text(); $("#modetext").val(mode);
+    } function getbanktext() {
+        var bank = $('#bank option:selected').text(); $("#banktext").val(bank);
+    } </script>

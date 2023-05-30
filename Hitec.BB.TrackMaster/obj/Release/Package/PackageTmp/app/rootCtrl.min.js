@@ -1,0 +1,4 @@
+(function(n){"use strict";function t(n,t,i,r){function u(){i.removeCredentials();r.displaySuccess("logging out...");window.location.href="/home/login"}n.logout=u;t.loginName=JSON.parse(localStorage.getItem("cid"))!=null?JSON.parse(localStorage.getItem("cid")).data.CustName:JSON.parse(localStorage.getItem("custId"))!=null?JSON.parse(localStorage.getItem("custId")):JSON.parse(localStorage.getItem("custID"))!=null?JSON.parse(localStorage.getItem("custID")):JSON.parse(localStorage.getItem("cid"))!=null?JSON.parse(localStorage.getItem("cid")).data.CustName:JSON.parse(localStorage.getItem("staffId"))!=null?JSON.parse(localStorage.getItem("staffId")).data.EmpID:JSON.parse(localStorage.getItem("custID"))}n.controller("rootCtrl",t);t.$inject=["$scope","$rootScope","membershipService","notificationService"]})(angular.module("blackbox"));
+/*
+//# sourceMappingURL=rootCtrl.min.js.map
+*/

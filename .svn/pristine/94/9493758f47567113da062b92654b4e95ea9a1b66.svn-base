@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Vehicle Location on map</title>
+    <link rel="stylesheet" href="../css/Map/Map/LocationOnmapCSS/mapstyle.css" type="text/css"
+        media="screen" />
+    <style type="text/css">
+        html
+        {
+            height: 100%;
+        }
+        #map_canvas
+        {
+            height: 100%;
+        }
+        .veh_label
+        {
+            font: 12px/16px Verdana,sans-serif;
+            font-weight: bold;
+            padding: 2px 4px 2px 4px;
+            width: auto;
+            white-space: nowrap;
+        }
+    </style>
+    <meta content="MSHTML 6.00.5700.6" name="GENERATOR" />
+    <script type="text/javascript" src="../js/Map/LocationOnMap/jquery-1.3.2.js"></script>
+   
+     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" language="javascript"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="../js/Map/LocationOnMap/label.js"></script>
+    <script type="text/javascript">
+        var timerID = null;
+        var timerRunning = false;
+        var delay = 15000;
+        var infowindow;
+        var zoo = 0;
+        var map;
+        var markersArray = [];
+
+        var icons = [10];
+        icons[1] = "../img/legends/stop.png";
+        icons[2] = "../img/legends/moving.png";
+        icons[3] = "../img/legends/hispeed.png"; //GreenIcon;   // Moving
+        icons[4] = "../img/legends/ignion.png"; //ErrorIcon;   // Unknown (Moving without Ignition On)
+        icons[5] = "../img/legends/stop.png";
+        icons[6] = "../img/legends/towed.png";
+        icons[7] = "../img/legends/moving.png";
+        icons[8] = "../img/legends/hispeed.png";
+        icons[9] = "../img/legends/unreach.png";
+
+        function InitializeTimer() {
+            setMapInitially()
+            StopTheClock()
+            initialize()
+
+            StartTheTimer()
+        }
+        function StopTheClock() {
+            if (timerRunning)
+                clearTimeout(timerID)
+            timerRunning = false
+        }
+        function StartTheTimer() {
+            timerRunning = true
+            timerID = self.setTimeout("StartTracking()", delay)
+        }
+        function StartTracking() {
+            initialize()
+            //readMap("mapoutputS.aspx?dummy=" + Math.random() * 5);
+            StartTheTimer();
+        }
+
+
+
+        function setMapInitially() {
+            var lat = "30.7136716666667";
+            var lng = "76.203159";
+            var latlng = new google.maps.LatLng(lat, lng);
+            if (zoo == 0) {
+                zoo = 14
+            }
+            var myOptions =
+                    {
+                        zoom: zoo,
+                        center: latlng,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+            map = new google.maps.Map(document.getElementById("map_canvas"),
+            myOptions);
+
+            google.maps.event.addListener(map, 'zoom_changed', function () {
+                zoo = this.getZoom();
+
+            }
+            );
+        }
+
+        function readCustomLocation(map) {
+            var infoWinContent = "";
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            if (xmlhttp != null) {
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        infoWinContent = xmlhttp.responseXML;
+                    }
+                }
+            }
+            xmlhttp.open("GET", "../AspxPages/POIOutput.aspx", false);
+            xmlhttp.send();
+            var markers = infoWinContent.documentElement.getElementsByTagName("marker");
+            for (var i = 0; i < markers.length; i++) {
+                var lat = parseFloat(markers[i].getAttribute("lat"));
+                var lng = parseFloat(markers[i].getAttribute("lng"));
+                var details = markers[i].getAttribute("details");
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    draggable: false,
+                    map: map,
+                    visible: true
+                });
+                var label = new Label({
+                    map: map
+                });
+                label.bindTo('position', marker, 'position');
+                label.set('text', details);
+            } //end for
+        }
+
+        function clearMarkers() {
+            for (var i = 0; i < markersArray.length; i++) {
+                markersArray[i].setMap(null);
+            }
+        }
+
+        function initialize() {
+            clearMarkers();
+            //alert(markersArray.length);
+            // var fullURL = parent.document.URL;
+            var infoWinContent = "";
+            // var lat = "30.7136716666667";
+            // var lng = "76.203159";
+            var xmlhttp;
+            var image;
+            var marker;
+            var info;
+            var lati;
+            var longi;
+            var xDoc;
+            var bType = navigator.appName;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            if (xmlhttp != null) {
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        switch (bType) {
+                            case "Microsoft Internet Explorer":
+                                // This actually calls into a function that returns a DOMDocument 
+                                // on the basis of the MSXML version installed.
+                                xDoc = new ActiveXObject("MSXML2.DOMDocument")
+                                xDoc.async = false;
+                                xDoc.loadXML(xmlhttp.responseText);
+                                break;
+                            default:
+                                var dp = new DOMParser();
+                                xDoc = dp.parseFromString(xmlhttp.responseText, "text/xml");
+                                break;
+                        }
+                        infoWinContent = xDoc;
+                    }
+                }
+            }
+            xmlhttp.open("GET", "../AspxPages/MapVeh.aspx", false);
+            xmlhttp.send();
+
+            lati = infoWinContent.getElementsByTagName("lat");
+            longi = infoWinContent.getElementsByTagName("long");
+            lat = lati[0].childNodes[0].nodeValue;
+            lng = longi[0].childNodes[0].nodeValue;
+            var latlng = new google.maps.LatLng(lat, lng);
+            map.setCenter(latlng);
+            //            if (zoo == 0) {
+            //                zoo = 12
+            //            }
+            //            var myOptions =
+            //                  {
+            //                      zoom: zoo,
+            //                      center: latlng
+            //                      //,
+            //                      //mapTypeId: google.maps.MapTypeId.ROADMAP
+            //                  };
+
+            //            var map = new google.maps.Map(document.getElementById("map_canvas"),
+            //            myOptions);
+
+            //            google.maps.event.addListener(map, 'zoom_changed', function () {
+            //                zoo = this.getZoom();
+
+            //}
+            //);
+
+            var vehname = infoWinContent.getElementsByTagName("vehname");
+            var drivername = infoWinContent.getElementsByTagName("driver");
+            var date = infoWinContent.getElementsByTagName("date");
+            var speed = infoWinContent.getElementsByTagName("speed");
+            var loc = infoWinContent.getElementsByTagName("loc");
+            var parkalt = infoWinContent.getElementsByTagName("park");
+            var veh = vehname[0].childNodes[0].nodeValue;
+            var drive = drivername[0].childNodes[0].nodeValue;
+            var dt = date[0].childNodes[0].nodeValue;
+            var spd = speed[0].childNodes[0].nodeValue;
+            var loct = loc[0].childNodes[0].nodeValue;
+            var park = parkalt[0].childNodes[0].nodeValue;
+
+            info = "<div class='veh_label'>Vehicle Name:" + veh + "<br/>Speed: " + spd + "<br/>DriverName: " + drive + "<br/>DateTime: " + dt + "<br/>Location:" + loct + "</div>";
+            function createMarker(image) {
+                marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    icon: image
+                });
+                infowindow = new google.maps.InfoWindow({
+                    content: info,
+                    size: new google.maps.Size(50, 50)
+                });
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    infowindow.open(map, marker);
+                });
+                markersArray.push(marker);
+            }
+
+
+
+
+            if (park == 1) {
+                image = icons[1];
+                var markers = createMarker(image);
+            }
+            else if (park == 2) {
+                image = icons[2];
+                var markers = createMarker(image);
+            }
+            else if (park == 3) {
+                image = icons[3];
+                var markers = createMarker(image);
+            }
+            else if (park == 4) {
+                image = icons[4];
+                var markers = createMarker(image);
+            }
+            else if (park == 5) {
+                image = icons[5];
+                var markers = createMarker(image);
+            }
+            else if (park == 6) {
+                image = icons[6];
+                var markers = createMarker(image);
+            }
+            else if (park == 7) {
+                image = icons[7];
+                var markers = createMarker(image);
+            }
+            else if (park == 8) {
+                image = icons[8];
+                var markers = createMarker(image);
+            }
+            else if (park == 9) {
+                image = icons[9];
+                var markers = createMarker(image);
+            }
+            else {
+            }
+            readCustomLocation(map);
+        }
+
+    </script>
+    <script type="text/javascript" language="javascript">
+        // ---------------- Show Hide Trail -------------
+        function showHideTrail(check) {
+
+            for (var i = 1; i < gmarkers.length; i++) {
+                if (check == false) {
+                    gmarkers[i].setMap(null);
+                    flightPath.setMap(null);
+                }
+                else {
+                    gmarkers[i].setMap(map);
+                    flightPath.setMap(map);
+                }
+            }
+        }
+
+        // ---------------- Re-Center map to bounds -------------
+        function reCenter() {
+            try {
+                autoZoom = $('#checkZoom').is(':checked');
+            }
+            catch (ex) {
+            }
+            if (autoZoom == true) {
+                var bound = new google.maps.LatLngBounds();
+                for (var i in gmarkers) {
+                    bound.extend(gmarkers[i].getPosition());
+                }
+                map.fitBounds(bound);
+                //zoomToExtents = 1;
+            }
+        }
+    </script>
+</head>
+<body style="margin: 0pt; height: 100%; background-color: #FFFFFF; font: 11px/18px 'Lucida Grande' , 'Lucida Sans Unicode' , Helvetica, Arial, Verdana, sans-serif;"
+    onload="InitializeTimer()">
+    <div id="map_canvas" style="width: 100%; height: 100%">
+    </div>
+    <div id="container">
+        <div class="panel">
+            <div id="settings">
+                <a href="#" style="color: #0000B7; font-weight: normal; height: 18px;" onclick="InitializeTimer()">
+                    Refresh</a><br />
+                <a href="#" target="_blank" style="color: #0000B7; font-weight: normal;">View all Vehicles</a><br />
+                <table style="border-top: dashed 1 px #c0c0c0;">
+                    <tr>
+                        <td style="text-align: center">
+                            <img alt="Route Playback" style="float: left;" src="images/icons/playback.png" />
+                        </td>
+                        <td style="padding: 2px;">
+                            <a target="_blank" href="#" style="color: #0000B7; font-weight: normal; height: 18px;">
+                                View Route Playback</a><br />
+                            <small style="color: #808080;">Opens in new window</small>
+                        </td>
+                        <td>
+                            <img alt="New" src="#" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>
+                                Trail
+                                <input type="checkbox" id="checkTrail" checked="checked" onclick="javascript:showHideTrail(this.checked);" />
+                            </p>
+                            <p>
+                                Auto Zoom
+                                <input type="checkbox" onchange="javascript:reCenter();" id="checkZoom" checked="checked" />
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

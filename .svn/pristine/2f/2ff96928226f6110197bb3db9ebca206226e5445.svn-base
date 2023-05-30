@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title> 
+    <script >
+        $('document').ready(function () {
+            GetETMNumbers();
+            GetCunductorName();
+        });
+
+        function GetETMNumbers() {           
+            var VehicleTypeUrl = apiBase.apiurl + 'fmsapi/GetETMDevices';
+            $('#DeviceID').find('option:not(:first)').remove();
+            $.get(VehicleTypeUrl, { custid: $custid }, function (data) {
+                $.each(data, function (key, value) {
+                    $("#DeviceID").append($("<option></option>").val(value.Value).html(value.Name));
+                });
+            });
+        }
+
+        function GetCunductorName() {           
+            var VehicleTypeUrl = apiBase.apiurl + 'fmsapi/GetCunductorName';
+            $('#CundtrName').find('option:not(:first)').remove();
+            $.get(VehicleTypeUrl, { custid: $custid }, function (data) {
+                $.each(data, function (key, value) {
+                    $("#CundtrName").append($("<option></option>").val(value.Value).html(value.Name));
+                });
+            });
+        }
+
+        $("#btnsubmit").click(function () {
+            debugger
+            var ETMDevice = $("#DeviceID").val();
+            var ConductorId = $("#CundtrName").val();
+            var data = [];            
+            var url = apiBase.apiurl + 'FmsAPI/AssignETMDeviceToCunductor';
+            data.push(
+            { name: 'ETMDeviceId', value: ETMDevice},{ name: 'ConductorId', value: ConductorId},{ name: 'CustId', value: $custid }
+            );
+            $.post(url, $.param(data), function (result) {
+                if (result > 0) {
+                    if (result == 1) {
+                        toastr.success(" created successfully.")
+                    }
+                    //window.setTimeout(function () {
+                    //    window.location.href = '/Fms/ManageETM';
+                    //}, 1000);
+                }
+                else
+                    toastr.error("Failed!!!")
+            });           
+        });
+    </script>  
+</head>
+<body>   
+    <form id="DriverChangeform" method="post">        
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Conductor Name :</label>
+            <div class="col-sm-6">
+                @Html.DropDownList("CundtrName", Enumerable.Empty<SelectListItem>(), "Select Name", new { @class = "js-example-basic form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">EMT Device :</label>
+            <div class="col-sm-6">
+                @Html.DropDownList("DeviceID", Enumerable.Empty<SelectListItem>(), "Select Device", new { @class = "js-example-basic form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4"></label>
+            <div class="col-sm-6">
+                <input type="submit" value="submit" id="btnsubmit" class="btn btn-green" style="float: right;">
+            </div>
+        </div>
+    </form>
+</body>
+</html>

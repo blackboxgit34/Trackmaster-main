@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "AddMasterTrip";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded span6">
+                                                        <form id="AddMasterTrip" method="post">
+                                                            @Html.Hidden("TripId")
+                                                            <div class="form-group">
+                                                                    <label class="control-label col-sm-4">Trip Name :</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="TripName" name="TripName" placeholder="Enter Trip" required> 
+                                                                    </div>
+                                                                </div>
+                                                             <div class="form-group">
+                                                                    <label class="control-label col-sm-4">Approx Distance(kms) :</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="Distance" name="Distance" placeholder="Distance" required>
+                                                                    </div>
+                                                                </div>
+                                                            <div class="form-group">
+                                                                    <label class="control-label col-sm-4">Start Location :</label>
+                                                                    <div class="col-sm-6">
+                                                                       @Html.DropDownList("StartLatLong", Enumerable.Empty<SelectListItem>(), "Select Start Location", new { @class = "js-example-basic-single form-control" })
+                                                                    </div>
+                                                                </div>
+                                                             <div class="form-group">
+                                                                    <label class="control-label col-sm-4">End Location :</label>
+                                                                    <div class="col-sm-6">
+                                                                      @Html.DropDownList("EndLatLong", Enumerable.Empty<SelectListItem>(), "Select End Location", new { @class = "js-example-basic-single form-control" })
+                                                                    </div>
+                                                                </div>
+                                                          
+                                                            <div class="col-sm-12 offset-col-sm-2">
+                                                                <input type="submit" class="btn btn-submit btn btn-green" value="Submit" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/widget-body-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    @section scripts{
+        <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+         <script src="~/Content/js/APIURL.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var VehicleUrl = apiBase.apiurl + 'FmsAPI/GetStarEndLocation';
+                $.get(VehicleUrl, { custid: $custid }, function (data) {
+                    $.each(data, function (key, value) {
+                        $("#StartLatLong").append($("<option></option>").val(value.StartLatLong).html(value.StartLoc));
+                        $("#EndLatLong").append($("<option></option>").val(value.StartLatLong).html(value.StartLoc));
+                    });
+                });
+                var tid = getUrlParameter("tid");
+                if (tid > 0) {
+                    $("#statusText").val("Update Master Trip");
+                    var url = apiBase.apiurl + "FmsApi/GetTripMasterByMasterId";
+                    $.get(url, { custid: $custid, tripid: tid }, function (data) {
+                        console.log(data);
+                        $.each(data, function (item, value) {
+                            $("#" + item).val(value);
+                        });
+                    });
+                }
+            });
+        </script>
+    }
+    <script>
+        function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+        $('#AddMasterTrip').submit(function () {
+            var TripId = $("#TripId").val();
+            var startLocation = $("#StartLatLong option:selected").text();
+            var endLocation = $("#EndLatLong option:selected").text();
+            var data = $('#AddMasterTrip').serializeArray();
+            data.push({ name: 'CustId', value: $custid },
+                { name: 'StartLoc', value: startLocation },
+                { name: 'EndLoc', value: endLocation });
+            var MtripUrl = apiBase.apiurl + 'FmsAPI/AddUpdateTripMaster';
+            $.post(MtripUrl, $.param(data), function (result) {
+                if (result > 0) {
+                    toastr.success("Record Entered Successfuly.")
+                }
+                else
+                    toastr.error("Failed!!!")
+            });
+        });
+    </script>

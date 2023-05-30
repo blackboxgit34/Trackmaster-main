@@ -1,0 +1,235 @@
+﻿$(document).ready(function () {
+    var start = moment().startOf('month').startOf('day');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+        $beginDate = start.format('MMM D YYYY h:mm:ss a');
+        $endDate = end.format('MMM D YYYY h:mm:ss a');
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        opens: "right",
+        timePicker: true,
+        ranges: {
+            'Today': [moment().subtract(0, 'days').startOf('day'), moment()],
+            'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            'Last 7 Days': [moment().subtract(6, 'days').startOf('day'), moment()],
+            //'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment()],
+            'This Month': [moment().startOf('month').startOf('day'), moment()],
+            'Last Month': [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month')]
+        },
+    }, cb);
+
+    cb(start, end);
+
+    GetParts(null);
+
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        bbid = tr[0].lastChild.innerHTML;
+        var row = table.row(tr);
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+    });
+});
+
+function GetParts(downloadType) {
+
+    // clear tables contents
+    deleteTable();
+
+    var url = baseUrl + "FmsAPI/GetParts";
+
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        language: {
+            searchPlaceholder: "Search Supplier Name",
+            sSearch: ""
+        },
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "downloadType", "value": downloadType }, { "name": "reportName", "value": '' });
+        },
+
+        "columns": [
+                {
+                    "data": "VendorName",
+                    "bSortable": false
+                },
+                {
+                    "data": "PurchaseCount",
+                    "bSortable": false
+                },
+                {
+                    "data": "PurchaseAmount",
+                    "bSortable": false
+                },
+                {
+                    "orderable": false,
+                    "bSortable": false,
+                    "targets": 0,
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                }
+        ],
+        "rowCallback": function (row, data, index) {
+            if (data.PurchaseCount == 0) {
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        },
+        "initComplete": function (settings, json) {
+            var url = apiBase.apiurl + "fmsapi/GetTotalPartsData";
+            $.ajax({
+                url: url,
+                data: {
+                    "CustID": $custid
+                },
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $('#TotalPurchases').text(data.TotalPurchases);
+                    $('#TotalCost').text(data.TotalCost);
+                    $('#PaymentDue').text(data.PaymentDue);
+                }
+            });
+            $('th').removeClass('sorting_asc');
+        }
+    });
+}
+
+function format(d) {
+    var data = d;
+    
+    if (data.PartsCount > 0) {
+        var a = data.PartInformation;
+        var tableString = '<table id="subTbl" cellpadding="5" class="table table-hover" cellspacing="0" width="100%"' +
+            'style="outline-style: solid; outline-width: thin; outline-color: lightgray; "><thead><tr><th>Invoice No</th><th>Part Details</th>'+
+            '<th>Quantity</th><th>Pricing</th><th>Payment Due Date</th><th>Payment Status</th><th>Remarks</th><th>Actions</th></tr></thead>';
+        a.forEach(function (element) {
+            tableString = tableString +
+                '<tr>' +
+            '<td>' + element.InvoiceNo + '</td>' +
+            '<td><b>Name: </b>' + element.PartName + '<br/><b>No: </b>' + element.PartNo + '</td>' +
+            '<td>' + element.Quantity + '</td>' +
+            '<td><b>Unit Price: </b>' + element.UnitPrice + '<br/><b>Total Amount: </b>' + element.TotalAmount + '<br/><b>Discount: </b>' + element.Discount + '<br/><b>After Discount: </b>' + element.AfterDiscount + '</td>' +
+            '<td>' + moment(element.PaymentDueDate).format("MMM D YYYY") + '</td>' +
+            '<td><div style="display:none" id=' + element.PartId + ' class="actualCost"><input type="text" value="Paid" id=C' + element.PartId + ' class="cost" disabled/><button type="button" onclick="UpdatePaymentStatus(' + element.PartId + ')" class="CostSubmit">Submit</button></div>';
+            if (element.PaymentStatus > 0) {
+                
+                tableString += '<span class="label label-success">Payment Done</span>';
+            }
+            else {
+                tableString += '<a href="javascript:ShowHide(' + element.PartId + ');" id=U' + element.PartId + ' class="label label-warning">Not paid</a>';
+            }
+            tableString += '<td>' + element.Remarks + '</td>' +
+            //'</td><td>' + '<a href="/fms/addUpdateParts?PartId=' + element.PartId + '" class="editor_edit">Edit</a> / <a href="javascript:DeletePart(' + element.PartId + ');"  class="editor_remove">Delete</a>' + '</td>' +
+             '<td>' +
+            '<div class="dropdown">' +
+            '<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Select Action' +
+            '<span class="caret"></span></button>' +
+            '<ul class="dropdown-menu">' +
+            '<li><a target = "_blank" href="/fms/addUpdateParts?PartId=' + element.PartId + '" class="editor_edit">Edit</a></li>' +
+            '<li><a href="javascript:DeletePart(' + element.PartId + ');"  class="editor_remove">Delete</a></li>' +
+            '</ul>' +
+            '</div>'
+            + '</td>' +
+            '</tr>'
+        });
+        tableString = tableString + '</table>';
+    }
+    // `d` is the original data object for the row
+    return tableString;
+}
+
+function ShowHide(PartId) {
+    PartId = PartId;
+    $('#' + PartId).show();
+    $('#U' + PartId).hide();
+}
+
+function UpdatePaymentStatus(PartId) {
+    var url = apiBase.apiurl + 'FmsAPI/UpdatePaymentStatus?PartId=' + PartId ;
+
+    $.post(url, function (result) {
+        if (result > 0) {
+
+            toastr.success("Payment Status updated successfully.")
+        }
+        else
+            toastr.error("Failed!!!")
+    }).done(function (data) {
+        GetParts(null);
+    });
+}
+
+
+$("#BtnSearch").click(function () {
+    GetParts(null);
+});
+
+$("#excelExport").click(function () {
+    var downloadType = 'Excel';
+    var url = baseUrl + "FmsAPI/GetParts";
+    DownloadData(url, downloadType);
+});
+
+$("#pdfExport").click(function () {
+    var downloadType = 'PDF';
+    var url = baseUrl + "FmsAPI/GetParts";
+    DownloadData(url, downloadType);
+});
+
+function DownloadData(url, downloadType) {
+    var sEcho = 1;
+    var iDisplayStart = 0;
+    var iDisplayLength = 100000;
+    var sSearch = $('input[type=search]').val();
+    var iSortCol_0 = 0;
+    var sSortDir_0 = 'asc';
+    var reportName = 'Document_Parts_Report_' + $beginDate + '_TO_' + $endDate;
+    var $bbid = '';
+    var renewalId = 0;
+    var url1 = url + "?beginDate=" + $beginDate + "&endDate=" + $endDate + "&downloadType=" + downloadType + "&reportName=" + reportName + "&custid=" + $custid + "&sEcho=" + sEcho + "&iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&sSearch=" + sSearch + "&iSortCol_0=" + iSortCol_0 + "&sSortDir_0=" + sSortDir_0;
+    window.location = url1;
+}
+
+function DeletePart(PartId) {
+    if (confirm("Do you want to delete selected part?")) {
+        var url = apiBase.apiurl + 'FmsAPI/RemovePart?partId=' + PartId;
+
+        $.post(url, function (result) {
+            if (result > 0) {
+
+                toastr.success("Record deleted successfully")
+            }
+            else
+                toastr.error("Failed!!!")
+        }).done(function (data) {
+            GetParts(null);
+        });
+
+    }
+    else
+        return false;
+}

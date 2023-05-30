@@ -1,0 +1,51 @@
+﻿var $custid;
+
+$(function () {
+
+    debugger;
+    var logindata;
+    if (JSON.parse(localStorage.getItem("GroupSelectedUser")) != true) {
+        if (JSON.parse(localStorage.getItem("cid")) != null) {
+            logindata = JSON.parse(localStorage.getItem("cid"));
+            //console.log(logindata);
+            $custid = logindata.data.CustId;
+        }
+        else if (JSON.parse(localStorage.getItem("custID")) != null) {
+            $custid = JSON.parse(localStorage.getItem("custID"));
+        }
+    }
+    else if (JSON.parse(localStorage.getItem("GroupSelectedUser")) == true) {
+        debugger;
+        if (localStorage.getItem("custId") != null) {
+            $custid = JSON.parse(localStorage.getItem("custId"));
+        }
+        else {
+            //when user did not select any subuser
+            $custid = (logindata) ? logindata.data.CustId : JSON.parse(localStorage.getItem("custID"));
+            //var logindata = JSON.parse(localStorage.getItem("cid"));
+           
+        }
+        //logindata = JSON.parse(localStorage.getItem("cid"));
+
+    }
+    else {
+        window.location.href = "/home/login?logout=y";
+    }
+});
+
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+

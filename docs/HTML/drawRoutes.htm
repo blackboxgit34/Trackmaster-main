@@ -1,0 +1,376 @@
+﻿<html>
+
+
+<head>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in&libraries=places" language="javascript" type="text/javascript"></script>
+
+    <script>
+        function initialize() {
+            var goo = google.maps,
+                map = new goo.Map(document.getElementById('map-canvas'),
+                                          {
+                                              center: new goo.LatLng(-25.274398, 133.775136),
+                                              zoom: 2
+                                          }
+                                         ),
+                App = {
+                    map: map,
+                    bounds: new goo.LatLngBounds(),
+                    directionsService: new goo.DirectionsService(),
+                    directionsDisplay1: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: 'green' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay2: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: 'red' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay3: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: 'yellow' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay4: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: 'orange' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay5: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: 'black' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay6: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: 'blue' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay7: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#800000' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay8: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#999999' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay9: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#237AD8' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay10: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#CD5C5C' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay11: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#FA8072' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay12: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#CD5C5C' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay13: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#FF00FF' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay14: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#008080' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay15: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#808000' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                    directionsDisplay16: new goo.DirectionsRenderer({
+                        map: map,
+                        preserveViewport: true,
+                        suppressMarkers: true,
+                        polylineOptions: { strokeColor: '#C0C0C0' },
+                        panel: document.getElementById('panel').appendChild(document.createElement('li'))
+                    }),
+                   
+                },
+
+
+                 routeOne = {
+                     origin: 'Sydney, NSW',
+                     destination: 'Brisbane, QLD', //Pacific Highway - coast
+                     travelMode: goo.TravelMode.DRIVING
+                 },
+                 routeTwo = {
+                     origin: 'Hexham, NSW',
+                     destination: 'Yarraman, QLD',
+                     travelMode: goo.TravelMode.DRIVING
+                 },
+                routeThree = {
+                    origin: 'Sydney, NSW',
+                    destination: 'Melbourne, VIC',
+                    travelMode: goo.TravelMode.DRIVING
+                },
+        routeFour = {
+            origin: 'Sydney, NSW',
+            destination: 'Adelaide, SA',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeFive = {
+            origin: 'Sydney, NSW',
+            destination: 'Perth, WA',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeSix = {
+            origin: 'Sydney, NSW',
+            destination: 'Darwin, NT',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeSeven = {
+            origin: 'Melbourne, VIC',
+            destination: 'Adelaide, SA',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeEight = {
+            origin: 'Melbourne, VIC',
+            destination: 'Perth, WA',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeNine = {
+            origin: 'Melbourne, VIC',
+            destination: 'Darwin, NT',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeTen = {
+            origin: 'Melbourne, VIC',
+            destination: 'Brisbane, QLD',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeEleven = {
+            origin: 'Adelaide, SA',
+            destination: 'Perth, WA',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeTwelve = {
+            origin: 'Adelaide, SA',
+            destination: 'Darwin, NT',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeThirteen = {
+            origin: 'Adelaide, SA',
+            destination: 'Brisbane, QLD',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeFourteen = {
+            origin: 'Perth, WA',
+            destination: 'Darwin, NT',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeFifteen = {
+            origin: 'Perth, WA',
+            destination: 'Brisbane, QLD',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeSixteen = {
+            origin: 'Darwin, NT',
+            destination: 'Brisbane, QLD',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeSeventeen = {
+            origin: 'Hobart, TAS',
+            destination: 'Burnie, TAS',
+            travelMode: goo.TravelMode.DRIVING
+        },
+        routeEighteen = {
+            origin: 'Perth, WA',
+            destination: 'Port Hedland, WA',
+            travelMode: goo.TravelMode.DRIVING
+        };
+
+            App.directionsService.route(routeOne, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay1.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeTwo, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay2.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeThree, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay3.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeFour, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay4.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeFive, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay5.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeSix, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay6.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeSeven, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay7.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeEight, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay8.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeNine, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay9.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeTen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay10.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeEleven, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay11.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeTwelve, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay12.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeThirteen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay13.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeFourteen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay14.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeFifteen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay15.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeSixteen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay16.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeSeventeen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay17.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+
+            App.directionsService.route(routeEighteen, function (result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    App.directionsDisplay18.setDirections(result);
+                    App.map.fitBounds(App.bounds.union(result.routes[0].bounds));
+                }
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #panel li:before {
+            padding: 3px;
+            display: block;
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="map-canvas"></div>
+    <ol id="panel"></ol>
+</body>
+</html>

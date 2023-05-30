@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Staff";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html ng-app="blackbox">
+<head>
+ <style>
+        .ui-autocomplete {
+            max-height: 300px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            border: 1px solid #222;
+            position: absolute;
+            margin-left: 31.3% !important;
+           margin-top: 9.6% !important;
+        }
+    </style>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css" />
+     <style>
+        body {
+            background-image: url('@Url.Content("~/images/vehicle.jpg")');
+            background-position: 2% 23%;
+        }
+
+        #footer-bottom {
+            text-align: center;
+            color: #585858;
+            font-size: 10px;
+            background: #f4f4f4;
+            margin-bottom: 0;
+            position: relative;
+            bottom: 0;
+        }
+
+        .col-md-2 {
+            width: 17% !important;
+            /* margin-right: 0px; */
+            /* margin-left: 6px; */
+            background: none !important;
+            text-align: left;
+        }
+         #SendPasswordtoemail{
+         margin-left: 157px;
+         back
+
+         }
+    </style>
+
+
+    </head>
+<body >
+ <div class="container ">
+     <div class="col-md-12"><br /></div>
+
+     <div class="col-md-12"><br /></div>
+     <div class="col-md-3"></div>
+     <div class="col-md-6">
+
+      <form class="form-signin">
+           
+        <h2 class="form-signin-heading" style="color:dimgray;">Please Enter Your User Name Or Email</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text"  class="form-control" id="txtEmail"  placeholder="Enter Email or Username" required autofocus>
+          <br />
+          <a class="btn btn-warning " href="@Url.Content("/home/login")">back to Login</a>
+          <button class="btn btn-success"  id="SendPasswordtoemail"  onclick="sendmail_click();"><i class="fa fa-key"></i>&nbsp;Send Password</button>
+     
+      </form>
+         </div>
+     <div class="col-md-3"></div>
+     
+        <script src="~/Content/Multiselect/tagsinput.js"></script>
+        <script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="~/Content/Multiselect/jquery.autocomplete.multiselect.js"></script>
+        <script src="~/Content/js/APIURL.js"></script>
+
+        <script>
+
+
+            function sendmail_click() {
+                var emailValue = $("#txtEmail").val();
+                if (emailValue) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "AdminAPI/ForgotPassword",
+                        data: { EmailID: emailValue },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+                            alert(data);
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("error");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email to text box");
+                    return false;
+                }
+            }
+    
+        </script>
+    </body>
+</html>

@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "AddSmsForCustomer";
+
+
+}
+<link href="~/Content/css/subscriptionPlanCSS.css" rel="stylesheet" />
+<script src="@Url.Content("~/js/lib/datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>My SMS Account</h5>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-2 statusVehicles" style="margin-left: 40%;">
+                                                    <div class="top-info">
+                                                        <a href="#" title="" id="" class="top-info-square"><img src="~/Trackmaster_files/FMSIcons/driverDocsComplete.png" /></a>
+                                                        <strong>
+                                                            <span class="count" id="totalVehicles" runat="server">
+                                                                0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Consumed Sms</span>
+                                                </div>
+                                                <div class="col-sm-2 statusVehicles">
+                                                    <div class="top-info">
+                                                        <a href="#" title="" id="8" class="top-info-square"><img src="~/Trackmaster_files/FMSIcons/driverDocsComplete.png" /></a>@*In Use*@
+                                                        <strong>
+                                                            <span class="count" id="inUse" runat="server">
+                                                                0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Remaming Sms</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-lg-3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h1 class="panel-heading">  <i class="fa fa-desktop"></i></h1>
+                                                            <h3 class="panel-title">Basic</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="the-price">
+                                                                <h3>
+                                                                    <i class="fa fa-inr" aria-hidden="true"></i> 250
+                                                                </h3>
+                                                            </div>
+                                                            <table class="table table-stripped" id="tblBasic"> <tr> <td> 1000 SMS </td></tr><tr> <td> GST 18% (Rs) 295 </td></tr></table>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            <button onclick="runMyFunction($custid, 295, 'SMS')" class="btn btn-success" role="button">Recharge</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12 col-lg-3">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">
+                                                            <h1 class="panel-heading">  <i class="fa fa-desktop"></i></h1>
+                                                            <h3 class="panel-title">Standard</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="the-price">
+                                                                <h3>
+                                                                    <i class="fa fa-inr" aria-hidden="true"></i> 480
+                                                                </h3>
+                                                            </div>
+                                                            <table class="table table-stripped" id="tblBasic"> <tr> <td> 2000 SMS </td></tr><tr> <td> GST 18% (Rs) 566.4 </td></tr></table>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            <button onclick="runMyFunction($custid, 566.4, 'SMS')" class="btn btn-success" role="button">Recharge</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12 col-lg-3">
+                                                    <div class="cnrflash">
+                                                        <div class="cnrflash-inner">
+                                                            <span class="cnrflash-label">
+                                                                MOST
+
+                                                                <br>
+                                                                POPULAR
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                            <h1 class="panel-heading"><i class="fa fa-desktop"></i></h1>
+                                                            <h3 class="panel-title">Premium</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="the-price">
+                                                                <h3>
+                                                                    <i class="fa fa-inr" aria-hidden="true"></i> 1100
+                                                                </h3>
+                                                            </div>
+                                                            <table class="table table-stripped" id="tblBasic"> <tr> <td> 5000 SMS </td></tr><tr> <td> GST 18% (Rs) 1298 </td></tr></table>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            <button onclick="runMyFunction($custid, 1298, 'SMS')" class="btn btn-success" role="button">Recharge</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xs-12 col-lg-3">
+                                                    <div class="panel panel-warning">
+                                                        <div class="panel-heading">
+                                                            <h1 class="panel-heading"><i class="fa fa-desktop"></i></h1>
+                                                            <h3 class="panel-title">Premium</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="the-price">
+                                                                <h3>
+                                                                    <i class="fa fa-inr" aria-hidden="true"></i> 2000
+                                                                </h3>
+                                                            </div>
+                                                            <table class="table table-stripped" id="tblBasic"> <tr> <td> 10000 SMS </td></tr><tr> <td> GST 18% (Rs) 2360 </td></tr></table>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            <button onclick="runMyFunction($custid, 2360, 'SMS')" class=" btn btn-success" role="button">Recharge</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PayOnline">
+    <div id="closeModal"></div>
+    <iframe id="frame" style="height:100%; width:100%"></iframe>
+</div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/scripts/app/common.js")" @DateTime.Now.Ticks></script>
+    <script src="~/Scripts/Select/select2.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/AddSmsForCustomer.js"></script>
+    <script type="text/javascript">
+
+
+        $('#AmountCost').on('change', function () {
+            debugger;
+            var amount = $('#AmountCost').val();
+            amount = parseFloat(amount) + parseFloat(amount * 18 / 100);
+            $('.span5').val(amount);
+        });
+
+    </script>
+
+}

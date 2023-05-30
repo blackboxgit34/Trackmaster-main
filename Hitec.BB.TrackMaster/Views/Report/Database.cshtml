@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database and Server Monitoring tool</title>
+ 
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers tr:hover {
+                background-color: #ddd;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+            }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+    
+        function BindStoredProcedures ()
+           
+        {
+            $('#DynamicGridLoading').show();
+
+
+   
+
+
+            $.ajax({
+              
+                type: "GET",
+                url: "http://localhost:3970/api/TrackerReport/GetStoredProcedures",
+             
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                dataType: "json",
+                success: function (data) {
+                   
+                    var content = "<table id='customers'><tr>"
+                   
+                    var j = 1;
+                   
+                    for (var i = 0; i < data.length; i++) {
+                       
+
+                        debugger;
+
+                        if (j > 5) {
+                            content += "</tr><tr>";
+                           
+                            content += '<td>' + '<a style="text-decoration:none" href="../../Report/DBReport?sp=' + data[i].spname + '&dis=' + data[i].description + '" target="_blank">' + data[i].description + '</a>' + '&nbsp; &nbsp;' + '<b>' + data[i].value + '</b>' + '</td>';
+                            j = 2;
+                        }
+                        else {
+                            content += '<td>' + '<a style="text-decoration:none" href="../../Report/DBReport?sp=' + data[i].spname + '&dis=' + data[i].description + '" target="_blank">' + data[i].description + '</a>' + '&nbsp; &nbsp;' + '<b>' + data[i].value + '</b>' + '</td>';
+                            j = j + 1;
+                        }
+                    }
+                    content += '</tr>';
+                    
+                    content += "</table>";
+                    $('#divurl').append(content);
+                    $('#DynamicGridLoading').hide();
+                }
+
+            });
+        }
+        $(document).ready(function () {
+         
+           
+            BindStoredProcedures();
+           
+          
+        });
+    </script>
+   
+</head>
+<body>
+  
+    <form id="form1">
+      
+        <div id="divurl">
+           <h3>Database Moinitoring</h3>
+            <div id="DynamicGridLoading">
+
+                <img src="~/images/loading.gif" alt="" /><span> Loading Data... </span>
+            </div>
+        </div>
+       
+    </form>
+</body>
+
+</html>

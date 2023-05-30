@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "Dashboard 2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .canvasjs-chart-credit {
+        display: none !important;
+    }
+</style>
+<script src="/Trackmaster_files/amcharts.js"></script>
+<script src="/Trackmaster_files/pie.js"></script>
+<script type="text/javascript">
+    var chart = AmCharts.makeChart("chartdiv", {
+        "type": "pie",
+        "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b></span>",
+        "innerRadius": 50,
+        "minRadius": 140,
+        "labelRadius": -40,
+        "labelText": "[[title]]:[[value]]",
+        "dataProvider": [{
+            "country": "Total",
+            "litres": 10
+        }, {
+            "country": "Running",
+            "litres": 8
+        }, {
+            "country": "Parked",
+            "litres": 7
+        }, {
+            "country": "Ignition On",
+            "litres": 6
+        }, {
+            "country": "Moving",
+            "litres": 8
+        },
+         {
+             "country": "Un-reachable",
+             "litres": 9
+         }],
+        "valueField": "litres",
+        "titleField": "country"
+    });
+										</script>
+
+@*<link href="~/Trackmaster_files/Dashboard.css" rel="stylesheet" />*@
+<script type="text/javascript">
+    function setDate() {
+        var d = new Date();
+        //var d = new Date(),
+        minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+        hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+        ampm = d.getHours() >= 12 ? 'pm' : 'am',
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        //return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+        var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+        document.getElementById("CurrDate").innerHTML = s;
+    }
+
+    function display_ct() {
+        var strcount
+        setDate()
+        tt = display_c();
+    }
+
+    function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout('display_ct()', refresh)
+    }
+
+</script>
+<link href="~/Content/css/driver.css" rel="stylesheet" />
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+<div id="Fade" class="w3-container city w3-animate-zoom">
+
+    <section class="inds">
+        <div class="inds_contant" id="bgImage" style="background-position: 0% 36%;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 style="color: white;" id="dashboardTitle"></h1>
+                        @*<h1>Fleet management software for <br>construction fleets</h1>*@
+                        <h4 class='h3 text-light text-muted' id="dashboardContent"></h4>
+                        <div style="text-align: center; padding-top: 15px;">
+                            @* <button href="#" class="banner_btn">View the Case Study</button>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+@* <script src="/Trackmaster_files/jquery.js"></script>*@
+<div class="main_container" id="tables_page">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="widget-body">
+                <!-- Side menu -->
+                <!-- /Side menu -->
+                <!-- Main window -->
+                <div class="main_container" id="tables_page">
+                    <br />
+
+                    <!--Dynamic Menu Rendering Section-->
+                    <div class="row-fluid" id="divMenuContainer">
+                        <div class="widget widget-padding">
+                            <div class="widget-header">
+                                <i class="icon-cogs"></i>
+                                <h5 id="widgetHeader"></h5>
+                                <div class="widget-buttons">
+                                    <a href="javascript:void(0)" class="collapse" data-collapsed="false"><i data-title="Collapse" class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="widget-body" style="min-height: auto;">
+                                <div style="margin: 8px -51px -8px -12px;">
+                                    <div class="box" style="padding-bottom: 0px;">
+                                        <div id="menuContainer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--End of dynamic rendering section-->
+
+
+
+
+
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+
+                <div class="row-fluid  ">
+                    <div class="widget widget-padding col-md-4">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+
+                            <h5>Vehicles Status</h5>
+
+                        </div>
+
+                        <div class="widget-body clearfix" style="height: auto; background: #fff; text-align: center; overflow-x: hidden; overflow-y: hidden">
+
+                            @*   <div id="chartdiv" style="width: 100%; height: 332px; background-color: #FFFFFF;" >  @Html.Partial("_OverspeedGraph")</div>*@
+                            <iframe src="" id="vehicleStatusGraph" style="width: 414px !important; height: 350px; background-color: #FFFFFF; border: aliceblue;"></iframe>
+
+
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <div class="widget widget-padding col-md-4">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+
+                            <h5>Vehicles OverSpeed Graph</h5>
+
+                        </div>
+
+                        <div class="widget-body clearfix" style="height: auto; background: #fff; text-align: center; overflow-x: hidden; overflow-y: hidden">
+
+                            @*   <div id="chartdiv" style="width: 100%; height: 332px; background-color: #FFFFFF;" >  @Html.Partial("_OverspeedGraph")</div>*@
+                            <iframe src="" id="overSpeedGraph" style="width: 414px !important; height: 350px; background-color: #FFFFFF; border: aliceblue;"></iframe>
+
+
+
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <div class="widget widget-padding col-md-4">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+
+                            <h5>Vehicles OverStoppage Graph</h5>
+
+                        </div>
+
+                        <div class="widget-body clearfix" style="height: auto; background: #fff; text-align: center; overflow-x: hidden; overflow-y: hidden">
+
+                            @*   <div id="chartdiv" style="width: 100%; height: 332px; background-color: #FFFFFF;" >  @Html.Partial("_OverspeedGraph")</div>*@
+                            <iframe src="" id="overStoppageGraph" style="width: 414px !important; height: 350px; background-color: #FFFFFF; border: aliceblue;"></iframe>
+
+
+
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!--/widget-body-->
+        </div>
+
+    </div>
+    <!-- /Main window -->
+</div>
+<!--/.fluid-container-->
+
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    </script>
+<script type="text/javascript">
+    $('.dynamicValues').each(function () {
+        var md = $(this).attr("store-mode");
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        // use setTimeout() to execute
+        setTimeout( DynamicRender , 1000)
+
+        function DynamicRender(){
+            //for rendering Graphs
+            $('#dashMap').attr('src', '../../HTML/DashMap.htm?custId=' + $custid);
+            $('#vehicleStatusGraph').attr('src', '../../HTML/VehicleStatusGraph.html?custId=' + $custid);
+            $('#overSpeedGraph').attr('src', '../../HTML/HtmlGraph.html?custId=' + $custid);
+            $('#overStoppageGraph').attr('src', '../../HTML/OverStoppageGraph.html?custId=' + $custid);
+
+            //for template and custom menu
+            //if (localStorage.getItem("customMenuList")) {
+            //    var res = localStorage.getItem("customMenuList");
+            //    var listFromSession = JSON.parse(res);
+            //    debugger;
+            //    document.getElementById('bgImage').style.backgroundImage = "url(" + listFromSession[0].ProfileImage + ")";
+            //    document.getElementById('dashboardTitle').innerHTML = listFromSession[0].ProfileTitle;
+            //    document.getElementById('dashboardContent').innerHTML = listFromSession[0].ProfileContent;
+            //    document.getElementById('widgetHeader').innerHTML = listFromSession[0].ProfileTitle;
+            //    var counter = 0;
+            //    var marginColMd2 = '0px';
+            //    $.each(listFromSession, function (i, item) {
+            //        debugger;
+            //        if (i == counter) {
+            //            if (counter != 0) {
+            //                $("#menuContainer").append('</div><br /><br />');
+            //                marginColMd2 = '5px';
+            //            }
+
+            //            $("#menuContainer").append('<div class="row"  style="margin-top:-14px;">');
+
+            //            counter = counter + 6;
+            //        }
+
+            //        $("#menuContainer").append('<div class="col-md-2" style="box-shadow: 0px 1px 19px #dddddd;margin-top:' + marginColMd2 + ';    padding:14px ;">  <div style="text-align:center;"><a href="/' + item.Controller + '/' + item.Action + '"><img src="' + item.MenuImage + '" style="margin-left: -17px;"></a></div><div  style="text-align:center;"> <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">' + item.Title + '</span></div></div>');
+
+
+            //        $("#customMenuList").append('<li style="text-align: left;"><a tabindex="-1" href="#"><span style="padding-left: 8px">' + item.Title + '</span></a> </li>');
+
+
+            //    })
+            //    $("#menuContainer").append('</div>');
+
+            //}
+            //else {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "CommonAPI/GetCustomMenuList",
+                    data: { custId: $custid },
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        if (data.length > 0) {
+                            localStorage.setItem("customMenuList", JSON.stringify(data));
+                            if (!data[0].ProfileImage) {
+                                document.getElementById('bgImage').style.backgroundImage = "url(../../Content/img/customTemplateImages/defaultImage.jpg)";
+                                document.getElementById('bgImage').style.backgroundPosition = "0% 0%";
+                                document.getElementById('dashboardTitle').innerHTML = "BlackBox "
+                                document.getElementById('dashboardContent').innerHTML = "Blackbox gps system"
+                                document.getElementById('widgetHeader').innerHTML = "Custom Reports"
+
+                            }
+                            else {
+
+                                document.getElementById('bgImage').style.backgroundImage = "url(" + data[0].ProfileImage + ")";
+
+                                document.getElementById('dashboardTitle').innerHTML = data[0].ProfileTitle;
+                                document.getElementById('dashboardContent').innerHTML = data[0].ProfileContent;
+                                document.getElementById('widgetHeader').innerHTML = "Custom Reports";
+                            }
+
+                            var counter = 0;
+                            $.each(data, function (i, item) {
+                                debugger;
+                                if (i == counter) {
+                                    if (counter != 0) {
+                                        $("#menuContainer").append('</div>');
+                                    }
+
+                                    //$("#menuContainer").append('<div class="row"><br /><br /><br />');
+
+                                    counter = counter + 4;
+                                }
+
+
+                                $("#menuContainer").append('<div class="col-md-3" style="box-shadow: 0px 1px 19px #dddddd; background-color:white;   padding:14px ; width:25%;">  <div style="text-align:center;"><a href="/' + item.Controller + '/' + item.Action + '"><img src="' + item.MenuImage + '" style="margin-left: -17px;"></a></div><div  style="text-align:center;"> <span style="font-size: 11px;font-weight: bold;margin-left: 9px;position: relative; top: 5px;">' + item.Title + '</span></div></div>');
+
+
+                                $("#customMenuList").append('<li style="text-align: left;"><a tabindex="-1" href="#"><span style="padding-left: 8px">' + item.Title + '</span></a> </li>');
+
+                            })
+                            $("#menuContainer").append('</div>');
+                        }
+                        else {
+                            document.getElementById('bgImage').style.backgroundImage = "url(../../Content/img/customTemplateImages/defaultImage.jpg)";
+                            document.getElementById('bgImage').style.backgroundPosition = "0% 0%";
+                            document.getElementById('dashboardTitle').innerHTML = "Blackbox";
+                            document.getElementById('dashboardContent').innerHTML = "Blackbox GPS device.";
+                            $("#divMenuContainer").addClass("hidden");
+                        }
+                    },
+                    error: function (error) {
+                        toastr.error("something went wrong!");
+                    }
+                });
+           // }
+        }
+   });
+</script>

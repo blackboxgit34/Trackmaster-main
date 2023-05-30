@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html class="k-ff k-ff30" lang="en"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trackmaster</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://claas.trackmaster.in/content/res/images/favicon.ico">
+    <link href="Trackmaster_files/font-awesome.css" rel="stylesheet">
+    <link href="Trackmaster_files/stylesad15.css" rel="stylesheet">
+	<link href="Trackmaster_files/bootstrap.css" rel="stylesheet">
+	
+	<link href="Trackmaster_files/bootstrap-timepicker.min.css" rel="stylesheet" >
+	
+	      <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="Trackmaster_files/CssCustom.css" rel="stylesheet">
+
+    
+    <!--Kendo CSS-->
+    <link href="Trackmaster_files/kendo_003.css" rel="stylesheet">
+    <link href="Trackmaster_files/kendo.css" rel="stylesheet">
+    <link href="Trackmaster_files/kendo_004.css" rel="stylesheet">
+    <link href="Trackmaster_files/kendo_002.css" rel="stylesheet">
+   	
+    <style>
+   @media (max-width: 480px)
+   {
+   .navbar .nav.pull-right {
+    float: none;
+    background: #2b2b2e  !important;
+    z-index: 1;
+ width: 100%;
+}
+   }
+   
+    @media (max-width: 767px)
+   {
+   .navbar .nav.pull-right {
+    float: none;
+    background: #2b2b2e  !important;
+    z-index: 1;
+ width: 100%;
+}
+   }
+   
+      @media (max-width: 991px)
+   {
+   .navbar .nav.pull-right {
+    float: none;
+    background: #2b2b2e  !important;
+    z-index: 1;
+ width: 100%;
+}
+   }
+@media (max-width: 767px)
+{
+.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+    margin-left: -20px;
+    margin-right: 0px;
+}
+}
+@media (max-width: 767px)
+{
+#alertss
+{
+margin-top:20px;
+}
+}
+@media (max-width: 767px)
+{
+#alertss
+{
+margin-top:20px;
+}
+}
+@media (max-width: 767px)
+{
+.navbar-static-top .navbar-collapse {
+    padding-left: 20px;
+    padding-right: 0px !important;
+    margin-top: 20px !important;
+}
+}
+@media (max-width: 767px)
+{
+.navbar .nav > li {
+    float: none;
+}
+}
+@media (max-width: 767px)
+{
+.navbar .nav > li {
+    float: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.37);
+}
+}
+@media (min-width: 992px)
+{
+.col-md-2 {
+
+    margin-right: 0px;
+   
+    background: #fff;
+    text-align: left;
+}
+}
+.icon-truck:before {
+    content: "\f0d1";
+    background: #ff8c3e;
+    padding: 5px;
+    color: white;
+    border-radius: 100px;
+}
+@media only screen and (max-width: 500px)
+{
+.col-md-2 {
+    width: 100%;
+    margin-right: 9px;
+    margin-left: 0px;
+ margin-top:20px;
+ background: #fff;
+}
+}
+@media only screen and (max-width: 767px)
+{
+.col-md-2 {
+    width: 100%;
+    margin-right: 9px;
+    margin-left: 0px;
+ margin-top:20px;
+ background: #fff;
+}
+}
+@media only screen and (max-width: 767px)
+{
+.ctn {
+    margin-top: -46px;
+    padding: 41px 5px;
+}
+}
+@media only screen and (max-width: 1100px)
+{
+.col-md-2 {
+    width: 100%;
+    margin-right: 9px;
+    margin-left: 0px;
+ margin-top:20px;
+ background: #fff;
+ padding: 17px 10px !important;
+ 
+}
+}
+.box {
+    background: #dddcdc none repeat scroll 0 0;
+    border: 0px solid #cdcdcd;
+    border-radius: 3px;
+    box-shadow: none;
+    margin-bottom: 5px;
+}
+@media (min-width: 1200px)
+{
+
+.row-fluid .span3 {
+    width: 27.076923%;
+}
+}
+@media (max-width: 767px)
+{
+#alertss {
+    margin-top: 20px;
+ margin-left:0px !important;
+     width: 100%;
+}
+}
+@media (max-width: 979px) and (min-width: 768px)
+{
+.row-fluid .span3 {
+    width: 22.92817679558011%;
+ margin-left:0px !important;
+}
+}
+@media (max-width: 767px)
+{
+#hidden {
+  
+}
+}
+@media (max-width: 767px)
+{
+.btn-info {
+   margin-left:0px !important;position: relative;top: 0px !important;
+}
+}
+@media (max-width: 1200px)
+{
+.row-fluid .span3 {
+    width: 22.92817679558011%;
+ margin-left:0px !important;
+}
+}
+@media (max-width: 1200px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+    float: none!important;
+    background: none !important;
+    z-index: 1;
+}
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+}
+.gm-style .place-card-large {
+    padding: 0px 4px 0px 11px;
+    display: none !important;
+}
+
+
+@media (max-width: 767px)
+{
+.box{
+      padding:0px !important;
+}
+}
+@media only screen and (min-width: 900px)
+{
+#MainContent_cvehicles {
+    position: relative;
+     left: 200px;
+}
+}
+.label-important, .badge-important {
+    background-color: #fdfdfd;
+    border: 1px solid #12699e !important;
+    color: #12699e !important;
+}
+@media (min-width: 1200px)
+{
+.row-fluid .span6 {
+    width: 48.717948717948715%;
+   
+}
+}
+@media (min-width: 1200px)
+{
+.row-fluid .span4 {
+    width: 32.623932%;
+    margin-left: 13px;
+}
+}
+.widget-header {
+    background: #fdfdfd;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+    background-size: 100%;
+   -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -moz-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: -o-linear-gradient(top, #fdfdfd, #eaeaea);
+    background-image: linear-gradient(top, #fdfdfd, #eaeaea);
+    text-shadow: 0 1px white;
+    border-bottom: 1px solid #CDCDCD;
+    color: #636363;
+    font-weight: 600;
+    min-height: 40px;
+    / text-align: center; /
+    margin-bottom: 0px !important;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #ff9500 !important;
+}
+.navbar-inverse .navbar-nav > .dropdown > a .caret:hover {
+    border-bottom-color: #fc9711 !important;
+    border-top-color: #fd970f !important;
+}
+.navbar-inverse .nav li.dropdown > a:hover .caret, .navbar-inverse .nav li.dropdown > a:focus .caret {
+    border-bottom-color: #b35406 !important;
+    border-top-color: #ca6914 !important;
+}
+@media (min-width: 1200px)
+{
+.row-fluid .span3 {
+    width: 23.076923%;
+}
+}
+@media (min-width: 992px)
+{
+.col-md-3 {
+    width: 15%;
+}
+}
+@media (max-width: 767px)
+{
+.row{
+    margin-right: 0px !important;
+}
+}
+.navbar-inverse {
+    border-bottom: 1px solid rgba(10, 13, 14, 0.8);
+    background: #11161a;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…dpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==);
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #1b2329), color-stop(100%, #11161a));
+    background-image: -webkit-linear-gradient(top, #1b2329, #11161a);
+    background-image: -moz-linear-gradient(top, #1b2329, #11161a);
+    background-image: -o-linear-gradient(top, #1b2329, #11161a);
+    background-image: linear-gradient(top, #1b2329, #11161a);
+    border-left: 0;
+    border-right: 0;
+    border-bottom-color: #fea86d;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    background-image: linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -o-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -moz-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -ms-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+    background-image: -webkit-linear-gradient(bottom, #202023 21%, #4f4f4f 81%) !important;
+}
+.input-dd {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 126px;
+}
+.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+    padding: 1px;
+    line-height: 1.42857;
+    vertical-align: top;
+    border-top: 1px solid #fdfdfd;
+}
+
+.datepicker.dropdown-menu {
+    margin-top: 25px !important;
+}
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+    background-color: rgba(43, 43, 45, 0) !important;
+ color:#fb9505 !important;
+}
+.bootstrap-timepicker-widget.dropdown-menu.open {
+    display: inline-block;
+    margin-top: 25px !important;
+}
+</style>
+</head>
+<body onload="display_ct();">
+    
+<nav class="navbar navbar-top navbar-inverse navbar-static-top" role="navigation" style="height: 70px; margin-top: -20px; padding-top: 8px; padding-bottom: 5px;">
+
+    <div class="navbar-header" style="height: 40px; position: relative;">
+        <div>
+		<img src="Trackmaster_files/bb.png"/ style="position: relative;top: 16px;left: 24px;">
+            <!--<a class="navbar-brand" href="#">
+                <span style="color: #fff; font-size: 120%; font-family:Arial"></span>
+				
+            </a>-->
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle Top Navigation</span>
+			<i class="icon-list"></i>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" style="height: 40px;" id="navbar-collapse">
+     
+        <ul class="nav pull-right navbar-nav">
+                  
+            
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="http://claas.trackmaster.in/Dashboard/Live-Status" "="" title="Live Status">
+                   <i class="fa fa-wifi"></i> 
+                    <br>
+                    <div>Live Status</div>
+                </a>
+            </li>
+            <li id="dropdown_Maps" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Maps" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Map">
+                    <i class="fa fa-map" style="font-size: 15px"></i>
+                    <br>
+                    Map <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Map</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a href="#"><span>Old Map</span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a href="#"><span>Four Eye Map</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Route Playback</span></a></a>
+                    </li>
+					<li style="text-align: left;">
+                       <a href="#"><span>Alerts on Map</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Consginee Map</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Search Vehicles</span></a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                   
+                     
+                     <i class="fa fa-file-archive-o"></i>   
+                                    
+                    <br>
+                    Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">                   
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Over Stoppage</span></a>
+                    </li> 
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Daily Report</span></a>
+                    </li> 					
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>All Stoppage Report</span></a>
+                    </li>   
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Monthly Report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Trip Summary</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Vehicle All Report</span></a>
+                    </li>  
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Combined Report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Ignition</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Over Speed</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Idling</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>AC Report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>AC Report While Speed Zero</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Stationary report</span></a>
+                    </li>   
+					<li style="text-align: left;">
+                        <a tabindex="-1" href="#"><span>Detailed Trip summary</span></a>
+                    </li>   
+  
+                </ul>
+            </li>
+            
+            <li id="dropdown_Training" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Training" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Training">
+                    <i class="fa fa-map-marker"></i>         
+                    <br>
+                    Geo Fencing <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Set Geofence</span></a>
+                    </li>
+				    <li style="text-align: left;">
+                        <a href="#"><span>Manage Geofence</span></a>
+                    </li>
+					    <li style="text-align: left;">
+                        <a href="#"><span>View Geofence</span></a>
+                    </li>
+					    <li style="text-align: left;">
+                        <a href="#"><span>Geofence Violation</span></a>
+                    </li>
+   
+                </ul>
+            </li>
+			            <!--<li id="dropdown_CustomerCare" class="dropdown" style="text-align: center; padding-bottom: 10px">-->
+				<li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="#" title="Alert">
+                   <i class="icon-bell-alt"></i> 
+                    <br>
+                    <div>Alert</div>
+                </a>
+                <!--<ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>BlackBox info</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>BlackBox Details</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Features</span></a>
+                    </li><li style="text-align: left;">
+                        <a href="#"><span>SMS Reports</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Push Notification Report</span></a>
+                    </li><li style="text-align: left;">
+                        <a href="#"><span>Download Manual</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Manage POI</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>All Alerts</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Set SMS Time</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Add Service Request</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>View Service Request</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>AddConsginee Details</span></a>
+                    </li>
+
+                </ul>-->
+            </li>
+			
+			 <li id="dropdown_Profile" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Profile" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Profile">
+                    <i class="fa fa-sliders" style="font-size: 15px"></i>
+                    <br>
+                    Customization <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Entry Exit Report</span></a>
+                    </li>
+					 <li style="text-align: left;">
+                        <a href="#"><span>Monthly Drill Down Report</span></a>
+                    </li>
+					 <li style="text-align: left;">
+                        <a href="#"><span>Monthly Distance Report</span></a>
+                    </li>
+					 <li style="text-align: left;">
+                        <a href="#"><span>Camera Images</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Distance</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Speed</span></a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li id="dropdown_MyBill" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_MyBill" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="My Bill">
+                    <i class="icon-file" style="font-size: 15px"></i>
+                    <br>
+                    My Bills <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><span>Account Summary</span></a>
+                    </li>
+					<li style="text-align: left;">
+                        <a href="#"><span>Payment Options</span></a>
+                    </li>
+                  
+                </ul>
+            </li>
+            
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="fa fa-comments" style="font-size: 15px"></i>
+                    <br>
+                    <div>Feedback</div>
+                </a>
+            </li>
+		    <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="icon-list-ul" style="font-size: 15px"></i>
+                    <br>
+                    <div>About us</div>
+                </a>
+            </li>
+				<li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="icon-signout" style="font-size: 15px"></i>
+                    <br>
+                    <div>Log Out</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="container-fluid" style="background:#fff; padding:0px 10px;">
+   
+        <div class="row" style="padding:11px 0px 0px 26px;    margin-right: -67px;">
+		
+            <div class="col-md-6">
+              <!-- <img src="Trackmaster_files/logo-2x.png" style="width:150px;" class="TopStrip">-->
+               
+            </div>
+            <div class="col-md-3" id="CurrDate">
+                <label>Thu Sep 29 2016</label>
+            </div>
+
+			<div class="col-md-3">
+                <div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            </div>
+			
+            <div class="col-md-3">
+			 <form action="/Admin/AdvanceSearch" class="search_form" id="login_form" method="post" style="height:20px;"><input id="txtsrch" name="txtsrch" type="text" value="" style="margin-top: -2px; float:right;width: 150px;">
+			</form> 
+            </div>
+          </div> 
+            
+</div>
+
+<!--<div style="width: 100%; background: #fff;  display: block;">
+    <div style="padding: 10px 7px 34px 12px; position: relative; left: 0px; background: #fff;"  id="hidden" >
+       <div style="position: absolute;">
+           <img src="Trackmaster_files/logo-2x.png" style="width:150px;position: relative;left: 10px;" class="TopStrip">
+        </div>
+		<div style="float: right;  margin-right: 40px;" class="TopStrip"><form action="/Admin/AdvanceSearch" class="search_form" id="login_form" method="post" style="float:right;height:20px;"><input id="txtsrch" name="txtsrch" type="text" value="" style="margin-top: -2px;">
+</form></div>
+		<div style="float: right; margin-right: 40px;" class="TopStrip">
+		<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
+		</div>
+        <div style="float: right;  margin-right: 40px;" id="CurrDate" class="TopStrip">Thu Sep 29 2016 14:47pm</div>
+        <div style="float: right; position: relative; margin-right: 30px; " class="TopStrip">        
+            Welcome : CLAAS India Private Limited        
+        </div>
+    </div>
+</div>-->
+
+<script type="text/javascript">
+    function setDate() {
+        var d = new Date();
+        //var d = new Date(),
+        minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+        hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+        ampm = d.getHours() >= 12 ? 'pm' : 'am',
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        //return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+        var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+        document.getElementById("CurrDate").innerHTML = s;
+
+    }
+
+    function display_ct() {
+        var strcount
+        setDate()
+        tt = display_c();
+    }
+    function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout('display_ct()', refresh)
+    }
+</script>
+
+    
+    <script src="Trackmaster_files/jquery.js"></script>
+    <div class="main_container" id="tables_page">
+        
+
+<div class="container-fluid">
+    <!-- Side menu -->
+
+    <!-- /Side menu -->
+
+    <!-- Main window -->
+    <div class="row-fluid">
+        <div class="widget-body">
+            <!-- Side menu -->
+            <!-- /Side menu -->
+            <!-- Main window -->
+            <div class="main_container" id="tables_page">
+			 <!-- <div class="row-fluid">
+				<p style="color: #999; font-size: 19px;margin-bottom: -15px;">Dashboard</p>
+                </div>-->
+             <div class="row-fluid" style="margin-bottom: 25px;">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                             <div id="alertss" class="widget span12">
+                                <div class="widget-header">
+                                    <i class="fa fa-file-archive-o"></i>
+                                    
+                                    <h5>Daily Report</h5>
+									<div class="btn-group btn-adjst" style="margin-left: 37px;">
+										<img src='Trackmaster_files/cc1.png' onmouseover="this.src='Trackmaster_files/z33.png';" onmouseout="this.src='Trackmaster_files/cc1.png';" / style="margin-left: 0px;WIDTH: 33PX;">
+										<img src='Trackmaster_files/cc2.png' onmouseover="this.src='Trackmaster_files/z22.png';" onmouseout="this.src='Trackmaster_files/cc2.png';" / style="margin-left: 0px;WIDTH: 33PX;">
+										<img src='Trackmaster_files/cc1.png' onmouseover="this.src='Trackmaster_files/z31.png';" onmouseout="this.src='Trackmaster_files/cc3.png';" / style="margin-left: 0px;WIDTH: 33PX;">
+										   <!-- <button type="button" class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">Export <span class="caret"></span></button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a id="ExprtToExcl" href="javascript:;" target="_blank">Export to Excel</a></li>
+											</ul>-->
+								    </div>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="overflow-x: auto">
+                                     
+                                   <div class="box" style="background:#fdfdfd;">
+    <div class="box-content padded" style="margin: 0 5px 0 5px;">
+        <form class="form-inline">
+            <div style="width: 100%;">
+                <div class="form-group" style="margin-right: 15px;">
+                    <label for="VehiclesList">Select Vehicle</label>
+                    <select id="VehiclesList" name="VehiclesList">
+					<option value="CA138">Testing RS 485</option>
+					<option value="CA079">CT 40 TT Cambodia</option>
+<option value="CA072">Endurance MAKSAS</option>
+<option value="N149">Endurance Machine</option>
+<option value="N601">Dom 40 - PS9</option>
+<option value="CA073">Dom40TT-P05</option>
+<option value="CA122">CT40 TT with CABIN</option>
+<option value="CA071">D270 Proto M/C:3</option>
+<option value="CA078">D270 Proto Torture Track 13/5 </option>
+</select>
+                </div>
+                <div class="form-group table-responsive">
+					<table class="table">
+					<tr>
+					<td><label for="date1" style="margin-right:4px;position: relative;top: 3px;">From Date & Time</label></td>
+					<td><div class="input-dd">
+					<input type="text" name="date" class="form-control datepicker">
+					<span class="input-dd-addon">
+					<span class="glyphicon glyphicon-th"></span>
+					</span>
+				</div></td>
+				<td style="padding-left: 9px;"> <div class="input-dd bootstrap-timepicker timepicker" style="width: 106px; !important" >
+					<input id="timepicker1" type="text" class="form-control input-small">
+					<span class="input-dd-addon"><i class="glyphicon glyphicon-time"></i></span>
+				</div></td>
+					</tr>
+					</table>
+                </div>
+				<!--<div class="form-group">
+				<table>
+					<tr>
+					<td> <div class="input-dd bootstrap-timepicker timepicker">
+					<input id="timepicker1" type="text" class="form-control input-small">
+					<span class="input-dd-addon"><i class="glyphicon glyphicon-time"></i></span>
+				</div></td>
+					</tr>
+					</table>
+                </div>-->
+                <div class="form-group table-responsive ">
+				<table class="table">
+					<tr>
+					<td><label for="date1" style="margin-right:4px;margin-left: 12px;position: relative;top: 3px;">To Date & Time</label></td>
+					<td><div class="input-dd">
+					<input type="text" name="date" class="form-control datepicker">
+					<span class="input-dd-addon">
+					<span class="glyphicon glyphicon-th"></span>
+					</span>
+				</div></td>
+				<td style="padding-left: 9px;"> <div class="input-dd bootstrap-timepicker timepicker" style="width: 106px; !important" >
+					<input id="timepicker2" type="text" class="form-control input-small">
+					<span class="input-dd-addon"><i class="glyphicon glyphicon-time"></i></span>
+				</div></td>
+					</tr>
+					</table>
+                </div>
+               <!--<div class="form-group">
+				<table>
+					<tr>
+					<td> <div class="input-dd bootstrap-timepicker timepicker">
+					<input id="timepicker2" type="text" class="form-control input-small">
+					<span class="input-dd-addon"><i class="glyphicon glyphicon-time"></i></span>
+				</div></td>
+					</tr>
+					</table>
+                </div>-->
+                
+                <div class="form-group" style="padding-left: 5px;">
+                    <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                    
+                    <!--<div class="btn-group btn-adjst" style="margin-left: 37px;">
+					<a href="#"><img src="Trackmaster_files/cc1.png" style="margin-right:15px;"/></a>
+					<a href="#"><img src="Trackmaster_files/cc2.png"  style="margin-right:15px;"/></a>
+					<a href="#"><img src="Trackmaster_files/cc3.png"/></a>
+                       <!-- <button type="button" class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">Export <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a id="ExprtToExcl" href="javascript:;" target="_blank">Export to Excel</a></li>
+                        </ul>-
+                    </div>-->
+                    <!-- <button type="button" class="btn btn-info btn-green" data-toggle="modal" data-target="#EmailModal">Email</button>-->
+                           
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>  
+				
+				<br/>
+				 <div class="row-fluid" style="margin-bottom: 12px;    margin-top: -37px;">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                             <div id="alertss" class="widget span12">
+                                <div class="widget-header">
+                                    <i class="icon-lightbulb"></i>
+                                    
+                                    <h5>Report Content</h5>
+                                    
+                                </div>
+                                
+                                <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                     
+                                    <div id="DivVehcleCounter">
+
+
+
+<table id="dt_basic" class="dataTables_full table table-striped dataTable" aria-describedby="dt_basic_info" style="width: 1307px;">
+                        <thead class="k-grid-header" role="rowgroup"><tr role="row"><th class="k-header" data-field="SNO" data-title="#" scope="col" data-role="columnsorter" data-index="0"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=SNO-asc">#</a></th><th class="k-header" data-field="MachineName" data-title="Machine Name" scope="col" data-role="columnsorter" data-index="1"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=MachineName-asc">Machine Name</a></th><th class="k-header" data-field="MachineSrNo" data-title="Machine Sr No" scope="col" data-role="columnsorter" data-index="2"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=MachineSrNo-asc">Machine Sr No</a></th><th class="k-header" data-field="ReportDate" data-title="Report Date" scope="col" data-role="columnsorter" data-index="3"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=ReportDate-asc">Report Date</a></th><th class="k-header" data-field="TotalHr" data-title="Total Report Time<br/>(HH:MM:SS)" scope="col" data-role="columnsorter" data-index="4"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=TotalHr-asc">Total Report Time<br>(HH:MM:SS)</a></th><th class="k-header" data-field="EngineWorkingHr" data-title="Total Engine Hr<br/>(HH:MM:SS)" scope="col" data-role="columnsorter" data-index="5"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=EngineWorkingHr-asc">Total Engine Hr<br>(HH:MM:SS)</a></th><th class="k-header" data-field="ThresherWorkingHr" data-title="Total Thresher Hr<br/>(HH:MM:SS)" scope="col" data-role="columnsorter" data-index="6"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=ThresherWorkingHr-asc">Total Thresher Hr<br>(HH:MM:SS)</a></th><th class="k-header" data-field="NonProductiveHr" data-title="Non Productive Hr<br/>(HH:MM:SS)" scope="col" data-role="columnsorter" data-index="7"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=NonProductiveHr-asc">Non Productive Hr<br>(HH:MM:SS)</a></th><th class="k-header" data-field="DistanceTravelled" data-title="Distance<br/>Travelled(KM)*" scope="col" data-role="columnsorter" data-index="8"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=DistanceTravelled-asc">Distance<br>Travelled(KM)*</a></th><th class="k-header" data-field="HarvestedArea" data-title="Harvested Area (Acre)*" scope="col" data-role="columnsorter" data-index="9"><a class="k-link" href="/Reports/_BindDailyReport?DailyGrid-sort=HarvestedArea-asc">Harvested Area (Acre)*</a></th></tr></thead>
+                        
+                    <tbody role="rowgroup"><tr data-uid="a5725c54-0930-4403-b0de-090288655836" role="row"><td role="gridcell">1</td><td role="gridcell">CT 40 TT Cambodia</td><td role="gridcell">Testing</td><td role="gridcell">13/10/2016</td><td role="gridcell">24:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0</td><td role="gridcell">0</td></tr><tr data-uid="a5725c54-0930-4403-b0de-090288655836" role="row"><td role="gridcell">1</td><td role="gridcell">CT 40 TT Cambodia</td><td role="gridcell">Testing</td><td role="gridcell">13/10/2016</td><td role="gridcell">24:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0</td><td role="gridcell">0</td></tr><tr data-uid="a5725c54-0930-4403-b0de-090288655836" role="row"><td role="gridcell">1</td><td role="gridcell">CT 40 TT Cambodia</td><td role="gridcell">Testing</td><td role="gridcell">13/10/2016</td><td role="gridcell">24:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0</td><td role="gridcell">0</td></tr><tr data-uid="a5725c54-0930-4403-b0de-090288655836" role="row"><td role="gridcell">1</td><td role="gridcell">CT 40 TT Cambodia</td><td role="gridcell">Testing</td><td role="gridcell">13/10/2016</td><td role="gridcell">24:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0:0:0</td><td role="gridcell">0</td><td role="gridcell">0</td></tr></tbody></table>
+					<div class="k-pager-wrap k-grid-pager k-widget" data-role="pager"><a class="k-link k-pager-nav k-state-disabled k-pager-first" data-page="1" href="#" title="Go to the first page" tabindex="-1"><span class="k-icon k-i-seek-w">seek-w</span></a><a class="k-link k-pager-nav k-state-disabled" data-page="1" href="#" title="Go to the previous page" tabindex="-1"><span class="k-icon k-i-arrow-w">arrow-w</span></a><ul class="k-pager-numbers k-reset"><li class="k-current-page"><span class="k-link k-pager-nav">1</span></li><li><span class="k-state-selected">1</span></li></ul><a class="k-link k-pager-nav k-state-disabled" data-page="1" href="#" title="Go to the next page" tabindex="-1"><span class="k-icon k-i-arrow-e">arrow-e</span></a><a class="k-link k-pager-nav k-state-disabled k-pager-last" data-page="1" href="#" title="Go to the last page" tabindex="-1"><span class="k-icon k-i-seek-e">seek-e</span></a><a class="k-pager-refresh k-link" href="/Reports/_BindDailyReport" title="Refresh"><span class="k-icon k-i-refresh">Refresh</span></a><span class="k-pager-info k-label">1 - 1 of 1 items</span></div>
+</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>
+                
+				 <div class="row-fluid" style="margin-bottom: 12px;    margin-top: 5px;">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                             <div id="alertss" class="widget span12">
+                               <!-- <div class="widget-header">
+                                    <i class="icon-lightbulb"></i>
+                                    
+                                    <h5>Report Content</h5>
+                                    
+                                </div>-->
+                                
+                                <div class="widget-body clearfix" style="overflow-x: auto">
+                                     <div id="ReportTotal"><div class="box">
+    <div class="box-content padded" style="background: white;">
+        <form class="row-fluid">
+            <div class="col-md-2">Total Report time:&nbsp; <b>24:0:0</b></div>
+           
+            <div class="col-md-2">Total Engine Hr :&nbsp;<b> 0:0:0</b> </div>
+            <div class="col-md-2">Total Thresher Hr:&nbsp;<b>0:0:0</b></div>
+            <div class="col-md-2">Total NonProductive Hr:&nbsp;<b>0:0:0</b></div>
+            <div class="col-md-2">Total Distance:&nbsp;<b>0</b></div>
+            <div class="col-md-2">Total Harvested Area:&nbsp;<b>0</b></div>
+        </form>
+    </div>
+</div>
+</div>
+                                   
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>
+				
+               <!-- <div class="row-fluid">
+                    <div class="widget widget-padding span14">
+                        <div class="widget-body">
+                             <div class="widget-header">
+    <i class="icon-bullhorn"></i> 
+    <h5>Live Status</h5>
+</div>
+
+<div class="widget-body">
+
+    
+</div>
+<div class="row-fluid" style="padding-top: 15px;">
+    
+<div class="box">
+    <div class="box-content padded" style="margin:0 15px 0 15px;">
+        <div class="row">
+            <div class="col-md-2" style="margin-left:0px;">
+                 Parked&nbsp;<img alt="Parked" title="Parked" src="Trackmaster_files/stop.png">
+               
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Ignition On&nbsp;<img alt="Ignition On" title="Ignition On" src="Trackmaster_files/hispeed.png">
+            </div>
+
+            <div class="col-md-2" style="margin-left:0px;">
+                Engine Working&nbsp;<img alt="Engine Working" title=" Engine Working" src="Trackmaster_files/ignion_002.png">
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Thresher Working&nbsp;<img alt="Thresher Working" title="Thresher Working" src="Trackmaster_files/moving.png">
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Parked With Batt Cut-Off&nbsp;<img alt="Parked With Batt Cut-Off" title="Parked With Batt Cut-Off" src="Trackmaster_files/towed.png">
+            </div>
+            <div class="col-md-2" style="margin-left:0px;">
+                Unreachable&nbsp;<img alt="Unreachable" title="Unreachable" src="Trackmaster_files/unreach.png">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+    //$("#containing-div").load("[url of page with onload function]");
+    $('.dynamicValues').each(function () {
+        //var t = $(this).children('p').last().text();
+        //$(this).next('.product-qty-dt').text(t);
+        // var checked = $(ele).is(':checked');
+        var md = $(this).attr("store-mode");
+       // alert(md);
+    })
+</script>
+  
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <!-- /widget --
+                </div>-->
+                <!-- /row-fluid -->
+
+            </div>
+            <!-- /Main window -->
+        </div>
+        <!--/.fluid-container-->
+    </div>
+    <!-- wrap ends-->
+
+</div>
+
+<!--Kendo UI js-->
+
+
+
+    </div>
+    
+    <script type="text/javascript" src="Trackmaster_files/bootstrap.js"></script>  
+    
+
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+
+    <script>
+        var hiderow = null;
+        var idbbid = null;
+        $(document).ready(function () {
+
+            MyUrl = '/DashBoard/BindAlerts';
+            data = { MyStr: null };
+           // $('#ajax_loader_Graph').show();
+            $("#DivVehcleCounter").load(MyUrl, data, function (response, status, xhr) {
+               // $('#ajax_loader_working').hide();
+            });
+            
+           // $('#ajax_loader_Alerts').show();
+          var UrlWorkingHrs = '/DashBoard/BindMacineHours';
+            $("#divWoringHoursChart").load(UrlWorkingHrs, data, function (response, status, xhr) {
+                //$('#ajax_loader_Alerts').hide();
+            });
+           // var refreshId = setInterval(function () {
+                //RefreshGrid();
+          //  }, 60000);
+            // RefreshGrid();
+          
+        });
+        function RefreshGrid() {
+            $("#LiveGrid").data("kendoGrid").dataSource.read();
+            $("#LiveGrid").data("kendoGrid").dataSource.page(1);
+            $("#LiveGrid").data("kendoGrid").refresh();
+            // $("#refresh").html('refreshing...');
+        }
+        $(function () {
+            $('.hidden').hide();
+        });
+ 
+        $("#Live").find('.detailveh').click(function () {
+
+            $("#showdata").removeData("<table></table>");
+
+            if ($(this).find("i").hasClass("icon-arrow-down")) {
+                // get clicked row 
+                var row = $(this).index();
+                //get bbid of that row
+                //     var bbid = $(this).find('td:eq(1)').html();
+                var bbid = $(this).attr("data-index")
+                //  var bbid=     $(this).parent().siblings(":first").text()
+                // change icon image
+                $(this).find("i").removeClass("icon-arrow-down").addClass("icon-arrow-up");
+                var url ='/Dashboard/GetBoxDetails';
+                // Using the core $.ajax() method
+                $.ajax({
+                    // The URL for the request
+                    url: url,
+                    // The data to send (will be converted to a query string)
+                    data: {
+                        "bbid": bbid
+                    },
+                    // Whether this is a POST or GET request
+                    type: "GET",
+                    // The type of data we expect back
+                    dataType: "json",
+                    // Code to run if the request succeeds;
+                    // the response is passed to the function
+                    success: function (val) {
+                        //$.each(data, function (key, val) {
+                        idbbid = val.BBID;
+
+                        $("#" + idbbid).replaceWith("<table class='table table-striped table-bordered dataTable' style='color:green; float:left; width:100%; margin-left:5px; margin-right:5px;' >" +
+
+                            "<tr>" +
+                                  "<td style='color:black;'>Machine Sr No:</td>" +
+                            "<td>" + val.MachineSrNo + "</td>" +
+                             "<td style='color:black;'>Machine Name:</td>" +
+                            "<td>" + val.MachineName + "</td>" +
+
+                             "<td style='color:black;'>Device Id:</td>" +
+                            "<td>" + val.BBID + "</td>" +
+                             "<td style='color:black;'>GPS Signal:</td>" +
+                            "<td>" + val.GPSVal + "</td>" +
+                            " </tr>" +
+
+
+                            "<tr>" +
+                            //"<td style='color:black;'>Device Type:</td>" +
+                            //"<td>" + val.box + "</td>" +
+                            "<td style='color:black;'>Current Ignition Status</td>" +
+                            "<td>" + val.IgnitionStatus + "</td>" +
+                            "<td style='color:black;'>Current Engine Status:</td>" +
+                            "<td>" + val.EngineStatus + "</td>" +
+                            "<td style='color:black;'>Current Thresher Status</td>" +
+                            "<td>" + val.ThresherStatus + "</td>" +
+                             "<td style='color:black;'>GSM Signal :</td>" +
+                            "<td>" + val.GSMVal + "</td>" +
+                            "</tr>" +
+
+                            "<tr>" +
+                             "<td style='color:black;'>Today's Engine Hr:</td>" +
+                            "<td>" + val.TodaysEngineHr + "</td>" +
+                            "<td style='color:black;'>Today's Thresher Hr:</td>" +
+                            "<td>" + val.TodaysThreshingHr + "</td>" +
+                              "<td style='color:black;'>Mobile Number For Alerts</td>" +
+                              "<td>" + val.MobileNoAlerts + "</td>" +
+                              "<td style='color:black;'>Box Battery  Level</td>" +
+                              "<td>" + val.BoxBatterylevel + "</td>" +
+                              " </tr>" +
+
+
+                              "<tr>" +
+                                 "<td style='color:black;'>Activation Status</td>" +
+                             "<td>" + val.ActiveStatus + "</td>" +
+                        //     "<td style='color:black;'>Installation Date:</td>" +
+                        //"<td>" + val.VehicleRegNo + "</td>" +
+                        "<td style='color:black;'>Installation Date</td>" +
+                        "<td>" + val.Installdate + "</td>" +
+                         "<td style='color:black;'>Location:</td>" +
+                         "<td>" + val.EndLocation + "</td>" +
+                        "<td style='color:black;'>Last Date:</td>" +
+                        "<td>" + val.LastdataDate + "</td>" +
+                        " </tr>" +
+
+
+                            "</table>"
+                       )
+                        // });
+                    },
+
+                    // Code to run if the request fails; the raw request and
+                    // status codes are passed to the function
+                    error: function (xhr, status, errorThrown) {
+                        alert("Sorry, there was a problem!");
+                        console.log("Error: " + errorThrown);
+                        console.log("Status: " + status);
+                        console.dir(xhr);
+                    },
+
+                    // Code to run regardless of success or failure
+                    complete: function (xhr, status) {
+                        // alert("The request is complete!");
+                    }
+                });
+
+                $(this).closest("tr").next().slideToggle("slow");
+                hiderow = $(this).closest("tr").next().index();
+            }
+            else {
+
+                $("#" + idbbid).replaceWith("<div></div>");
+                $(this).closest("tr").next().slideToggle("slow");
+                //  $("#Live tr:eq("+hiderow+")").hide();
+                $(this).find("i").removeClass("icon-arrow-up").addClass("icon-arrow-down");
+            }
+        });
+    </script>
+
+    
+    <script src="Trackmaster_files/jquery.js"></script>
+    <script src="Trackmaster_files/kendo_002.js"></script>
+    <script src="Trackmaster_files/kendo_003.js"></script>
+    <script src="Trackmaster_files/kendo.js"></script>
+
+    <script type="text/javascript">
+        var logErrorUrl = '/Error/LogJavaScriptError';
+    </script>
+    <script src="Trackmaster_files/errorhandler.js" type="text/javascript"></script>
+    
+
+<div id="ChangePasswordModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class="col-md-5">Old Password</div>
+                    <div class="col-md-7">
+                        <input id="OldPassword" name="OldPassword" type="password">
+                    </div>
+                    <div class="col-md-5">New Password</div>
+                    <div class="col-md-7">
+                        <input id="NewPassword" name="NewPassword" type="password">
+                    </div>
+                    <div class="col-md-5">Confirn New Password</div>
+                    <div class="col-md-7">
+                        <input id="ConfirmPassword" name="ConfirmPassword" type="password">
+                    </div>
+                    <div class="col-md-9" style="height: 30px">&nbsp;</div>
+                    <div class="col-md-3" style="height: 30px">&nbsp;</div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9">
+                        <input value="Change Password" class="btn btn-green" id="BtnChangePass" type="button">
+                    </div>
+                </div>
+                <div class="col-md-12" style="padding-top: 10px; text-align: center">
+                    <span id="ValidateMsg" style="color:red"></span>
+                    <div id="SendRes" style="display: none">
+                        
+                    </div>
+                </div>
+                <div class="col-md-12" style="height: 10px; text-align: center; color: green">
+                    <h5><span id="Result"></span></h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- /row-fluid -->
+				
+				
+                <div class="row-fluid">
+                    <div class="widget widget-padding span12" style="background:#333333;">
+                        <div class="widget-body" style="background:#333333;">
+                            
+					<div class="box" style="background:#333333;padding: 0px 115px; border-top: 4px solid orange;    margin-bottom: 0px;">
+    <div class="box-content padded" style="margin:0 15px 0 15px;">
+        <div class="row">
+            <div class="col-md-3" style="margin-left:0px;">
+                 <ul style="list-style:none; color:white;">
+				    <li style="line-height: 29px; font-size:17px;"><b>Navigate</b></li>
+					
+					<li style="line-height: 20px; font-size:15px; color:#999;">About</li>
+					
+					<li style="line-height: 20px; font-size:15px; color:#999;">Contact Us</li>
+				 </ul>
+               
+            </div>
+            <div class="col-md-9" style="margin-left:0px;">
+                <ul  style="list-style:none; color:white;">
+				<li style="line-height: 29px; font-size:17px;"><b>DISCLAIMERS </b></li>
+					<span style="color:#999;">The distance travelled reported here may not be absolutely correct as the website takes the distance based upon the GPS fixes it has received from the tracking device installed in your vehicle.</span>
+				 </ul>
+            </div>
+
+            
+                  </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //$("#containing-div").load("[url of page with onload function]");
+    $('.dynamicValues').each(function () {
+        //var t = $(this).children('p').last().text();
+        //$(this).next('.product-qty-dt').text(t);
+        // var checked = $(ele).is(':checked');
+        var md = $(this).attr("store-mode");
+       // alert(md);
+    })
+</script>
+  
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <!-- /widget --
+                </div>
+                <!-- /row-fluid -->
+
+				
+				
+				   <div class="row-fluid">
+                    <div class="widget widget-padding span12" style="background:#000;">
+                        <div class="widget-body" style="background:#000;">
+                            
+					<div class="box" style="background:#232121;padding: 4px 115px; border:none !important;">
+    <div class="box-content padded" style="margin:0 15px 0 15px; padding: 0px 47px !important;">
+        <div class="row">
+            <p style="color:#fff;     position: relative;
+    top: 7px;">© Hitec Point Technologies 2016</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+  
+                        </div>
+                        <!-- /widget-body -->
+                    </div>
+                    <!-- /widget --
+                </div>
+                <!-- /row-fluid -->
+<script type="text/javascript">
+    $('#BtnChangePass').click(function f() {
+        var OldPassword = $('#OldPassword').val();
+        OldPassword = OldPassword.trim();
+        var NewPassword = $('#NewPassword').val();
+        NewPassword = NewPassword.trim();
+        var ConfirmNewPassword = $('#ConfirmPassword').val();
+        ConfirmNewPassword = ConfirmNewPassword.trim();
+        var MyUrl = '/Login/ChangePassword';
+        if (NewPassword != '' && OldPassword != '' && ConfirmNewPassword != '') {
+            if (ConfirmNewPassword == NewPassword) {
+                $("#ValidateMsg").html('');
+                $.ajax({
+                    url: MyUrl, data: { OldPassword: OldPassword, ConfirmNewPassword: ConfirmNewPassword },
+                    success: function (data) {
+                        $("#ValidateMsg").html(data);
+                        $("#ValidateMsg").css('color', 'green');
+                    }
+                });
+            }
+            else {
+                $('#ValidateMsg').html("Password doesn't match");
+                $("#ValidateMsg").css('color', 'red');
+            }
+        }
+        else {
+            $('#ValidateMsg').html("Please fill all the fields");
+            $("#ValidateMsg").css('color', 'red');
+        }
+    });
+</script>
+<script type="text/javascript" src="Trackmaster_files/jquery-1.8.3.min.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="Trackmaster_files/main.js" charset="UTF-8"></script>
+<script type="text/javascript" src="Trackmaster_files/bootstrap.min.js"></script>
+<script type="text/javascript" src="Trackmaster_files/bootstrap-datepicker.js" ></script>
+<script>
+$(function() {
+   $('.datepicker').datepicker();
+});
+</script>
+ <script type="text/javascript" src="Trackmaster_files/bootstrap-timepicker.min.js"></script>
+ <script type="text/javascript">
+            $('#timepicker1').timepicker();
+        </script>
+		<script type="text/javascript">
+            $('#timepicker2').timepicker();
+        </script>
+		
+</body>
+</html>

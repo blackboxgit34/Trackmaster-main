@@ -1,0 +1,107 @@
+﻿var table;
+var baseUrl;
+var $beginDate;
+var $endDate;
+var $custid;
+var beginDateString;
+var endDateString;
+
+
+
+//$custid = '1619';
+baseUrl = apiBase.apiurl;
+
+$(function () {
+    //var start = moment().subtract(29, 'days');
+    var start = moment().subtract(0, 'days').startOf('day');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMM D YYYY, h:mm:ss a') + ' - ' + end.format('MMM D YYYY, h:mm:ss a'));
+        $beginDate = start.format('MMM D YYYY h:mm:ss a');
+        $endDate = end.format('MMM D YYYY h:mm:ss a');
+    }
+
+    $('#reportrangeRoutePlayback').daterangepicker({
+        startDate: start,
+        endDate: end,
+        opens: "right",
+        timePicker: true,
+        ranges: {
+            'Today': [moment().subtract(0, 'days').startOf('day'), moment()],
+            'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            'Last 2 Days': [moment().subtract(2, 'days').startOf('day'), moment()],
+            'Last 3 Days': [moment().subtract(3, 'days').startOf('day'), moment()],
+
+            //'Last 30 Days': [moment().subtract(29, 'days').startOf('day'), moment()],
+            //'This Month': [moment().startOf('month').startOf('day'), moment()],
+            //'Last Month': [moment().subtract(1, 'month').startOf('month').startOf('day'), moment().subtract(1, 'month').endOf('month')]
+        },
+    }, cb);
+
+    cb(start, end);
+});
+
+
+function showMapWindow(bbid, vehname, lat, longi, location) {
+    $("#ShowLocationOnMap").dialog({
+        autoOpen: true,
+        position: { my: "center", at: "200", of: window },
+        width: 750,
+        height: 500,
+        resizable: true,
+        title: 'Location On Map',
+        modal: true,
+        open: function () {
+            var url = "../report/GetLocationPartialView?vehname=" + (vehname) + "&lat=" + lat + "&longi=" + longi + "&location=" + (location);
+            $(this).load(url);
+            $(".ui-dialog-titlebar-close").hide();
+        },
+        buttons: {
+            Close: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    return false;
+}
+
+function showMapWindowWithData(bbid, vehname, lat, longi, location, driverName, driverNumber, speed, dateTime) {
+    $("#ShowLocationOnMap").dialog({
+        autoOpen: true,
+        position: { my: "center", at: "200", of: window },
+        width: 750,
+        height: 500,
+        resizable: true,
+        title: 'Location On Map',
+        modal: true,
+        open: function () {
+            var url = "../report/GetLocationPartialViewWithData?vehname=" + (vehname) + "&lat=" + lat + "&longi=" + longi + "&location=" + (location) + "&driverName=" + driverName + "&driverNumber=" + driverNumber + "&speed=" + speed + "&dateTime=" + dateTime;
+            $(this).load(url);
+            $(".ui-dialog-titlebar-close").hide();
+        },
+        buttons: {
+            Close: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    return false;
+}
+
+// Export to Excel
+function exportExcel(report)
+{
+    alert(report);
+}
+
+// Send Email
+function sendEmail(report) {
+    alert(report);
+}
+
+// Export to PDF
+function exportPDF(report) {
+    alert(report);
+}
+

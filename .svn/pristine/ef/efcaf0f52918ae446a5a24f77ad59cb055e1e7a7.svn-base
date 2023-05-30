@@ -1,0 +1,61 @@
+﻿<div class="row-fluid">
+    <div class="widget widget-padding span12" style="background: #333333;">
+        <div class="widget-body" style="background: #333333;">
+            <div class="box" style="background: #333333; padding: 0px 115px; border-top: 4px solid orange; margin-bottom: 0px;">
+                <div class="box-~/content padded" style="margin: 0 15px 0 15px;">
+                    <div class="row">
+                        <div class="col-md-3" style="margin-left: 0px;">
+                            <ul style="list-style: none; color: white;">
+                                <li style="line-height: 29px; font-size: 17px;"><b>Navigate</b></li>
+                             
+                                <li style="line-height: 20px; font-size: 15px; color: #999;"> <a href="@Url.Action("AboutUs","Dashboard")"> About Us</a></li>
+
+                               @* <li style="line-height: 20px; font-size: 15px; color: #999;">Contact Us</li>*@
+                            </ul>
+                        </div>
+                        <div class="col-md-9" style="margin-left: 0px;">
+                            <ul style="list-style: none; color: white;">
+                                <li style="line-height: 29px; font-size: 17px;"><b>DISCLAIMER </b></li>
+                                <li>
+                                    <span style="color: #999;">The distance travelled reported here may not be absolutely correct as the website takes the distance based upon the GPS fixes it has received from the tracking device installed in your vehicle.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           @* <script type="text/javascript">
+                $('.dynamicValues').each(function () {
+                    var md = $(this).attr("store-mode");
+                })
+            </script>*@
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /widget -->
+</div>
+<!-- /row-fluid -->
+
+<div class="row-fluid">
+    <div class="widget widget-padding span12" style="background: #000;">
+        <div class="widget-body" style="background: #000;">
+
+            <div class="box" style="background: #232121; padding: 4px 115px; border: none !important;">
+                <div class="box-~/content padded" style="margin: 0 15px 0 15px; padding: 0px 47px !important;">
+                    <div class="row">
+                        <p style="color: #fff; position: relative; top: 7px;">
+                            © Blackbox Technology OPC Pvt Ltd 
+                        </p>
+                    </div>
+                </div>
+            </div>
+           @* <script type="text/javascript">
+                $('.dynamicValues').each(function () {
+                    var md = $(this).attr("store-mode");
+                })
+            </script>*@
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /widget -->
+</div>
+<!-- /row-fluid -->

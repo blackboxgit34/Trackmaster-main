@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "Add Vehicle Service Schedule";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                        <form id="servSchedule" method="post">
+                                                            Vehicle Name :  @Html.DropDownList("VehicleId", Enumerable.Empty<SelectListItem>(), "--Select Vehicle Name--", new { @class = "js-example-basic-single"})
+                                                            <br />
+                                                            Service Name :
+                                                           <select id="ServiceItemID" name="ServiceItemID" class="js-example-basic-multiple" multiple="multiple"></select>
+                                                            <br />
+                                                            Last Performed :
+                                                        <input type="text" id="LastPerformed" name="LastPerformed" placeholder="Select Date" required>
+                                                            <br />
+                                                            Next Due Date :
+                                                        <input type="text" id="NextDueDate" name="NextDueDate" placeholder="Select Date" required>
+                                                            <br />
+                                                            Next Due Km :
+                                                        <input type="text" id="NextDueKM" name="NextDueKM" required>(Km)
+                                                        <br />
+                                                            Reminder Before :
+                                                        <input type="text" id="ReminderValue" name="ReminderValue">
+                                                            Day(s)<br />
+                                                            Remarks :
+                                                        <textarea rows="4" cols="50" id="Remarks" name="Remarks"></textarea>
+                                                            <br />
+                                                            <input type="submit" class="btn btn-submit" />
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/widget-body-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    @section scripts{
+        <script src="~/Scripts/app/common.js"></script>
+        <script type="text/javascript">
+<<<<<<< HEAD
+            function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+=======
+            $(".js-example-basic-multiple").select2({
+                placeholder: "Please select Service",
+            })
+            $('.checkBox').click(function () {
+                
+                // var test = $(this).parent().siblings(":first").text()
+                if ($(this).is(':checked'))
+                    $(this).closest('tr').find('.js-example-basic-multiple').prop("disabled", false);
+                else
+                    $(this).closest('tr').find('.js-example-basic-multiple').prop("disabled", true);
+                var json = $.parseJSON(data);
+                var selectedValues = [];
+                $.each(json, function (bb) {
+                    selectedValues.push(json[bb].Id);
+                });
+            });
+>>>>>>> 70f76ecba1a427dbb13d0604c4619d1802230759
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : sParameterName[1];
+                    }
+                }
+            };
+            $(document).ready(function () {
+                $('#lastperformed').datepicker();
+                $('#nextDueDate').datepicker();
+<<<<<<< HEAD
+                var $custid = '45';
+                $(".js-example-basic-multiple").select2({
+                    placeholder: "Please select Service",
+                    seperator:",",
+                })
+=======
+>>>>>>> 70f76ecba1a427dbb13d0604c4619d1802230759
+                var VehicleUrl = apiBase.apiurl + 'FmsAPI/GetFmsVehicles';
+                $.get(VehicleUrl, { custid: $custid }, function (data) {
+                    $.each(data, function (key, value) {
+                        $("#VehicleId").append($("<option></option>").val(value.BBID).html(value.VehicleName));
+                    });
+                });
+                var ServiceUrl = apiBase.apiurl + 'FmsAPI/BindServiceScheduleItems';
+                $.post(ServiceUrl, function (data) {
+                    $.each(data, function (key, value) {
+                        $("#ServiceItemID").append($("<option></option>").val(value.ServiceItemID).html(value.ServiceItem));
+                    });
+                });
+                var tid = getUrlParameter("ssid");
+                if (tid > 0) {
+                    $("#statusText").val("Update Vehicle Service Schedule");
+                    var url = apiBase.apiurl + "FmsApi/GetServScheduleBySchId";
+                    $.get(url, { custid: $custid, ssid: tid }, function (data) {
+                        $.each(data, function (item, value) {
+                            if (item == "ServiceItemIdList") {
+                                var Arr = value.split(",");
+                                console.log(Arr);
+                                $("#ServiceItemID").select2("val",Arr);
+                            }
+                            else
+                                $("#" + item).val(value);
+                        });
+                    });
+                }
+                else {
+                    $('.checkBox').click(function () {
+                        if ($(this).is(':checked'))
+                            $(this).closest('tr').find('.js-example-basic-multiple').prop("disabled", false);
+                        else
+                            $(this).closest('tr').find('.js-example-basic-multiple').prop("disabled", true);
+                        var json = $.parseJSON(data);
+                        var selectedValues = [];
+                        $.each(json, function (bb) {
+                            selectedValues.push(json[bb].Id);
+                        });
+                    });
+                }
+            });
+        </script>
+    }
+    <script>
+        $('#servSchedule').submit(function () {
+            
+            var VehicleName = $("#VehicleId option:selected").text();
+            var ServiceItemIds = '';
+            $('#ServiceItemID').val().forEach(function (val, index) {
+                ServiceItemIds += val + ',';
+            })
+            if (ServiceItemIds != '')
+                ServiceItemIds = ServiceItemIds.substring(0, ServiceItemIds.length - 1);
+
+            var data = $('#servSchedule').serializeArray();
+            data.push({ name: 'ServiceScheduleID', value: '' }, { name: 'ServiceItemID', value: '' },
+                { name: 'VehicleName', value: VehicleName },
+                { name: 'RepeatUnit', value: 'Days' },
+                { name: 'ReminderUnit', value: 'Days' },
+                { name: 'Attachments', value: '' },
+                { name: 'ServiceItemIdList', value: ServiceItemIds });
+
+            var ServiceUrl = apiBase.apiurl + 'FmsAPI/AddUpdateServiceSchedule';
+            $.post(ServiceUrl, $.param(data), function (result) {
+                if (result > 0) {
+                    toastr.success("Record Entered Successfuly")
+                }
+                else
+                    toastr.error("Failed!!!")
+            });
+        });
+    </script>

@@ -1,0 +1,177 @@
+﻿<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="main_container" id="tables_page">
+        <div class="row-fluid" style="margin-bottom: 25px;">
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div id="alerts" class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-file-archive-o"></i>
+                            <h5>@ViewBag.Title</h5>
+                            <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                            </div>
+                        </div>
+                        <div class="widget-body clearfix" style="overflow-x: auto">
+                            <div class="box" style="background: #fdfdfd;">
+                                <div class="box-content padded">
+                                    <form id="VendorForm" type="post" style="margin: 35px;">
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 pull-left">
+                                                    <input type="hidden" id="TyreId" name="TyreId" value="@ViewBag.TyreId">
+                                                    <input type="hidden" id="CustId" name="CustId" >
+                                                    
+                                                    <div class="form-group padded col-md-4">
+                                                        Vehicle Name :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="VendorName" name="VendorName" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6  pull-right">
+                                                    <div class="form-group padded col-md-4">
+                                                        Supplier Name :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="VendorType" name="VendorType" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 pull-left">
+                                                    <div class="form-group padded col-md-4">
+                                                        Tyre No. : 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <textarea id="Address" name="Address"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6  pull-right">
+                                                    <div class="form-group padded col-md-4">
+                                                        Tyre Type :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="PostalCode" name="PostalCode" maxlength="6">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        State : 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        @Html.DropDownList("StateId", Enumerable.Empty<SelectListItem>(),"-- Select State--", new { @class = "js-example-single", @style = "width:100%;" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        City : 
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        @Html.DropDownList("CityId", Enumerable.Empty<SelectListItem>(),"-- Select City--", new { @class = "js-example-single ", @style = "width:100%;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-4">
+                                                    <div class="form-group padded col-md-6">
+                                                        Mobile No :
+                                                    </div>
+                                                    <div class="form-group padded col-md-6">
+                                                        <input type="text" id="PhoneNo" name="PhoneNo" maxlength="10">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group padded col-md-6">
+                                                        Landline No :
+                                                    </div>
+                                                    <div class="form-group padded col-md-6">
+                                                        <input type="text" id="LandlineNo" name="LandlineNo" maxlength="12" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group padded col-md-6">
+                                                        Email ID :
+                                                    </div>
+                                                    <div class="form-group padded col-md-6">
+                                                        <input type="text" id="Email" name="Email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Credit Limit Day :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="CreditCyleLimit" name="CreditCyleLimit" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Credit Amount  :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="text" id="CreditCyleAmount" name="CreditCyleAmount" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Remarks :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <textarea rows="4" cols="50" id="Remarks" name="Remarks"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group padded col-md-4">
+                                                        Attachment  :
+                                                    </div>
+                                                    <div class="form-group padded col-md-8">
+                                                        <input type="file" id="file" name="file">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="col-md-12"  style="float: right;">
+                                                <div class="form-group padded col-md-3" style="float: right;">
+                                                    <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/FMSAddUpdateVendor.js"></script>
+   
+
+}

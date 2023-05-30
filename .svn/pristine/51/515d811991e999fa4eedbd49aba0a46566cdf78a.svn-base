@@ -1,0 +1,331 @@
+﻿@{
+    ViewBag.Title = "UpdateOverSpeedStopSettings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+@*<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/css/bootstrapValidator.css" rel="stylesheet"/>*@
+<script src="@Url.Content("~/Content/DataTable/jquery.dataTables.min.js")"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>*@
+<script src="~/Content/js/APIURL.js"></script>
+<script src="~/Scripts/app/common.js"></script>
+<div id="Fade" class="w3-container city w3-animate-zoom">
+    <div class="row-fluid">
+
+        <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+                            <h5>Update OverSpeed and OverStoppage  Settings</h5>
+                            <div class="pull-right">
+                                <button class="pull-right btn btn-green btn-small" style="margin-top: 5.5%; margin-right: 10%;" data-toggle="modal" data-target="#myModal" href="#" id="popUP">Multiple Vehicles Settings</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="hidden">BBID</th>
+                                                    <th>Vehicle Name</th>
+                                                    <th>OverSpeed Limit</th>
+                                                    <th>OverStoppageMin</th>
+                                                    <th>Idling Time</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#vehicleslist").select2({
+            //  placeholder: "select Vehicles.",
+        });
+        $("#avgSpeedRange").select2({
+            //placeholder: "Select Average Speed Range.",
+        });
+        $("#TimeSlot1").select2({
+            //placeholder: "Select Time slot1.",
+        });
+        $("#fade").trigger("click");
+    });
+    function openLink(evt, animName) {
+        debugger;
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+        }
+        document.getElementById(animName).style.display = "block";
+        evt.currentTarget.className += " w3-red";
+    }
+
+    //$(function () {
+    //for all vehicles
+    $("#popUP").click(function () {
+        $("#divVehicleslist").removeClass("hidden");
+        ajaxForPopUp();
+
+    });
+
+    function ajaxForPopUp() {
+
+        var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + 'api/adminapi/getvehicles?custid=' + $custid;
+        $.getJSON(url, function (data) {
+            debugger;
+            $('#vehicleslist').append($('<option></option>').val(0).html("All Vehicles"));
+            $.each(data, function (i, item) {
+                $('#vehicleslist').append($('<option></option>').val(item.Value).html(item.Text));
+            });
+        });
+        //$.ajax({
+        //    url: url,
+        //    // context: document.body
+        //}).done(function (response) {
+
+
+
+
+        //    debugger;
+        //    if (response != null) {
+
+
+
+        //      //  var pageTitle = $(this).attr('pageTitle');
+        //      //  var pageName = $(this).attr('pageName');
+        //      //  $(".modal .modal-title").html(pageTitle);
+        //      ////  $(".modal .modal-body").html(response);
+        //      //  $(".modal").modal("show");
+        //      //  //$(".modal .modal-body").load(response);
+        //    }
+        //    else {
+        //        toastr.error("", "something went wrong");
+        //    }
+        //});
+    }
+
+
+
+
+    $(document).ready(function () {
+        var url = apiBase.apiurl + "AdminAPI/GetOverSpeedStopSettings";
+
+        table = $('#dt_basic_Master').DataTable({
+            //"oLanguage": {
+            //    "sProcessing": "<img src='../Content/Trackmaster_files/loader.gif'/>"
+            //},
+            "processing": true,
+            "serverSide": true,
+            destroy: true,
+            retrieve: true,
+            "sAjaxSource": url,
+            "iDisplayLength": 20,
+            "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+            "fnServerParams": function (param) {
+                param.push({ "name": "custId", "value": $custid });
+            },
+
+            "columns": [
+                    {
+                        "class": "hidden",
+                        "render": function (data, type, full, meta) {
+
+                            return '<span class="hidden">' + full.BBID + '</span>';
+                        }
+                    },
+
+                    { "data": "VehicleName" },
+
+
+                        { "data": "OverSpeedLimit" },
+                        { "data": "OverStoppageMin" },
+                         { "data": "IdlingTime" },
+                    {
+
+                        "data": null,
+                        "render": function (data, type, full, meta) {
+                            debugger;
+                            return '<span><button class="btn btn-green btn-small" type="button" data-toggle="modal" data-target="#myModal" id="' + full.BBID + '" onClick="PopUpModal(this.id);"><i class="fa fa-pencil"></i></button></span>';
+                        }
+                    },
+            ],
+            "rowCallback": function (row, data, index) {
+                if (data.objRefTemperature == 0) {
+                    var target = $(row).find(".details-control");
+                    var index = (target).index();
+                    $(row).find('td:eq(' + index + ')').removeClass('details-control')
+                }
+            }
+        });
+
+    });
+
+    //for specific vehicle
+    window.PopUpModal = function (id) {
+        debugger;
+        //for hiding vehicle list 
+        $("#divVehicleslist").addClass("hidden");
+        $("#divVehicleName").removeClass("hidden");
+
+        var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + 'api/adminapi/GetVehicleOverSpeedStopDetail?bbid=' + id;
+        $.getJSON(url, function (data) {
+            debugger;
+            $("#bbid").val(id);
+            $("#OverSpeedLimit").val(data.OverSpeedLimit);
+            $("#overStoppageTime").val(data.OverStoppageMin);
+            $("#idlingTime").val(data.IdlingTime);
+            document.getElementById("vehicleNameP").innerHTML = data.VehicleName;
+        })
+    };
+
+    function submitUpdateSettings() {
+        debugger;
+        var custId = $custid;
+        var bbid = $("#bbid").val();
+        var bbidList = $("#vehicleslist").val().toString();
+        var OverSpeedLimit = $("#OverSpeedLimit").val();
+        var overStoppageTime = $("#overStoppageTime").val();
+        var idlingTime = $("#idlingTime").val();
+
+        if (!bbid && !bbidList) {
+            $("#valvehicleslist").removeClass("hidden");
+            return false;
+        }
+
+        $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+        $('#myModal').modal('toggle');
+
+        var url = apiBase.apiurl + "adminapi/UpdateOverSpeedStopSettings";
+        $.ajax({
+            url: url,
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: { bbid: bbid, OverSpeedLimit: OverSpeedLimit, overstoppageMin: overStoppageTime, bbidList: bbidList, custId: custId,idlingTime:idlingTime },
+            // async: false,
+            success: function (data) {
+                $.unblockUI();
+                debugger;
+                toastr.success('successfully Done!');
+                setTimeout(
+                window.location.reload(true), 2000);
+            },
+            error: function (err) {
+                $.unblockUI();
+                debugger;
+                toastr.warning('something went wrong!');
+            }
+
+        });
+
+        return false;
+
+    }
+
+    $('body').on('hidden.bs.modal', '.modal', function () {
+        document.location.reload();
+    });
+</script>
+
+
+<!-- Modal -->
+<div class="modal  fade" id="myModal" role="dialog" style="background: transparent; overflow-y: hidden; margin-left: -50%; width: 100%;">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Settings</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="box-content padded">
+                        <form data-toggle="validator" role="form">
+                            <div class="col-md-12 hidden" id="divVehicleName">
+                                <div class="form-group">
+                                    @*<label for="inputName" id="vehicleName" class="control-label"></label>*@
+                                    <h4>Vehicle Name:  <b id="vehicleNameP"></b></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="divVehicleslist">
+                                <div class="form-group ">
+                                    <label for="inputName" class="control-label">Select Vehicles</label>
+                                    <span style="color: indianred" class="hidden" id="valvehicleslist"><i class=" fa fa-exclamation-triangle"></i>Please Select Vehicles.</span>
+
+                                    <select class="form-control" id="vehicleslist" multiple></select>
+                                    <input type="text" class="hidden" id="bbid" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Over Speed Limit</label>
+                                        <span style="color: indianred" class="hidden" id="valOverSpeedLimit"><i class="fa fa-exclamation-triangle"></i>insert over speed limit.</span>
+
+                                        <input type="number" min="1" max="100" class="form-control" id="OverSpeedLimit" name="OverSpeedLimit" placeholder="Over Speed Limit" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Over Stoppage Time</label>
+                                        <span style="color: indianred" class="hidden" id="valoverStoppageTime"><i class=" fa fa-exclamation-triangle"></i>Over Stoppage Time.</span>
+
+                                        <input type="number" min="1" max="8" class="form-control" id="overStoppageTime" name="overStoppageTime" placeholder="Max Continue Driving Time" required data-rule-required="true" data-msg-required="Please enter Driver Name" title="Over stoppage time.">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="inputName" class="control-label">Idling Time</label>
+                                        <span style="color: indianred" class="hidden" id="valIdlingTime"><i class=" fa fa-exclamation-triangle"></i>Idling Time.</span>
+                                        <input type="number" class="form-control" id="idlingTime" name="idlingTime" placeholder="Idling Time in mins" required data-rule-required="true" data-msg-required="Idling Time" title="Idling time.">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="submitUpdateSettings();" class="btn btn-green">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

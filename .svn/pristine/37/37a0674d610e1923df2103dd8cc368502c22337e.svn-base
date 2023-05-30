@@ -1,0 +1,60 @@
+﻿<!-- Modal content-->
+<style>
+    .bold {
+       font-weight:bold;
+    }
+</style>
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h6 class="modal-title">Box Detail (<b id="heading"></b>)</h6>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div id="Fade" class="w3-container city w3-animate-zoom">
+                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div id="DivVehcleCounter">
+                                <div class="box-content padded">
+                                    <div class="box-content padded">
+                                        <form data-toggle="validator" role="form">
+                                            <div class="form-group col-md-4 ">
+                                                <label for="inputName" class="control-label">Driver Mobile Number: <span id="lblSerialNumber" class="bold"></span></label>
+                                            </div>
+                                                <div class="form-group col-md-4 ">
+                                                <label for="inputName" class="control-label">Alias Number:<span id="lblAliasNumber"class="bold"></span></label>
+                                            </div>
+                                           
+                                            <div class="form-group col-md-4 ">
+                                                <label for="inputName" class="control-label">Sim Number: <span id="lblSimNumber"class="bold"></span></label>
+                                            </div>
+                                            <div class="form-group col-md-4 ">
+                                                <label for="inputName" class="control-label">Black Box Id: <span id="lblBlackBoxId"class="bold"></span></label>
+                                            </div>
+                                            <div class="form-group col-md-4 ">
+                                                <label for="inputName" class="control-label">Vehicle Name: <span id="lblVehicleName"class="bold"></span></label>
+                                            </div>
+                                            <div class="form-group col-md-4 ">
+                                                <label for="inputName" class="control-label">Vehicle Registration Number: <span id="lblVehicleRegistrationNubmer"class="bold"></span></label>
+                                            </div>
+                                           
+                                          
+                                           
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

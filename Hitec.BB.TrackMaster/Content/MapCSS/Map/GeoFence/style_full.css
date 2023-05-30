@@ -1,0 +1,447 @@
+/* ----------------------------------------------------------- content ----------------------------------------------------------- */#content
+{
+    margin: 0 60px 50px 60px;
+    padding: 0;
+    min-height: 400px;
+    clear: both;
+    overflow: hidden;
+    background: transparent;
+}
+#content2
+{
+    margin: 0;
+    min-height: 100%;
+    clear: both;
+    overflow: hidden;
+    background: transparent;
+}
+/* ----------------------------------------------------------- content -> right -> forms -> labels ----------------------------------------------------------- */#content div.box div.form div.fields div.field div.label
+{
+    left: 80px;
+    margin: 0;
+    padding: 8px 0 0 5px;
+    width: auto;
+    position: absolute;
+}
+#content div.box-left div.form div.fields div.field div.label, #content div.box-right div.form div.fields div.field div.label
+{
+    left: 0;
+    margin: 0;
+    padding: 0 0 8px 0;
+    width: auto;
+    position: relative;
+}
+div.icons
+{
+    margin-left: 5px;
+    border-collapse: collapse;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+.legends
+{
+    border-collapse: collapse;
+    background-color: #fff;
+}
+/*.legends { margin-left:5px; border-collapse:collapse; background-color:#fff; position:fixed;bottom:0;left:0;z-index:1000; }*/.legends tr td
+{
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.legends tr td.moving
+{
+    background-image: url(../images/icons/mapmarkers/green.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legends tr td.stop
+{
+    background-image: url(../images/icons/mapmarkers/yellow.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legends tr td.ignitionnew
+{
+    background-image: url(../images/icons/mapmarkers/ignitionnew.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legends tr td.unreach
+{
+    background-image: url(../images/icons/mapmarkers/red.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legends tr td.loading
+{
+    width: 20px;
+    height: 20px;
+}
+.legends tr td span
+{
+    float: right;
+    color: #737373;
+}
+.legends tr td:first-child
+{
+    text-align: center;
+    background: #fcfcfc;
+}
+.legends tr td.vehicle
+{
+    text-align: left;
+    background: #fcfcfc;
+}
+.legends tr td.different
+{
+    text-align: center;
+    background: #fcfcfc;
+    background-color: #F9FAC9;
+}
+.legendLive
+{
+    border-collapse: collapse;
+    background-color: #fff;
+}
+/*.legends { margin-left:5px; border-collapse:collapse; background-color:#fff; position:fixed;bottom:0;left:0;z-index:1000; }*/.legendLive tr td
+{
+    padding: 7px 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.legendLive tr td.moving
+{
+    background-image: url(../images/icons/livestatus/green.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legendLive tr td.stop
+{
+    background-image: url(../images/icons/livestatus/yellow.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legendLive tr td.ignitionon
+{
+    background-image: url(../images/icons/livestatus/ignition.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legendLive tr td.unreach
+{
+    background-image: url(../images/icons/livestatus/red.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    background-color: #eee;
+}
+.legendLive tr td.loading
+{
+    width: 20px;
+    height: 20px;
+}
+.legendLive tr td span
+{
+    float: right;
+    color: #737373;
+}
+.legendLive tr td:first-child
+{
+    text-align: center;
+    background: #fcfcfc;
+}
+.legendLive tr td.vehicle
+{
+    text-align: left;
+    background: #fcfcfc;
+}
+.legendLive tr td.different
+{
+    text-align: center;
+    background: #fcfcfc;
+    background-color: #F9FAC9;
+}
+div.reports
+{
+    margin: 0;
+    padding: 0 20px 5px 20px;
+    clear: both;
+    overflow: hidden;
+}
+div.reports2
+{
+    margin: 0;
+    padding: 10px 10px 5px 10px;
+    clear: both;
+    overflow: hidden;
+}
+table.search-reports
+{
+    width: auto;
+    border-collapse: collapse;
+    border: solid 1px #E2E2E2;
+}
+table.search-reports tr th
+{
+    padding: 7px;
+    background: #F5F5F5;
+    font-weight: bold;
+}
+table.search-reports tr td
+{
+    padding: 7px;
+    border: 1px solid #E2E2E2;
+}
+table.search-reports tr td:first-child
+{
+    background: #F5F5F5; /*border-right: 1px solid #F5F5F5;*/
+    border: 1px solid #E2E2E2;
+}
+table.search-reports tr td.diff
+{
+    background: #F5F5F5; /*border-right: 1px solid #F5F5F5;*/
+    border: 1px solid #E2E2E2;
+}
+table.search-reports tr td input
+{
+    font-family: Lucida Grande, Verdana, Lucida Sans Regular, Lucida Sans Unicode, Arial, sans-serif;
+    font-size: 11px;
+}
+table.search-reports tr td select
+{
+    font-family: Lucida Grande, Verdana, Lucida Sans Regular, Lucida Sans Unicode, Arial, sans-serif;
+    font-size: 11px;
+}
+div.selectTracker
+{
+    margin-bottom: 15px;
+}
+div.selectTracker select
+{
+    font-family: Lucida Grande, Verdana, Lucida Sans Regular, Lucida Sans Unicode, Arial, sans-serif;
+    font-size: 11px;
+}
+/* 16.3. FORM MESSAGES div.error, div.success, div.info, div.warning {margin:0 0 10px 0; height: 20px; padding: 7px 10px 0 34px; } div.error img, div.success img, div.info img, div.warning img{float:right;} div.error { background: #FEBFBF url("../images/icons/16/delete.png") no-repeat scroll 10px 50%; border: 1px solid #F74C4C; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; } div.success { background: #C3FBAA url("../images/icons/16/accept.png") no-repeat scroll 10px 50%; border: 1px solid #51BE21; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; } div.info { background: #AEE6FD url("../images/icons/16/help.png") no-repeat scroll 10px 50%;border: 1px solid #3E9BFC; -moz-border-radius: 5px; -webkit-border-radius: 5px;border-radius: 5px; } div.warning { background: #FFFAB2 url("../images/icons/16/error.png") no-repeat scroll 10px 50%; border: 1px solid #D5C913; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; } */.error, .info, .success, .warning
+{
+    background: url(sprites.png) no-repeat;
+    padding: 2px 20px 0 34px;
+    font: 18px/25px Calibri, Lucida Grande, Verdana, Lucida Sans Regular, Lucida Sans Unicode, Arial, sans-serif; /*color: #00B060;*/
+    color: #808080;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: auto;
+}
+div.error img, div.success img, div.info img, div.warning img
+{
+    float: right;
+}
+.error
+{
+    background-position: -100px -255px;
+    height: 30px;
+}
+.info
+{
+    background-position: -99px -355px;
+    height: 31px;
+}
+.success
+{
+    background-position: -101px -210px;
+    height: 28px;
+}
+.warning
+{
+    background-position: -99px -307px;
+    height: 29px;
+}
+#map_canvas_playback
+{
+    width: 100%;
+    height: 560px;
+    border: 1px solid #e5e5e5;
+}
+#side_bar
+{
+    height: 390px;
+    overflow: auto;
+}
+div.route_playback
+{
+    width: 100%;
+    height: auto;
+}
+div.route_playback table
+{
+    width: 100%;
+    border-collapse: collapse;
+}
+div.VAS
+{
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0px 0px 0px 10px;
+    width: 100px;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    position: relative;
+    font: 14px/19px Calibri, Arial, din-med;
+    text-transform: uppercase;
+    float: left;
+    padding-left: 30px;
+    margin: 10px;
+    background: url(sprite.png) 10px -27px no-repeat #f3f3f3;
+}
+div.VAS a
+{
+    color: #808080;
+    text-decoration: none;
+}
+div.VAS:hover
+{
+    background: url(sprite.png) 10px 8px no-repeat #E6E6E6;
+}
+div.smsTime
+{
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0px 0px 0px 10px;
+    width: 80px;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    position: relative;
+    font: 14px/19px Calibri, Arial, din-med;
+    text-transform: uppercase;
+    float: left;
+    padding-left: 30px;
+    margin: 10px;
+    background: url(sprite.png) 10px -27px no-repeat #f3f3f3;
+}
+div.smsTime a
+{
+    color: #808080;
+    text-decoration: none;
+}
+div.smsTime:hover
+{
+    background: url(sprite.png) 10px 8px no-repeat #E6E6E6;
+}
+
+div.existSmsTime
+{
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0px 0px 0px 10px;
+    width: 80px;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    position: relative;
+    font: 14px/19px Calibri, Arial, din-med;
+    text-transform: uppercase;
+    float: left;
+    padding-left: 30px;
+    margin: 10px;
+    background: url(sprite.png) 10px 8px no-repeat #00B060;
+}
+div.existSmsTime a
+{
+    color: #fff;
+    text-decoration: none;
+}
+div.custSmsTime
+{
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0px 0px 0px 10px;
+    width: 80px;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    position: relative;
+    font: 14px/19px Calibri, Arial, din-med;
+    text-transform: uppercase;
+    float: left;
+    padding-left: 30px;
+    margin: 10px;
+    background: url(sprite.png) 10px 8px no-repeat #00B060;
+}
+div.custSmsTime:hover
+{
+    background: url(sprite.png) 10px -60px no-repeat #f3f3f3;
+}
+div.custSmsTime a
+{
+    color: #fff;
+    text-decoration: none;
+}
+div.custSmsTime:hover a
+{
+    color: #808080;
+    text-decoration: none;
+}
+div.MessageTop
+{
+    background: #f3f3f3 url('../images/icons/chat.png') 50% 5px no-repeat;
+    border-radius: 5px 5px 5px 5px;
+    border: solid 1px #D6D6D6;
+    height: auto;
+    width: auto;
+    margin: 50px 10px 0 0;
+    text-transform: uppercase;
+    padding: 22px 15px;
+    line-height: 1.5;
+    color: #808080;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+div.MessageBot
+{
+    background: url('../images/icons/chat.png') 50% 5px no-repeat;
+    background-color: #fff;
+    border-radius: 5px 5px 5px 5px;
+    border: solid 1px #D6D6D6;
+    height: auto;
+    width: auto;
+    margin: 10px 10px 10px 0;
+    text-transform: uppercase;
+    padding: 22px 15px;
+    line-height: 1.5;
+    color: #808080;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+div.MyLegend
+{
+    padding: 0;
+    margin: 10px 0 0 0;
+    clear: both;
+    overflow: hidden;
+    background: #ffffff;
+}

@@ -1,0 +1,40 @@
+﻿.panel
+{
+    position: absolute;
+    top: 80px;
+    right: 0; /*display: none;*/
+    background: #fff;
+    border: 1px solid #ccc; /*-moz-border-radius-topright: 20px; -webkit-border-top-right-radius: 20px; -moz-border-radius-bottomright: 20px; -webkit-border-bottom-right-radius: 20px;*/
+    width: 300px;
+    height: auto;
+    padding: 10px;
+    filter: alpha(opacity=85);
+    opacity: .85;
+}
+a.trigger
+{
+    position: absolute;
+    text-decoration: none;
+    top: 43px;
+    right: 0;
+    color: #fff;
+    padding: 10px 40px 10px 15px;
+    background: #717d0f url(minus.png) 85% 55% no-repeat;
+    /*border: 1px solid #444444;*/ 
+    /*-moz-border-radius-topright: 20px; -webkit-border-top-right-radius: 20px; -moz-border-radius-bottomright: 20px; -webkit-border-bottom-right-radius: 20px; -moz-border-radius-bottomleft: 0px; -webkit-border-bottom-left-radius: 0px;*/
+    display: block;
+}
+a.trigger:hover
+{
+    /*position: absolute; text-decoration: none; top: 80px; left: 0; font-size: 16px; letter-spacing:-1px; font-family: verdana, helvetica, arial, sans-serif; color:#fff; padding: 20px 40px 20px 20px; font-weight: 700; background:#222222 url(images/plus.png) 85% 55% no-repeat; border:1px solid #444444; -moz-border-radius-topright: 20px; -webkit-border-top-right-radius: 20px; -moz-border-radius-bottomright: 20px; -webkit-border-bottom-right-radius: 20px; -moz-border-radius-bottomleft: 0px; -webkit-border-bottom-left-radius: 0px;*/ /*display: none;*/
+}
+a.active.trigger
+{
+    background: #717d0f url(plus.png) 85% 55% no-repeat; /**/
+}
+.panel p
+{
+    margin: 0 0 5px 0;
+    padding: 0;
+    color: #000;
+}

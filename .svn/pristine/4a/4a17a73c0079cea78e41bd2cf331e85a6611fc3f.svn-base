@@ -1,0 +1,319 @@
+﻿.reportToolTip {
+    color: white;
+}
+
+/* Center the loader */
+#divLoader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+.overlay {
+    background-color: #EFEFEF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    opacity: .5; /* in FireFox */
+    filter: alpha(opacity=50); /* in IE */
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 0px;
+        opacity: 1;
+    }
+}
+
+@keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 1;
+    }
+}
+
+#myDiv {
+    display: none;
+    text-align: center;
+}
+
+
+/* login new */
+.sixEyeMapHeaderButton {
+    margin-right: 4px;
+    margin-top: 8px;
+}
+
+.btnnew1 {
+    padding-left: 111px;
+    padding-bottom: 8px;
+}
+
+.validation-summary-errors {
+    color: Red;
+}
+
+.val-error {
+    background: #ffeceb;
+    border: 2px solid #f8452e;
+}
+
+.val-message {
+    text-align: center;
+    position: fixed;
+    margin: 20px auto;
+    width: 800px;
+    padding: 20px 30px 10px 30px;
+}
+
+#forgetFrm {
+    width: 250px;
+}
+
+#form {
+    background: none repeat scroll 0 0 #FFF;
+    border-top: 5px solid #f26b34;
+    border-left: 1px solid #e7e7e7;
+    border-right: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+    float: left;
+    padding: 25px 30px 38px 25px;
+    margin-bottom: 34px;
+}
+
+.text {
+    height: 38px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.fa-user:before {
+    content: "\f007";
+    font-size: 20px;
+}
+
+.fa-unlock-alt:before {
+    content: "\f13e";
+    font-size: 20px;
+}
+
+input[type="checkbox"] {
+    margin: 8px 10px 7px 7px;
+    margin-top: 1px \9;
+    line-height: normal;
+}
+
+.button {
+    background: none repeat scroll 0 0 #f26b34;
+    border: medium none;
+    color: #fff;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 300;
+    outline: medium none;
+    transition: all 0.5s ease 0s;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 100%;
+    height: 39px;
+}
+
+@media only screen and (max-width: 992px) {
+    #form {
+        background: none repeat scroll 0 0 #FFF;
+        border-top: 5px solid #f26b34;
+        border-left: 1px solid #e7e7e7;
+        border-right: 1px solid #e7e7e7;
+        border-bottom: 1px solid #e7e7e7;
+        float: left;
+        padding: 25px 30px 38px 25px;
+        margin-bottom: 34px;
+        margin-top: 50px;
+    }
+
+
+    /* login css end */
+
+
+    /* error 500 page */
+    @media only screen and (max-width:667px) {
+        #errortxt {
+            margin-top: -43px !important;
+        }
+    }
+
+    @media only screen and (max-width:667px) {
+        #h4500 {
+            line-height: 40px !important;
+        }
+    }
+}
+
+/* Industries page section*/
+
+.inds_contant {
+    background-image: url('../image/construction.jpg');
+    height: 476px;
+    background-size: cover;
+}
+
+.inds {
+    /*margin-top:-27px;*/
+}
+
+.inds_contant h1 {
+    padding-top: 15%;
+    color: #fff;
+    text-align: center;
+    font-size: 45px;
+    line-height: 54px;
+    font-weight: 700;
+}
+
+.inds_contant h4 {
+    padding-top: 2px;
+    font-size: 29px;
+    text-align: center;
+    color: #fff;
+    font-weight: 500;
+}
+
+.inds_contant button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: center;
+    padding: 14px;
+    font-size: 16px;
+    background: #fff;
+    border: none;
+}
+
+
+/*Start: Added by Jasmine for Top Info in FMS pages*/
+/*.top-info {
+        margin-bottom: 12px;
+}*/
+
+.top-info > a {
+    display: inline-block;
+    float: left;
+    margin-right: 8px;
+    margin-top: 1px;
+}
+
+    .top-info > a > i {
+        color: white;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+        padding: 8px;
+        margin: 0;
+    }
+
+.red-square {
+    background-color: #c95454;
+    width: 30px;
+    height: 30px;
+}
+
+.orange-square {
+    background-color: #d17d10;
+    width: 30px;
+    height: 30px;
+}
+
+.green-square {
+    background: #8e9d13;
+    width: 30px;
+    height: 30px;
+}
+
+.blue-square {
+    background-color: #589fc4;
+    width: 30px;
+    height: 30px;
+}
+/*End: Added by Jasmine for Top Info in FMS pages*/
+
+.status {
+    width: 13.7% !important;
+}
+
+.statusVehicles {
+    width: 11.7% !important;
+}
+
+
+.count {
+    font-size: 17px;
+    line-height: 35px;
+}
+
+/*Gaurav for chaning button's font-weight/*/
+.btn-danger {
+    border: none;
+    font-weight: 100 !important;
+    font-size: 11px;
+}
+
+.btn-success {
+    border: none;
+    font-weight: 100 !important;
+    font-size: 11px;
+}
+
+.btn-default {
+    border: none;
+    font-weight: 100 !important;
+    font-size: 11px;
+}

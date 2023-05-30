@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Fleet Movements in Time Slots";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/tabsWithAnimation.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="row-fluid body">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilter", new { reportTitle = ViewBag.Title, report = ViewBag.Report })
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                
+        <div class="w3-container city w3-animate-zoom">
+            <div class="row-fluid body">
+                <div class="widget-body">
+                    <!-- Main window -->
+                    <div class="main_container" id="tables_page">
+                        <div class="row-fluid">
+                            <div class="row-fluid">
+                                <div id="alertss" class="widget span12">
+                                    <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                        <div id="DivVehcleCounter" style="padding: 15px;">
+                                            <div class="box-content padded">
+                                                <table id="dtGetTimeSlotsReport" class="table table-bordered" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden" >BBID
+                                                            </th>
+                                                            <th>Vehicle No
+                                                            </th>
+                                                             <th>Morning Time(Moving Duration/Distance)
+                                                            </th>
+                                                           @* <th>Morning Driving Duration
+                                                            </th>
+                                                            <th>Morning Distance
+                                                            </th>*@
+                                                             <th>Day Time(Moving Duration/Distance)
+                                                           @* </th>
+                                                               <th>Day Driving Duration
+                                                            </th>
+                                                            <th>Day Distance
+                                                            </th>*@
+                                                             <th>Evening Time(Moving Duration/Distance)
+                                                            </th>
+                                                            @* <th>Evening Driving Duration
+                                                            </th>
+                                                            <th>Evening Distance
+                                                            </th>*@
+                                                             <th>Night Time(Moving Duration/Distance)
+                                                            </th>
+                                                            @*<th>Night Driving Duration
+                                                            </th>
+                                                            <th>Night Distance
+                                                            </th>*@
+                                                             <th>Details
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+<div id="popup" style=" position:absolute;display:none">
+                                    
+            <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-map"></i>
+                            <h5>Distance Graph</h5>
+
+                            <div class="pull-right">
+                                <input type="button" id="GraphClose" value="Close" class="btn btn-primary btn-mini sixEyeMapHeaderButton"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                  <div style="float: left; margin-top: -1.5%;" class="exp"  id="graphDiv"></div>
+           </div>
+                </div>
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/GetTimeSlotsReportDriverBehavior.js"></script>
+    @*<script src="~/Scripts/app/GetTimeSlotsReport.js"></script>*@
+    }

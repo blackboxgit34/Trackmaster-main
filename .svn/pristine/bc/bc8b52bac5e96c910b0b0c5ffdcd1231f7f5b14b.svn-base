@@ -1,0 +1,105 @@
+﻿<!-- Modal content-->
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Request</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div id="Fade" class="w3-container city w3-animate-zoom">
+                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div id="DivVehcleCounter">
+                                <div class="box-content padded">
+                                    <div class="box-content padded">
+                                        <form data-toggle="validator" role="form">
+                                            <div class="col-md-4">
+                                                <div class="form-group ">
+                                                    <label for="inputName" class="control-label">Select Driver Name</label>
+                                                    <select class="form-control" id="ddlDriverName" multiple>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-4">
+                                                <div class="form-group ">
+                                                    <label for="inputName" class="control-label">Mobile Number</label>
+                                                    <input type="number" required />
+                                                </div>
+                                            </div>*@
+                                            <div class="col-md-12">
+                                                <div class="form-group ">
+                                                    <label for="inputName" class="control-label">Message</label>
+                                                    <textarea rows="4" maxlength="128" cols="50" id="txtMessage" name="comment" style="height: initial;"></textarea>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <button type="button" onclick="submitRequest();" class="btn btn-green"><i class="fa fa-paper-plane"></i>&nbsp;Send</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/js/APIURL.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $(".form-control").select2({
+            //  placeholder: "select Vehicles.",
+        });
+
+        var baseurl = '@System.Configuration.ConfigurationManager.AppSettings["apibaseurl"]';
+        var url = baseurl + 'api/CommonApi/GetDriverWithMobileNumber?custid=' + $custid;
+        $.getJSON(url, function (data) {
+            debugger;
+            $('#ddlDriverName').append($('<option></option>').val(0).html("All Drivers"));
+            $.each(data, function (i, item) {
+                $('#ddlDriverName').append($('<option></option>').val(item.MobileNo).html(item.DriverName));
+            });
+        });
+    });
+
+    function submitRequest() {
+
+        var mobileNumber = $("#ddlDriverName").val().toString();
+        var message = $("#txtMessage").val();
+        if (message.value.length > 128) {
+            toastr.warning("Message limit is 128 character. Limit overexceeded");
+            return false;
+        }
+        $.ajax({
+            dataType: "json",
+            type: "Get",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "CommonApi/SendSMS",
+            data: { mobileNumber: mobileNumber, message: message, custId: $custid },
+            success: function (data) {
+                if (data == "success") {
+                    toastr.success("SMS successfully send to destination.");
+                    setTimeout(function () {
+                        location.reload(true);
+                    }, 3000);
+                }
+                else {
+                    toastr.error("something went wrong!Try Again");
+                }
+
+            },
+            error: function (error) {
+                debugger;
+                toastr.error("something went wrong!");
+            }
+        });
+
+    };
+</script>

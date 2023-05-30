@@ -1,0 +1,396 @@
+﻿@{
+    ViewBag.Title = "Add Repair & Maintenance";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+
+<style type="text/css">
+    .input-validation-error {
+        background: #FEF1EC;
+        border: 1px solid #CD0A0A;
+    }
+</style>
+
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="main_container" id="tables_page">
+        <div class="row-fluid" style="margin-bottom: 25px;">
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div id="alerts" class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-file-archive-o"></i>
+                            <h5 id="statusText">@ViewBag.Title</h5>
+                            <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                            </div>
+                        </div>
+                        <div class="widget-body clearfix" style="overflow-x: auto">
+                            <div class="box  box-content padded" style="background: #fdfdfd;">
+                                <div class="box-content padded">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel with-nav-tabs panel-default">
+                                                <div class="panel-heading">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a href="#tab1" data-toggle="tab">Repair</a></li>
+                                                        <li><a href="#tab2" data-toggle="tab">Service</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade in active" id="tab1">
+                                                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                                                <div class="box" style="background: #fdfdfd;">
+                                                                    <div class="box-content padded">
+                                                                        <form id="repairForm" method="post">
+                                                                            @*@Html.textbox("serviceType","Repair")*@
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6 pull-left">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Vehicle Name 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="hidden" id="vehicleIdFromMain" value ="@ViewBag.VehicleId"/>
+                                                                                            @Html.DropDownList("VehicleId", Enumerable.Empty<SelectListItem>(), "Select Vehicle Name", new { @class = "js-example-basic" })
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6  pull-right">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Repair Performed Date 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="text" id="repairDate" name="ServiceDate" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Total Expense 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="text" id="repairActualExpenses" name="ActualExpenses" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Service Station 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="text" id="repairServiceStation" name="ServiceStation" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Tasks Performed 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8" id="repairMulti">
+                                                                                            <select id="repairServiceItemID" name="ServiceItemID" class="form" multiple="multiple" required></select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Accidental  
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="Accidental" value="true">Yes
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="Accidental" value="false" checked>No
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6 pull-left">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Any part was replaced during the repair?  
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="partReplacedRepair" value="true">Yes
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="partReplacedRepair" value="false" checked>No
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div id="partReplacedRepairDiv" class="col-md-6  pull-right hidden">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Was the part used from inventory or bought new? 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            <input type="radio" name="partReplacedRepairInventory" value="true">From Inventory
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            <input type="radio" name="partReplacedRepairInventory" value="false" checked>bought New
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Remarks 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <textarea rows="4" cols="50" id="repairRemarks" name="Remarks"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Upload Bill 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+
+                                                                                            @Html.Hidden("ImageRepairFileName")
+                                                                                            @Html.Hidden("ImageRepairPath")
+                                                                                            <input type="button" value="Choose File" onclick="document.getElementById('Repairfiles').click();" /><br />
+                                                                                            <input type="file" id="Repairfiles" name="Repairfiles[]" style="display: none;" />
+                                                                                            <br />
+                                                                                            <div id="RepairBundleDetails">
+                                                                                            </div>
+                                                                                            <span class="label label-info">supported file types:.bmp,.jpg,.gif,.png</span>
+                                                                                            <span class="label label-info">Only 1 image can be uploaded and of size upto 100 Kb only</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-12">
+                                                                                            <input type="text" id="TopXServicesPerformedIds1" name="TopXServicesPerformedIds1" class="hidden">
+                                                                                            <input type="submit" value="submit" id="repairBtnSubmit" class="btn btn-green pull-right">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab2">
+                                                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                                                <div class="box" style="background: #fdfdfd;">
+                                                                    <div class="box-content padded">
+                                                                        <form id="serviceForm" method="post">
+                                                                            <input type="text" value="Service" name="serviceType" class="hidden" />
+                                                                            @*@Html.Hidden("serviceType","Service")*@
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <br />
+                                                                                    <div class="col-md-6 pull-left">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Vehicle Name 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            @Html.DropDownList("ServiceVehicleId", Enumerable.Empty<SelectListItem>(), "Select Vehicle Name", new { @class = "js-example-basic" })
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6  pull-right">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Service Performed Date 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="text" id="ServiceDate" name="ServiceDate" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6 pull-left">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Is it a scheduled service?
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" id="IsScheduled" name="scheduledService" value="true">Yes
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="scheduledService" value="false" checked>No
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div id="scheduledReminderDiv" class="col-md-6  pull-right hidden">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Scheduled Service Reminder  
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            @Html.DropDownList("scheduledServiceReminder", Enumerable.Empty<SelectListItem>(), "-- Select Reminder--", new { @class = "js-example-single", @style = "width:100%;" })
+                                                                                            <br />
+                                                                                            <span style="color: red"><b>Note:</b> The selected reminder shall be de-activated.</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Total Expense  
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="text" id="ActualExpenses" name="ActualExpenses" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Service Station 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="text" id="ServiceStation" name="ServiceStation" required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6 pull-left">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Any part was replaced during the service?  
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="partReplacedService" value="true">Yes
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-2">
+                                                                                            <input type="radio" name="partReplacedService" value="false" checked>No
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div id="partReplacedServiceDiv" class="col-md-6  pull-right hidden">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Was the part used from inventory or bought new? 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            <input type="radio" name="partReplacedServiceInventory" value="true">From Inventory
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            <input type="radio" name="partReplacedServiceInventory" value="false">bought New
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Services Performed 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8" id="ServiceMulti">
+                                                                                            <select id="ServiceItemID" name="ServiceItemID" class="form" multiple="multiple" required></select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Remarks 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <textarea rows="4" cols="50" id="Remarks" name="Remarks"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row-fluid">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                            Upload Bill 
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            @Html.Hidden("ImageFileName")
+                                                                                            @Html.Hidden("ImagePath")
+                                                                                            <input type="button" value="Choose File" onclick="document.getElementById('files').click();" /><br />
+                                                                                            <input type="file" id="files" name="files[]" style="display: none;" />
+                                                                                            <br />
+                                                                                            <div id="BundleDetails">
+                                                                                            </div>
+                                                                                            <span class="label label-info">supported file types:.bmp,.jpg,.gif,.png</span>
+                                                                                            <span class="label label-info">Only 1 image can be uploaded and of size upto 100 Kb only</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group padded col-md-4">
+                                                                                        </div>
+                                                                                        <div class="form-group padded col-md-8">
+                                                                                            <input type="submit" value="submit" id="BtnSubmit" class="btn btn-green  pull-right">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                        <div id="dialogReduceInventory" title="Parts Inventory Management" style="overflow: hidden;"></div>
+                                                                        <div id="dialogAddInventory" title="Parts Inventory Management" style="overflow: hidden;"></div>
+                                                                        <a href="~/FMS/AddServiceSchedule" target="_blank" style="font-weight: bold; font-size: 15px">Click here to add reminder for next service</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    input[type="file"] {
+        display: block;
+    }
+
+    .imageThumb {
+        max-height: 75px;
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .pip {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+    }
+
+    .remove {
+        display: block;
+        background: #444;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
+</style>
+@section scripts{
+    <script>
+        //Values for the dropdown in grid
+        var urlReduceInventory = '@Url.Action("reducePartsInventory", "fms")';
+        var urlAddInventory = '@Url.Action("addUpdatePartsInventory", "fms")';
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FmsAddRepairMaintenance.js?")"@DateTime.Now.Ticks></script>
+    <script src="~/js/jquery.multi-select.js"></script>
+}
+

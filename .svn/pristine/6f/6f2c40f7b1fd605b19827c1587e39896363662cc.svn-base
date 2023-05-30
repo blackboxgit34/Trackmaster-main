@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title>
+    <script>
+
+        $('document').ready(function () {
+            GetDriverNames();
+        });
+
+        function GetDriverNames() {
+            debugger;
+            var VehicleTypeUrl = apiBase.apiurl + 'fmsapi/GetDriverNames';
+            $('#DriverId').find('option:not(:first)').remove();
+            $.get(VehicleTypeUrl, { custid: $custid }, function (data) {
+                $.each(data, function (key, value) {
+                    $("#DriverId").append($("<option></option>").val(value.Value).html(value.Name));
+                });
+            });
+        }
+
+        $('#DriverChangeform').submit(function () {
+            debugger;
+            var bbid = $("#bbid").val();
+            var VehicleId = $("#VehicleId").val();
+            var custid = $("#custid").val();
+
+            var data = $('#DriverChangeform').serializeArray();
+
+            data.push(
+                { name: 'bbid', value: bbid },
+                { name: 'VehicleId', value: VehicleId },
+                { name: 'custid', value: custid }
+
+                );
+            var url = apiBase.apiurl + 'FmsAPI/GetUpdateDriverName';
+            console.log('data[0].value = ' + data[0].value);
+            $.get(url, { DriverId: data[0].value, bbid: bbid, custid: custid, VehicleId: VehicleId }, function (result) {
+                if (result > 0) {
+                    if (result == 1) {
+                        toastr.success("Driver name updated successfully")
+                    }
+
+                    window.setTimeout(function () {
+                        window.location.href = '/Fms/ManageVehicles';
+                    }, 1000);
+                }
+                else
+                    toastr.error("Failed!!!")
+            });
+        });
+
+    </script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <form id="DriverChangeform" method="post">
+        <input type="hidden" id="bbid" value= '@ViewBag.bbid' />
+        <input type="hidden" id="VehicleId" value= '@ViewBag.VehicleId' />
+        <input type="hidden" id="vehicleName" value= '@ViewBag.vehicleName' />
+        <input type="hidden" id="custid" value= '@ViewBag.custid' />
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Vehicle Name </label>
+            <div class="col-sm-6">
+                <input type="text" id="VehName" name="VehName" class="form-control" value='@ViewBag.vehicleName' disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Driver</label>
+            <div class="col-sm-6">
+                @Html.DropDownList("DriverId", Enumerable.Empty<SelectListItem>(), "Select Driver Name", new { @class = "js-example-basic form-control", @required = "required" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4"></label>
+            <div class="col-sm-6">
+                <input type="submit" value="submit" id="btnsubmit" class="btn btn-green" style="float: right;">
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>

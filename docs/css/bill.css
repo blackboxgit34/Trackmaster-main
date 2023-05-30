@@ -1,0 +1,82 @@
+﻿body {
+    font-size: 12px;
+    color: #222;
+    background: #fbfbfb;
+    font-family: "Segoe UI";
+}
+.main {
+    border: solid 1px #000;
+    width: 640px;
+    height: auto;
+    margin: 10px auto;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background-color: #FFFFFF;
+    padding: 0px 5px 0px 5px;
+}
+.inner {
+    width: 100%;
+    border: solid 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+.inner tr td {
+    border-right: solid 1px #000;
+    padding: 0 10px 0 10px;
+    border-bottom: solid 1px #000;
+}
+.leftinner {
+    width: 250px;
+    /**/
+    
+    border: solid 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 0 7px 0 7px;
+}
+.rightinner {
+    width: 630px;
+    /*border: solid 1px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px;*/
+    
+    border: none;
+    padding: 0 1px 0 1px;
+    margin-top: 10px;
+}
+.bottominner {
+    /*width: 100%;*/
+    
+    border: solid 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 0 10px 0 10px;
+    margin-top: 5px;
+}
+.middle {
+    /*width: 96%;*/
+    
+    border: solid 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 7px;
+    margin-top: 10px;
+}
+.payment {
+    /*width: 97%;*/
+    
+    height: 151px;
+    border: solid 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 0 5px 0 5px;
+    margin-top: 5px;
+}
+
+@media print {
+    body * { visibility: hidden; }
+    /*#paid *, #alertss * { visibility: visible; }*/
+    #paid *, #alertss * { visibility: visible; }
+    .main { margin-top:-120px }
+    .test{ margin-top:-140px }
+}

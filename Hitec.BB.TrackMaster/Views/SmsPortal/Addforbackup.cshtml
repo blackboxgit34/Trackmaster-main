@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "AddSmsForCustomer";
+
+
+}
+<link href="~/Content/css/subscriptionPlanCSS.css" rel="stylesheet" />
+<script src="@Url.Content("~/js/lib/datepicker/js/bootstrap-datepicker.js")" type="text/javascript"></script>
+
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>Buy Data Back-Up Online</h5>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="row" >
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-2 statusVehicles" style="margin-left: 40%;">
+                                                   
+                                                    <span>One Device/Month : 50 </span>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div class="container">
+                                            <div class="row">
+
+
+                                                <div class="box-content padded">
+                                                    <form data-toggle="validator" role="form">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group ">
+
+                                                                <span>
+                                                                    <label for="inputName" class="control-label">Select Vehicle</label>
+                                                                </span>
+                                                                <div style="width: 500px">
+                                                                    <select class="form-control select2" id="ddlVehicleList" multiple></select>
+                                                                </div>
+
+
+
+
+
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group ">
+
+                                                                <span>
+                                                                    <label for="inputName" class="control-label">Assign Date-Time</label>
+                                                                </span>
+                                                                <div style="width: 500px">
+                                                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                                        &nbsp;<span></span><b class="caret"></b>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+
+
+                                                            <button type="button" onclick="submitUpdateSettings();" class='button button1 ' style="margin: 2%;width:200px;">Buy Data</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                
+
+                                                
+
+                                                
+
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div id="PayOnline">
+    <div id="closeModal"></div>
+    <iframe id="frame" style="height:100%; width:100%"></iframe>
+</div>
+
+@section scripts
+{
+    <script src="@Url.Content("~/scripts/app/common.js")" @DateTime.Now.Ticks></script>
+    <script src="~/Scripts/Select/select2.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Scripts/app/Addbackupmoney.js"></script>
+    <script type="text/javascript">
+
+
+        $('#AmountCost').on('change', function () {
+            debugger;
+            var amount = $('#AmountCost').val();
+            amount = parseFloat(amount) + parseFloat(amount * 18 / 100);
+            $('.span5').val(amount);
+        });
+        $(document).ready(function () {
+
+
+
+            $(".select2").select2({
+                placeholder: "select an Option.",
+            });
+        })
+    </script>
+
+}

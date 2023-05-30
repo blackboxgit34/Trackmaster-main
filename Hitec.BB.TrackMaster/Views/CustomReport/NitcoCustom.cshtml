@@ -1,0 +1,279 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+        table, th, td {
+            margin: 10px 0;
+            border: solid 1px #333;
+            font: 13px Verdana;
+        }
+
+        th {
+            font-weight: bold;
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="~/Content/css/multi-select.css" rel="stylesheet" />
+    <link href="~/Content/select2/select2.css" rel="stylesheet" />
+    <link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/select2/select2.min.js"></script>
+
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            
+            width: 100%;
+            height: 400px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #floating-panel {
+            position: absolute;
+            top: 361px;
+            left: 87%;
+            z-index: 5;
+            background-color: #afafaf;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+
+        #floating-panel {
+            margin-left: -100px;
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+        }
+    </style>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&client=gme-nucleusmicrosystems&channel=trackmaster.in" language="javascript" type="text/javascript"></script>
+    <script>
+
+
+    var map;
+    var lats;
+    var longi;
+    var panorama;
+    function initialize() {
+        var astorPlace = { lat: lats, lng: longi };
+
+        var mapOptions = {
+            zoom: 18,
+            center: { lat: lats, lng: longi },
+            //disableDefaultUI: true,
+            mapTypeId: google.maps.MapTypeId.SATELLITE,
+            tilt: 45,
+            rotateControl: true
+        };
+        map = new google.maps.Map(document.getElementById('map'),
+            mapOptions);
+
+
+        var image_hotspot = {
+            url: "../Trackmaster_files/Fuel/CIRCLE-update.gif", // url
+            scaledSize: new google.maps.Size(35, 35), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+        };
+
+                    //var image_hotspot = '../Trackmaster_files/Fuel/CIRCLE-update.gif';
+        var marker = new google.maps.Marker({
+
+            position: { lat: lats, lng: longi },
+            map: map,
+            icon: image_hotspot,
+            //animation: google.maps.Animation.BOUNCE
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+            content: '<p>Marker Location:' + marker.getPosition() + '</p>'
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
+
+
+
+
+        panorama = map.getStreetView();
+        panorama.setPosition(astorPlace);
+        panorama.setPov({
+            heading: 270,
+            pitch: 0
+        });
+
+
+    }
+    function toggleStreetView() {
+        var toggle = panorama.getVisible();
+        if (toggle == false) {
+            panorama.setVisible(true);
+        } else {
+            panorama.setVisible(false);
+        }
+    }
+
+
+
+
+
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+
+    </script>
+
+    <script type="text/javascript">
+
+        function BindPRTCVehicles() {
+            $.ajax({
+                type: "GET", url: "https://api1.trackmaster.in/api/AdminAPI/GetVehicles",
+                dataType: "json",
+                contentType: "application/json",
+                data: { custid: 1289 },
+                success: function (res) {
+
+                    $.each(res, function (data, value) {
+                        $("#ddlvehicle").append($("<option></option>").val(value.Value).html(value.Text));
+                    })
+                }
+            });
+        }
+
+
+
+        function BindData() {
+            var bbid = $("#ddlvehicle option:selected").val();
+            $.ajax({
+                type: "GET",
+                url: "https://api1.trackmaster.in/api/CommonApi/GetBoxTrail",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { bbid: bbid },
+                success: function (res) {
+
+
+                    document.getElementById("vn").innerHTML = res[0].DataDate;
+                    document.getElementById("sp").innerHTML = res[0].Speed;
+                    document.getElementById("ln").innerHTML = res[0].Location;
+                    document.getElementById("st").innerHTML = res[0].Status;
+                    lats = res[0].Latitude;
+                    longi = res[0].Longitude;
+
+                    initialize();
+
+
+                }
+            });
+            
+            setTimeout(function () { BindData(); }, 10000);
+        }
+
+      
+
+        $(document).ready(function () {
+
+          
+
+            $(".js-example-basic-multiple").select2({
+                width: '100%',
+                height: '100%'
+            });
+
+            $('#DynamicGridLoading').hide();
+
+            BindPRTCVehicles();
+
+            $("#ddlvehicle").change(function () {
+
+            
+                BindData();
+
+            });
+        });
+    </script>
+</head>
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav">
+                <h4>Track Your Vehicles</h4>
+               
+                <div class="input-group">
+                  
+                    <select id="ddlvehicle" class="js-example-basic-multiple"><option value="0"> Search Vehicle    </option></select>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" style="height: 28px;">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div><br>
+                
+            </div>
+
+            <div class="col-sm-9">
+                <h4><small>Bus Details</small></h4>
+                <hr>
+                <h4>Vehicle Current Timing</h4>
+                <h6><span class="glyphicon glyphicon-time"></span><p id="vn"></p></h6>
+                <h5><span class="label label-danger">Vehicle</span> <span class="label label-primary">NITCO</span></h5><br>
+               
+                <small style="color:blue">Speed</small>  <p id="sp"></p>
+
+           
+                <small style="color:red">Location</small> <p id="ln"></p>
+
+          
+                <small style="color:Green">Status</small> <p id="st"></p>
+                <br><br>
+
+                <h4><small>Map View</small></h4>
+                <hr>
+                <h4>Bus Location</h4>
+                <div id="map"></div>
+                <hr>
+
+              
+
+                
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid">
+        <p>Powered By BlackBox GPS Technologies OPC Pvt Ltd </p>
+    </footer>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Add Customer";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                        <form id="AddNewCustomer" method="post" class="col-centered col-sm-12">
+                                                            @Html.Hidden("CustomerID")
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Customer Name:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="CustomerName" name="CustomerName" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Address :</label>
+                                                                    <div class="col-sm-6">
+                                                                        <textarea rows="4" cols="50" id="Address" name="Address" required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">State :</label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.DropDownList("StateId", Enumerable.Empty<SelectListItem>(), "Select State", new { @class = "js-example-basic-single form-control", @required = "required" })
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Mobile No:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="PhoneNo" name="PhoneNo" class="form-control" required maxlength="10">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Contact Person1:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="ContactPersonName1" name="ContactPersonName1" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Contact Person2:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="ContactPersonName2" name="ContactPersonName2" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                @*<div class="form-group">
+                                                                    <label class="control-label col-sm-6">Credit Limit day:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="CreditCyleLimit" name="CreditCyleLimit" value="0" class="form-control" required>
+                                                                    </div>
+                                                                </div>*@
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Email:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="email" id="Email" name="Email" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    @*<label class="control-label col-sm-6">Attachment:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="file" id="fileAttachmentsPath" name="fileAttachmentsPath" />
+
+                                                                        <div id="AttachmentDiv" style="position: relative">
+                                                                            @Html.Hidden("AttachmentsFileName")
+                                                                            @Html.Hidden("AttachmentPath")
+                                                                            <label readonly id="AttachmentName" name="AttachmentName"></label>
+                                                                            <a id="removeAttach" href="#" class="btn btn-default" onclick="removeAttachment();">Remove</a>
+                                                                            <a id="Attachment_Path" href="#" class="btn btn-default" download>Download</a>
+                                                                        </div>
+                                                                        <span class="label label-info">Only 3 files can be uploaded</span>
+                                                                    </div>*@
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-5 pull-right">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Business type:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="BusinessType" placeholder="nature of the business" name="BusinessType" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Postal Code:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="PostalCode" name="PostalCode" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">City :</label>
+                                                                    <div class="col-sm-6">
+                                                                        @Html.DropDownList("CityId", Enumerable.Empty<SelectListItem>(), "Select City", new { @class = "js-example-basic-single form-control" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Landline No:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="LandlineNo" name="LandlineNo" class="form-control" required maxlength="11">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Contact No:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="ContactPersonNo1" name="ContactPersonNo1" class="form-control" required maxlength="10">
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Contact No :</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="ContactPersonNo2" name="ContactPersonNo2" class="form-control" maxlength="10" />
+                                                                    </div>
+                                                                </div>
+                                                                @*<div class="form-group">
+                                                                    <label class="control-label col-sm-6">Credit Amount:</label>
+                                                                    <div class="col-sm-6">
+                                                                        <input type="text" id="CreditCyleAmount" name="CreditCyleAmount" class="form-control" required>
+                                                                    </div>
+                                                                </div>*@
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-sm-6">Remarks :</label>
+                                                                    <div class="col-sm-6">
+                                                                        <textarea rows="4" cols="50" id="Remarks" name="Remarks" required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12" style="margin-bottom: 45px;">
+                                                                <input type="submit" class="btn btn-green btn pull-right btn-submit" value="Submit" />
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/widget-body-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FMSAddUpdateCustomer.js?")"@DateTime.Now.Ticks></script>
+}
+

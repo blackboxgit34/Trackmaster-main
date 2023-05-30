@@ -1,0 +1,750 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html ng-app="blackbox">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://trackmaster.in/images/favicon.ico">
+    <link href="~/content/css/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="~/content/css/font-awesome.css" rel="stylesheet">
+    <link href="~/content/css/stylesad15.css" rel="stylesheet">
+    <link href="~/content/css/angucomplete-alt.css" rel="stylesheet">
+    <link href="~/content/css/toastr.css" rel="stylesheet">
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.powertip.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/CustomCSS.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="~/js/jquery-1.9.1.js"></script>
+
+    @* Code for GOOGLE ANALYTICS *@
+    <script>
+        $(document).ready(function () {
+
+            $('#SendPasswordtoemail').click(function (e) {
+                document.getElementById("demo").innerHTML = "";
+                e.preventDefault();
+                var emailValue = $("#txtEmail").val();
+                if (emailValue) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "CommonApi/VerifyUser",
+                        data: { username: emailValue, website: "trackmaster.in" },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+                            debugger;
+                            if (data.message == "Success") {
+                                document.getElementById('SendPasswordtoemail').style.display = 'none';
+                                document.getElementById('ConfirmOTP').style.display = 'block';
+                                document.getElementById('txtEmail').style.display = 'none';
+                                document.getElementById('txtOTP').style.display = 'block';
+
+                                
+                                document.getElementById("demo").innerHTML = "You will receive OTP on  register No  " + data.number + " .Kindly wait for 2 min In case of delay";
+
+                                custid = data.custid;
+                                $("#txtEmail").val("");
+                            }
+                            else
+                            {
+                                document.getElementById("demo").innerHTML ="Please enter correct username or email .";
+                            }
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("error");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email to text box");
+                    return false;
+                }
+            })
+
+            $('#ConfirmOTP').click(function (e) {
+                document.getElementById("demo").innerHTML = "";
+                e.preventDefault();
+                var OTP = $("#txtOTP").val();
+
+                if (OTP) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "CommonApi/VerifyUserOtp",
+                        data: { custid: custid, website: "trackmaster.in", OTP: OTP },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+
+                            if (data.message == "Verified") {
+                                document.getElementById('getotp').style.display = 'none';
+                                document.getElementById('updpassword').style.display = 'block';
+                            }
+                            else {
+                                alert("Please enter correct OTP");
+                            }
+
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("Please enter correct OTP");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email to text box");
+                    return false;
+                }
+            })
+
+            $('#chgpsd').click(function (e) {
+
+
+                var Newpsd = $("#txtpassword").val();
+                var Confirmpsd = $("#txtConfirmpassword").val();
+
+                if (Newpsd != Confirmpsd) {
+                    alert("Please match new password and  confirm password.");
+                    return false;
+                }
+                if (Newpsd) {
+                    $.ajax({
+                        dataType: "json",
+                        type: "GET",
+                        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                        url: apiBase.apiurl + "AdminApi/OTPChangePassword",
+                        data: { custid: custid, NewPassword: Newpsd, CurrentPassword: Confirmpsd },
+                        traditional: true,
+                        async: false,
+                        success: function (data, status) {
+                            debugger
+                            if (data == "success") {
+
+
+                                alert("Your password is changed");
+                                window.location = "http://trackmaster.in/";
+                            }
+
+                        },
+                        error: function (xhr, desc, err) {
+                            alert("Please Refresh and start again");
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter your email to text box");
+                    return false;
+                }
+            })
+            $("#BtnAdd").click(function () {
+                $('#AddNewETM').modal('show');
+            });
+
+            var url = window.location.href;
+            var myVar = 'infotrac';
+
+
+            if (url.indexOf(myVar) > -1) {
+
+                $("#phone").text("+974 70570607");
+                $("#email").text("abhinandh@infotracqatar.com");
+
+                $("#add1").text("Office no 5, First Floor, Street No 340, Zone 56, Ain Khalid, Doha, Qatar");
+            } else {
+
+                $("#phone").text("+91-0172-2665610");
+                $("#email").text("info@blackboxgps.net");
+
+                $("#add1").text("96-97, Sector 34-A, Chandigarh (UT), India");
+
+            }
+
+
+        });
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-93165722-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    @* END Code for GOOGLE ANALYTICS *@
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="~/content/css/CustomCss.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="~/content/Site.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-image: url('@Url.Content("~/images/vehicle.jpg")');
+     @*      background-image: url('@Url.Content("~/images/Blackbox diwali bg.jpg")');*@
+          background-position: 3% 12%;
+      
+      @*     background-position: 1% 30%;
+            background-size: auto 130%;*@
+        
+       
+        }
+
+@*           body {
+            background-image: url('@Url.Content("~/images/indptDay.jpg")');
+            background-position: 100% 30%;
+            background-size: auto 100%;
+            color:white !important;
+       
+        }*@
+
+        #footer-bottom {
+            text-align: center;
+            color: #585858;
+            font-size: 10px;
+            background: #f4f4f4;
+            margin-bottom: 0;
+            position: relative;
+            bottom: 0;
+        }
+
+        .col-md-2 {
+            width: 17% !important;
+            /* margin-right: 0px; */
+            /* margin-left: 6px; */
+            background: none !important;
+            text-align: left;
+        }
+    </style>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="@Url.Content("~/scripts/jquery-3.1.1.min.js")?v=0.00.000"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+</head>
+<body ng-controller="rootCtrl">
+    <div class="row">
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+               
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="@Url.Content("~/images/blackbox-logo-2.png")" alt="">
+                    </a>
+                </div>
+            </div>
+        
+        </nav>
+    </div>
+
+    <section style="margin-top: 15%">
+
+        <div class="widget-body" style="padding: 20px; position: absolute; top: 18%; width: 100%; display: none;" id="divOuterAlert">
+            <div class="widget-body clearfix" style="background-color: rgba(255,255,255,0.2); overflow-x: auto; width: 64%; border: ridge; color: #f26b34 !important; padding: 5px;">
+                <div class="box_a">
+                    <div class="box_a_content cnt_a1">
+                        <p id="pSetAlertText" style="color: #f26b34;">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" ng-controller="loginCtrl">
+         
+            <div class="row">
+              
+
+
+                <div class="col-md-3" style="width: 25%">
+                    <a href="#">
+                        <img src="@Url.Content("~/images/bb-login.png")" alt="pro2"></a>
+                </div>
+              
+
+                <div class="col-md-5" style="padding: 20px">
+
+
+
+                    <h4 style="line-height: 30px; font-weight: bold;">Do you know you are logging in to the website of India's only patented product in GPS Technology Category?
+                    </h4>
+                    <p>
+                        BlackBox is proud to be India's first and only product to get patent from government
+                    of India. This makes us all the more commited to render best-in-class services to
+                    our esteemed patrons like you.
+                    </p>
+                </div>
+
+                <div class="col-md-4" style="margin-top: -60px">
+                    <div id="form">
+                        <form name="loginform" id="loginform" method="post" enctype="application/x-www-form-urlencoded">
+                            <div class="head-section text-center  wow bounceIn" data-wow-delay="0.4s">
+                                <img src="@Url.Content("~/images/blackbox-logo.png")" title="name">
+                                <br>
+                                <span style="font-size: 14px; font-weight: 600">Sign in to your account</span>
+                            </div>
+                            <br>
+                            <!--<div class="loginform" style="text-align:center">-->
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" name="username" ng-model="user.username" class="form-control" id="username" placeholder="User Name" style="padding-left: 45px;">
+                            </div>
+                            <div class="input-group" style="margin-top: 20px">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                </span>
+                                <input type="password" class="form-control" id="txtPassword" ng-model="user.password" name="password" placeholder="Password " aria-describedby="basic-addon1" style="padding-left: 45px;">
+                            </div>
+                            <div class="form-check" style="margin-top: 12px">
+                                <label class="form-check-label">
+                                    <a href="#" data-toggle="modal" class="pull-right" data-target="#myModal">Terms and conditions</a>
+                                    <input type="checkbox" id="chkTermConditions" checked disabled class="form-check-input">
+                                </label>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <button class="button" ng-click="login()" id="btnSubmit" type="button" ng-disabled="disableSubmit" style="margin-top: 10px">
+                                Sign in</button>
+                            <br>
+                            <div class="register">
+                             
+
+                                <input type="button" value="Forgot Password?" id="BtnAdd" class="btn btn-green" style="margin-right: 10px;">
+                        
+
+                            </div>
+                         
+                        </form>
+                        <div>
+                            <form action="/Login/ForgotPassword" id="pass_form" method="post" style="display: none">
+                                <div class="head-section text-center  wow bounceIn" data-wow-delay="0.4s">
+                                    <img src="@Url.Content("~/images/blackbox-logo-2.png")" title="name">
+                                    <br>
+                                    <span style="font-size: 14px; font-weight: 600">Can't Sign In?</span>
+                                </div>
+                                <br>
+                                <div class="loginform" id="forgetFrm" style="min-height: 150px">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" name="username" class="form-control" id="usernamec" placeholder="User Name" style="padding-left: 45px;">
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <button class="button" align="right" type="submit">Request Password</button>
+                                    </div>
+                                    <div class="box_footer text-center clearfix minor_text" style="padding-top: 10px;">
+                                        Never mind, <a href="javascript:;" onclick="window.location.reload()">Send Back</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row" style="margin-top: 0px;">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2">
+                    @*<span style="margin-top: 11px; color: #000; margin-bottom: 9px;">Trial version for 30 Days!</span>*@
+                    <a href="https://itunes.apple.com/us/app/blackbox-fms/id937229552?ls=1&amp;mt=8" target="_blank">
+                        <img src="@Url.Content("~/images/apple_store_en.png")" alt="apple_store_app" class="btn_img" style="padding-left: 10px"></a>
+                </div>
+                <div class="col-md-2" style="width: 18%">
+                    @*<a href="http://trackmaster.in/downloads/" target="_blank" class="btn_img"><span style="color: #333">Download older version of App</span></a>*@
+                    <a href="https://play.google.com/store/apps/details?id=com.humbhi.blackbox" target="_blank">
+                        <img src="@Url.Content("~/images/google_play_en.png")" alt="apple_store_app" class="btn_img"></a>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div>
+            <p style="font-size: 11px; font-weight: 600; text-align: center">
+                <span id="add1"></span>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Phone:
+               <span id="phone"></span> , Email:  <span id="email"></span> 
+            </p>
+        </div>
+        <div>
+            <p style="font-size: 11px; font-weight: 600; text-align: center">
+                This Site is Optimized for FireFox 28.0<sup>™</sup> &amp; higher | Google
+            Chrome 34.0<sup>™</sup> &amp; higher | IE 9.0<sup>™</sup> and higher
+            @*| Last updated : Nov <span>-</span> 2016*@
+                @*| Current Time: 10:23:02.8749498*@
+            </p>
+        </div>
+        <div id="footer-bottom">
+            <a href="http://www.blackboxgps.net/" target="_blank">www.blackboxgps.net</a>
+        </div>
+    </footer>
+
+
+
+    <div class="modal fade" id="AddNewETM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="height:420px">
+        <div class="modal-dialog" id="AddNewETM">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form class="form-signin" id="getotp">
+
+                     
+                        <label for="inputEmail" class="sr-only">Email address</label>
+                        <input type="text" class="form-control" id="txtEmail" placeholder="Enter Email or Username" required autofocus>
+                        <input type="text" class="form-control" id="txtOTP" placeholder="Enter your OTP" required autofocus style="display:none;">
+                        <br />
+                        <a class="btn btn-warning " href="http://trackmaster.in">Close</a>
+                        <button class="btn btn-success" id="SendPasswordtoemail"><i class="fa fa-key"></i>&nbsp;Get OTP</button>
+
+                        <button class="btn btn-success" id="ConfirmOTP" onclick="ConfirmOTP();" style="display: none; margin-left: 75px; margin-top: -31px;"><i class="fa fa-key"></i>&nbsp;Confirm OTP</button>
+
+                    </form>
+                    <table class="table" id="updpassword" style="display:none;">
+
+                        <tr>
+                            <td>New Password</td>
+                            <td><input type="password" class="form-control" id="txtpassword" placeholder="Enter new Password" required autofocus></td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td><input type="password" class="form-control" id="txtConfirmpassword" placeholder="Enter Confirm Password" required autofocus></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-success" id="chgpsd"><i class="fa fa-key"></i>&nbsp;Chnage Password</button>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                   
+                    <p id="demo"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal  fade" id="myModal" role="dialog" style="background: transparent; overflow-y: hidden; width: 100%;">
+        <div class="modal-dialog modal-lg" style="width: 90%">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="max-height: 600px; overflow: auto;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <h5><i class="fa fa-star-half-o" aria-hidden="true"></i>Terms and Conditions</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+                        <div class="widget-body" style="border: 0">
+                            <div class="row-fluid">
+                                <div class="widget span12">
+                                    <div class="widget-body clearfix" style="overflow-x: auto">
+                                        <div id="ReportTotal">
+                                            <div class="box">
+                                                <div class="box-content padded" style="background: white;">
+                                                    <form class="row-fluid">
+                                                        <div class="col-md-12">
+                                                            1.BlackBox GPS Technology OPC Pvt Ltd. is hereinafter collectivity referred to as “BGTOPL”.
+                                                                <br />
+                                                            2. The service offerings are under the full discretion of BGTOPL. Need to do the technical feasibility before providing the service.
+                                                                <br />
+                                                            3. Customer acknowledges that the BlackBox Fleet Management System/Smart Car Security System Black Box (hereinafter referred to as “service”) are rendered by BGTOPL
+                                                               
+hereunder is based on wireless data technology. The availability, accuracy and quality of the services may be affected by various factors not within the control of BGTOPL
+including but not limited to physical obstruction, availability or performance of network, geographic condition, radio signal interference, non availability of power, fault or
+modification in other telecommunication network to which BGTOPL network is connected, non receipt or delay in receipt of suitable right of way, equipment damages,
+modification of equipment or infrastructure or any other reasons not within the control of BGTOPL. In connection with the foregoing, BGTOPL does not guarantee for an
+uninterrupted or fault‐free service and shall not be responsible for any delays and errors in the transmission of service.
+                                                                 <br />
+                                                            4. Service is provided in India to Indian citizen residing in India aged 18 years and above (c) entitled to enter into a legally valid and enforceable contract and not under any legal
+disability.
+                                                                <br />
+                                                            5. This information is to be used for “guiding purpose only” and the same shall not be used for any detection, claim, damage, dispute or illegal purpose. BGTOPL shall not be
+responsible for any claim of any nature other than the claim relating to any disruption in services due to any act or omission of BGTOPL.
+                                                                <br />
+                                                            6. Customer shall be solely responsible to protect the tracking device, two way communication and all other sensors provided by BGTOPL from any misuse, theft or any damages. In
+the event of any damage to any such equipment, customer shall approach the equipment manufacturer or its authorized service center for repairs.
+7. BGTOPL shall not be responsible for any breach of privacy obligations between the customer and any other person being tracked/ viewed/ filmed/ recorded/ through the
+service. Customer shall indemnify and keep BGTOPL, its officer, employees, directors, affiliates, contractors, agents, vendors fully indemnified and harmless against any such
+claims and obligations.
+                                                                <br />
+                                                            8. It shall be the responsibility of the customer to provide correct inputs and data to BGTOPL for availing the service. Customer shall be required to provide correct, accurate and
+updated details of himself/herself including details relating to age, address, identity, ownership of vehicle and must submit all necessary proof for authenticating the details
+provided for availing services. BGTOPL shall not be under any obligation but shall be entitled to verify details provided by the customer and incase of any discrepancy found in the
+details provided by the customer. BGTOPL shall be entitled to immediately discontinue offering service to such customer.
+                                                                <br />
+                                                            9. BGTOPL reserves the right to discontinue providing service to any customer if such customer violates any of the terms and conditions of the service. Any customer providing any
+incorrect information or concealing/withholding any information from BGTOPL with an intent to avail the service will automatically be disqualified from availing the service,
+such act of providing incorrect information or concealing/withholding any information will also include but not limited to incorrect declaration of information of relating to
+name, age, identity, address, mobile connection, ownership of vehicle, domicile any other information provided by the customer/withholding of information by the customer.
+                                                                <br />
+                                                            10. Customer indulgence in any activity which is untoward/illegal/antisocial or criminal in nature or any attempt to do any such activity which may be construed or result/ imply/
+culminate in an untoward illegal, antisocial or criminal activity such activity will result in immediate discontinuation of service and disassociation of BGTOPL from the customer
+and may invite criminal proceedings against the customer.
+                                                                <br />
+                                                            11. For queries related to usage, validity and connectivity, customers must contact the customer care.
+                                                                <br />
+                                                            12. BGTOPL reserves the right to terminate the services in the event of non‐payment of outstanding bills issued by BGTOPL in accordance with the tariff plans opted by the customer
+and the extend of usage or any default on the part of the customers.
+                                                                <br />
+                                                            13. Billing with respect to the subscription and usage of this service will be done separately.
+                                                                <br />
+
+                                                            14. BGTOPL shall not be responsible for any actions taken by its customers or others as a result of its services.
+                                                                <br />
+
+                                                            15. The customer shall be required to purchase the equipment from the direct sales associate and authorized dealers by BGTOPL for sale of equipment. BGTOPL shall not be under
+any obligation of providing any service to the customer, if the equipment is purchased by the customer from the entity other than the direct sales associate and authorized
+dealers by BGTOPL for selling the equipment.
+                                                                <br />
+
+                                                            16. All charges and tariff for the service other than the equipment would be as per the choices made by the customer or as per the company's subscription plan.
+                                                                <br />
+
+                                                            17. The customer shall be solely responsible for an illegal use of the equipment and/ or service and shall defend, indemnify and hold harmless BGTOPL and its directors, officers and
+employees, (or any of them) against any claim, liability, demand, loss, damage, judgment or other obligation or right of action etc. which may arise out of such illegal use of the
+equipment and/or the services.
+                                                                <br />
+
+                                                            18. The customer shall be liable to duly honor all the payments relating to the equipment and services without any delay or default. BGTOPL reserves the absolute right to take
+appropriate legal action against the customer in the event the customer delays or defaults in making the payments of any amounts due and payable by the customer. Customer
+shall be solely responsible and liable for sanctity and management of web and mobile access, username and password provided by BGTOPL. BGTOPL shall not be responsible for
+any cost, expense, damage, claim, demand, suit, prosecution, arising due to mismanagement breach of requisite security level, hacking of web and mobile access, username
+and password or similar incidences.
+                                                                <br />
+
+                                                            19. The customers understands and agrees that the accuracy/ latency of service depends on various factors, considering the involvement of a range of technologies such as cellular
+network and internet at source device as well as access device ( customer laptop/desktop/mobile). Hence the customer agrees and undertakes to use this service for tracking/
+security purpose only.
+                                                                <br />
+
+                                                            20. BGTOPL agrees to provide the service on best effort basis, but do not take any responsibility of the accuracy/ latency of the input feed and the same should not be used for any
+detection, claim, damage, dispute or legal purpose by the customer or any one acting for or on behalf of the customer. No third party claim of any nature will be entertain by
+BGTOPL in this regard.
+                                                                <br />
+
+                                                            21. The customer shall have to access our website “trackmaster.in” and set his/her username and password for portal access to track his or her vehicle registered under the service
+on “trackmaster.in”.
+                                                                <br />
+
+                                                            22. The customer is responsible for preservation of the web and mobile username password and BGTOPL shall not be responsible for any mismanagement or confidentiality breach
+of username and password.
+                                                                <br />
+
+                                                            23. The customer shall at his sole costs and consequences, be free to share his/her web and mobile username and password to any number of third parties at his/her discretion. The
+customer shall be free to allow any third party to track him/her on web portal with username and password. However, BGTOPL shall not be responsible for any misuse of mobile
+username and password and any claim, demand, damage, suit, cost; expense in this regard will not be entertained by BGTOPL.
+                                                                <br />
+
+                                                            24. BGTOPL shall not be responsible for any breach of privacy obligations between third parties or whosoever, who are being tracked through the equipment and it shall be sole and
+exclusive responsibility of the customer to inform all concerned of the fact that the vehicle is under surveillance and equipment is installed in his/her vehicle for tracking the
+vehicle.
+                                                                <br />
+
+                                                            25. BGTOPL shall not be responsible for any default, failure, deficiency, inaccuracy in the service due to any reason not within the control of BGTOPL. The customer undertakes not to
+raise any claim, demand, damage, cost, expense against BGTOPL.
+                                                                <br />
+
+                                                            26. BGTOPL reserves the right to change/modify/terminate the service any time at its own discretion by giving prior notice but without assigning reasons to customer.
+                                                                <br />
+
+                                                            27. The right to use the service is subject at all times to the terms and conditions of the service as specified www.trackmaster.in
+                                                                <br />
+
+                                                            28. BGTOPL may temporarily deactivate/stop/discontinue this service, for maintenance purpose with prior notice to customer.
+                                                                <br />
+                                                            29. BGTOPL shall be entitled to change, alter, modify, cancel, suspend the service as it may deem fit either consequent to any statutory or regulatory order/ direction, etc or on
+account of any other reason.
+                                                                <br />
+                                                            30. Service is non endorsable, not transferable and non substitutable.
+                                                                <br />
+                                                            31. BGTOPL shall not be liable for any failure to comply with its obligation caused by fire, flood, strike, hurricane, industrial dispute, war, hostilities, political unrest, riots, civil
+commotion, terror attack, inevitable accidents, acts of god or any other circumstances amounting to force majeure.
+                                                                <br />
+                                                            32. BGTOPL shall not be responsible for any loss or damage if it has to discontinue or cancel this service in compliance with any law, ruling, order, regulation, circular, notification,
+requirement or instruction of any central/state government or for any other unavoidable reasons beyond its control. The customer shall be informed of such discontinuance/
+cancellation as soon as possible.
+                                                                <br />
+                                                            33. The decision of detail as to the interpretation of any of these terms and condition shall be final and binding on the customer.
+                                                                <br />
+                                                            34. BGTOPL shall not be responsible for any loss, damage, cost, expense, claim, demand raised by the customer or any other person acting for or on behalf of the customer due to
+any of following reasons
+                                                                <br />
+                                                            a. Customer is unable to use the service due to any reason not within the control of BGTOPL.
+b. Customer is unable to subscribe the service for reasons due to any other reason beyond the control of BGTOPL.
+c. Customer is unable to understand the terms and conditions of the service.
+d. Customer is unable to understand the process of activation of service or is unable to activate the service.
+e. Customer is not complying with any of the terms and conditions of the service.
+f. Customer has violated any of the terms and conditions of the service.
+g. Customer default in making payment to BGTOPL with respect to the equipment purchased and/or services availed by the customer.
+h. Any other reasons not within the control of BGTOPL.
+35. In order to avail the service from BGTOPL, the customer shall be required to furnish the request application form, photograph and other information and documents as may be
+specified by BGTOPL and relationship between BGTOPL and the customer with respect to the service shall be governed as per the provisions of the said applications and other
+applicable document submitted/furnished by the customer or issued by BGTOPL.
+                                                                <br />
+                                                            36. The courts in the terms/city where HTTPLs circle office (whose address is mentioned in the service enrollment form), shall have the sole and exclusive jurisdiction to decide any
+dispute under the service enrollment form.
+                                                                <br />
+                                                            37. A part from these terms and condition, there are no oral or implied agreements and no oral and implied warranties or understanding between the BGTOPL and the customer
+with respect to the subject matter hereof.
+                                                                <br />
+                                                            38. Black Box fitted with mobile SIM no. mentioned on the warranty card will be exclusively used for vehicle tracking system only. Misuse of the SIM‐card other than the
+tracking system thereby creating any problems will be responsibility of the customer, and is liable to legal consequences at the cost of the user.
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row-fluid" style="margin-bottom: 12px; margin-top: 5px;">
+                        <div class="widget-body" style="border: 0">
+                            <div class="row-fluid">
+                                <div class="widget span12">
+                                    <div class="widget-body clearfix" style="overflow-x: auto">
+                                        <div id="ReportTotal">
+                                            <div class="box">
+                                                <div class="box-content padded" style="background: white;">
+                                                    <form class="row-fluid">
+                                                        <div class="col-md-12" style="background-color: darkslategrey; color: white;">
+                                                            <b> BLACKBOX GPS TECHNOLOGY OPC (P) LTD. SCO 96‐97, SECTOR 34‐A, CHANDIGARH</b>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
+    <!-- Bootstrap Edit Ticket Modals With Forms -->
+    <div class="modal fade " data-keyboard="false" id="modalOuterDiv" tabindex="-1" role="dialog" aria-hidden="true" style="overflow-y: hidden;width: 100%;">
+        <div class="modal-dialog" style="width: 90%; height:400px;">
+            <div id="modalInnerContain"></div>
+        </div>
+    </div>
+    @* End Of Terms AND CONDITIONS *@
+
+    <script>
+        //  var baseurl = 'http://112.196.27.102:96/api/commonapi/';
+        var baseurl = 'http://api1.trackmaster.in/api/commonapi/';
+    </script>
+    <script src="@Url.Content("~/scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/scripts/angular.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-cookies.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-route.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-base64.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-validator.min.js")?v=0.00.000"></script>
+
+    <script src="@Url.Content("~/app/app.js")?v=@DateTime.Now.Ticks"></script>
+    <script src="@Url.Content("~/app/modules/common.core.js")?v=0.00.007"></script>
+    <script src="@Url.Content("~/app/modules/common.ui.js")?v=0.00.002"></script>
+    <script src="@Url.Content("~/app/rootCtrl.js")"></script>
+
+    <script src="~/Scripts/CryptoJSv3.1.2/components/core.js"></script>
+    <script src="~/Scripts/CryptoJSv3.1.2/components/sha1.js"></script>
+
+    <script src="@Url.Content("~/app/services/apiService.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/notificationService.js")"></script>
+    <script src="@Url.Content("~/app/services/membershipService.js")?v=@DateTime.Now.Ticks"></script>
+    <script type="text/javascript" src="~/content/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/app/home/loginCtrl.js")?v=@DateTime.Now.Ticks"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        $(function () {
+            localStorage.removeItem("cid");
+            localStorage.removeItem("custID");
+
+
+            localStorage.removeItem("customMenuList");
+
+            localStorage.removeItem("custId");
+            //for group user
+            localStorage.removeItem("GroupSelectedUser");
+            localStorage.removeItem("SubUsers");
+            localStorage.removeItem('IsVerified');
+            localStorage.removeItem('IsCustomMenu');
+
+
+            $("#txtPassword").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $('#btnSubmit').click();
+                }
+            });
+
+            var MyUrl = baseurl + 'AlertOnLoginPage';
+            //alert(MyUrl);
+            ;
+            $.ajax({
+                url: MyUrl,
+                data: { ID: "11" },
+                success: function (data) {
+                    if (data == "No msg") {
+                        $("#divOuterAlert").css("display", "none");
+                        $("#pSetAlertText").html("");
+                    }
+                    else {
+                        $("#divOuterAlert").css("display", "block");
+                        $("#pSetAlertText").html(data);
+                    }
+
+                }
+            });
+
+        });
+
+
+    </script>
+    <!-- /row-fluid -->
+</body>
+</html>

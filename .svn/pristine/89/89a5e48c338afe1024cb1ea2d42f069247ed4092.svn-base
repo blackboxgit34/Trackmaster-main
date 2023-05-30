@@ -1,0 +1,387 @@
+﻿
+$(document).ready(function () {
+    var url = apiBase.apiurl + "FmsAPI/GetSMSNotificationDetails";
+    table1 = $('#dt_basic_Master1').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "custId", "value": $custid }, { "name": "alertType", "value": 1 });
+        },
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "fnDrawCallback": function () {
+            $('.hiddenBBID').addClass("hidden");
+            $('.hiddenauxType').addClass("hidden");
+            $('.vehicleId').addClass("hidden");
+        },
+        "columns": [
+                { "data": "Sno" },
+                { "data": "VehName" },
+
+                {
+                    "data": "bbid",
+                    "sClass": "hiddenBBID"
+                },
+                {
+                    "data": "deviceId",
+                    "sClass": "vehicleId"
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.ServiceRemindersIsActive) {
+                            return '<span  data-toggle="tooltip" title="SMS Price will  charge"><input type="checkbox" value="8" class="MilkLid" name="ServiceReminders"  checked/></span>';
+                        }
+                        else {
+                            return '<span  data-toggle="tooltip" title="SMS Price will  charge"><input type="checkbox" value="8" class="MilkLid"  name="ServiceReminders"    /></span>';
+                        }
+                    }
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.DocumentRemindersIsActive) {
+                            return '<span  data-toggle="tooltip" title="SMS Price will charge"><input type="checkbox" value="9" class="Geofence" name="DocumentReminders"  checked/></span>';
+                        }
+                        else {
+                            return '<span  data-toggle="tooltip" title="SMS Price will charge"><input type="checkbox" value="9" class="Geofence" name="DocumentReminders" /></span>';
+                        }
+                    }
+                }
+        ],
+
+    });
+
+    $('#dt_basic_Master1').on('draw.dt', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $('#dt_basic_Master1 tbody').on('click', 'input[type="checkbox"]', function (e) {
+
+        var vehicleId = String($(this).closest('tr').find('.vehicleId').text());
+        var bbid = String($(this).closest('tr').find('.hiddenBBID').text());
+        var eventType = this.value;
+        var alertType = 1; //for SMS
+        var statusFlag = $(this).prop("checked");
+        
+        
+        alertify.confirm("SMS will deliver to registered mobile number. <a href='/admin/getboxinfo'>Change mobile Number</a>. Do you want to proceed?", function (ex) {
+            if (ex) {
+                ajaxRespOnChkboxEvt(bbid, eventType, alertType, statusFlag, $custid,vehicleId)
+                return true;
+            } else {
+               
+                if (jQuery(e.target).is(":checked")) {                    
+                    e.target.checked = false;
+                } else { 
+                    e.target.checked = true;
+                }
+
+
+                alertify.error("You've clicked Cancel");
+                return false;
+            }
+        });
+
+        console.log('suggested-in-comment', 'click');
+    });
+
+    // Table for Notification
+
+    table2 = $('#dt_basic_Master2').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "custId", "value": $custid }, { "name": "alertType", "value": 2 });
+        },
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "fnDrawCallback": function () {
+            $('.hiddenBBID').addClass("hidden");
+            $('.hiddenauxType').addClass("hidden");
+            $('.vehicleId').addClass("hidden");
+        },
+        "columns": [
+                { "data": "Sno" },
+                { "data": "VehName" },
+
+                {
+                    "data": "bbid",
+                    "sClass": "hiddenBBID"
+                },
+                {
+                    "data": "deviceId",
+                    "sClass": "vehicleId"
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.ServiceRemindersIsActive) {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="8" class="MilkLid" name="ServiceReminders"  checked/></span>';
+                        }
+                        else {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="8" class="MilkLid"  name="ServiceReminders"    /></span>';
+                        }
+                    }
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.DocumentRemindersIsActive) {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="9" class="Geofence" name="DocumentReminders"  checked/></span>';
+                        }
+                        else {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="9" class="Geofence" name="DocumentReminders" /></span>';
+                        }
+                    }
+                }
+        ],
+
+    });
+
+    $('#dt_basic_Master2').on('draw.dt', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $('#dt_basic_Master2 tbody').on('click', 'input[type="checkbox"]', function (e) {
+
+        var vehicleId = String($(this).closest('tr').find('.vehicleId').text());
+        var bbid = String($(this).closest('tr').find('.hiddenBBID').text());
+        var eventType = this.value;
+        var alertType = 2; //for notification
+        var statusFlag = $(this).prop("checked");
+        
+
+        alertify.confirm("You need to logged into mobile app to receive notifications. Do you want to proceed?", function (ex) {
+            if (ex) {
+                ajaxRespOnChkboxEvt(bbid, eventType, alertType, statusFlag, $custid, vehicleId)
+                return true;
+            } else {
+                if (jQuery(e.target).is(":checked")) {
+                    e.target.checked = false;
+                } else {
+                    e.target.checked = true;
+                }
+                alertify.error("You've clicked Cancel");
+                return false;
+            }
+        });
+
+        console.log('suggested-in-comment', 'click');
+    });
+
+    // Table for Email
+
+    table3 = $('#dt_basic_Master3').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 20,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "custId", "value": $custid }, { "name": "alertType", "value": 3 });
+        },
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "fnDrawCallback": function () {
+            $('.hiddenBBID').addClass("hidden");
+            $('.hiddenauxType').addClass("hidden");
+            $('.vehicleId').addClass("hidden");
+        },
+        "columns": [
+                { "data": "Sno" },
+                { "data": "VehName" },
+
+                {
+                    "data": "bbid",
+                    "sClass": "hiddenBBID"
+                },
+                {
+                    "data": "deviceId",
+                    "sClass": "vehicleId"
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.ServiceRemindersIsActive) {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="8" class="MilkLid" name="ServiceReminders"  checked/></span>';
+                        }
+                        else {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="8" class="MilkLid"  name="ServiceReminders"    /></span>';
+                        }
+                    }
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        if (full.DocumentRemindersIsActive) {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="9" class="Geofence" name="DocumentReminders"  checked/></span>';
+                        }
+                        else {
+                            return '<span  data-toggle="tooltip"><input type="checkbox" value="9" class="Geofence" name="DocumentReminders" /></span>';
+                        }
+                    }
+                }
+        ],
+
+    });
+
+    $('#dt_basic_Master3').on('draw.dt', function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $('#dt_basic_Master3 tbody').on('click', 'input[type="checkbox"]', function (e) {
+
+        var vehicleId = String($(this).closest('tr').find('.vehicleId').text());
+        var bbid = String($(this).closest('tr').find('.hiddenBBID').text());
+        var eventType = this.value;
+        var alertType = 3; //for email
+        var statusFlag = $(this).prop("checked");
+        
+
+        alertify.confirm("Email notifications will be sent on your registered email id. Do you want to proceed?", function (ex) {
+            if (ex) {
+                ajaxRespOnChkboxEvt(bbid, eventType, alertType, statusFlag, $custid, vehicleId)
+                return true;
+            } else {
+                if (jQuery(e.target).is(":checked")) {
+                    e.target.checked = false;
+                } else {
+                    e.target.checked = true;
+                }
+                alertify.error("You've clicked Cancel");
+                return false;
+            }
+        });
+
+        console.log('suggested-in-comment', 'click');
+    });
+
+    var urlFMS = apiBase.apiurl + "Alert/GetSMSNotificationDetailsExp";
+    $.ajax({
+        url: urlFMS,
+        data: {
+            "custId": $custid
+        },
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            $('#EmployeeDocumentRemindersSms').prop('checked', data.EmployeeContractSMS);
+            $('#EmployeeDocumentRemindersNoti').prop('checked', data.EmployeeContractNotification);
+            $('#EmployeeDocumentRemindersMail').prop('checked', data.EmployeeContractEmail);
+
+            $('#DriverDocRenewalRemindersSms').prop('checked', data.DriverDocRenewalSMS);
+            $('#DriverDocRenewalRemindersNoti').prop('checked', data.DriverDocRenewalNotification);
+            $('#DriverDocRenewalRemindersMail').prop('checked', data.DriverDocRenewalEmail);
+        }
+    });
+
+    $('#EmployeeDocumentRemindersSms').click(function () {
+        var custid = $custid;
+        var eventType = this.value;
+        var alertType = 1; //for sms
+        var statusFlag = $(this).prop("checked");
+        ajaxRespOnChkboxEvtExp(eventType, alertType, statusFlag, $custid);
+    });
+
+    $('#DriverDocRenewalRemindersSms').click(function () {
+        var custid = $custid;
+        var eventType = this.value;
+        var alertType = 1; //for sms
+        var statusFlag = $(this).prop("checked");
+        ajaxRespOnChkboxEvtExp(eventType, alertType, statusFlag, $custid);
+    });
+
+    $('#EmployeeDocumentRemindersNoti').click(function () {
+        var custid = $custid;
+        var eventType = this.value;
+        var alertType = 2; //for notification
+        var statusFlag = $(this).prop("checked");
+        ajaxRespOnChkboxEvtExp(eventType, alertType, statusFlag, $custid);
+    });
+
+    $('#DriverDocRenewalRemindersNoti').click(function () {
+        var custid = $custid;
+        var eventType = this.value;
+        var alertType = 2; //for notification
+        var statusFlag = $(this).prop("checked");
+        ajaxRespOnChkboxEvtExp(eventType, alertType, statusFlag, $custid);
+    });
+
+    $('#EmployeeDocumentRemindersMail').click(function () {
+        var custid = $custid;
+        var eventType = this.value;
+        var alertType = 3; //for email
+        var statusFlag = $(this).prop("checked");
+        ajaxRespOnChkboxEvtExp(eventType, alertType, statusFlag, $custid);
+    });
+
+    $('#DriverDocRenewalRemindersMail').click(function () {
+        var custid = $custid;
+        var eventType = this.value;
+        var alertType = 3; //for email
+        var statusFlag = $(this).prop("checked");
+        ajaxRespOnChkboxEvtExp(eventType, alertType, statusFlag, $custid);
+    });
+
+});
+
+//common for both  sms and notification and email
+var ajaxRespOnChkboxEvt = function (bbid, eventType, alertType, statusFlag, $custid, VehicleId) {
+    $.ajax({
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        url: apiBase.apiurl + "Alert/SetSMSNotificationDetails",
+        data: { bbid: bbid, custid: $custid, eventType: eventType, alertType: alertType, auxIP: 0, statusFlag: statusFlag, VehicleId: VehicleId },
+        success: function (data) {
+            if (data == "success") {
+                toastr.success('successfully Done!');
+            }
+            else {
+                toastr.warning(data);
+            }
+            bindData();
+        },
+        error: function (error) {
+            toastr.warning(error);
+
+        }
+    });
+};
+
+//Explicitly call for both  sms and notification and email
+var ajaxRespOnChkboxEvtExp = function (eventType, alertType, statusFlag, $custid) {
+    $.ajax({
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        url: apiBase.apiurl + "Alert/SetSMSNotificationDetailsExp",
+        data: { custid: $custid, eventType: eventType, alertType: alertType, statusFlag: statusFlag },
+        success: function (data) {
+            if (data == "success") {
+                toastr.success('successfully Done!');
+            }
+            else {
+                toastr.warning(data);
+            }
+            bindData();
+        },
+        error: function (error) {
+            toastr.warning(error);
+
+        }
+    });
+};

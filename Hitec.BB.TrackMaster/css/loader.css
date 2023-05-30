@@ -1,0 +1,35 @@
+﻿#overlay {
+position: fixed;
+height: 100%;
+width: 100%;
+opacity: .8;
+filter: alpha(opacity=20);
+top: 0;
+left: 0;
+background: #000;
+z-index: 998;
+}
+.overlaycontent-box {
+    position: fixed;
+    background-color: #fff;
+    color: #7F7F7F;
+    padding: 30px 60px 30px 60px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    box-shadow: 0 1px 5px #000;
+    -moz-box-shadow: 0 1px 5px #000;
+    -webkit-box-shadow: 0 1px 5px #000;
+    z-index: 9000001;
+    width: 500px;
+    top: 36%;
+    margin-left: -26%;/**/
+}
+
+.noty_message
+{
+    text-align:left;}
+.noty_text
+{
+    text-align:left;}

@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "AboutUs";
+}
+
+
+    <div class="row-fluid">
+            <!--Heading part-->
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-map-marker"></i>
+                            <h5>Blackbox</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Heading part-->
+
+            <!--body part-->
+            <div class="row-fluid">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div class="box_a">
+
+                                    <div class="box_a_content cnt_a1">
+                                     
+    <div class="col-md-12" style=" padding: 30px;">
+      
+        
+ <p>
+     
+                        <img src="~/img/BB.jpg" alt="Black Box - a Patent Product" align="left" style="padding: 12px 10px 0 0;" />
+                        <strong>Hi Tecpoint Technologies</strong> (P) Ltd is a dynamic leader in GPS Fleet
+                        Management products and services. <strong>Hi Tecpoint is an ISO 9001-2008</strong>
+                        Company which was established in the year <strong>1993.</strong> The company has
+                        developed the concept of the Black Box for vehicles and established a research and
+                        development wing within the company to provide consistently improving versions of
+                        the Black Box which is focused upon the concept of tracking and monitoring fleet
+                        vehicles.&nbsp;</p>
+                    <p>
+                        By combining highly skilled and experience persons and state-of-the-art technology
+                        to create solutions that are revolutionary and innovative in the fleet management
+                        field, we have structured a product that is vital in the current economic climate.
+                        We have created BLACK BOX, a real time 100% web based Vehicle tracking system that
+                        is currently being used by over hundreds of satisfied customers nationwide and &nbsp;in
+                        countries like Nigeria,Ghana,Thailand,Kenya,Bangladesh and lot many other countries.</p>
+     
+        
+    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+   
+     

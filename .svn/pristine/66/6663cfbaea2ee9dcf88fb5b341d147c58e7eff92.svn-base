@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Sms & Notification Report";
+}
+
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<div class="row-fluid">
+    
+        <div class="widget-body " >
+            
+            <!-- Main window -->
+            <div class="main_container" id="tables_page">
+                @Html.Action("_ReportFilter", new { reportTitle = "Sms & Notification Report" })
+                <br />
+                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                            <div id="alertss" class="widget span12">
+
+                                <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <div class="col-md-3">
+                                            Message Type
+                                          <select id="messagetype" name="messagetype"><option value="0">--Select--</option>
+<option value="17">Complaint</option>
+<option value="11">Daily SMS</option>
+<option value="7">Fuel Lid</option>
+<option value="29">FuelTheft</option>
+<option value="1">Geofence</option>
+<option value="70">IgnitionOn</option>
+<option value="5">Immobiliser Done</option>
+<option value="3">Immobiliser Request</option>
+<option value="9">Main Battery Disconnection</option>
+<option value="64">MilkLid</option>
+<option value="12">On Demand Location SMS</option>
+<option value="2">Over-speed</option>
+<option value="68">OverStoppage</option>
+<option value="65">Stoppage</option>
+</select></div>
+                                            <div class="col-md-3">
+                                                Type
+                                          <select id="type" name="type">
+
+<option value="1">Sms</option>
+<option value="2">Notification</option>
+</select>
+                                                </div>
+                                            <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                       
+                                                        <th>Vehicle No
+                                                        </th>
+                                                        <th>Message date
+                                                        </th>
+                                                        <th>Type
+                                                        </th>
+                                                        <th id="mobile">Mobile
+                                                        </th>
+                                                        
+
+                                                        <th>Message</th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/widget-body-->
+                </div>
+
+
+                <!-- REPORT FOOTER HERE-->
+                @*@Html.Partial("_ReportFooter")*@
+            </div>
+            <!-- /widget ---->
+        </div>
+    
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        $("#messagetype").select2();
+        </script>
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/SmsReport.js?2.0"></script>
+@*    <script src="@Url.Content("~/Content/Scripts/Ignition.js?1.2")"></script>*@
+ 
+}

@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Vehicletypesetting";
+}
+
+<!-- Modal content-->
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Re-Assign Vehicles</h4>
+    </div>
+    
+        <div>
+        
+                <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div id="DivVehcleCounter">
+                                <div class="box-content padded">
+                                    <div class="box-content padded">
+                                        <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                            <div class="box-content">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-2">
+                                                        <h3 id="lblUserName"></h3>
+                                                    </div>
+                                                    <div class="col-md-10 padded">
+                                                        <div class="col-md-12">
+                                                                                                            
+                                                        <div class="col-md-2">
+                                                            <select class="form-control " id="ddlstatus">
+                                                                <option value="1">Hired</option>
+                                                                <option value="2">Own</option>
+                                                            </select>
+                                                        </div>
+                                                            <div class="col-md-6">
+                                                        <select class="form-control " id="ddlVehicles" multiple>
+                                                        </select>
+                                                                </div>
+                                                            </div>
+                                                        <br />
+                                                        <br />
+                                                          
+                                                    </div>
+
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+           
+        </div>
+  
+    <div class="modal-footer">
+        <button type="button" onclick="submitUpdateSettings();" class="btn btn-green">Submit</button>
+        <h5 id="lblmessagegain" style="color:green;"></h5>
+    </div>
+
+<script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+<script>
+    var $custid=7430;
+    $(document).ready(function () {
+        debugger;
+        debugger;
+        //simple lis to select2
+        $("#ddlVehicles").select2({
+            placeholder: "Assign Vehicles.",
+        });
+        //end of simple list to select2
+        debugger;
+        //on ready load vehicles and business category
+        loadVehicles($custid);
+
+
+     
+    });
+
+
+
+
+
+    function loadVehicles(custId) {
+        debugger;
+
+           $.ajax({
+               dataType: "json",
+               type: "GET",
+               contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+               url: apiBase.apiurl + "CustomAPI/GetVehicleList",
+               data: { custId: $custid },
+               success: function (result) {
+                   debugger;
+
+                   var list = result.VehicleList;
+                   count = 0;
+                   if (list.length > 0) {
+                       $.each(list, function (j, item) {
+                           count = count + 1;
+                           debugger;
+                           var selected = '<option></option>';
+                           if (item.Selected) {
+                               selected = '<option selected="selected" ></option>';
+                           }
+
+                           $('#ddlVehicles').append($(selected).val(item.Value).html(count + ': ' + item.Text));
+                       });
+                   }  //end of appending options into timing
+               },
+               error: function () {
+                   toastr.error("Something went wrong. try after sometime");
+
+               }
+           });
+    }
+
+
+
+
+    function submitUpdateSettings() {
+        debugger;
+        var selectedVehicles = $("#ddlVehicles").val();
+        var vehicleList = selectedVehicles.toString();
+
+        $.ajax({
+            dataType: "json",
+            type: "GET",
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            url: apiBase.apiurl + "CustomAPI/UpdateStatusForRamky",
+            data: { specificId: $custid, vehicleList: vehicleList, vehiclestatus: $("#ddlstatus").val() },
+            success: function (result) {
+                debugger;
+                if ($("#ddlstatus").val() == "1") {
+                    $("#lblmessagegain").text("Following Vehicles Updated to Hired Status");
+                }
+                else {
+
+
+                    $("#lblmessagegain").text("Following Vehicles Updated to Own Status");
+                }
+                toastr.success("successfully reasigned");
+            },
+            error: function () {
+                toastr.error("Error while reassigning vehicles");
+
+            }
+        }
+        );
+    };
+</script>

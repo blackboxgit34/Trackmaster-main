@@ -1,0 +1,501 @@
+﻿@{
+    ViewBag.Title = "Generate Routes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/Alertify/sweetalert.min.js"></script>
+<link href="~/Content/Alertify/sweetalert.css" rel="stylesheet" />
+<style>
+    .nav {
+        margin-left: 0;
+        margin-bottom: 4px !important;
+    }
+
+    .select2-container {
+        z-index: 1000 !important;
+    }
+
+    #directions-panel {
+        color: #315492;
+        height: 174px;
+    }
+
+    .ui-resizable {
+        z-index: 9999 !important;
+    }
+</style>
+
+<div class="row-fluid">
+
+            <div class="row-fluid">
+
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-truck"></i>
+                                <h5>Assign Duties To Engineer</h5>
+                                <div class="pull-right" style="width: 200px;">
+                                    <button class="pull-right btn btn-green btn-small" style="margin-top: 5.5%; margin-right: 10%;" href="#" id="btnaddroute">View Routes </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12" style="padding: 0px;">
+                    <div class="row-fluid">
+                        <div class="widget-body" style="border: 0">
+                            <div class="row-fluid">
+                                <div class="tab-pane active" id="1">
+                                    <div class="widget span12">
+                                        <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                            <div class="row">
+
+                                                <div class="col-md-8">
+                                                    <div id="DivVehcleCounter">
+                                                        <div class="box-content padded">
+                                                            <div class="row">
+                                                                <div class="col-md-1">
+                                                                </div>
+                                                                <div class="col-md-3">
+
+                                                                    <div class="form-group ">
+                                                                        <span>
+                                                                            <label for="inputName" class="control-label">Create a Task</label>
+                                                                        </span>
+
+
+
+                                                                        <input type="text" class="pull-right" id="txtRouteName" placeholder="Enter route name" />
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                                <div class="col-md-4">
+
+
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="row">
+
+                                                                <div class="col-md-1">
+                                                                </div>
+                                                                <div class="col-md-4">
+
+                                                                    <div class="form-group ">
+
+                                                                        <span>
+                                                                            <label for="inputName" class="control-label">Select Complaint </label>
+                                                                        </span>
+                                                                        <select class="form-control select2" id="ddlStartLocationPOI" style="height: 70%;"></select>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-md-3">
+
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-1">
+
+                                                                </div>
+
+
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group ">
+                                                                        <span>
+                                                                            <label for="inputName" class="control-label"><b>Select Engg to Assign</b></label>
+                                                                        </span>
+                                                                        <select class="form-control select2" id="ddlVehicleList" multiple></select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-2">
+
+                                                                </div>
+                                                                <div class="col-md-2">
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-1">
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <span>
+                                                                        <label for="inputName" class="control-label"><b>Assign Start Date</b></label>
+                                                                    </span>
+                                                                    <div class="form-group ">
+                                                                        <input type="text" id="NextDueDate" name="NextDueDate" placeholder="Select Date">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <span>
+                                                                        <label for="inputName" class="control-label"><b>Assign End Date</b></label>
+                                                                    </span>
+                                                                    <div class="form-group ">
+                                                                        <input type="text" id="EndDueDate" name="EndDueDate" placeholder="Select Date">
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-1">
+
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    Security Checks
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                    <span>
+                                                                        <label for="inputName" class="control-label"><b>Is Box Tempered?</b></label>
+                                                                    </span>
+                                                                    <div class="form-group ">
+                                                                        <input type="checkbox" checked="checked">
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <span>
+                                                                        <label for="inputName" class="control-label"><b>Is Sim working</b></label>
+                                                                    </span>
+                                                                    <div class="form-group ">
+                                                                        <input type="checkbox" checked="checked">
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-1">
+
+                                                                </div>
+                                                                <div class="col-md-1">
+
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                    <span>
+                                                                        <label for="inputName" class="control-label"><b>Assigned Location</b></label>
+                                                                    </span>
+                                                                    <div class="form-group ">
+                                                                        <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-4">
+
+
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <div class="row">
+
+                                                                <div class="col-md-3">
+
+                                                                </div>
+
+                                                                <div class="col-md-2">
+                                                                    <button type="button" onclick="submitUpdateSettings();" class="btn btn-default ">
+                                                                        Submit
+                                                                        <img src="~/img/flags/submit.png" style="height: 11px;" />
+                                                                    </button>
+
+                                                                </div>
+
+                                                                <div class="=col-md-4">
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-md-4">
+
+                                                    <iframe id="dashMap" src="" width="100%" height="333px" frameborder="0" style="border: 0"></iframe>
+                                                </div>
+                                                </div>
+                                              
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+  
+<div class="main_container" id="tables_page">
+    <div class="widget-body clearfix" style="overflow-x: auto">
+        <div class="box" style="background: #fdfdfd;">
+            <div class="box-content padded">
+                <div class="row">
+                    <div class="col-md-8">
+                        <form class="form-inline">
+                            <div class="col-md-6">
+                                <div class="form-group padded">
+                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%; margin-top: -5%;">
+                                        <i class="fa fa-calendar"></i>
+                                        &nbsp;<span></span><b class="caret"></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <select class="form-control" id="VehicleTypeList" style="margin-left:55px;"></select>
+
+
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="button" value="search" id="BtnSearch" class="btn btn-green">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+        <div class="widget-body" style="border: 0">
+            <div class="row-fluid">
+                <div id="alertss" class="widget span12">
+                    <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                        <div id="DivVehcleCounter">
+                            <div class="box-content padded">
+                                <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Assign From Date</th>
+                                            <th>Assign To Date</th>
+                                            <th>Assigned Engineer</th>
+                                            <th>Issue Detail</th>
+                                            <th>Assited By</th>
+                                            <th>No of Task Handle by Engineer</th>
+                                            <th>No of Hour Spent on Work</th>\
+                                            <th>Issue Status</th>
+                                            <th>Actual Days Spent </th>
+                                            <th>Assigned Days For Issue </th>
+                                            <th>Distance Travelled </th>
+                                            <th>Total Expense  </th>
+
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+
+<script src="@Url.Content("~/Scripts/app/HandleEnggData.js")" @DateTime.Now.Ticks></script>
+    <script>
+
+    </script>
+
+    
+    <script>
+        $(document).ready(function () {
+            $('#dashMap').attr('src', '../../HTML/EnggMap.htm?custId=' + $custid);
+            $('#NextDueDate').datepicker();
+
+            $('#EndDueDate').datepicker();
+            $(".select2").select2({
+                placeholder: "select an Options.",
+
+            });
+
+
+            ajaxForPopUp();
+            appendVehicleDDL();
+
+        
+            function ajaxForPopUp() {
+                var baseurl = apiBase.apiurl;
+                $.ajax({
+                    url: baseurl + 'CommonApi/GetOpencomplainList',
+                    type: "get",
+                    async: false,
+                    success: function (data) {
+                        debugger;
+                        var result = data;
+                        if (result.length > 0) {
+                            $('#ddlStartLocationPOI').append($('<option disabled selected></option>').val("").html("Select Complaint"));
+                         
+
+                            $.each(result, function (j, item) {
+                                $('#ddlStartLocationPOI').append($('<option></option>').val(item.id).html(item.ComplainName));
+                             
+
+                            });
+                        }
+
+                    },
+                    error: function () {
+                        connectionError();
+                    }
+                });
+            }
+
+            function appendVehicleDDL() {
+
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "AdminAPI/GetVehicles",
+
+                    data: { custId: $custid },
+                    success: function (result) {
+
+                        var data = result;
+
+                        if (data.length > 0) {
+                            $('#ddlVehicleList').append($('<option></option>').val(0).html("All Vehicle's"));
+                            $.each(data, function (j, item) {
+                                $('#ddlVehicleList').append($('<option></option>').val(item.Value).html(item.Text));
+
+                            });
+                        }
+
+                    }
+                });
+            }
+
+
+          
+        });
+
+        function Close() {
+            $("#hidedivnewd").css('display', 'none');
+        }
+        function submitUpdateSettings() {
+            var custId = $custid;
+
+            var startLocation = $("#ddlStartLocationPOI").val();
+            var endLocation = $("#ddlEndLocationPOI").val();
+            var morePoiIds = $("#ddlMoreLocationsPOI").val();
+            var morePoiIdsList = morePoiIds.toString();
+
+            var triptypeID = $("#triptype").val();
+
+
+            var routeName = $("#txtRouteName").val();
+            var ettTime = $("#txtETT").val();
+
+
+            var bbidArray = $("#ddlVehicleList").val();
+            var bbidList = bbidArray.toString();
+
+
+
+            var distanceKm;
+            distanceKm = $("#txtManualDistance").val();
+
+            //getting datetime
+            var startDateTime = $beginDate;
+            var endDateTime = $endDate;
+
+
+            if (!startLocation || !endLocation || !routeName) {
+                $("#valStartLocation").removeClass("hidden");
+                $("#valEndLocation").removeClass("hidden");
+                $("#valRouteName").removeClass("hidden");
+
+
+                return false;
+            }
+            else {
+                $("#valStartLocation").addClass("hidden");
+                $("#valEndLocation").addClass("hidden");
+                $("#valvehicleslist").addClass("hidden");
+                $("#valRouteName").addClass("hidden");
+            }
+
+
+
+
+
+            swal({
+                title: "You want to create Route as Trip?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "No!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+function (isConfirm) {
+    var Routetype = 0;
+    if (isConfirm) {
+        swal("Created!", "Your Route saved successfully as Trip", "success");
+
+        Routetype = 3;
+    } else {
+        swal("Declined", "Your request declined  ", "error");
+        Routetype = 1;
+    }
+    $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+
+    var baseurl = apiBase.apiurl;
+    var url = baseurl + "adminapi/UpdateTripSettings";
+    $.ajax({
+        url: url,
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        data: { SLocation: startLocation, ELocation: endLocation, custId: custId, distance: distanceKm, triptypeID: triptypeID, routeName: routeName, ettTime: ettTime, bbidList: bbidList, poiIds: morePoiIdsList, startDateTime: startDateTime, endDateTime: endDateTime, Routetype: Routetype },
+
+        success: function (data) {
+            $.unblockUI();
+            toastr.success('Route Created successfully!');
+
+        },
+        error: function (err) {
+            $.unblockUI();
+            toastr.warning('something went wrong!');
+        }
+
+    });
+});
+
+            return false;
+        }
+
+
+    </script>
+}

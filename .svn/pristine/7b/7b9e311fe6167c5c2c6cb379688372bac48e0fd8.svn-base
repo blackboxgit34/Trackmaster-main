@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title>
+    <script>
+
+        $('#CheckPasswordform').submit(function (e) {
+            
+            e.preventDefault();
+            var custid = $("#custid").val();
+            var password = $("#password").val();
+            var url = apiBase.apiurl + 'FmsAPI/GetPasswordChecked';
+            $.get(url, { custid: custid, password: password }, function (result) {
+                
+                if (result.result > 0) {
+                    localStorage.setItem('IsVerified', 'working');
+                    window.setTimeout(function () {
+                        window.location.href = '/Fms/ManageEmployee';
+                    }, 1000);
+                }
+                else {
+                    $('#showError').html('Incorrect Password');
+                }
+            });
+        });
+
+    </script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <form id="CheckPasswordform" method="post">
+        <input type="hidden" id="custid" value='@ViewBag.custid' />
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Enter password </label>
+            <div class="col-sm-6">
+                <input type="password" id="password" name="password" class="form-control" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4" style="color:red;"></label>
+            <div class="col-sm-3">
+                <input type="submit" value="submit" id="btnsubmit" class="btn btn-green" style="float: left;">
+            </div>
+            <label class="control-label col-sm-5" id="showError" style="color:red;"></label>
+
+        </div>
+    </form>
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>

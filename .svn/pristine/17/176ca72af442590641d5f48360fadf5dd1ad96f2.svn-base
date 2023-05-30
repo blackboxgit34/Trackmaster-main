@@ -1,0 +1,720 @@
+﻿@{
+    Layout = null; 
+}
+<!DOCTYPE html>
+<html class="k-ff k-ff30" lang="en" ng-app="blackbox">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>@ViewBag.Title</title>
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://trackmaster.in/images/favicon.ico">
+    <link href="~/content/css/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="~/content/css/font-awesome.css" rel="stylesheet">
+    <link href="~/content/css/stylesad15.css" rel="stylesheet">
+    <link href="~/content/css/angucomplete-alt.css" rel="stylesheet">
+    <link href="~/content/css/toastr.css" rel="stylesheet">
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery.powertip.css" rel="stylesheet" />
+    <link href="~/Content/DataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" rel="stylesheet" />
+    @*<link href="~/Content/CustomCSS.css" rel="stylesheet" />*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link href="~/Content/css/CustomCSS.css" rel="stylesheet" />
+
+    <!--for confiramtion (Alertify)-->
+    <link href="~/Content/Alertify/alertify.core.css" rel="stylesheet" />
+    <link href="~/Content/Alertify/alertify.default.css" rel="stylesheet" />
+
+
+    
+    @* Code for GOOGLE ANALYTICS *@
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-93165722-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    @* END Code for GOOGLE ANALYTICS *@
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="~/content/css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="~/content/Site.css" rel="stylesheet" />
+    @RenderSection("css", false)
+    <script src="@Url.Content("~/scripts/jquery-3.1.1.min.js")?v=0.00.000"></script>
+    <link href="~/Content/css/daterangepicker.css" rel="stylesheet" />
+    @*<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <style>
+       .Subuser {
+        background-color:#99A3A4 !important;
+    }
+#mydiv {
+    position: absolute;
+    z-index: 9;
+    background-color:transparent;
+    text-align: center;
+    border: -1px solid #d3d3d3;
+      /*border-radius: 60%;*/
+     
+}
+
+#mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    /*background-color: #2196F3;*/
+    color: #fff;
+      background-color:transparent;
+   
+}
+
+
+
+   .video-wrapper{
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -256px 0 0 -396px;
+
+}
+
+
+        .bgimg {
+    background-image: url('../Trackmaster_files/custCare.jpg');
+     background-size: 548px 138px;
+    background-repeat: no-repeat;
+    width:600px!important;
+}
+   
+ .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+        .affix {
+    top:50px;
+    right:0;
+    position:fixed;
+}
+    </style>
+</head>
+<body onload="display_ct();" ng-controller="rootCtrl">
+
+    
+
+
+    <div id="divNavbar" class="hidden">
+        @Html.Partial("_Navbar")
+    </div>
+    <div id="divCustomMenu" class="hidden">
+        @Html.Partial("Custom_Navbar")
+    </div>
+     
+    
+
+    <div class="container-fluid" style="background: #fff; padding: 0 10px;">
+        <div class="row" style="padding: 11px 0px 0px 26px;">
+            <div class="col-md-8">
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-primary btn-circle  pull-left" style="margin-top: -7px; margin-bottom: 4px;" onclick="history.go(-1); return true;"><i class="fa fa-arrow-left"></i></button>
+                </div>
+                <div class="col-md-1">
+                    <div style="display: none;" id="btnAdmin">
+                        <a onclick="backToAdmin();" class="btn btn-xs btn-success" style="margin-top: -7px;"><i class="fa fa-arrow-left"></i>&nbsp;Admin</a>
+                        <!-- <img src="~/content/Trackmaster_files/logo-2x.png" style="width:150px;" class="TopStrip">-->
+                    </div>
+                </div>
+                <div class="col-md-3 col-md-offset-1">
+                    <div style="display: none;" id="divDdlGroupUser">
+                        <select id="ddlGroupUser">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="pull-right text-muted" style="margin-right: -94px;">Welcome: {{loginName}}</span>
+                    <span class="pull-right" style="padding-right: 23px;">@*New Site HelpLine:<img src="~/Content/image/WhatsAppIcon.png"   style="height: 20px;" /> +91-7082015501*@  Customer Support :&nbsp;&nbsp;<button type="button" id="btnContactDetails" class="btn btn-xs btn-info btn-circle  pull-right" style="margin-top: -7px; margin-bottom: 4px; "><i class="fa fa-phone" ></i></button> @*<a href="http://vts.trackmaster.in/" target="_blank">&nbsp&nbsp;Old Version &nbsp;&nbsp;</a>*@</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-4">
+                  <a href=""  id="whatsNew"> What's New <img src="~/Content/image/newFeat.png" style="height: 20px;" /></a>
+                </div>
+                <div class="col-md-8">
+                    <span class="pull-right">Disable Web Alerts &nbsp;<input type="checkbox" id="chkWebAlert" /></span>&nbsp;
+                </div>
+       
+                
+            </div>
+        </div>
+      
+    </div>
+                   
+    <div id="mydiv">
+  <div id="mydivheader">
+            <a id="goto_MyBill" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Watch videos">
+          
+                <br />
+       
+                 <img src="~/img/flags/images.jpg" style="height:40px; border-radius: 50px;"/>
+   
+            </a>
+            <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/admin/feedback")"><span>&nbsp;&nbsp;&nbsp;Feedback</span></a>
+                </li>
+                 <li style="text-align: left;">
+                    <a tabindex="-1" href="@Url.Content("~/Dashboard/AboutUs")"><span>&nbsp;&nbsp;&nbsp;About</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="#" onclick="loadvideo()"><span style="padding-left: 8px">How to Check Ac On-Off Report</span></a>
+                </li>
+                <li style="text-align: left;">
+                    <a tabindex="-1" href="#" onclick="loadvideofuel()"><span style="padding-left: 8px;">How to Check Fuel Report</span></a>
+                </li>
+                  <li style="text-align: left;">
+                    <a tabindex="-1" href="#" onclick="loadvideo2()"><span style="padding-left: 8px;">How to Set Email Time Report</span></a>
+                </li>
+                  <li style="text-align: left;">
+                    <a tabindex="-1" href="#" onclick="loadvideo3()"><span style="padding-left: 8px;">How to Check Over-Speed|Stoppage|Idling time Report</span></a>
+                </li>
+                   <li style="text-align: left;">
+                    <a tabindex="-1" href="#" onclick="loadvideo4()"><span style="padding-left: 8px;">How to generate refrigerator temperature service request </span></a>
+                </li>
+            </ul>
+  
+
+
+
+
+  </div>
+
+</div>
+    <script>
+        $(document).ready(function () {
+            $("#closebtn").hide();
+        });
+        //Make the DIV element draggagle:
+        dragElement(document.getElementById(("mydiv")));
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+                /* if present, the header is where you move the DIV from:*/
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+            } else {
+                /* otherwise, move the DIV from anywhere inside the DIV:*/
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                /* stop moving when mouse button is released:*/
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+</script>
+    <div class="main_container" id="tables_page">
+        <div id="divLoader" class="hidden "></div>
+        @*style="padding-bottom: 9%;"*@
+        <div class="container-fluid">
+
+            @RenderBody()
+        </div>
+    </div>
+
+    <div id="showSettings" title="Basic dialog">
+    </div>
+    <!--OverSpeed Alert-->
+    @Html.Partial("_OverspeedAlert")
+    <!-- /row-fluid -->
+    <div class="footer" id="layoutFooter">
+        @Html.Partial("_Footer")
+    </div>
+
+
+         <div class="frameclose">
+         <button id="closebtn" ><img src="~/img/msgicons/close.png" style=" position: absolute;z-index: 15;top: 50%;left: 50%;margin: -276px 0 0 -396px;"/></button>
+
+     </div>
+   <div class="video-wrapper" style="display:none;">
+  
+   </div>
+
+
+
+    <script src="~/Content/DataTable/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
+    <script src="@Url.Content("~/scripts/toastr.js")"></script>
+    <script src="@Url.Content("~/scripts/angular.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-cookies.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-route.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/angular-base64.min.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/scripts/ng-file-upload-all.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angular-validator.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/scripts/angucomplete-alt.min.js")?v=0.00.000"></script>
+    <script src="@Url.Content("~/app/app.js")?v=0.00.008"></script>
+    <script src="@Url.Content("~/app/modules/common.core.js")?v=0.00.006"></script>
+    <script src="@Url.Content("~/app/modules/common.ui.js")?v=0.00.002"></script>
+    <script src="@Url.Content("~/app/rootCtrl.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/apiService.js")?v=0.00.001"></script>
+    <script src="@Url.Content("~/app/services/notificationService.js")"></script>
+    <script src="@Url.Content("~/app/services/membershipService.js")?v=1"></script>
+    <script type="text/javascript" src="~/content/js/bootstrap.min.js"></script>
+  
+
+    <script src="@Url.Content("~/Content/js/jquery.blockUI.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.powertip.min.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <!--For Confirmation (Alertify)-->
+    <script src="~/Content/Alertify/alertify.min.js"></script>
+
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <!-- /row-fluid -->
+    <script type="text/javascript">
+      
+
+        $('[data-toggle="tooltip"]').tooltip();
+    
+
+        function display_ct() {
+            var strcount
+           // setDate()
+            tt = display_c();
+        }
+
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+        //to remove custom temlate when click to admin button
+        function backToAdmin() {
+            // Remove Session
+            localStorage.removeItem("cid");
+            localStorage.removeItem("custID");
+
+
+            localStorage.removeItem("customMenuList");
+
+            localStorage.removeItem("custId");
+            //for group user
+            localStorage.removeItem("GroupSelectedUser");
+            localStorage.removeItem("SubUsers");
+            localStorage.removeItem('IsVerified');
+
+            window.location.href = "@Url.Action("staff", "admin")";
+        }
+
+    </script>
+    <script type="text/javascript">
+        $.holdReady(true);
+        $.getScript("@Url.Content("/Scripts/app/_layoutCustId.js?1.0")", function (data) {
+            $.holdReady(false);
+        });
+
+        function loadvideo() {
+            $("#closebtn").show();
+            var id = $(this).attr('data-youtube');
+            var src = ' https://www.youtube.com/embed/eSV3LBNiFWo';
+    var iframe = '<iframe id="youtube" width="960" height="415" frameborder="0" src="' + src + '" allowfullscreen  ></iframe>';
+    $(".video-wrapper").html(iframe);
+    $(".video-wrapper").css("display", "block");
+    return false;
+        };
+        function loadvideofuel() {
+            $("#closebtn").show();
+            var id = $(this).attr('data-youtube');
+            var src = ' https://www.youtube.com/embed/0wP1uhvKMVs';
+            var iframe = '<iframe id="youtube" width="960" height="415" frameborder="0" src="' + src + '" allowfullscreen  ></iframe>';
+            $(".video-wrapper").html(iframe);
+            $(".video-wrapper").css("display", "block");
+        
+            return false;
+        };
+
+        function loadvideo2() {
+            $("#closebtn").show();
+            var id = $(this).attr('data-youtube');
+            var src = ' https://www.youtube.com/embed/lScDp_lYNr4';
+            var iframe = '<iframe id="youtube" width="960" height="415" frameborder="0" src="' + src + '" allowfullscreen  ></iframe>';
+            $(".video-wrapper").html(iframe);
+            $(".video-wrapper").css("display", "block");
+
+            return false;
+        };
+        function loadvideo3() {
+            $("#closebtn").show();
+            var id = $(this).attr('data-youtube');
+            var src = ' https://www.youtube.com/embed/TFSmpyRQp5s';
+            var iframe = '<iframe id="youtube" width="960" height="415" frameborder="0" src="' + src + '" allowfullscreen  ></iframe>';
+            $(".video-wrapper").html(iframe);
+            $(".video-wrapper").css("display", "block");
+
+            return false;
+        };
+        function loadvideo4() {
+            $("#closebtn").show();
+            var id = $(this).attr('data-youtube');
+            var src = ' https://www.youtube.com/embed/8COLq4mk_uU';
+            var iframe = '<iframe id="youtube" width="960" height="415" frameborder="0" src="' + src + '" allowfullscreen  ></iframe>';
+            $(".video-wrapper").html(iframe);
+            $(".video-wrapper").css("display", "block");
+
+            return false;
+        };
+$("#closebtn").click(function () {
+    $("#closebtn").hide();
+    $('#youtube').hide();
+
+});
+
+    </script>
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    @RenderSection("scripts", false)
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+    <script>
+
+        //for web alerts
+        $(function () {
+          
+
+
+            
+            $('[data-toggle="tooltip"]').tooltip();
+            var reportName = document.location.pathname.match(/[^\/]+$/)[0];
+            var url = apiBase.apiurl + "adminapi/CheckForAdOnReports";
+            $.ajax({
+                url: url,
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { custid: $custid, reportName: reportName },
+                async: false,
+                success: function (data) {
+                    if (data.length == 0) {
+                        window.location.href = "../../home/FeatureDisable";
+                    }
+                },
+                error: function (err) {
+                    toastr.warning('something went wrong!');
+                }
+
+            });
+
+
+
+
+            //for common datatable
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $.get(apiBase.apiurl + 'AdminAPI/GetWebAlert', { custid: $custid }, function (data) {
+                $('#chkWebAlert').prop('checked', data);
+            });
+
+            $("#btnContactDetails").click(function () {
+               
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "CommonApi/GetHelpLineNumber",
+                    data: { custId: $custid },
+                    success: function (data) {
+                     
+                        alertify.confirm(" <div class='bgimg'><b>&nbsp;Hello, we are here to help you.</b><br>&nbsp;Customer Support: <b> " + data.Servicename + " </b>(<b><i class='fa fa-phone' style='color:green;'></i></b>) <b> " + data.Service + " </b></br>&nbsp;For Sale: <b> " + data.Marketname + " </b>(<i class='fa fa-phone' style='color:green;'></i>)<b> " + data.Marketing + " </b></br>&nbsp;To Know Your Account Details:  <b>  " + data.Collectioname + " </b>(<i class='fa fa-phone' style='color:green;'></i>)<b>  " + data.Collection + " </b></br><i class='fa fa-gh'></i> <b>If you feel unattended by our Team Executives feel Free to <br>&nbsp;share your FEEDBACK at 9779903124 </b></br></div>", function () { }
+                            , function () { });
+                     
+                    },
+                    error: function (error) {
+                        toastr.error("something went wrong!");
+                    }
+                });
+
+
+
+                setTimeout(function () { $("#alertify-cancel").css("visibility", "hidden"); $("#alertify-ok").text("Close"); },500);
+            });
+
+
+
+        });
+
+      
+       
+
+        $('#chkWebAlert').change(function () {
+            var check = $(this).prop('checked');
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "AdminAPI/ChangeWebAlert",
+                data: { custid: $custid, status: check },
+                success: function (data) {
+                    toastr.success("Successfully Updated");
+                },
+                error: function (error) {
+                    toastr.error("something went wrong!");
+                }
+            });
+        });
+
+        $("#closebtn").click(function () {
+            aler("check");
+            $('#youtube').remove();
+            $("#closebtn").hide();
+        });
+
+        window.submitPassword = function () {
+            
+           
+            var userType = $("#userType").val();
+            var custId = $custid;
+            var url;
+            if (userType == "Admin") {
+                url = apiBase.apiurl + "AdminAPI/UpdateAdminPassword";
+            }
+            else {
+                url = apiBase.apiurl + "AdminAPI/ChangePassword";
+            }
+
+            var CurrentPassword = $("#CurrentPassword").val();
+            var NewPassword = $("#txtNewPassword").val();
+            var txtCnfrmNewPwd = $("#txtCnfrmNewPwd").val();
+            if (NewPassword == txtCnfrmNewPwd) {
+                //     var form= $("#formChangePassword").serialize();
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: url,
+                    data: { custId: custId, CurrentPassword: CurrentPassword, NewPassword: NewPassword },
+                    success: function (data) {
+                        toastr.success("Password Updated");
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 2000);
+
+                    },
+                    error: function (error) {
+                        toastr.error("Something went wrong. please fill unique password!");
+                    }
+                });
+            }
+            else {
+                toastr.error("Confirm password and New password does not match!");
+            }
+        }
+
+        var currentPage = location.pathname.split('/').slice(-1)[0];
+        if (currentPage == "admindashboard") {
+            $("#layoutFooter").addClass("hidden");
+        }
+        else {
+            $("#layoutFooter").removeClass("hidden");
+
+        }
+
+
+        window.btnChangePassword = function (type) {
+            //$.ajax()
+            $.get('@Url.Action("_changePassword", "Settings")?userType=' + type, function (data) {
+                $('#modalInnerContain').html(data);
+                $('#modalOuterDiv').modal('show');
+            });
+        }
+
+
+
+        window.btnTripSettings = function () {
+            $.get('../Settings/_UpdateSettings', function (data) {
+                $('#addAmountContainer').html(data);
+                $('#addUserAmountContainer').modal('show');
+            });
+        }
+
+
+
+        window.btnAdminLogin = function (flag) {
+            $.get('@Url.Action("_adminLogin", "Settings")?flag='+flag, function (data) {
+                $('#modalInnerContain').html(data);
+                $('#modalOuterDiv').modal('show');
+
+            });
+        }
+
+   
+
+        window.submitAdmLgn = function (id) {
+
+            var userName = $("#txtUserName").val();
+            var password = $("#txtPassword").val();
+
+            if (userName && password) {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: apiBase.apiurl + "AdminAPI/AdminLogin",
+                    data: { userName: userName, password: password,custid:$custid },
+                    success: function (data) {
+                        toastr.success("successfully Logged In To Admin acount");
+                        setTimeout(function () {
+                            if (id == "settings") {
+
+                                window.location.href = "@Url.Action("AdminSettings", "admin")";
+                          
+                            }
+                            if (id == "profile") {
+                                window.location.href = "@Url.Action("Profile", "Settings")";
+                            }
+
+                             if (id == "btnAddRoute") {
+                                window.location.href = "@Url.Action("addroute", "settings")";
+                             }
+                             if (id == "btnManage") {
+                                window.location.href = "@Url.Action("ManageRoute","Settings")";
+                                                  }
+                            
+                            if (id == "BtnAdd") {
+                                window.location.href = "@Url.Action("AddEditVehicles", "FMS")";
+                            }
+                        }, 100);
+
+                    },
+                    error: function (error) {
+                        toastr.error("Your username or admin password is wrong. Please check!");
+                    }
+                });
+            }
+            else {
+                toastr.error("Please provide UserName and Password!");
+                return false;
+            }
+        };
+
+
+
+      
+
+    
+        $("#whatsNew").click(function () {
+            $("#divWhatsNew").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "200", of: window },
+                width: 750,
+                height: 500,
+                resizable: true,
+                title: "What's New",
+                modal: true,
+                open: function () {
+                    $(".ui-dialog-titlebar-close").addClass("hidden");
+
+                    $(this).html("Take a look at the new and innovative things can you look forward to on the new website -</br>" +
+"* Your Smart Dashboard that offers statistical analysis as well as industry-specific information. </br>"+
+"* New features in the Route Playback section. </br>"+
+"* Huge improvement in LIVE Status page </br>"+
+"* New & improved GeoFencing</br>"+
+"* Forget 4-eye map; now we bring you 6-eye map. </br>"+
+"* Enjoy the Print Map Option for more ease </br>"+
+"* New Desktop alerts for over speeding and panic</br>"+
+"* All new reports of Drivers' Performance & Driver Behaviour that will give you a glimpse of his overspeeding, acceleration and harsh breaking patterns. </br>"+
+"* We made FMS an integrated part of Trackmaster</br>"+
+"* Multiple Vehicle Search option, New Trip Maps and so much more that is just ONE CLICK AWAY!</br></br></br>"+
+"<div class='col-md-12'><img src='../Content/img/whatsNew.png' /></div>");
+                },
+                buttons: {
+                    Close: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            return false;
+
+        });
+
+    </script>
+    
+    <!-- Bootstrap Edit Ticket Modals With Forms -->
+    <div class="modal fade " data-keyboard="false" id="modalOuterDiv" tabindex="-1" role="dialog" aria-hidden="true" style="background: transparent; overflow-y: hidden; margin-left: -50%; width: 100%;">
+        <div class="modal-dialog" style="width: 90%">
+            <div id="modalInnerContain"></div>
+        </div>
+    </div>
+
+    <!--what's new-->
+    <div id="divWhatsNew" title="Basic dialog">
+    </div>
+</body>
+</html>

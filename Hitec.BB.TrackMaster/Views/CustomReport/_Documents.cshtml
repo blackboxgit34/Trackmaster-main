@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>&nbsp;</title>
+    <script>
+
+        $('document').ready(function () {
+            
+            var device = $("#bbid").val();
+
+
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "AdminAPI/GetManageDocs",
+                data: { bbid: device },
+                success: function (result) {
+                    
+                    $.unblockUI();
+                    var data = result;
+
+
+                    for (var i = 0; i < data.length; i++) {
+                        var checkbox;
+                        var disable;
+                        var IsCustom;
+
+                        //$('#tblEmailReport').append('<tr><td style="width:20%"> <input type="hidden " class="routeId hidden" value="' + data[i].id + '" />  <label class="routetext">' + data[i].CreateDate + '</label></td><td>' + data[i].DocName + '</td><td><a target="_blank"  href="' + data[i].DocPath.replace(',', '') + '" >Document Download</a></td><td>' + data[i].Remarks + '</td><td><a href="javascript:" onclick="showReplysWindow(\'' + data[i].Bbid.replace(' ', '') + '\')" >Reply</a></td>' +
+                        $('#tblEmailReport').append('<tr><td style="width:20%"> <input type="hidden " class="routeId hidden" value="' + data[i].id + '" />  <label class="routetext">' + data[i].CreateDate + '</label></td><td>' + data[i].DocName + '</td><td><a target="_blank"  href="' + data[i].DocPath.replace(',', '') + '" >Document Download</a></td><td>' + data[i].Remarks + '</td><td><a href="javascript:" onclick="showReplysWindow1(\'' + data[i].Email + "','" + data[i].DocPath.replace(',', '') + '\')" >Reply</a></td>' +
+
+                            '</tr>')
+
+
+                    }
+
+
+                    $(".js-example-basic-multiple").select2({
+                        placeholder: "assign vehicles",
+                    });
+
+
+                }
+            });
+        });
+
+        $("#btnReply").click(function () {
+            var MailId = $('[id$=lblMailId]').text();
+            var Remarks = $('[id$=txtRemarks]').val();
+            var FilePath = $('[id$=filepath]').val();
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: "/Report/GetUploadRetorts",
+                data: { 'Remark': Remarks, 'MailAdd': MailId, 'FilePath': FilePath },
+                success: function (result) {
+                    toastr.success(" created successfully.")
+                    $('#SendReply').modal('hide');
+                }
+            });
+        });
+
+       
+        function showReplysWindow1(mailid, filePath) {                       
+            $("#filepath").val(filePath);
+            $('[id$=lblMailId]').text(mailid);
+            $('#SendReply').modal('show');
+        }
+    </script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <input type="hidden" id="bbid" value='@ViewBag.bbid' />
+    <div class="row-fluid">
+        <div id="alertss" class="widget span12">
+            <div class="widget-body clearfix" style="background: #fff;">
+                <div id="DivVehcleCounter">
+                    <div class="box-content padded">
+                        <div class="col-md-12" style="overflow: auto;">
+                            <table class="table  table-striped table-bordered" id="tblEmailReport">
+                                <thead>
+                                    <tr>
+                                        <th>UpdatedDate</th>
+                                        <th>Document Name</th>
+                                        <th>Download</th>
+                                        <th>Remarks</th>
+                                        <th>Reply</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>
+<script src="~/Scripts/app/_layoutCustId.js"></script>
+<script src="~/Content/js/APIURL.js"></script>
+

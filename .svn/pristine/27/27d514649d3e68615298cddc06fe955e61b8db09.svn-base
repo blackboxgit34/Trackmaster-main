@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Manage Tyre Fitting";
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5>@ViewBag.Title </h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                    <input type="button" style="margin-right: 10px;" value="Add" id="BtnAdd" class="btn btn-green" onclick="window.location.href = '../FMS/AddTyreFitting'">
+                                    <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+                                    @*<img src='/content/img/cc2.png' onmouseover="this.src='/content/img/z22.png';" onmouseout="this.src='/content/img/cc2.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">
+                                    <img src='/content/img/cc1.png' onmouseover="this.src='/content/img/z31.png';" onmouseout="this.src='/content/img/cc3.png';" style="margin-left: 0px; WIDTH: 33PX; cursor:pointer;">*@
+                                </div>
+                            </div>  
+                            <div class="widget-body clearfix" style="overflow-x: auto">
+                                <div class="box" style="background: #fdfdfd;">
+                                    <div class="box-content padded">
+                                        <div>Statistics (@System.DateTime.Today.ToString("MMMM"))</div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-3 status"></div>
+                                                <div class="col-sm-4 status">
+                                                </div>
+                                                <div class="col-sm-4 status">
+                                                </div>
+                                                <div class="form-group col-sm-4 status">
+                                                    <div class="top-info">
+                                                        <img src="~/Trackmaster_files/FMSIcons/totalTyreFittedFromStock.png" />
+                                                        <strong>
+                                                            <span class="count" id="TotalTyresFitted" runat="server">0
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <span>Total Tyre Fittings from Stock</span>
+                                                </div>
+                                                <div class="col-sm-4 status">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sr No</th>
+                                                    <th>Vehicle</th>
+                                                    <th>Fitting Date</th>
+                                                    <th>Tyre No.</th>
+                                                    <th>Make</th>
+                                                    <th>Supplier</th>
+                                                    <th>Location Of Tyres</th>
+                                                    <th>Tyre Type</th>
+                                                    <th>Tyre Fitting Type</th>
+                                                    <th>Total KMs Covered</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+     <script src="~/Content/js/APIURL.js"></script>
+         <!-- JS for report acitvation check-->
+    <script src="~/Scripts/app/IsRptActChecked.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FmsTyreFitting.js?")"@DateTime.Now.Ticks></script>
+}
+
+

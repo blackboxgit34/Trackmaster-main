@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "FeedBack";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/progressTimeLine.css" rel="stylesheet" />
+<style>
+    .table_cell {
+        padding-left: 100px;
+    }
+
+
+    .horizontal {
+        display: inline;
+        width: 200px;
+        margin-left: inherit;
+    }
+
+    .tmtimeline:before {
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-color: #AFDCF8;
+        background-image: none;
+        background-origin: padding-box;
+        background-position: 0 0;
+        background-repeat: repeat;
+        background-size: auto auto;
+        bottom: 0;
+        content: "";
+        left: -22px;
+        margin-left: 46px;
+        position: absolute;
+        top: 0;
+        width: 10px;
+    }
+
+    .wide {
+        width: 100%;
+    }
+</style>
+
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-comments-o"></i>
+                            <h5>Feedback</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+ <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                           <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter1">
+                                    <div class="box_a_content padded">
+                            <h2><p style="padding-left: 10px; margin-top: -10px; font: 13px/1.42 'Montserrat', sans-serif !important;">
+      <b>Please help us improve our service. Give us your feedback on our service, website,
+        booking process etc.</b>  </p></h2>
+                        </div>
+                                    </div>
+                             
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+   
+            
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+
+             <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box_a_content padded">
+            <div id="div1" class="slide-out-div form " style="padding: 0!important; padding: 20px!important;height: 550px">
+  
+                  <form  id="registerSubmit">
+    <div id="userError"></div>
+      Name: <input type="text" name="username" id="username" size="10"/><br>
+      <div id="EmailError"></div>
+      Email: <input type="text" name="Email" id="Email" size="10"/><br>
+     <div id="mobError"></div>
+      Mobile Number: <input type="text" name="MobileNumber" id="mobnmbr" size="10"/><br>
+      <div id="CategoryError" ></div>
+      Category:<select  id="catfed"  name="Category" style="font-size: 12px !important;" class="form-control new-width ">
+	<option selected="selected" value="">Select Category</option>
+	<option value="1">Appreciation</option>
+	<option value="2">Complaint</option>
+	<option value="3">Query</option>
+	<option value="4">Suggestions</option>
+
+</select><br>
+                        <div id="AboutError" ></div>
+      About:<select id="Abtfed"  name="About" style="font-size: 12px !important;" class="form-control new-width ">
+	<option selected="selected" value="">Select About</option>
+	<option value="1">Website</option>
+	<option value="2">GPS Device</option>
+	<option value="3">Service</option>
+	<option value="4">Others</option>
+
+</select><br>
+<div id="MessageError"></div>
+      Message: <input type="text" name="Message" id="Message" size="10"/><br>
+     
+      <input type="submit" name="submit" value="Send"  id="btmRegost" class="btn btn-green"/>
+  </form>
+
+</div>                                       
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+    
+<script src="~/Scripts/app/_layoutCustId.js"></script>
+<script src="~/Content/js/APIURL.js"></script>
+<script>
+
+
+
+    $("#btmRegost").click(function () {
+        var data = $("#registerSubmit").serializeArray();
+        console.log(data);
+        data.push({ name: 'CustID', value: $custid });
+        var VehUrl = apiBase.apiurl + 'AdminAPI/FeedbackInsert';
+        $.post(VehUrl, $.param(data), function (result) {
+            if (result > 0) {
+                toastr.success("Thanks For your Feedback");
+                form.closest('form').find("input[type=text], textarea").prop("disabled", true);;
+            }
+            else
+                toastr.error("Failed!!!")
+        });
+
+
+    });
+
+
+
+
+
+
+</script>

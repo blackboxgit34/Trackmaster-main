@@ -1,0 +1,284 @@
+﻿@{
+    ViewBag.Title = "Create Entry-Exit Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+
+<script src="~/Content/select2/select2.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<style>
+    .select2-container {
+        z-index: 100 !important;
+        width: 500px !important;
+    }
+
+    .button {
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 100px !important;
+    }
+
+    .button1 {
+        background-color: #8e9d13; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .button1:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+</style>
+
+<div class="row-fluid">
+    <form onclick="fg();">
+        <div class="row-fluid">
+
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-truck"></i>
+                            <h5>Create Entry-Exit Report </h5>
+
+                            <div class="btn-group btn-adjst">
+                                <a  id="iframeclick" class="btn btn-green pull-right" style="margin: 2%;" target="_blank" @*onclick="load();"*@ onclick="window.location.href = '../Common/ADDPOI'" target="_blank"><i class="fa fa-map-marker"></i>Add POI</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-md-12" style="padding: 0px;">
+
+                <div class="row-fluid">
+                    <div class="widget-body" style="border: 0">
+                        <div class="row-fluid">
+                            <div class="widget span12">
+                                <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                    <div id="DivVehcleCounter">
+                                        <div class="box-content padded">
+                                            <form data-toggle="validator" role="form">
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+
+                                                        <span>
+                                                            <label for="inputName" class="control-label">Select Vehicle</label></span>
+                                                        <div style="width: 500px">
+                                                            <select class="form-control select2" id="ddlVehicleList" multiple></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group ">
+
+                                                        <span>
+                                                            <label for="inputName" class="control-label">Assign POI's</label></span>
+                                                        <div style="width: 500px">
+                                                            <select class="form-control select2" id="ddlMoreLocationsPOI" multiple></select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+
+
+                                                    <button type="button" onclick="submitUpdateSettings();" class='button button1 ' style="margin: 2%;">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </form>
+</div>
+<div class="row-fluid">
+    <form onclick="fg();">
+        <div id="alertss" class="widget span12">
+            <div class="widget-body clearfix" style="background: #fff;">
+                <div id="DivVehcleCounter1">
+                    <div class="box-content padded">
+                        <div class="col-md-12" style="overflow: auto;">
+                            <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Point of Interest                                                   
+                                        </th>
+                                        <th>Vehicle No's 
+                                        </th>
+                                        <th>Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div id="PasswordDialog" title="Basic dialog">
+</div>
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/_layoutCustId.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/Security.js?")"@DateTime.Now.Ticks></script>
+    <script src="~/Scripts/app/EEPoiDetails.js"></script>
+
+
+    <script>
+
+
+
+        function submitUpdateSettings() {
+            
+            var custId = $custid;
+
+
+            var morePoiIds = $("#ddlMoreLocationsPOI").val();
+            var morePoiIdsList = morePoiIds.toString();
+
+            var bbidArray = $("#ddlVehicleList").val();
+            var bbidList = bbidArray.toString();
+
+
+            $.blockUI({ message: '<h1><img src="../../Content/Trackmaster_files/loader.gif" /> </h1><br><h3>Just a moment...</h3>' });
+
+            var baseurl = apiBase.apiurl;
+            var url = baseurl + "adminapi/UpdateManagePOI";
+            $.ajax({
+                url: url,
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { custId: custId, bbidList: bbidList, poiIds: morePoiIdsList },
+
+                success: function (data) {
+                    $.unblockUI();
+                    toastr.success('successfully Done!');
+
+                },
+                error: function (err) {
+                    $.unblockUI();
+                    toastr.warning('something went wrong!');
+                }
+
+            });
+
+            return false;
+        }
+
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("button").attr('disabled', 'disabled');
+            $('#click').click(function () {
+
+            });
+
+
+            $(".select2").select2({
+                placeholder: "select an Option.",
+            });
+
+            ajaxForPopUp();
+            appendVehicleDDL();
+
+            function ajaxForPopUp() {
+                var baseurl = apiBase.apiurl;
+
+                $.ajax({
+                    url: baseurl + 'CommonApi/GetPOI?custid=' + $custid,
+                    type: "get",
+                    async: false,
+                    success: function (data) {
+                        
+                        $('#ddlMoreLocationsPOI').append($('<option></option>').val(0).html("All POI's"));
+                        $.each(data, function (i, item) {
+
+                            $('#ddlMoreLocationsPOI').append($('<option></option>').val(item.id).html(item.details));
+                        });
+                    },
+                    error: function () {
+                        connectionError();
+                    }
+                });
+            }
+
+            function appendVehicleDDL() {
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+
+                    url: apiBase.apiurl + "AdminAPI/GetVehicles",
+
+                    data: { custId: $custid },
+                    success: function (result) {
+                        
+                        var data = result;
+
+                        if (data.length > 0) {
+                            $('#ddlVehicleList').append($('<option></option>').val(0).html("All Vehicle's"));
+                            $.each(data, function (j, item) {
+                                $('#ddlVehicleList').append($('<option></option>').val(item.Value).html(item.Text));
+                            });
+                        }
+
+
+                    }
+                });
+            }
+
+         
+        });
+        $("#btnOnMap").click(function () {
+            window.location.href = "@Url.Action("routetrack", "map")";
+        });
+
+    </script>
+
+
+
+}

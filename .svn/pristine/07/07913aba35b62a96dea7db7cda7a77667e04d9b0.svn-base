@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html class="k-ff k-ff30 ng-scope" ng-app="blackbox" lang="en">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+    <title>Live Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://claas.trackmaster.in/content/res/images/favicon.ico">
+    <link href="css/bootstrap-timepicker.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/stylesad15.css" rel="stylesheet">
+    <link href="css/angucomplete-alt.css" rel="stylesheet">
+    <link href="css/toastr.css" rel="stylesheet">
+    <link href="css/jquery.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables_002.css" rel="stylesheet">
+    <link href="css/jquery_002.css" rel="stylesheet">
+    <link href="css/jquery_003.css" rel="stylesheet">
+    <link href="css/bootstrap_002.css" rel="stylesheet">
+    <link href="css/dataTables.css" rel="stylesheet">
+    <link href="css/buttons.css" rel="stylesheet">
+    <link href="css/select.css" rel="stylesheet">
+    <link href="css/CustomCSS.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="css/CssCustom.css" rel="stylesheet">
+    <!--Custom CSS-->
+    <link href="css/Site.css" rel="stylesheet">
+    
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <script src="js/jquery-3.js"></script>
+    <script src="js/jquery-migrate-3.js"></script>
+</head>
+<body class="ng-scope" onload="display_ct();" ng-controller="rootCtrl">
+    <nav class="navbar navbar-top navbar-inverse navbar-static-top" role="navigation" style="height: 70px; margin-top: -20px; padding-top: 8px; padding-bottom: 5px;">
+    <div class="navbar-header" style="height: 40px; position: relative;">
+        <div>
+            <img src="image/bb.png" style="position: relative; top: 16px; left: 24px;">
+            <!--<a class="navbar-brand" href="#">
+                <span style="color: #fff; font-size: 120%; font-family:Arial"></span>
+            </a>-->
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle Top Navigation</span>
+            <i class="icon-list"></i>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" style="height: 40px;" id="navbar-collapse">
+        <ul class="nav pull-right navbar-nav">
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="http://116.193.163.237:61/Report/LiveStatus" title="Live Status">
+                    <i class="fa fa-wifi" aria-hidden="true"></i>
+                    <br>
+                    <div>Live Status</div>
+                </a>
+            </li>
+            <li id="dropdown_Maps" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Maps" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Map">
+                    <i class="fa fa-map" style="font-size: 15px"></i>
+                    <br>
+                    Map <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/showmap"><img src="image/menu/map.png"/> <span style="padding-left:8px">Map </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/replay"><img src="image/menu/route.png"/><span style="padding-left:8px">Route Playback </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/sixeyemap"><img src="image/menu/street.png"/><span style="padding-left:8px">Six Eye Map </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/map/search"><img src="image/menu/search.png"/><span style="padding-left:8px">Search Vehicles </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    <i class="fa fa-file-archive-o"></i>
+                    <br>
+                    Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/distance"><img src="image/menu/Speed-Analysis.png"/><span style="padding-left:8px">Distance</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/SpeedAnalysisReport"><img src="image/menu/distance.png"/><span style="padding-left:8px">Speed Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/StoppageAnalysisReport"><img src="image/menu/stop.png"/><span style="padding-left:8px">Stoppage Analysis</span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/ignition"><img src="image/menu/Ignition Analysis.png"/><span style="padding-left:8px">Ignition Analysis </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/Idling"><img src="image/menu/Idling Analysis.png"/><span style="padding-left:8px">Idling Analysis </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/summary"><img src="image/menu/Summary.png"/><span style="padding-left:8px">Summary </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/trip"><img src="image/menu/trip.png"/><span style="padding-left:8px">Trip </span></a>
+                    </li>
+                      <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/trip"><img src="image/menu/report.png"/><span style="padding-left:8px">Monthly Report</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/report/fence-violations"><img src="image/menu/geo.png"/><span style="padding-left:8px">Geofence Violations </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_administration" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_administration" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Analysis">
+                    <i class="fa fa-file-archive-o"></i>
+                    <br>
+                    Add-On Reports <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/fuel"><img src="image/menu/fuel.png"/><span style="padding-left:8px">Fuel Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/temperature"><img src="image/menu/temp.png"/><span style="padding-left:8px">Temperature Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/ac"><img src="image/menu/ac.png"/><span style="padding-left:8px">AC Analysis</span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/work-hours"><img src="image/menu/workh.jpg"/><span style="padding-left:8px">Engine Working Hours </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/door"><img src="image/menu/report.png"/><span style="padding-left:8px">Door Report </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/lid"><img src="image/menu/lid.png"/><span style="padding-left:8px">Lid Report </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/AddOn/dumper"><img src="image/menu/dumper.png"/><span style="padding-left:8px">Dumper Report </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li id="dropdown_Training" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Training" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Training">
+                    <i class="fa fa-map-marker"></i>
+                    <br>
+                    Geo Fencing <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a href="#"><img src="image/menu/set.png"/><span style="padding-left:8px">Set </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a href="#"><img src="image/menu/manage.png"/><span style="padding-left:8px">Manage </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a href="#"><img src="image/menu/view.png"/><span style="padding-left:8px">View </span></a>
+                    </li>
+                </ul>
+            </li>
+              <li id="dropdown_Misc" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Misc" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Misc">
+                    <i class="fa fa-map-marker"></i>
+                    <br>
+                   Misc <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                  <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/misc/AddServiceRequest"><img src="image/menu/add.png"/><span style="padding-left:8px">Add Service Request </span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/misc/ViewAllComplaint"><img src="image/menu/service.png"/><span style="padding-left:8px">View Service Request </span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/misc/DownloadManual"><img src="image/menu/download.png"/><span style="padding-left:8px">Download Manual </span></a>
+                    </li>
+                     <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/settings/SetSmsTime"><img src="image/menu/smstime.png"/><span style="padding-left:8px">Set Sms Time </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_machines" href="#" title="Alert">
+                    <i class="icon-bell-alt"></i>
+                    <br>
+                    <div>Alerts</div>
+                </a>
+            </li>
+            <li id="dropdown_Profile" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_Profile" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="Profile">
+                    <i class="fa fa-sliders" style="font-size: 15px"></i>
+                    <br>
+                    Customization <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <!--Will come from Database-->
+
+                    
+                </ul>
+            </li>
+            <li id="dropdown_MyBill" class="dropdown" style="text-align: center; padding-bottom: 10px">
+                <a id="goto_MyBill" class="height dropdown-toggle" data-toggle="dropdown" href="#" title="My Bill">
+                    <i class="icon-file" style="font-size: 15px"></i>
+                    <br>
+                    My Bills <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" style="margin-top: -5px;">
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/billing/account-summary"><img src="image/menu/report.png"/><span style="padding-left:8px">Account Summary </span></a>
+                    </li>
+                    <li style="text-align: left;">
+                        <a tabindex="-1" href="http://116.193.163.237:61/billing/payment-options"><img src="image/menu/payment.png"/><span style="padding-left:8px">Payment Options </span></a>
+                    </li>
+                </ul>
+            </li>
+            <li style="text-align: center; padding-bottom: 10px">
+                <a class="height" id="goto_logout" href="http://claas.trackmaster.in/Login/log-out" title="Log out">
+                    <i class="icon-signout" style="font-size: 15px"></i>
+                    <br>
+                    <div>Log Out</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div class="row">
+	<!--<div class="row">
+                <div id="test" style="z-index: 999; display: none;" class="val-message val-error"></div>
+
+            </div>-->
+            <div class="col-md-6" style="    padding: 60px 0px 0px 30px;">
+               <a href="#">
+                    <img src="image/error404new.png" alt="Eroor 404 Page not found"></a>
+            </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-6" style="padding-top:100px; line-height: 43px;">
+                <h4 style="	font-size:90px;font-weight:700; text-align:center; line-height:70px; font-family:Pacifico;">
+                    ooOps!!!
+                </h4>
+				<h4 style="font-size: 40px;font-weight:500;text-align:center; margin-top:50px;line-height:40px">
+                    SORRY PAGE NOT FOUND
+                </h4>
+				<h4 style="font-size: 30px;font-weight:500;text-align:center; margin-top:10px; line-height:40px">
+                    We can't seem to find the page<br> you're looking for..
+                </h4>
+                <p style="text-align:center;  margin-top:50px">
+					<button type="button" class="btn btn-warning" style="padding:9px 9px 9px 9px">Go to Our home page</button>
+                </p>
+            </div>
+           
+    </div>
+    <!-- /row-fluid -->
+    <div class="navbar-fixed-bottom">
+        <div class="row-fluid">
+    <div class="widget widget-padding span12" style="background: #333333;">
+        <div class="widget-body" style="background: #333333;">
+            <div class="box" style="background: #333333; padding: 0px 115px; border-top: 4px solid orange; margin-bottom: 0px;">
+                <div class="box-~/content padded" style="padding: 8px 0px 0px 0px;">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-left: 0px;">
+                            <ul style="list-style: none; color: white;">
+                                <li style="line-height: 29px; font-size: 17px;"><b>DISCLAIMERS </b></li>
+                                <li>
+                                    <span style="color: #999;">The 
+distance travelled reported here may not be absolutely correct as the 
+website takes the distance based upon the GPS fixes it has received from
+ the tracking device installed in your vehicle.</span>
+ <p style="color: #fff;float:right;">© Hitec Point Technologies 2016</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /widget -->
+</div>
+<!-- /row-fluid -->
+
+
+<!-- /row-fluid -->
+
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-cookies.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/angular-base64.js"></script>
+    <script src="js/ng-file-upload-all.js"></script>
+    <script src="js/angular-validator.js"></script>
+    <script src="js/angucomplete-alt.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/common_003.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/rootCtrl.js"></script>
+    <script src="js/apiService.js"></script>
+    <script src="js/notificationService.js"></script>
+    <script src="js/membershipService.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery_002.js"></script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+    </script>
+    <!--<script type="text/javascript">
+        var apiBase = {
+           apiurl: 'http://112.196.27.102:89/api/',
+         //   apiurl: 'http://localhost:3970/api/',
+        };
+        function setDate() {
+            var d = new Date();
+            //var d = new Date(),
+            minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+            hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+            ampm = d.getHours() >= 12 ? 'pm' : 'am',
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            var s = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear();
+            document.getElementById("CurrDate").innerHTML = s;
+        }
+
+        function display_ct() {
+            var strcount
+            setDate()
+            tt = display_c();
+        }
+
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
+        }
+
+    </script>-->
+    
+
+    <script type="text/javascript" src="js/moment.js"></script>
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="js/daterangepicker.js"></script>
+
+    
+    <script src="js/common_002.js" 636161217788356539=""></script>
+    <script type="text/javascript" src="js/Livestatus.js"></script>
+
+    <script src="js/jquery-ui.js"></script>
+
+
+<div id="powerTip"></div></body></html>

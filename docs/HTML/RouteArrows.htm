@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <!-- CHANGE THE NEXT THREE LINES -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Route Playback</title>
+    <link href="../css/map.css" rel="stylesheet" />
+  <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&client=gme-nucleusmicrosystems&sensor=false&language=en&region=in&amp;libraries=geometry">
+    </script>-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCITh4LYqVNyaJ_YDiYgRxv29dhPJnU-5o&libraries=places" language="javascript"    type="text/javascript"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCITh4LYqVNyaJ_YDiYgRxv29dhPJnU-5o&libraries=geometry" language="javascript"    type="text/javascript"></script>
+
+    <script src="../Content/js/APIURL.js" type="text/javascript"></script>
+</head>
+<body style="margin: 0pt; width: 100%;">
+    <div id="map" style="width: 100%; height: 620px;">
+    </div>
+    <script type="text/javascript">
+        var zoomToExtents = 0;
+        var map;
+        var gmarkers = new Array();
+        var arrow = [];
+        for (var k = 0; k <= 117; k = k + 3) {
+            arrow[k] = "../img/Arrows/dir_" + k + ".png";
+        }
+        // Returns the icon object
+        function addIcon(file) {
+            var g = google.maps;
+            var icon = new g.MarkerImage(file,
+    new g.Size(24, 24), null, new g.Point(12, 12));
+            return icon;
+        }
+        var setArrows = {
+
+            // Creates markers with corresponding triangle icons
+            create: function (p1, p2, mode) {
+                var markerpos;
+                var g = google.maps;
+                if (mode == "onset") markerpos = p1;
+                else if (mode == "head") markerpos = p2;
+                else if (mode == "midline") markerpos = g.geometry.spherical.interpolate(p1, p2, .5);
+
+                // Compute the bearing of the line in degrees
+                var dir = g.geometry.spherical.computeHeading(p1, p2).toFixed(1);
+                // round it to a multiple of 3 and correct unusable numbers
+                dir = Math.round(dir / 3) * 3;
+                if (dir < 0) dir += 240;
+                if (dir > 117) dir -= 120;
+                // use the corresponding icon
+                //images/Arrows/dir_" + dir + ".png
+                var icon = addIcon(arrow[dir]);
+                new g.Marker({ position: markerpos,
+                    map: map, icon: icon, clickable: false
+                });
+            },
+
+            calc: function (points, sp, mode) {
+                var p1, p2;
+                // 'Head' arrow will only appear at the last line point
+                if (mode == "head") {
+                    p1 = points[points.length - 1];
+                    p2 = points[points.length - 2];
+                    this.create(p1, p2, mode);
+                }
+                else {
+                    for (var i = 0; i < points.length - 1; i = i + 10) {
+                        p1 = points[i];
+                        p2 = points[i + 1];
+                        if (sp[i] > 2) {
+                            this.create(p1, p2, mode);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Draws a polyline with accordant arrow heads
+        function createPoly(path, sp, mode) {
+            var poly = new google.maps.Polyline({
+                strokeColor: "#000abc",
+                strokeOpacity: 0.8,
+                strokeWeight: 5,
+                map: map,
+                path: path
+            });
+            setArrows.calc(path, sp, mode);
+            return poly;
+        }
+
+        // Create the map
+        window.onload = function () {
+            var xmlhttp = null;
+            var lat = "";
+            var lng = "";
+            var lat1;
+            var lng1;
+            var latipt;
+            var lngipt;
+            var veh;
+            var acg;
+            var spd;
+            var dt;
+            var typ;
+            var sp = [];
+            var image;
+            var loct;
+            var xmlDoc;
+            var icons = [];
+            var infowindow;
+            var points = [];
+            var info;
+            var xDoc;
+            var dist;
+            var stopp;
+            var markers = new Array();
+            var bType = navigator.appName;
+            icons[1] = "../img/legends/moving.png";
+            icons[2] = "../img/legends/stop.png";
+            icons[3] = "../img/legends/towed.png";  //GreenIcon;   // Moving
+            icons[4] = "../img/legends/start.GIF";  //ErrorIcon;   // Unknown (Moving without Ignition On)
+            icons[5] = "../img/legends/unreach.png";
+            icons[6] = "../img/legends/end.gif";
+
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var latlng;
+            
+            var tableName = localStorage.getItem("tableName");
+            var fromDate = localStorage.getItem("fromDate");
+            var toDate = localStorage.getItem("toDate");
+            var vehicleName = localStorage.getItem("vehicleName");
+
+            
+            fromDate = fromDate.replace(/%20/g, " ");
+            toDate = toDate.replace(/%20/g, " ");
+            $.ajax({
+                //  dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "MapAPI/RouteWithDirection",
+                data: { tableName: tableName, fromDate: fromDate, toDate: toDate, vehicleName: vehicleName },
+                success: function (data) {
+                    
+                    xmlDoc = $.parseXML(data);
+
+                    var vehno = xmlDoc.getElementsByTagName("vehno");
+                    var date = xmlDoc.getElementsByTagName("datadate");
+                    var speed = xmlDoc.getElementsByTagName("speed");
+                    var loc = xmlDoc.getElementsByTagName("location");
+                    var acignition = xmlDoc.getElementsByTagName("acignition");
+                    var lati = xmlDoc.getElementsByTagName("rowlat");
+                    var longi = xmlDoc.getElementsByTagName("rowlng");
+                    var type = xmlDoc.getElementsByTagName("Type");
+                    var distance = xmlDoc.getElementsByTagName("distance");
+                    //var stoppage = xmlDoc.getElementsByTagName("stoppage");
+
+                    lat = lati[0].childNodes[0].nodeValue;
+                    lng = longi[0].childNodes[0].nodeValue;
+
+                    var latlng = new google.maps.LatLng(lat, lng);
+
+                    var myOptions =
+                    {
+                        zoom: 10,
+                        center: latlng,
+
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    map = new google.maps.Map(document.getElementById("map"), myOptions);
+                    document.getElementById("map").style.backgroundImage = "url(../img/515-500loading.jpg)";
+                    //            google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
+                    //                map.setZoom(10);
+                    //            });
+
+                    function createMarker(image, latlng1, info) {
+                        var marker = new google.maps.Marker({
+                            position: latlng1,
+                            map: map,
+                            icon: image,
+                            html: info
+                        });
+                        infowindow = new google.maps.InfoWindow({
+                            content: "holding....",
+                            size: new google.maps.Size(50, 50)
+                        });
+                        google.maps.event.addListener(marker, 'mouseover', function () {
+                            infowindow.setContent(this.html);
+                            infowindow.open(map, this);
+                        });
+                        gmarkers.push(marker);
+                    }
+                    // Draw Line
+                    var a = 0;
+                    var latpt = xmlDoc.getElementsByTagName("latpt");
+                    var lngpt = xmlDoc.getElementsByTagName("lngpt");
+                    var speedy = xmlDoc.getElementsByTagName("speedy");
+                    for (var j = 0; j <= (latpt.length - 1) ; j++) {
+                        latipt = latpt[j].childNodes[0].nodeValue;
+                        lngipt = lngpt[j].childNodes[0].nodeValue;
+                        sp[j] = speedy[j].childNodes[0].nodeValue;
+                        points[j] = new google.maps.LatLng(latipt, lngipt);
+                    }
+                    createPoly(points, sp, "midline");
+
+                    // Draw Markers 
+                    for (var i = 0; i <= (lati.length - 1) ; i++) {
+
+                        veh = vehno[i].childNodes[0].nodeValue;
+                        spd = speed[i].childNodes[0].nodeValue;
+                        dt = date[i].childNodes[0].nodeValue;
+                        loct = loc[i].childNodes[0].nodeValue;
+                        acg = acignition[i].childNodes[0].nodeValue;
+                        lat1 = lati[i].childNodes[0].nodeValue;
+                        lng1 = longi[i].childNodes[0].nodeValue;
+                        typ = type[i].childNodes[0].nodeValue;
+                        dist = distance[i].childNodes[0].nodeValue;
+                        //stopp = stoppage[i].childNodes[0].nodeValue;
+
+                        var latlng1 = new google.maps.LatLng(lat1, lng1);
+                        map.setCenter(latlng1);
+                        info = "<div class='veh_label'>Vehicle No: " + veh + "<br/>Speed: " + spd + "<br/>DateTime: " + dt + "<br/>Location:" + loct + "<br/>Distance:" + dist + " km" + "</div>";
+                        //createPoly(points, "midline");
+                        if (typ == 1) {
+                            image = icons[1];
+                            markers = createMarker(image, latlng1, info);
+                            a = 0;
+
+                        }
+                            //                else if (typ == 2 & a == 0) {
+                            //                    image = icons[2];
+                            //                    markers = createMarker(image, latlng1, info);
+                            //                    a = 1;
+                            //                }
+                        else if (typ == 3) {
+                            image = icons[3];
+                            markers = createMarker(image, latlng1, info);
+                            a = 0;
+                        }
+                        else if (typ == 4) {
+                            image = icons[4];
+                            markers = createMarker(image, latlng1, info);
+                            a = 0;
+                        }
+                        else if (typ == 5) {
+                            image = icons[5];
+                            markers = createMarker(image, latlng1, info);
+                            a = 0;
+                        }
+                        else if (typ == 6) {
+                            image = icons[6];
+                            markers = createMarker(image, latlng1, info);
+                            a = 0;
+                        }
+                        else {
+                        }
+
+                    }
+                    //alert(gmarkers.length);
+                    var bound = new google.maps.LatLngBounds();
+                    for (var i in gmarkers) {
+                        bound.extend(gmarkers[i].getPosition());
+                        if (i == 0) {
+                            map.setCenter(gmarkers[i].getPosition());
+                        }
+                    }
+                    map.fitBounds(bound);
+                    map.zoomToMaxExtent();
+                }
+
+            });
+            //for getting window height
+            
+            var height = $(window).height();
+            $('#map').css('height', height);
+        }
+    </script>
+</body>
+</html>

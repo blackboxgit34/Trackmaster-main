@@ -1,0 +1,172 @@
+﻿var table;
+function format(d) {
+    
+    var data = d;
+
+    if (data.StoppageCount > 0) {
+        var a = data.objStoppageReport;
+        var tableString = '<table id="subTbl" class="table table-bordered" cellpadding="5" cellspacing="0" width="100%" ><thead ><tr"><th>Start Date</th><th>Stop Date</th><th>Location</th><th>Duration(Days-hh-mm-ss)</th><th>Ignition</th><th>AddPoi</th> <th>Poi Location</th></tr></thead>';
+        a.forEach(function (element) {
+            
+            if (element.IgnitionStatus == true)
+
+            {
+                element.IgnitionStatus = '<label style="color:green";>OFF</label>';
+            }
+            else  
+            {
+                element.IgnitionStatus = '<label style="color:red";>ON</label>';
+
+            }
+            tableString = tableString +
+                '<tr>' +
+                '<td>' + element.StartDate + '</td>' +
+            '<td>' + element.StopDate + '</td>' +
+
+            '<td>' + element.StopLocation + '</td>' +
+
+            '<td>' + element.Duration + '</td>' +
+               '<td>' + element.IgnitionStatus + '</td>' +
+                '<td>' + element.AddPoi + '</td>' +
+                   '<td>' + element.poi + '</td>' +
+            '</tr>'
+        });
+
+        tableString = tableString + '</table>';
+
+    }
+
+    // `d` is the original data object for the row
+    return tableString;
+}
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+    //$('#dt_basic_Master').empty(); // empty in case the columns change   
+};
+$(document).ready(function () {
+    GetallstoppageReport(null);
+
+    // Add event listener for opening and closing details
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+
+    })
+    $("#interval").change(function () {
+        GetallstoppageReport(null);
+
+    });
+
+});
+$("#BtnSearch").click(function () {
+
+    //var oneday = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    //var totalDays = Math.round(Math.abs((new Date($beginDate).getTime() - new Date($endDate).getTime()) / (oneday)));
+    //if (totalDays > 1) {
+      //  toastr.warning("Data Difference should not be more than one day");
+        //return false;
+    //}
+    GetallstoppageReport(null);
+
+});
+
+$("#excelExport").click(function () {
+    var downloadType = 'Excel';
+    var url = baseUrl + "Reportsapi/GetallstoppageReport";
+    DownloadData(url, downloadType);
+});
+
+$("#pdfExport").click(function () {
+    var downloadType = 'PDF';
+    var url = baseUrl + "Reportsapi/GetallstoppageReport";
+    DownloadData(url, downloadType);
+});
+
+function GetallstoppageReport(downloadType) {
+    
+    deleteTable();
+    //var baseUrl = '@System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"]';
+    //var url = "http://localhost:3970/api/Reportsapi/GetAllStoppageReport";
+    var select = document.getElementById("interval");
+    var $interval = select.options[select.selectedIndex].value;
+    var url = apiBase.apiurl + "ReportsApi/GetAllStoppageReport";
+    console.log('Calling URL: ' + url + ' to get Report data.');
+    table = $('#dt_basic_Master').DataTable({
+        //"oLanguage": {
+        //    "sProcessing": "<img src='../Content/Trackmaster_files/loader.gif'/>"
+        //},
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        "sAjaxSource": url,
+        "iDisplayLength": 5,
+        "aLengthMenu": [[5, 10], [5, 10]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "bbid", "value": "" }, { "name": "interval", "value": $interval }, { "name": "downloadType", "value": downloadType }, { "name": "reportName", "value": '' });
+        },
+
+        "columns": [
+                { "data": "VehicleName" },
+                { "data": "DriverName" },
+                //{ "data": "TotalDistance" },
+                { "data": "StoppageCount" },
+                { "data": "TotalStoppageTime" },
+                  
+                {
+                    "orderable": false, "targets": 0,
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                }
+             
+
+        ],
+        "rowCallback": function (row, data, index) {
+            //console.log(data);
+            
+            if (data.StoppageCount == "0") {
+                
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        }
+    });
+}
+
+function DownloadData(url, downloadType) {
+    var sEcho = 1;
+    var iDisplayStart = 0;
+    var iDisplayLength = 100000;
+    var sSearch = $('input[type=search]').val();
+    var iSortCol_0 = 0;
+    var sSortDir_0 = 'asc';
+    var sdt = moment($beginDate).format("D_MMM_YYYY");
+    var edt = moment($endDate).format("D_MMM_YYYY");
+    var reportName = 'Stoppage_Analysis_Report_' + sdt + '_TO_' + edt;
+    var $bbid = '';
+    var select = document.getElementById("interval");
+    var $interval = select.options[select.selectedIndex].value;
+    var url1 = url + "?beginDate=" + $beginDate + "&endDate=" + $endDate + "&bbid=" + $bbid + "&interval=" + $interval + "&downloadType=" + downloadType + "&reportName=" + reportName + "&CustId=" + $custid + "&sEcho=" + sEcho + "&iDisplayStart=" + iDisplayStart + "&iDisplayLength=" + iDisplayLength + "&sSearch=" + sSearch + "&iSortCol_0=" + iSortCol_0 + "&sSortDir_0=" + sSortDir_0;
+    window.location = url1;
+}

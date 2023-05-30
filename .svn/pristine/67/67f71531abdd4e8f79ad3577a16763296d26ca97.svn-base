@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="http://apis.mapmyindia.com/v2.0/mapApi/licKey=11d3ce1a0845a84c568c9177388cb76a&platform=html"></script>
+   <!-- <script type="text/javascript" src="../JS/JScript1.js" language="javascript"></script>-->
+    <title>MapmyIndia Maps</title>
+</head>
+<body>
+    <div id="MapDiv" style="width: 800px; height: 700px;">
+    </div>
+    <script type="text/javascript">
+
+        var X = '76.652826';
+
+        var Y = '10.78716';
+
+        var level = '7';
+
+        //var map = $("#MapDiv");
+
+        var pt = new Point(X, Y);
+        
+//        $().ready(function () {
+
+//            try {
+//                map.MireoMap({ center: pt, zoomLevel: level });
+//                var imgPath = "../img/legends/moving.png";
+
+//                var Overlays = {
+
+//                    marker: new Array(),
+//                    addMarker: function (mark) {
+//                        this.marker.push(mark);
+//                    }
+//                }
+//                map.MireoMap("addMarker", HTMLHelper.mapMarker("img/legends/moving.png", 21, 21));
+////                var elem = $(HTMLHelper.mapMarker(imgPath, 10, 13));
+////                var marker = map.MireoMap("addMarker", elem, pt);
+////                                alert(marker);
+////                                alert(elem);
+////                                alert(pt);
+////                Overlays.addMarker(marker);
+//            } catch (e) {
+//                alert(e);
+//            }
+        //        });
+
+
+        $().ready(function () {
+            var map = $("#MapDiv");
+            map.MireoMap({ center: pt, zoomLevel: level });
+            //var markers = new Array();
+            map.MireoMap("addMarker", HTMLHelper.mapMarker("../img/legends/moving.png", 35, 35), pt);
+            map.MireoMap("showInfoWindow", pt);
+            //markers.push(map.MireoMap("addMarker", HTMLHelper.mapMarker(MIREO_RESOURCES_ROOT + "images/Markers/Marker.png", 21, 21)));
+
+//            map.load(function (e) {
+//                            map.MireoMap("expandEvent", e);
+//                            if (e.marker) {
+//                                $(e.marker).remove();
+//                            } else {
+//                                map.MireoMap("addMarker", HTMLHelper.mapMarker("../img/legends/moving.png", 24, 35), e.dpt);
+//                            }
+//                        });
+        });
+
+    </script>
+</body>
+</html>

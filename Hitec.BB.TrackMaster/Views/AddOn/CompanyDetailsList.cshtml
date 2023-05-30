@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Company Details List";
+}
+
+<div class="row-fluid">
+    <div class="widget-body ">
+
+        <div class="main_container" id="tables_page">
+            <div class="widget-body" style="border: 0">
+                <div class="row-fluid">
+                    <div id="alertss" class="widget span12">
+                        <div class="widget-header">
+                            <i class="fa fa-file-archive-o"></i>
+                            <h5>@ViewBag.Title</h5>
+                            <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                <img id="excelExport" title="Click here to download the below results in excel form." src='/content/img/cc1.png' onmouseover="this.src='/content/img/z33.png';" onmouseout="this.src='/content/img/cc1.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+
+                            </div>
+                            <div class="checkbox pull-right">
+                            </div>
+                        </div>
+                        <div class="widget-body clearfix" style="overflow-x: auto">
+                            <div class="box" style="background: #fdfdfd;">
+                                <div class="box-content padded">
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                            <div class="col-md-8">
+                                                <form class="form-inline" style="margin-right:10px;">
+
+
+                                                    <div class="form-group">
+                                                        <label> </label>
+                                                        <select class="form-control" id="ddlCompanyName"></select>
+
+                                                    </div>
+
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Company Name </th>
+                                                    <th>Owner Name</th>
+                                                    <th>Contact No.</th>
+                                                    <th>Email Id </th>
+                                                   
+                                                    <th>Allowted Vehicle Count</th>
+                                                    <th>Floor No.</th>
+                                                    <th>Status</th>
+                                                  <th>Details</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/GodrejCompanyList.js" @DateTime.Now.Ticks></script>
+}
+
+

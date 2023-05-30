@@ -1,0 +1,243 @@
+﻿@{
+    ViewBag.Title = "Add Service Request";
+}
+@{Html.RenderPartial("_MessageAlert");}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>@ViewBag.Title</h5>
+                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                    <h5><a href="@Url.Action("ViewAllComplaint", "Misc")" class="btn" >View Service Request</a></h5>
+                </div>
+            </div>
+            <div class="box_a_content">
+                <form id="AddServiceRequestForm" name="AddServiceRequestForm">
+                    <label id="ErrorMessage" style="color: red"></label>
+                    <table id="dt_table_tools1" class="table table-striped table-condensed">
+                        <tbody>
+                            <tr style="display: none;">
+                                <td class="table_cell">Belongs to
+                                </td>
+                                <td>
+                                    @Html.TextBox("belongsto", null, new { @readonly = "readonly", style = "margin-bottom:0px;" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="table_cell">Select Vehicle No
+                                </td>
+                                <td >
+                                    <div style="width:40% !important;">
+                                        <select id="VehicleName" class="js-example-basic-single" onchange="getmodetext();" multiple></select>
+                                    @*@Html.DropDownList("VehicleName", Enumerable.Empty<SelectListItem>(), "--Select Vehicle Name--", new { @onchange = "getmodetext();", @class = "js-example-basic-single" })*@
+                                        </div>
+                                </td>
+                                <td>
+                                    <label id="Dname"><b>Driver Name :</b></label><span class="a1"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table_cell">Your Email:
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtMail", null, new { type = "email", style = "margin-bottom:0px;width: 400px;" })
+                                    @*@Html.DropDownList("ComplainRelTo", Enumerable.Empty<SelectListItem>(), "--Select Department--", new { @onchange = "showDiv(this)", @class = "js-example-basic-single" })*@
+                                </td>
+                                <td>
+                                    <label><b>Driver Mobile No :</b></label><span class="b1"></span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="table_cell">Please select Issue:
+                                </td>
+                                <td colspan="3" id="divChkbox">
+                                    <div class="col-md-4">Blackbox disconnected</div>
+                                    <div class="col-md-8">
+                                        <input name="blackBoxDisc" type="checkbox" value="Blackbox disconnected" /><br />
+                                    </div>
+                                    <div class="col-md-4">Red LED not blinking </div>
+                                    <div class="col-md-8">
+                                        <input name="RedLED" type="checkbox" value="Red LED not blinking" /><br />
+                                    </div>
+                                    <div class="col-md-4">Green LED not blinking</div>
+                                    <div class="col-md-8">
+                                        <input name="GreenLED" type="checkbox" value="Green LED not blinking" /><br />
+                                    </div>
+                                    <div class="col-md-4">Yellow LED not blinking</div>
+                                    <div class="col-md-8">
+                                        <input name="YellowLED" type="checkbox" value="Yellow LED not blinking" /><br />
+                                    </div>
+                                    <div class="col-md-4">Fuel Sensor not working</div>
+                                    <div class="col-md-8">
+                                        <input name="FuelSensor" type="checkbox" value=" Fuel Sensor not working" /><br />
+                                    </div>
+                                    <div class="col-md-4">Temperature sensor not working</div>
+                                    <div class="col-md-8">
+                                        <input name="TemperatureSensor" type="checkbox" value="Temperature sensor not working" /><br />
+                                    </div>
+                                    <div class="col-md-4">Voice kit not working</div>
+                                    <div class="col-md-8">
+                                        <input name="Voicekit" type="checkbox" value="Voice kit not working" /><br />
+                                    </div>
+                                    <div class="col-md-4">Ignition wire broken</div>
+                                    <div class="col-md-8">
+                                        <input name="Ignitionwire" type="checkbox" value="Ignition wire broken" /><br />
+                                    </div>
+                                    <div class="col-md-4">RFID Issue</div>
+                                    <div class="col-md-8">
+                                        <input name="RFIDSensorIssue" type="checkbox" value="RFID Sensor Issue" /><br />
+                                    </div>
+                                    <div class="col-md-4">Lid Sensor Issue</div>
+                                    <div class="col-md-8">
+                                        <input name="LidSensor" type="checkbox" value="Lid Sensor Issue" /><br />
+                                    </div>
+                                    <div class="col-md-4">Camera Issue</div>
+                                    <div class="col-md-8">
+                                        <input name="CameraIssue" type="checkbox" value="Camera Issue" /><br />
+                                    </div>
+                                    <div class="col-md-4">Panic button Issue</div>
+                                    <div class="col-md-8">
+                                        <input name="Panicbutton" type="checkbox" value="Panic button Issue" /><br />
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            @*<tr>
+                                <td></td>
+                                <td>
+                                    @Html.TextBox("txtdecripation", null, new { @readonly = "readonly" })
+                                </td>
+                                <td></td>
+                            </tr>*@
+                            <tr>
+                                <td class="table_cell">Comments
+                                </td>
+                                <td>
+                                    @Html.TextArea("txtComment", null, new { style = "margin-bottom:0px;width: 400px; height: 100px;" })
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" id="Submit" name="Submit" value="Submit" class="btn btn-default" />
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/app/GeoFenceCustID.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/app/AddServiceRequest.js?")@DateTime.Now.Ticks"></script>
+    <link href="~/Scripts/Select/select2.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Select/select2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#VehicleName").select2({
+            });
+            var name;
+            var mobile;
+            $('.b1').html("NA");
+            $('.a1').html("NA");
+            //$(".js-example-basic-single").select2();
+        });
+        function getmodetext() {
+            $('.b1').html("NA");
+            $('.a1').html("NA");
+        }
+
+        $("#AddServiceRequestForm").submit(function (event) {
+            
+            //var error = 0;
+            //var ComplainRelTo = $("#ComplainRelTo");
+            //var VehicleName = $("#VehicleName");
+
+            //if ($('#ComplainRelTo option:selected').text() == "--Select Department--") {
+
+
+            //    $("#ComplainRelTo").css('border-color', 'red');
+            //    error = error + 1;
+
+            //}
+
+            //else {
+            //    $("#ComplainRelTo").css('border-color', '');
+
+
+            //}
+            //if ($('#VehicleName option:selected').text() == "--Select Vehicle Name--") {
+
+
+            //    $("#VehicleName").css('border-color', 'red');
+            //    error = error + 1;
+
+            //}
+
+            //else {
+            //    $("#VehicleName").css('border-color', '');
+
+
+            //}
+            //if (error > 0) {
+            //    return false;
+            //}
+            //else {
+
+            var VehicleName = $("#VehicleName").val();
+            var email = $("#txtMail").val();
+            if (email && VehicleName) {
+                AddServicePostApiCall();
+                event.preventDefault();
+            }
+            else {
+                toastr.warning("please select Vehicle name, email, and any complaint checkbox");
+            }
+            //}
+        });
+        function showDiv(elem) {
+            if (elem.value == 9 || elem.value == 12) {
+                document.getElementById('descrp1').style.display = "block";
+                document.getElementById('descrp2').style.display = "block";
+                $("#txtdecripation").val("");
+            }
+            else {
+                document.getElementById('descrp1').style.display = "none";
+                document.getElementById('descrp2').style.display = "none";
+                $("#txtdecripation").val("Others");
+            }
+
+        }
+
+        $("ComplainRelTo").change(function () {
+            var str = "";
+            $("select option:selected").each(function () {
+                str += $(this).text() + " ";
+            });
+            $("div").text(str);
+        })
+
+    .trigger("change");
+        $("#Rand").click(function () {
+            var multipleValues = $("#Rand").val() || [];
+            $('#txtdecripation').val(multipleValues);
+        });
+        $('#VehicleName').change(function f() {
+            var bbid = $('#VehicleName').val();
+            getDriverDetail(bbid)
+        });
+
+
+    </script>
+}
+
+

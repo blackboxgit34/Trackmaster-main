@@ -1,0 +1,106 @@
+﻿var table;
+function format(d) {
+
+    debugger;
+    var data = d;
+
+    if (data.objCount > 0) {
+        var tableString = '<table id="subTbl" class="table table-bordered" cellpadding="5" cellspacing="0" width="100%" ><thead ><tr"><th>Vehicle Name</th><th>First Filling Date</th><th>Last Filling Date</th><th>Fuel Consumption</th><th>Mileage</th></tr></thead>';
+        data.FueltheftMainModel.forEach(function (element) {
+            debugger;
+            console.log(element);
+            tableString = tableString +
+                '<tr>' +
+                 '<td>' + element.VehicleName + '</td>' +
+                 '<td>' + element.StartDateTime + '</td>' +
+                 '<td>' + element.EndateTime + '</td>' +
+                 '<td>' + element.StartFuelLevel + '</td>' +
+                 '<td>' + parseFloat(element.DifferenceFuelLevel).toFixed(1)+ '</td>' +
+            
+
+            '</tr>'
+        });
+
+        tableString = tableString + '</table>';
+
+    }
+    // `d` is the original data object for the row
+    return tableString;
+}
+function deleteTable() {
+    $('#dt_basic_Master').dataTable({
+        "bDestroy": true
+    }).fnDestroy();
+    //$('#dt_basic_Master').empty(); // empty in case the columns change   
+};
+$(document).ready(function () {
+    GetGeoFenceVoilationReport();
+    $('#dt_basic_Master tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+
+            // Open this row
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+
+        $("#subTbl th").css("background-color", "rgba(128, 128, 128, 0.74)");
+        $("#subTbl th").css("color", "White");
+
+    })
+
+
+});
+$("#BtnSearch").click(function () {
+    GetGeoFenceVoilationReport();
+});
+
+function GetGeoFenceVoilationReport() {
+    deleteTable();
+    var $custid = '4939';
+    var $BBID = '';
+    var url = apiBase.apiurl + "CustomAPI/FuelMilageReport";
+    table = $('#dt_basic_Master').DataTable({
+        "processing": true,
+        "serverSide": true,
+        destroy: true,
+        retrieve: true,
+        language: {
+            searchPlaceholder: "Search Vehicle Name",
+            sSearch: ""
+        },
+        "sAjaxSource": url,
+        "iDisplayLength": 50,
+        "aLengthMenu": [[5, 10, 20, 25, 50], [5, 10, 20, 25, 50]],
+        "fnServerParams": function (param) {
+            param.push({ "name": "bbid", "value": "" }, { "name": "beginDate", "value": $beginDate }, { "name": "endDate", "value": $endDate }, { "name": "CustId", "value": $custid }, { "name": "bbid", "value": $BBID });
+        },
+
+        "columns": [
+                { "data": "VehicleName" },
+                { "data": "objCount" },
+
+                  {
+                      "orderable": false,
+                      "targets": 0,
+                      "className": 'details-control',
+                      "orderable": false,
+                      "data": null,
+                      "defaultContent": ''
+                  },
+        ],
+        "rowCallback": function (row, data, index) {
+            if (data.objCount == 0) {
+                var target = $(row).find(".details-control");
+                var index = (target).index();
+                $(row).find('td:eq(' + index + ')').removeClass('details-control')
+            }
+        }
+    });
+}

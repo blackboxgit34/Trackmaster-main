@@ -1,0 +1,239 @@
+﻿@{
+    ViewBag.Title = "Daily Report";
+}
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+
+            @Html.Action("_ReportFilter", "Report", new { reportTitle = "Trip Summary Report" })
+            <img id="pdfExport" src='/content/img/cc3.png' onmouseover="this.src='/content/img/z31.png';" onmouseout="this.src='/content/img/cc3.png';" style="margin-left: 0px; WIDTH: 33PX; cursor: pointer;">
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle Name</th>
+                                                    <th>Distance</th>
+                                                    <th>Action</th>
+                                                    <th>Detail</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/widget-body-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row-fluid" id="AddOrder" style="display:none">
+    <div class="widget-body" style="border: 0">
+        <div class="row-fluid">
+            <div id="alertss" class="widget span12">
+                <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                    <div id="DivVehcleCounter">
+                        <div class="box-content padded">
+                            <form id="AddNewOrder" method="post" class="col-centered">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        Invoice Number
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="InvoiceNo" name="InvoiceNo" class="form-control">
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        NFL Invoice Date
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="InvoiceDate" name="InvoiceDate" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        Party Name
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="PartyName" name="PartyName" class="form-control">
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        Quantity
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="Qty" name="Qty" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        SIPL Invoice No
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="SInvoiceNo" name="SInvoiceNo" class="form-control">
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        Sipl Invoice Date
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="OtherInvoiceDate" name="OtherInvoiceDate" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        Billing Location
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <textarea rows="2" cols="50" id="BillingLocation" name="BillingLocation" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        Delivery Location
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <textarea rows="2" cols="50" id="DeliveryLocation" name="DeliveryLocation" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        Start Point
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="SPoint" class="form-control">
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        Start Time
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <select class="js-example-basic-single form-control" id="STime" name="STime" required>
+                                            <option value="12:00am">12:00am</option>
+                                            <option value="12:30am">12:30am</option>
+                                            <option value="1:00am">1:00am</option>
+                                            <option value="1:30am">1:30am</option>
+                                            <option value="2:00am">2:00am</option>
+                                            <option value="2:30am">2:30am</option>
+                                            <option value="3:00am">3:00am</option>
+                                            <option value="3:30am">3:30am</option>
+                                            <option value="4:00am">4:00am</option>
+                                            <option value="4:30am">4:30am</option>
+                                            <option value="5:00am">5:00am</option>
+                                            <option value="5:30am">5:30am</option>
+                                            <option value="6:00am">6:00am</option>
+                                            <option value="6:30am">6:30am</option>
+                                            <option value="7:00am">7:00am</option>
+                                            <option value="7:30am">7:30am</option>
+                                            <option value="8:00am">8:00am</option>
+                                            <option value="8:30am">8:30am</option>
+                                            <option value="9:00am">9:00am</option>
+                                            <option value="9:30am">9:30am</option>
+                                            <option value="10:00am">10:00am</option>
+                                            <option value="10:30am">10:30am</option>
+                                            <option value="11:00am">11:00am</option>
+                                            <option value="11:30am">11:30am</option>
+                                            <option value="12:00pm">12:00pm</option>
+                                            <option value="12:30pm">12:30pm</option>
+                                            <option value="1:00pm">1:00pm</option>
+                                            <option value="1:30pm">1:30pm</option>
+                                            <option value="2:00pm">2:00pm</option>
+                                            <option value="2:30pm">2:30pm</option>
+                                            <option value="3:00pm">3:00pm</option>
+                                            <option value="3:30pm">3:30pm</option>
+                                            <option value="4:00pm">4:00pm</option>
+                                            <option value="4:30pm">4:30pm</option>
+                                            <option value="5:00pm">5:00pm</option>
+                                            <option value="5:30pm">5:30pm</option>
+                                            <option value="6:00pm">6:00pm</option>
+                                            <option value="6:30pm">6:30pm</option>
+                                            <option value="7:00pm">7:00pm</option>
+                                            <option value="7:30pm">7:30pm</option>
+                                            <option value="8:00pm">8:00pm</option>
+                                            <option value="8:30pm">8:30pm</option>
+                                            <option value="9:00pm">9:00pm</option>
+                                            <option value="9:30pm">9:30pm</option>
+                                            <option value="10:00pm">10:00pm</option>
+                                            <option value="10:30pm">10:30pm</option>
+                                            <option value="11:00pm">11:00pm</option>
+                                            <option value="11:30pm">11:30pm</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        Any GPS complaint
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <textarea rows="2" cols="50" id="Complaint" name="Complaint" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        District wise data
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <input type="text" id="District" name="District" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-2">
+                                        Remarks
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        @Html.Hidden("bbid")
+                                        @Html.Hidden("vehname")
+                                        <input type="text" id="Remarks" name="Remarks" class="form-control">
+                                    </div>
+                                    <div class="form-group col-sm-5">
+                                        <input type="submit" class="btn btn-green btn btn-submit pull-right" value="Submit" />
+                                    </div>
+                                </div>
+                            </form>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ShowLocationOnMap" title="Basic dialog"></div>
+ <div id="PasswordDialog" title="Basic dialog"></div>
+@section css{
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+        .col-sm-12{
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/app/common.js"></script>
+    <script src="~/Scripts/app/TripNFL.js?v=1.1"></script>
+    <script type="text/javascript" src="~/scripts/app/NFLAdminPassword.js"></script>
+}
+
+

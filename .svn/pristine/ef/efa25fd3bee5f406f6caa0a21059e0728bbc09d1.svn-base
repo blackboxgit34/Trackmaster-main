@@ -1,0 +1,330 @@
+﻿@{
+    ViewBag.Title = "Staff";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html ng-app="blackbox">
+<head>
+    <style>
+        .ui-autocomplete {
+            max-height: 300px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            border: 1px solid #222;
+            position: absolute;
+            /*margin-left: 31.2% !important;*/
+            margin-top: 155px !important;
+        }
+
+        input {
+            width: 400px;
+            padding: 0 20px;
+        }
+
+            input,
+            input::-webkit-input-placeholder {
+                font-size: 20px;
+                line-height: 3;
+            }
+    </style>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css" />
+   <style>
+        body {
+            background-image: url('@Url.Content("~/images/vehicle.jpg")');
+            background-position: 2% 23%;
+        }
+
+        #footer-bottom {
+            text-align: center;
+            color: #585858;
+            font-size: 10px;
+            background: #f4f4f4;
+            margin-bottom: 0;
+            position: relative;
+            bottom: 0;
+        }
+
+        .col-md-2 {
+            width: 17% !important;
+            /* margin-right: 0px; */
+            /* margin-left: 6px; */
+            background: none !important;
+            text-align: left;
+        }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  @*height: 60px;*@
+  @*background-color: #f5f5f5;*@
+}
+
+
+
+
+
+    </style>
+
+
+</head>
+<body>
+    <div class="container ">
+        <div class="col-md-12">
+            <br />
+        </div>
+
+        <div class="col-md-12">
+            <br />
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+
+            <form class="form-signin">
+
+                <h2 class="form-signin-heading" style="color: dimgray;">Insert Customer Name, Login or CustId</h2>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="text" class="form-control" id="searchVehicle" style="height: 50px;" placeholder="Type Customer Name or custid" required autofocus>
+                @* <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>*@
+                @*    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>*@
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+     @*<div style="height: 420px;" >
+
+     </div>*@
+    <div class="footer" id="layoutFooter">
+    <div >
+    <div class="col-md-12">
+            <div class="">
+
+                <div class="">
+                    <table class="table table-bordered responsive" style="background-color:wheat;">
+                        <thead>
+                            <tr>
+                                <th>
+                                     <a tabindex="-1" href="@Url.Content("~/report/disconnectionReport")"><span style="padding-left: 8px">Disconnection</span></a>
+
+                                </th>
+                                <th>
+                    <p>Installed Blackbox (active)</p>
+                    <h4 style="margin-left: 25%;"><span class="badge" id="bdgInstalledBox" style="background-color: #8e9d13; width: 87px; height: 27px; font-size: inherit; margin-left: -296px;"></span></h4>
+                                    </th>
+                                <th>
+                                     <p style="margin-left: 15%;">Jaguar boxes</p>
+                    <h4 style="margin-left: 25%;"><span class="badge" id="bdgJaguarBox" style="background-color: #8e9d13; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                                </th>
+                                <th>
+                                     <p>Disconnected boxes (Private)</p>
+                    <h4 style="margin-left: 25%;"><span class="badge" id="bdgDisconnectedBox" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                                </th>
+                                <th>
+                                    <p>Disconnected boxes(Police)</p>
+                    <h4 style="margin-left: 35%;"><span class="badge" id="bdgDisconnectedPoliceBox" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                                </th>
+                                <th>
+                                     <p>Disconnected  boxes (Private) w/o TempDiscon:</p>
+                    <h4 style="margin-left: 35%;"><span class="badge" id="bdgDisconnectedTempBox" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                                </th>
+                                 <th>
+                                     <p>Disconnected  Battery</p>
+                    <h4 style="margin-left: 35%;"><span class="badge" id="bdgDisconnectedBattery" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                                </th>
+                                </tr>
+                            </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-sm-6 col-md-2">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <p>Installed Blackbox active</p>
+                    <h4 style="margin-left: 25%;"><span class="badge" id="bdgInstalledBox" style="background-color: #8e9d13; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                </div>
+            </div>
+        </div>*@
+        @*<div class="col-sm-6 col-md-2">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <p style="margin-left: 15%;">Jaguar boxes</p>
+                    <h4 style="margin-left: 25%;"><span class="badge" id="bdgJaguarBox" style="background-color: #8e9d13; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                </div>
+            </div>
+        </div>*@
+        @*<div class="col-sm-6 col-md-2">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <p>Disconnected boxes Private</p>
+                    <h4 style="margin-left: 25%;"><span class="badge" id="bdgDisconnectedBox" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                </div>
+            </div>
+        </div>*@
+        @*<div class="col-sm-6 col-md-2">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <p>Disconnected boxes(Police)</p>
+                    <h4 style="margin-left: 35%;"><span class="badge" id="bdgDisconnectedPoliceBox" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                </div>
+            </div>
+        </div>*@
+       @* <div class="col-sm-6 col-md-3">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <p>Disconnected  boxes (Private) w/o TempDiscon:</p>
+                    <h4 style="margin-left: 35%;"><span class="badge" id="bdgDisconnectedTempBox" style="background-color: #f26b34; width: 87px; height: 27px; font-size: inherit;"></span></h4>
+                </div>
+            </div>
+        </div>*@
+
+    </div>
+        </div>
+
+
+    <script src="~/Content/Multiselect/tagsinput.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="~/Content/Multiselect/jquery.autocomplete.multiselect.js"></script>
+   
+    <script src="~/Content/js/APIURL.js"></script>
+    @* this is used for autocomplete *@
+    <script type="text/javascript">
+        var myCallback;
+        var bbidArray = [];
+        var userId = '@ViewBag.userId';
+        var url = apiBase.apiurl + "AdminAPI/AutoCompleteCustomerList";
+        $('#searchVehicle').autocomplete({
+
+            source: function (request, response) {
+                var query = extractLast(request.term);
+                //  jQuery.support.cors = true;
+                $.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                    url: url,
+                    data: { query: query },
+                    async: false,
+                    success: function (data) {
+
+
+                        var left = $('#searchVehicle').offset().left;
+                        $('.ui-autocomplete').css('left', left + 'px');
+
+
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.Text,
+                                value: item.Value
+                            }
+                        })
+                        );
+                    }
+                })
+            },
+
+            focus: function () {
+                return false;
+            },
+            select: function (event, ui) {
+                
+
+                var terms = split(this.value);
+                var selectedBBID = ui.item.value;
+                //var custname = ui.item.label;
+                //bbidArray.push(selectedBBID);
+                //terms.pop();
+                //terms.push(ui.item.label);
+                //terms.push('');
+                localStorage.setItem("custID", selectedBBID);
+                //localStorage.setItem("Cname", custname);
+               
+                window.location.href = "@Url.Action("dashboard", "dashboard")";
+                },
+                minLength: 2,
+            });
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+
+            function extractLast(term) {
+                return split(term).pop();
+            }
+
+            window.searchVehicleOnMap = function () {
+                window.location.href = "/Map/showmap";
+            };
+
+            // Sets the map on all markers in the array.
+            function setMapOnAll(map) {
+                for (var i = 0; i < gmarkers.length; i++) {
+                    gmarkers[i].setMap(map);
+                }
+
+            }
+
+            // Removes the markers from the map, but keeps them in the array.
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
+
+            // Deletes all markers in the array by removing references to them.
+            function deleteMarkers() {
+                clearMarkers();
+                gmarkers = [];
+
+            }
+    </script>
+    @* end of autocomplete *@
+
+
+    <script>
+        $(function () {
+            var GetAdminCounter = apiBase.apiurl + "AdminAPI/GetAdminCounter";
+
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: GetAdminCounter,
+                async: false,
+                success: function (data) {
+                    
+                    $("#bdgInstalledBox").text(data.InstalledBoxes);
+                    $("#bdgJaguarBox").text(data.JaqBox);
+                    $("#bdgDisconnectedBox").text(data.DisconBoxPrivate);
+                    $("#bdgDisconnectedTempBox").text(data.WithoutTempDisconn);
+                    $("#bdgDisconnectedPoliceBox").text(data.DisconBoxPolice);
+                    $("#bdgDisconnectedBattery").text(data.DisBatteryCount);
+                }
+            })
+        })
+    </script>
+</body>
+</html>

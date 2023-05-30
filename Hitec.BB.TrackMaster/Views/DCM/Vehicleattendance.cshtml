@@ -1,0 +1,351 @@
+﻿@{
+    ViewBag.Title = "Fuel Issue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="http://code.jquery.com/ui/1.9.2/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<style>
+    
+    div.ui-datepicker{
+ font-size:30px;
+}
+    .event a {
+        background-color: #0d6efd !important;
+        background-image: none !important;
+        color: #ffffff !important;
+    }
+</style>
+
+<style>
+     .button {
+        border: none;
+        color: white;
+        padding: 0px 7px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        width: 500px !important;
+    }
+
+    .button1 {
+        background-color: #a6a6a6; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .button2 {
+        background-color: #28a745; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+         .button3 {
+        background-color: #0d6efd; /* Green */
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+          width: 400px !important;
+    }
+       .a{
+        font-size:17px;
+    }
+      
+
+        #dt_basic_Master th {
+         
+            background-color: #4CAF50;
+            color: white;
+        }
+
+</style>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="box_a">
+            <div class="widget-header">
+                <i class="fa fa-file-archive-o"></i>
+                <h5>Vehicle Attendance</h5>
+                
+            </div>
+            <div class="box_a_content">
+                <form id="AddServiceRequestForm" name="AddServiceRequestForm">
+                    <label id="ErrorMessage" style="color: red"></label>
+                    <table id="dt_table_tools1" class="table ">
+                        <tbody>
+                         
+                            <tr>
+                                <td class="a">
+                                    Select Vehicle No
+                                </td>
+                                <td>
+                                    <div style="width:40% !important;">
+                                        <select id="VehicleName"  class="js-example-basic-single" onchange="getmodetext();"></select>
+                                    </div>
+                                </td>
+                                <td >
+                                    
+                                </td>
+                                <td>
+                                   
+                                </td>
+                            </tr>
+                           
+
+                          
+                            <tr>
+                                <td class="a" >
+                                    Attendance Date
+                                </td>
+                                <td>
+                                    <div id="calendar"></div>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                               
+                            </tr>
+                            
+                          
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" id="Submit" name="Submit" value="View Attendance" class="button button3" />
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+ <script src="~/Scripts/app/common.js"></script>
+<script src="~/Scripts/app/_layoutCustId.js"></script>
+<script src="~/Content/js/APIURL.js"></script>
+  
+    <link href="~/Scripts/Select/select2.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Select/select2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+
+        function getvehicle() {
+            $.ajax({
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                url: apiBase.apiurl + "AdminAPI/GetVehicles",
+                data: { custId: $custid },
+                success: function (result) {
+                    var data = result;
+                    if (data.length > 0) {
+                        $('#VehicleName').append($('<option></option>').val(0).html("Select Vehicle"));
+                        $.each(data, function (j, item) {
+                            $('#VehicleName').append($('<option></option>').val(item.Value).html(item.Text));
+                        });
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            
+            getvehicle();
+            $("#VehicleName").select2({
+            });
+            var name;
+            var mobile;
+            $('.b1').html("NA");
+            $('.a1').html("NA");
+            
+        });
+        function getmodetext() {
+            $('.b1').html("NA");
+            $('.a1').html("NA");
+        }
+
+        $("#AddServiceRequestForm").submit(function (event) {
+                saverecords()
+                event.preventDefault();                      
+        });
+        function saverecords() {         
+            var VehicleName = $("#VehicleName option:selected").text();
+            var monthlycharges = $("#txtmnthlychrge").val();          
+            var AddComplaintUrl = baseUrl + "taxiapi/saveDCMvehdetails";
+            $.ajax({
+                type: "POST",
+                data: {
+                    bbid: bbid,
+                    vehreg: vehreg,
+                    charges: monthlycharges,
+                    mileage: mileage,
+                    vehtype: vehtype,
+                    vehmodel: vehmodel,
+                    insdate: InsDate,
+                    polludate: pollutiondate,
+                    servicedate: servicedate,
+                    drivername: drivername,
+                    mobno: mobno,
+                    vendordetails: vendor
+                },
+                url: AddComplaintUrl,
+                success: function (data) {
+                    if (data)
+                        toastr.success("please select Vehicle name, email, and any complaint checkbox");
+                    else
+                        toastr.warning("please select Vehicle name, email, and any complaint checkbox");
+                }
+            });
+        }
+
+
+        
+     
+
+    </script>
+       <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+            var eventDates = {};
+
+            eventDates[new Date('2/04/2021')] = new Date('2/04/2021');
+            eventDates[new Date('2/06/2021')] = new Date('2/06/2021');
+            eventDates[new Date('2/20/2021')] = new Date('2/20/2021');
+            eventDates[new Date('2/25/2021')] = new Date('2/25/2021');   
+            var count = 0;
+            var countnew = 0;
+            $('#calendar').datepicker({
+                beforeShowDay: function (date) {
+                  
+
+                    debugger;
+                    var bbid = $("#VehicleName").val();
+                  
+
+                    if (count == 0)
+                    {
+                        $.ajax({
+                            type: "GET",
+                            data: {
+                                bbid: bbid,
+                                date: null,
+
+                            },
+                            url: baseUrl + "taxiapi/getdataofvehicleattendance",
+                            success: function (data) {
+                                if (data)
+                                    toastr.success("Attendance submit successfully!");
+                                else
+                                    toastr.warning("Error");
+                            }
+                        });
+
+                        count++;
+                    }
+
+                
+
+
+                    if (eventDates[date]) {
+                        return [true, 'event', ''];
+                    } else {
+                        return [true, '', ''];
+                    }
+                },
+                onSelect: function (dateString, txtDate) {
+                    DisplayDate(dateString);
+                },
+                onChangeMonthYear: function (dateString, txtDate) {
+                    
+                    debugger;
+                    var bbid = $("#VehicleName").val();
+
+
+                    if (countnew == 0) {
+                        $.ajax({
+                            type: "GET",
+                            data: {
+                                bbid: bbid,
+                                date: dateString + "," + txtDate,
+
+                            },
+                            url: baseUrl + "taxiapi/getdataofvehicleattendance",
+                            success: function (data) {
+                                if (data)
+                                    toastr.success("Attendance submit successfully!");
+                                else
+                                    toastr.warning("Error");
+                            }
+                        });
+
+                        countnew++;
+                    }
+
+
+
+
+                    if (eventDates[date]) {
+                        return [true, 'event', ''];
+                    } else {
+                        return [true, '', ''];
+                    }
+                }
+            });
+
+   function DisplayDate(message) {
+
+
+                var bbid = $("#VehicleName").val();
+
+                if (bbid != "0")
+                {
+                    var r = confirm("Are you share ,you want to submit the attendance!");
+                    if (r == true) {
+                        var AddComplaintUrl = baseUrl + "taxiapi/saveattendanceofveh";
+                        $.ajax({
+                            type: "GET",
+                            data: {
+                                bbid: bbid,
+                                date: message,
+
+                            },
+                            url: AddComplaintUrl,
+                            success: function (data) {
+                                if (data)
+                                    toastr.success("Attendance submit successfully!");
+                                else
+                                    toastr.warning("Error");
+                            }
+                        });
+                    }
+                    else {
+                        txt = "You pressed Cancel!";
+                        alert('You have cancelled the request.');
+                    }
+                }
+                else
+                {
+                    alert("select Vehicle name.")
+                }
+            
+               
+              
+   };
+
+        });
+    </script>
+}
+
+

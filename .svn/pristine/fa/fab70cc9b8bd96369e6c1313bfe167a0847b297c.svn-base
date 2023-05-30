@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "Add Tyre Inventory";
+}
+<link href="~/Content/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/select2/select2.css" rel="stylesheet" />
+<link href="~/Content/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="~/Content/select2/select2.min.js"></script>
+<div class="row-fluid">
+    <div class="widget-body ">
+        <div class="main_container" id="tables_page">
+            <div class="row-fluid" style="margin-bottom: 25px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alerts" class="widget span12">
+                            <div class="widget-header">
+                                <i class="fa fa-file-archive-o"></i>
+                                <h5 id="statusText">@ViewBag.Title</h5>
+                                <div class="btn-group btn-adjst" style="margin-left: 37px;">
+                                </div>
+                            </div>
+                            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                                <div class="widget-body" style="border: 0">
+                                    <div class="row-fluid">
+                                        <div id="alertss" class="widget span12">
+                                            <div class="widget-body  " style="background: #fff; overflow-x: auto">
+                                                <div id="DivVehcleCounter">
+                                                    <div class="box-content padded">
+                                                        <form id="AddNewInventory" method="post">
+                                                            @Html.Hidden("TyreInvenId")
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-8">
+                                                                    <div class="form-group col-sm-3">
+                                                                        Tyre Purchase type
+                                                                    </div>
+                                                                    <div class="form-group col-sm-9">
+                                                                        <div class="form-group padded col-md-4">
+                                                                            <input type="radio" name="tyrePurchaseType" value="true" checked>Bought from Supplier
+                                                                        </div>
+                                                                        <div class="form-group padded col-md-5">
+                                                                            <input type="radio" name="tyrePurchaseType" value="false">Prefitted with Vehicle Purchased
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <div class="input-group">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Supplier
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        @Html.DropDownList("VendorList", Enumerable.Empty<SelectListItem>(), "Select Supplier", new { @class = "js-example-basic-single form-control"})
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Unit Price
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-addon">Rs</div>
+                                                                            <input type="text" class="form-control" id="UnitPrice" name="UnitPrice" placeholder="Amount" >
+                                                                            <div class="input-group-addon">.00</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Purchase Date
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="PurchaseDate" name="PurchaseDate" placeholder="Purchase Date"  />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Manufacturer
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="Manufacturer" name="Manufacturer" placeholder="Manufacturer" required />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Type Of Tyre
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <select id="TypeTyre" name="TypeTyre" class="js-example-basic-single form-control" required>
+                                                                            <option value="0" selected>Select</option>
+                                                                            <option value="1">New</option>
+                                                                            <option value="2">Old</option>
+                                                                            <option value="3">Retreaded</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Tyre Sr No
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="text" id="SerialNo" name="SerialNo" placeholder="Serial No" required>
+                                                                        <span class="label label-info" id="TyreSrStatus" style="display: none"></span>
+                                                                        @*@Html.DropDownList("SerialNoList", Enumerable.Empty<SelectListItem>(), "Select Tyre Serial No.", new { @class = "js-example-basic-single form-control", @required = "required" })*@
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group col-sm-4">
+                                                                        Warranty
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <div class="col-sm-4" style="margin-left: -15px;">
+                                                                            <input class="col-sm-4" type="text" placeholder="Warranty" id="Warranty" name="Warranty">
+                                                                        </div>
+                                                                        <select class="col-sm-4" id="WarrantyType" name="WarrantyType" required>
+                                                                            <option value="" selected>Select</option>
+                                                                            <option value="Years">Years</option>
+                                                                            <option value="Months">Months</option>
+                                                                            <option value="Kilometers">Kilometers</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                        <input type="submit" class="btn btn-submit btn btn-green pull-right" value="Submit" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @*       <div class="col-sm-12">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group col-sm-4">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6  pull-right">
+                                                                    <div class="form-group col-sm-4">
+                                                                    </div>
+                                                                    <div class="form-group col-sm-8">
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+
+                                                        </form>
+                                                        <form id="addInventorymultiple" hidden>
+                                                            <div class="col-sm-6">
+                                                                Supplier :  @Html.DropDownList("vendRList", Enumerable.Empty<SelectListItem>(), "Select Supplier", new { @class = "js-example-basic-single form-control", @required = "required" })
+                                                                Quantity :<input type="number" min="0" max="20" id="sno" name="sno" placeholder='Max 20 Allowed' required>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                Purchase Date
+                                                                <input type="text" id="pDATE" name="pDATE" placeholder="Purchase Date" required />
+                                                                Manufacturer
+                                                                <input type="text" id="manufaturer1" name="manufaturer1" placeholder="Manufacturer" required />
+                                                                <label class="btn btn default" onclick="CreateFieldstoInsert();">Add Details</label>
+                                                            </div>
+                                                            <table id="tyreinvet_tbl" class="table table-striped" hidden>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Tyre Number </th>
+                                                                        <th>Tyre Warranty </th>
+                                                                        <th>Amount</th>
+                                                                        <th>Tyre Type</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tyreinvetdetails">
+                                                                    @*dynamically bind rows*@
+                                                                </tbody>
+                                                            </table>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/common.js?")"@DateTime.Now.Ticks></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/FMSAddUpdateTyreInventory.js?")"@DateTime.Now.Ticks></script>
+}
+<script>
+    function ResetFields() {
+        $('#tyreinvetdetails').val('');
+        $('#tyreinvet_tbl').hide();
+        $('#sno').val('0');
+    }
+</script>
+

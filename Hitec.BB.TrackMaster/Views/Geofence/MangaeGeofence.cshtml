@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "MangaeGeofence";
+}
+
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+        
+            <div class="row-fluid" style="margin-bottom: 12px;">
+                    <div class="widget-header">
+                            <i class="fa fa-map-marker"></i>
+                            <h5>Manage-Geofence</h5>
+                        </div>
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fence Name                                                   
+                                                    </th>
+                                                    <th>Vehicle No
+                                                    </th>
+                                                    <th>Created On
+                                                    </th>
+                                                    <th>Fence ID
+                                                    </th>
+                                                    <th>Bbid
+                                                    </th>
+                                                    <th>Action 
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--/widget-body-->
+            </div>
+
+
+            <!-- REPORT FOOTER HERE-->
+            @*@Html.Partial("_ReportFooter")*@
+        </div>
+        <!-- /widget ---->
+    </div>
+    <!-- /row-fluid -->
+</div>
+<!-- /Main window -->
+<div id="ShowLocationOnMap" title="Basic dialog">
+</div>
+
+@section css{
+    <link href="~/Content/Multiselect/multi-select-selectForGeofence.css" rel="stylesheet" />
+    <style>
+        .col-md-2 {
+            width: 15.6%;
+            /* margin-right: 0px; */
+            margin-left: 6px;
+            background: #fff;
+            text-align: left;
+        }
+
+        .box {
+            background: #dddcdc none repeat scroll 0 0;
+            border: 0px solid #cdcdcd;
+            border-radius: 3px;
+            box-shadow: none;
+            margin-bottom: 5px;
+        }
+        .ms-container {
+                width: 600px !important;
+        }
+        .ms-selectable {
+                width: auto !important;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/Scripts/app/GeoFenceCustID.js"></script>
+    <script src="~/Content/js/APIURL.js"></script>
+    <script src="~/Content/Multiselect/jquery.multi-selectForGeofence.js"></script>
+    @*<script src="~/Scripts/app/common.js"></script>*@
+    <script src="~/Scripts/app/ManageGeofence.js"></script>
+  
+}

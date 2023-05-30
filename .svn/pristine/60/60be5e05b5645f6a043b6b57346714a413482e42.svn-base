@@ -1,0 +1,266 @@
+﻿
+
+<style>
+    .toast {
+        max-height: 150px !important;
+        max-width: 500px !important;
+        width: 400px !important;
+    }
+
+    #toast-container {
+        height: 100px !important;
+        overflow: hidden !important;
+        bottom: 20px !important;
+    }
+</style>
+<script src="~/Content/js/APIURL.js"></script>
+<script>
+    $(document).ready(function () {
+        DataCalling();
+        StartOverSpeedInterval();
+    });
+
+    function StartOverSpeedInterval() {
+        setInterval(function () {
+
+            DataCalling();
+
+        }, 30000);
+    }
+
+    function DataCalling() {
+        //debugger:refrigerator :Bhanu;
+        $.ajax({
+            type: "GET",
+            url: apiBase.apiurl + "CustomAPI/RefrigeratorAlertDash",
+            data: { custId: $custid },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //
+                if (data.length > 0) {
+
+                    for (i = 0; i < data.length; i++) {
+                        var Pnm = data[i].VehicleName + 'Current Temprature ' + data[i].CurrentTemperature + ' OnTime ' + data[i].DataDate;
+                        //toastr.options.positionClass = "toast-bottom-right";
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-bottom-right",
+                            "onclick": null,
+                            "animate": "flyRight",
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "300000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        if (parseInt(data[i].CurrentTemperature) >= -10) {
+                            toastr.error(Pnm);
+                        }
+                        else if (parseInt(data[i].CurrentTemperature) <= -20) {
+                            toastr.success(Pnm);
+                        }
+                        else {
+                            toastr.warning(Pnm);
+                        }
+                        toastr.options.closeButton = true;
+                        toastr.options.timeOut = 5000;
+                        var audioElement = document.createElement('audio');
+                        audioElement.setAttribute('src', '@Url.Content("~/Content/img/horn.mp3")');
+                        audioElement.setAttribute('autoplay', 'autoplay');
+                    }
+                }
+            },
+            failure: function (response) {
+                alert("Error");
+            }
+        });
+
+
+
+        //
+        $.ajax({
+            type: "GET",
+            url: apiBase.apiurl + "CustomAPI/OverSpeedAlertDash",
+            data: { custId: $custid },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+             
+                if (data.length > 0) {
+
+                    for (i = 0; i < data.length; i++) {
+                       
+
+                      
+                        var Pnm = 'Vehicle ' + data[i].VehicleName + ' Overspeeded on speed ' + data[i].Speed + ' at the location ' + data[i].Location + '</br> Date Time is ' + data[i].DateTime;
+
+                        toastr.options.positionClass = "toast-bottom-right";
+                        toastr.success(Pnm, 'Overspeed Status: ');
+                        toastr.options.closeButton = true;
+                        toastr.options.timeOut = 15000;
+
+
+                        var audioElement = document.createElement('audio');
+                        audioElement.setAttribute('src', '@Url.Content("~/Content/img/test.mp3")');
+                        audioElement.setAttribute('autoplay', 'autoplay');
+                    }
+                }
+            },
+            failure: function (response) {
+                alert("Error");
+            }
+        });
+
+
+
+        //
+        $.ajax({
+            type: "GET",
+            url: apiBase.apiurl + "CustomAPI/PanicAlertDash",
+            data: { custId: $custid },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+             
+                if (data.length > 0) {
+
+                    for (i = 0; i < data.length; i++) {
+
+                        var Pnm = 'Panic pressed with ' + data[i].VehicleName + '  at the location ' + data[i].Location + '</br> Date Time is ' + data[i].DateTime;
+                        toastr.options.positionClass = "toast-bottom-left";
+                        toastr.success(Pnm, 'Panic Status: ');
+                        toastr.options.closeButton = true;
+                        toastr.options.timeOut = 15000;
+
+
+                        var audioElement = document.createElement('audio');
+                        audioElement.setAttribute('src', '@Url.Content("~/Content/img/test.mp3")');
+                        audioElement.setAttribute('autoplay', 'autoplay');
+                    }
+                }
+            },
+            failure: function (response) {
+                alert("Error");
+            }
+        });
+
+        //for panic alert count
+        $.ajax({
+            type: "GET",
+            url: apiBase.apiurl + "CustomAPI/PanicAlertCount",
+            data: { custId: $custid },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                // 
+                if (data > 0) {
+                    $("#panicAlertDash").text(data);
+                    $("#bdgAnyAlert").removeClass("hidden");
+                }
+            },
+            failure: function (response) {
+                alert("Error");
+            }
+        });
+        ////for overspeed alert count
+        //$.ajax({
+        //    type: "GET",
+        //    url: apiBase.apiurl + "CustomAPI/OverSpeedAlertCount",
+        //    data: { custId: $custid },
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        // 
+        //        alert("check1");
+        //        if (data > 0) {
+        //            $("#overSpeedAlertDash").text(data);
+        //            $("#bdgAnyAlert").removeClass("hidden");
+        //        }
+        //    },
+        //    failure: function (response) {
+        //        alert("Error");
+        //    }
+        //});
+        $.ajax({
+            type: "GET",
+            url: apiBase.apiurl + "CustomAPI/GetAllAlertCount",
+            data: { custId: $custid },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+               
+                //if (data > 0) {
+
+                if (data[3].count > 0) {
+                    $("#DailyAlertDash").text(data[3].count);
+                }
+                if (data[4].count > 0) {
+                    $("#FuelTheftAlertDash").text(data[4].count);
+                }
+                if (data[5].count > 0) {
+                    $("#IgnitionOnAlertDash").text(data[5].count);
+                }
+                if (data[6].count > 0) {
+                    $("#BatteryDisconnectionAlertDash").text(data[6].count);
+                }
+                if (data[7].count > 0) {
+                    $("#milkTheftAlertDash").text(data[7].count);
+                }
+
+                if (data[8].count > 0) {
+                    $("#overSpeedAlertDash").text(data[8].count);
+                }
+                if (data[9].count > 0) {
+                    $("#OverstoppageAlertDash").text(data[9].count);
+                }
+                if (data[10].count > 0) {
+                    $("#panicAlertDash").text(data[10].count);
+
+                }
+            },
+            failure: function (response) {
+                alert("Error");
+            }
+        });
+
+
+
+
+        ////for overspeed alert count
+        //   $.ajax({
+        //       type: "GET",
+        //       url: apiBase.apiurl + "CustomAPI/GetAllAlertCount",
+        //       data: { custId: $custid },
+        //       contentType: "application/json; charset=utf-8",
+        //       dataType: "json",
+        //       success: function (data) {
+        //           alert("check");
+
+        //           if (data > 0) {
+        //               $("#daily").text(data[3].count);
+        //               $("#FuelTheftAlertDash").text(data[4].count);
+        //               $("#IgnitionOnAlertDash").text(data[5].count);
+        //               $("#BatteryDisconnectionAlertDash").text(data[6].count);
+        //               $("#milkTheftAlertDash").text(data[7].count);
+        //               $("#OverstoppageAlertDash").text(data[9].count);
+        //               $("#overSpeedAlertDash").text(data[8].count);
+        //               $("#panicAlertDash").text(data[10].count);
+
+        //           }
+        //       },
+        //       failure: function (response) {
+        //           alert("Error");
+        //       }
+        //   });
+
+
+    }
+    //}
+</script>

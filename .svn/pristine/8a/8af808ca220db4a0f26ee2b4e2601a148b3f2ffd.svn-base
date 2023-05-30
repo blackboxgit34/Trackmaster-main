@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Vehicle RFID Report";
+}
+
+<div class="row-fluid">
+    <div class="widget-body">
+        <!-- Main window -->
+        <div class="main_container" id="tables_page">
+            @Html.Action("_ReportFilter", "Report", new { reportTitle = "Vehicle RFID Report" })
+
+            <br />
+            <div class="row-fluid" style="margin-bottom: 12px; margin-top: -37px;">
+                <div class="widget-body" style="border: 0">
+                    <div class="row-fluid">
+                        <div id="alertss" class="widget span12">
+                            <div class="widget-body clearfix" style="background: #fff; overflow-x: auto">
+                                <div id="DivVehcleCounter" style="padding: 15px;">
+                                    <div class="box-content padded">
+                                        <table id="dt_basic_Master" class="table table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>RfTagId
+                                                    </th>
+                                                    <th>Registration No.
+                                                    </th>
+                                                    <th>Vehicle Type
+                                                    </th>
+                                                    <th>Fuel Type
+                                                    </th>
+                                                    <th>Year Manufacture
+                                                    </th>
+                                                    <th>Supplier
+                                                    </th>
+                                                    <th>Check In
+                                                    </th>
+                                                    <th>Check Out
+                                                    </th>
+                                                    <th>Swipe Count
+                                                    </th>
+                                                    <th>Detail
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <!--common js file-->
+    <script src="@Url.Content("~/scripts/app/common.js")"@DateTime.Now.Ticks></script>
+    <script type="text/javascript" src="@Url.Content("~/scripts/app/VehicleRfidReport.js?")"@DateTime.Now.Ticks></script>
+}
